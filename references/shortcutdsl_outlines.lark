@@ -1,0 +1,134 @@
+// ShortcutDSL Grammar — Outlines-compatible (no terminal priorities)
+// Adapted from shortcutdsl.lark for use with Outlines/llguidance CFG constraints.
+// Changes from original:
+//   1. Removed .2 priority from CONDITION and BOOL (unsupported by llguidance)
+//   2. Made CONDITION and BOOL explicit string alternatives in rules instead of terminals
+//   3. Removed %import (unsupported by llguidance) — inlined SIGNED_NUMBER
+//   4. Removed %ignore (unsupported by llguidance) — made WS explicit in rules
+
+// ENDSHORTCUT migration: currently optional ("?") for backward compatibility
+// with pre-ENDSHORTCUT training data. After retraining on data that includes
+// ENDSHORTCUT, change to required: start: header statement* "ENDSHORTCUT" NL
+start: header statement* ("ENDSHORTCUT" NL)?
+
+header: "SHORTCUT" WS QUOTED_STRING NL
+
+?statement: action_stmt
+          | set_stmt
+          | if_block
+          | menu_block
+          | repeat_block
+          | foreach_block
+          | comment
+          | NL
+
+// --- Actions ---
+action_stmt: "ACTION" WS action_name (WS param)* NL
+action_name: DOTTED_IDENT
+param: IDENT "=" value
+
+// --- Variable Assignment ---
+set_stmt: "SET" WS var_ref WS? "=" WS? value NL
+
+// --- Values ---
+?value: QUOTED_STRING       -> string_value
+      | SIGNED_NUMBER       -> number_value
+      | BOOL                -> bool_value
+      | var_ref             -> var_ref_value
+      | handle_ref          -> handle_ref_value
+      | interpolated        -> interp_value
+      | dict_literal
+      | list_literal
+      | quantity_literal
+      | headers_literal
+
+var_ref: "$" IDENT
+handle_ref: "@prev"           -> handle_prev
+          | "@item"           -> handle_item
+          | "@index"          -> handle_index
+          | "@input"          -> handle_input
+          | "@date"           -> handle_date
+          | "@" IDENT         -> handle_named
+
+// Interpolated string: `text {$var} more {$var2} end`
+interpolated: "`" interp_part* "`"
+?interp_part: INTERP_TEXT     -> interp_text
+            | "{" var_ref "}" -> interp_var
+            | "{" handle_ref "}" -> interp_handle
+
+// --- Structured Literals ---
+dict_literal: "{" WS? (dict_entry (WS? "," WS? dict_entry)*)? WS? "}"
+dict_entry: QUOTED_STRING WS? ":" WS? value
+
+list_literal: "[" WS? (value (WS? "," WS? value)*)? WS? "]"
+
+quantity_literal: "QTY" "(" qty_magnitude "," WS? QUOTED_STRING ")"
+?qty_magnitude: SIGNED_NUMBER -> number_value
+              | handle_ref   -> handle_ref_value
+              | var_ref      -> var_ref_value
+
+headers_literal: "HEADERS" WS dict_literal
+
+// --- Control Flow: IF ---
+if_block: "IF" WS if_target WS CONDITION (WS value)? NL statement* else_clause? "ENDIF" NL
+else_clause: "ELSE" NL statement*
+?if_target: handle_ref | var_ref
+
+// --- Control Flow: MENU ---
+menu_block: "MENU" WS menu_prompt NL menu_case+ "ENDMENU" NL
+?menu_prompt: QUOTED_STRING | interpolated
+menu_case: "CASE" WS QUOTED_STRING NL statement*
+
+// --- Control Flow: REPEAT ---
+repeat_block: "REPEAT" WS repeat_count NL statement* "ENDREPEAT" NL
+?repeat_count: SIGNED_NUMBER  -> repeat_number
+             | var_ref
+             | handle_ref
+
+// --- Control Flow: FOREACH ---
+foreach_block: "FOREACH" WS foreach_collection NL statement* "ENDFOREACH" NL
+?foreach_collection: handle_ref | var_ref
+
+// --- Comments ---
+comment: COMMENT_LINE NL
+
+// ============================================================
+// Terminals
+// ============================================================
+
+// Condition keywords — listed as a single terminal without priority
+CONDITION: "has_any_value"
+         | "does_not_have_any_value"
+         | "equals_number"
+         | "is_greater_than"
+         | "is_less_than"
+         | "equals_string"
+         | "not_equal_string"
+         | "contains"
+         | "does_not_contain"
+         | "is_before"
+
+BOOL: "true" | "false"
+
+IDENT: /[A-Za-z_][A-Za-z0-9_]*/
+
+// Dotted identifiers for action names
+DOTTED_IDENT: /[A-Za-z_][A-Za-z0-9_.\-]*[A-Za-z0-9_]/ | IDENT
+
+// Quoted strings with escape support
+QUOTED_STRING: "\"" /([^"\\]|\\.)*/ "\""
+
+// Text inside interpolated strings
+INTERP_TEXT: /[^`{}]+/
+
+// Comment lines
+COMMENT_LINE: /#[^\n]*/
+
+// Inlined SIGNED_NUMBER (from Lark common)
+SIGNED_NUMBER: /[+-]?\d+(\.\d+)?([eE][+-]?\d+)?/
+
+// Newlines (one or more newlines with optional leading whitespace)
+NL: /(\r?\n[\t ]*)+/
+
+// Inline whitespace
+WS: /[\t ]+/

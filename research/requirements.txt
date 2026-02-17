@@ -1,0 +1,19 @@
+# GENERATED — do not edit manually.
+# Source of truth: pyproject.toml [project.optional-dependencies].research
+# Execution lock: uv.lock
+# This file is a reference snapshot of resolved versions.
+#
+# To update: uv lock && uv pip install -e ".[research]"
+# Tested on: Python 3.11.8 / macOS ARM64 (M1 Max)
+
+torch==2.10.0
+torchvision==0.25.0
+numpy==2.3.5
+sentence-transformers==5.2.2
+scikit-learn==1.8.0
+scipy==1.17.0
+numba==0.63.1
+llvmlite==0.46.0
+accelerate==1.12.0
+tensorboard==2.20.0
+transformers==5.2.0

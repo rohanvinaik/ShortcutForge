@@ -1,0 +1,12 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "ShowHeaders": 5,
+  "WFHTTPHeaders": 6,
+  "WFHTTPMethod": 7,
+  "WFJSONValues": 8,
+  "WFURL": 9
+}

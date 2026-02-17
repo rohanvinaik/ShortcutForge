@@ -1,0 +1,11 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "WFRoundDecimalPlaces": 5,
+  "WFRoundMode": 6,
+  "WFRoundTo": 7,
+  "WFRoundType": 8
+}

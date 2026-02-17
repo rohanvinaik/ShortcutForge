@@ -1,0 +1,12 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "Input": 4,
+  "InputMode": 5,
+  "PARAM": 6,
+  "RunAsRoot": 7,
+  "Script": 8,
+  "Shell": 9
+}

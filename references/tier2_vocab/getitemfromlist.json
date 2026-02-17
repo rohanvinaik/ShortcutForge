@@ -1,0 +1,11 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "WFItemIndex": 5,
+  "WFItemRangeEnd": 6,
+  "WFItemRangeStart": 7,
+  "WFItemSpecifier": 8
+}

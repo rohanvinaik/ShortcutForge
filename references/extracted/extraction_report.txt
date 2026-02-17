@@ -1,0 +1,444 @@
+======================================================================
+APPLE SHORTCUTS ACTION EXTRACTION REPORT
+======================================================================
+Shortcuts processed: 166
+Unique action types found: 239
+
+  - Add to my TV watchlist
+  - Open by folder group
+  - Share memes
+  - Browse the TV Store
+  - Watch Star Wars
+  - Add account to Mastodon list
+  - Log water
+  - Capture podcast quote
+  - Quote of the Day
+  - Add link to Things
+  - Open Apple Music Radio artists
+  - Log caffeine
+  - Log caffeine
+  - Open from Apple TV Plus
+  - Scrape Threads post
+  - Explore Apple Music hosts
+  - Copy my availability
+  - Friend of the Show
+  - Action Shortcuts
+  - Post link to Threads
+  - Open a genre playlist
+  - Send thank-yous
+  - Open Genre pages
+  - Add Pages template
+  - Log Letterboxd entry to Wordpress
+  - Open Mood playlists
+  - Open video podcasts
+  - Open creator YouTube playlists
+  - Open my YouTube playlists
+  - Open personal YouTube playlists
+  - Open work YouTube playlists
+  - Check for a white christmas
+  - Analyze address
+  - Switch wallpaper
+  - Check BART departures
+  - Open from Mastodon options
+  - Open into a List from X
+  - Open my Twitter Lists
+  - Please disturb me
+  - Control appearance
+  - High alert
+  - Open into a List in Ivory
+  - Check my bank accounts
+  - Open into the TV app
+  - Open video notes
+  - Please do not disturb me
+  - Seek to time
+  - Copy calendar year
+  - Copy timestamp for Discord
+  - Hand off music
+  - Open Studio apps
+  - Check Photos access for an App Store app
+  - Set bedtime by alarm
+  - Open Apple Support page
+  - Open video assets
+  - Open Reminders list
+  - Open Notion AI
+  - Open my Automations
+  - Open from Read Later
+  - Open Siri Suggestions preferences
+  - Save my Home Screen
+  - Base64 encode asset
+  - Post media to Threads
+  - Copy View from Notion link
+  - Play Start Up song
+  - Focus during this event
+  - Copy my Shortcuts folder names
+  - Encode audio recording as text
+  - Open the Attachment Browser
+  - Find Quotes and Replies for this post on X
+  - Get my number
+  - Open Privacy and Security preferences
+  - Open Accessibility Shortcut preferences
+  - Open Siri Accessibility preferences
+  - Head to meeting
+  - Buy Again on Amazon
+  - Generate QR code
+  - Share my location
+  - Copy shortcut AppleScript
+  - Shazam this
+  - Create blank document
+  - View custom date time formats
+  - Capture contact info
+  - Time formatter
+  - Check morning heat
+  - Create Basic presentation
+  - Add shortcuts folder to Things
+  - Remove playback destination
+  - Set sunscreen alarms
+  - Add to wishlist
+  - Turn video into GIF
+  - Send a tweet
+  - Generate file structure
+  - Change text case
+  - Search TV Forecast
+  - Turn on the fireplace
+  - Add Basic spreadsheet
+  - Add to Things from Reminders
+  - Turn on Adaptive mode
+  - Open Battery settings
+  - Add Personal Finance spreadsheet
+  - OCR Thread
+  - Play a station
+  - Make fun of me
+  - Open from work folders
+  - Get today's weather report
+  - Search the Apple TV Store
+  - YouTube TV
+  - Create Editorial themes
+  - Summarize articles with Perplexity
+  - Scrape Mastodon link
+  - Show previous birthdays
+  - Connect my AirPods Pro
+  - Crop podcast artwork with Pixelmator
+  - Open TV apps
+  - Open Fireplace TV
+  - Share my photos
+  - FaceTime Speed Dial
+  - Extract Live Photo
+  - Turn on transparency
+  - Cross-post everywhere
+  - Embiggen
+  - Batch-send file to a group
+  - Open sports in the TV app
+  - Cross-post to Twitter and Threads
+  - Check the Front Page
+  - Open Club MacStories+ on Discord
+  - Make Things URLs
+  - Check beta release notes
+  - Open Twitter
+  - Open Threads app
+  - Search by website
+  - Open Apple Music Holiday
+  - Add Personal Life spreadsheet
+  - Send event invites
+  - Open Netflix TV
+  - Text this song
+  - Request ride to next meeting
+  - Rename files with numbers prepended
+  - Unzip and save files
+  - Play Workout music
+  - Set stand reminders
+  - Set alarm by sunrise
+  - Overcast Queue
+  - Set background sounds
+  - Search Twitter
+  - Create photo album
+  - Write down gifts received
+  - Open RSS posts
+  - Share my Threads profile
+  - Check battery level
+  - Get network details
+  - Learn about Gemini 3 Pro
+  - Record audio file
+  - Translate
+  - Dictate reminder
+  - Open a random Pocket piece
+  - Open Split Screen apps
+  - Convert time zones
+  - Add to Reading List
+  - Open Shortcuts folder
+  - Show me tech news
+  - Turn on AirDrop
+  - Open Magnifier
+  - Ping My iPhone
+  - Set flashlight to high
+
+
+--- com.apple.AccessibilityUtilities (12 actions) ---
+  com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent seen   6x in 1 shortcuts  params: ['UUID', 'backgroundSound']
+  com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent seen   1x in 1 shortcuts  params: ['UUID', 'volume']
+  com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent seen   3x in 1 shortcuts  params: ['textSize']
+  com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetSoundDetectorIntent seen  24x in 2 shortcuts  params: ['parameter']
+  com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXStartMagnifierIntent seen   1x in 1 shortcuts  params: ['UUID']
+  com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent seen   7x in 1 shortcuts  params: ['UUID', 'state']
+  com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleContrastIntent seen   7x in 2 shortcuts  params: ['UUID', 'state']
+  com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleReduceMotionIntent seen   2x in 1 shortcuts  params: ['UUID', 'state']
+  com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleSoundDetectionIntent seen   2x in 2 shortcuts  params: []
+  com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleTransparencyIntent seen   2x in 1 shortcuts  params: ['UUID', 'state']
+  com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleWhitePointIntent seen   5x in 1 shortcuts  params: ['operation', 'state']
+  com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleZoomIntent seen   2x in 1 shortcuts  params: ['UUID', 'state']
+
+--- com.apple.NanoSettings (1 actions) ---
+  com.apple.NanoSettings.NPRFPingMyPhoneIntent  seen   1x in 1 shortcuts  params: ['UUID', 'state']
+
+--- com.apple.Notes (1 actions) ---
+  com.apple.Notes.OpenAppLocationLinkAction     seen   1x in 1 shortcuts  params: ['AppIntentDescriptor', 'entity', 'target']
+
+--- com.apple.Pages (1 actions) ---
+  com.apple.Pages.TSADocumentCreateIntent       seen 129x in 1 shortcuts  params: ['UUID', 'templateItem']
+
+--- com.apple.ShortcutsActions (2 actions) ---
+  com.apple.ShortcutsActions.GetOrientationAction seen   1x in 1 shortcuts  params: ['AppIntentDescriptor', 'UUID']
+  com.apple.ShortcutsActions.SetSilentModeAction seen   1x in 1 shortcuts  params: ['AppIntentDescriptor', 'UUID']
+
+--- com.apple.TVRemoteUIService (3 actions) ---
+  com.apple.TVRemoteUIService.LaunchApplicationIntent seen  10x in 5 shortcuts  params: ['UUID', 'application', 'device']
+  com.apple.TVRemoteUIService.LaunchRemoteIntent seen   7x in 4 shortcuts  params: ['UUID', 'device']
+  com.apple.TVRemoteUIService.WakeAppleTVIntent seen  10x in 5 shortcuts  params: ['UUID', 'device']
+
+--- com.apple.facetime (1 actions) ---
+  com.apple.facetime.facetime                   seen   1x in 1 shortcuts  params: ['IntentAppDefinition', 'UUID', 'WFFaceTimeContact', 'WFFaceTimeType']
+
+--- com.apple.iWork (3 actions) ---
+  com.apple.iWork.Keynote.TSADocumentCreateIntent seen  10x in 2 shortcuts  params: ['UUID', 'templateItem']
+  com.apple.iWork.Numbers.TSADocumentCreateIntent seen  28x in 3 shortcuts  params: ['UUID', 'templateItem']
+  com.apple.iWork.Pages.TSADocumentCreateIntent seen   1x in 1 shortcuts  params: ['UUID', 'templateItem']
+
+--- com.apple.mobilenotes (2 actions) ---
+  com.apple.mobilenotes.ICNotesFolderIntent     seen  50x in 3 shortcuts  params: ['UUID', 'folder']
+  com.apple.mobilenotes.SharingExtension        seen   4x in 4 shortcuts  params: ['AppIntentDescriptor', 'OpenWhenRun', 'ShowWhenRun', 'UUID', 'WFCreateNoteInput', 'WFNoteGroup', 'folder']
+
+--- com.apple.mobiletimer-framework (3 actions) ---
+  com.apple.mobiletimer-framework.MobileTimerIntents.MTCreateAlarmIntent seen   3x in 3 shortcuts  params: ['AppIntentDescriptor', 'UUID', 'dateComponents', 'label', 'repeatSchedule']
+  com.apple.mobiletimer-framework.MobileTimerIntents.MTGetAlarmsIntent seen   2x in 1 shortcuts  params: ['ShowWhenRun', 'UUID']
+  com.apple.mobiletimer-framework.MobileTimerIntents.MTToggleAlarmIntent seen   2x in 2 shortcuts  params: ['AppIntentDescriptor', 'UUID', 'alarm', 'enabled']
+
+--- com.apple.musicrecognition (1 actions) ---
+  com.apple.musicrecognition.RecognizeMusicIntent seen   2x in 2 shortcuts  params: ['UUID', 'addToLibrary']
+
+--- com.apple.news (1 actions) ---
+  com.apple.news.TagIntent                      seen   1x in 1 shortcuts  params: ['UUID', 'tag']
+
+--- com.apple.reminders (1 actions) ---
+  com.apple.reminders.TTROpenSmartListAppIntent seen   2x in 1 shortcuts  params: ['AppIntentDescriptor', 'UUID', 'target', 'targetEntity']
+
+--- com.apple.shortcuts (2 actions) ---
+  com.apple.shortcuts.OpenNavigationDestinationAction seen   2x in 2 shortcuts  params: ['AppIntentDescriptor', 'UUID', 'entity', 'target']
+  com.apple.shortcuts.OpenWorkflowAction        seen   1x in 1 shortcuts  params: ['AppIntentDescriptor', 'UUID', 'target']
+
+--- core (187 actions) ---
+  addnewevent                                   seen   1x in 1 shortcuts  params: ['ShowWhenRun', 'UUID', 'WFAlertTime', 'WFCalendarDescriptor', 'WFCalendarItemCalendar', 'WFCalendarItemEndDate', 'WFCalendarItemStartDate', 'WFCalendarItemTitle']
+  addnewreminder                                seen   5x in 4 shortcuts  params: ['UUID', 'WFAlertCondition', 'WFAlertCustomTime', 'WFAlertEnabled', 'WFCalendarDescriptor', 'WFCalendarItemCalendar', 'WFCalendarItemNotes', 'WFCalendarItemTitle', 'WFFlag', 'WFURL']
+  address                                       seen   1x in 1 shortcuts  params: ['UUID', 'WFAddressLine1', 'WFAddressLine2', 'WFCity', 'WFCountry', 'WFPostalCode', 'WFState']
+  addtoplaylist                                 seen   1x in 1 shortcuts  params: ['UUID', 'WFInput', 'WFPlaylistName']
+  adjustdate                                    seen  15x in 9 shortcuts  params: ['CustomOutputName', 'UUID', 'WFAdjustAsksWhenRun', 'WFAdjustOffsetPicker', 'WFAdjustOperation', 'WFDate', 'WFDuration']
+  airplanemode.set                              seen   2x in 2 shortcuts  params: ['OnValue']
+  alert                                         seen  12x in 8 shortcuts  params: ['WFAlertActionCancelButtonShown', 'WFAlertActionMessage', 'WFAlertActionTitle']
+  appearance                                    seen   7x in 3 shortcuts  params: ['style']
+  appendnote                                    seen   2x in 2 shortcuts  params: ['AppIntentDescriptor', 'UUID', 'WFInput', 'WFNote']
+  appendvariable                                seen   2x in 1 shortcuts  params: ['UUID', 'WFInput', 'WFVariableName']
+  ask                                           seen  92x in 45 shortcuts  params: ['CustomOutputName', 'UUID', 'WFAllowsMultilineText', 'WFAskActionAllowsDecimalNumbers', 'WFAskActionAllowsNegativeNumbers', 'WFAskActionDefaultAnswer', 'WFAskActionDefaultAnswerDate', 'WFAskActionDefaultAnswerDateAndTime', 'WFAskActionDefaultAnswerNumber', 'WFAskActionDefaultAnswerTime', 'WFAskActionDefaultAnswerURL', 'WFAskActionImmediateDictation', 'WFAskActionPrompt', 'WFInputType']
+  base64encode                                  seen   3x in 3 shortcuts  params: ['UUID', 'WFEncodeMode', 'WFInput']
+  bluetooth.set                                 seen   2x in 2 shortcuts  params: []
+  calculateexpression                           seen   1x in 1 shortcuts  params: ['Input', 'UUID']
+  cellulardata.set                              seen   2x in 2 shortcuts  params: []
+  choosefromlist                                seen  68x in 43 shortcuts  params: ['CustomOutputName', 'UUID', 'WFChooseFromListActionPrompt', 'WFChooseFromListActionSelectAll', 'WFChooseFromListActionSelectMultiple', 'WFInput']
+  choosefrommenu                                seen 758x in 63 shortcuts  params: ['GroupingIdentifier', 'UUID', 'WFControlFlowMode', 'WFMenuItemAttributedTitle', 'WFMenuItemTitle', 'WFMenuItems', 'WFMenuLegacyCancelBehavior', 'WFMenuPrompt']
+  comment                                       seen 285x in 166 shortcuts  params: ['WFCommentActionText']
+  conditional                                   seen 521x in 75 shortcuts  params: ['CustomOutputName', 'GroupingIdentifier', 'UUID', 'WFCondition', 'WFConditionalActionString', 'WFConditionalLegacyComparisonBehavior', 'WFControlFlowMode', 'WFDate', 'WFEnumeration', 'WFInput', 'WFLinkEnumeration', 'WFNumberValue']
+  contacts                                      seen   5x in 2 shortcuts  params: ['UUID', 'WFContact']
+  converttimezone                               seen   1x in 1 shortcuts  params: ['Date', 'DestinationTimeZone', 'SourceTimeZone', 'UUID']
+  count                                         seen  14x in 11 shortcuts  params: ['Input', 'UUID', 'WFCountType']
+  date                                          seen  10x in 8 shortcuts  params: ['CustomOutputName', 'UUID', 'WFDateActionDate', 'WFDateActionMode']
+  delay                                         seen   6x in 5 shortcuts  params: ['WFDelayTime']
+  detect.address                                seen   2x in 1 shortcuts  params: ['UUID', 'WFInput']
+  detect.date                                   seen   2x in 2 shortcuts  params: ['UUID', 'WFInput']
+  detect.dictionary                             seen  18x in 10 shortcuts  params: ['CustomOutputName', 'UUID', 'WFInput']
+  detect.images                                 seen   2x in 2 shortcuts  params: ['WFInput']
+  detect.link                                   seen  34x in 22 shortcuts  params: ['UUID', 'WFInput']
+  detect.text                                   seen   8x in 7 shortcuts  params: ['UUID', 'WFInput']
+  dictatetext                                   seen   2x in 2 shortcuts  params: ['UUID']
+  dictionary                                    seen  21x in 16 shortcuts  params: ['CustomOutputName', 'UUID', 'WFItems']
+  dnd.getfocus                                  seen   1x in 1 shortcuts  params: ['UUID']
+  dnd.set                                       seen  13x in 5 shortcuts  params: ['AssertionType', 'Enabled', 'Event', 'Time']
+  documentpicker.save                           seen   5x in 5 shortcuts  params: ['UUID', 'WFAskWhereToSave', 'WFFileDestinationPath', 'WFFolder', 'WFInput']
+  downloadurl                                   seen  11x in 7 shortcuts  params: ['ShowHeaders', 'UUID', 'WFHTTPBodyType', 'WFHTTPHeaders', 'WFHTTPMethod', 'WFJSONValues', 'WFRequestVariable', 'WFURL']
+  email                                         seen   1x in 1 shortcuts  params: ['UUID', 'WFEmailAddress']
+  encodemedia                                   seen   1x in 1 shortcuts  params: ['WFMedia']
+  exit                                          seen  19x in 12 shortcuts  params: []
+  extracttextfromimage                          seen   1x in 1 shortcuts  params: ['UUID', 'WFImage']
+  file                                          seen   2x in 2 shortcuts  params: ['UUID', 'WFFile']
+  file.createfolder                             seen   3x in 1 shortcuts  params: ['UUID', 'WFFilePath', 'WFFolder']
+  file.getfoldercontents                        seen   3x in 2 shortcuts  params: ['UUID', 'WFFolder']
+  file.reveal                                   seen   1x in 1 shortcuts  params: ['UUID', 'WFFile']
+  file.select                                   seen   4x in 4 shortcuts  params: ['UUID', 'WFGetFolderContents', 'WFPickingMode']
+  filter.calendarevents                         seen   5x in 4 shortcuts  params: ['UUID', 'WFContentItemFilter', 'WFContentItemInputParameter', 'WFContentItemLimitEnabled', 'WFContentItemLimitNumber', 'WFContentItemSortEnabled', 'WFContentItemSortOrder', 'WFContentItemSortProperty']
+  filter.contacts                               seen   4x in 4 shortcuts  params: ['UUID', 'WFContentItemFilter', 'WFContentItemLimitEnabled', 'WFContentItemLimitNumber', 'WFContentItemSortOrder', 'WFContentItemSortProperty']
+  filter.files                                  seen   6x in 6 shortcuts  params: ['UUID', 'WFContentItemFilter', 'WFContentItemInputParameter', 'WFContentItemSortOrder', 'WFContentItemSortProperty']
+  filter.health.quantity                        seen   4x in 3 shortcuts  params: ['UUID', 'WFContentItemFilter', 'WFContentItemLimitEnabled', 'WFContentItemSortOrder', 'WFContentItemSortProperty', 'WFHKSampleFilteringFillMissing', 'WFHKSampleFilteringGroupBy', 'WFHKSampleFilteringUnit']
+  filter.notes                                  seen   4x in 4 shortcuts  params: ['AppIntentDescriptor', 'UUID', 'WFContentItemFilter', 'WFContentItemLimitEnabled', 'WFContentItemLimitNumber', 'WFContentItemSortOrder', 'WFContentItemSortProperty']
+  filter.photos                                 seen   4x in 1 shortcuts  params: ['UUID', 'WFContentItemFilter', 'WFContentItemLimitEnabled', 'WFContentItemLimitNumber', 'WFContentItemSortOrder', 'WFContentItemSortProperty']
+  filter.reminders                              seen   1x in 1 shortcuts  params: ['UUID', 'WFContentItemFilter']
+  filter.windows                                seen   2x in 1 shortcuts  params: ['UUID', 'WFContentItemFilter', 'WFContentItemInputParameter']
+  flashlight                                    seen   1x in 1 shortcuts  params: ['WFFlashlightLevel', 'operation']
+  format.date                                   seen  28x in 9 shortcuts  params: ['CustomOutputName', 'UUID', 'WFDate', 'WFDateFormat', 'WFDateFormatStyle', 'WFTimeFormatStyle']
+  generatebarcode                               seen   2x in 2 shortcuts  params: ['UUID', 'WFText']
+  getarticle                                    seen   5x in 5 shortcuts  params: ['UUID', 'WFWebPage']
+  getbatterylevel                               seen   3x in 1 shortcuts  params: ['Subject', 'UUID']
+  getclipboard                                  seen   8x in 8 shortcuts  params: ['UUID']
+  getcurrentapp                                 seen   1x in 1 shortcuts  params: ['UUID', 'WFVisibleAppScope']
+  getcurrentlocation                            seen   1x in 1 shortcuts  params: ['UUID']
+  getdevicedetails                              seen   4x in 4 shortcuts  params: ['UUID', 'WFDeviceDetail']
+  getdirections                                 seen   4x in 3 shortcuts  params: ['WFDestination', 'WFGetDirectionsActionApp', 'WFGetDirectionsActionMode']
+  getepisodesforpodcast                         seen   2x in 2 shortcuts  params: ['UUID', 'WFInput']
+  gethomeaccessorystate                         seen   2x in 1 shortcuts  params: ['UUID', 'WFHMCharacteristic', 'WFHMService']
+  gethtmlfromrichtext                           seen   3x in 2 shortcuts  params: ['UUID', 'WFInput']
+  getipaddress                                  seen   1x in 1 shortcuts  params: ['UUID', 'WFIPAddressSourceOption', 'WFIPAddressTypeOption']
+  getitemfromlist                               seen  42x in 21 shortcuts  params: ['CustomOutputName', 'UUID', 'WFInput', 'WFItemIndex', 'WFItemRangeEnd', 'WFItemRangeStart', 'WFItemSpecifier']
+  getitemname                                   seen   7x in 5 shortcuts  params: ['GetWebPageTitle', 'UUID', 'WFInput']
+  getitemtype                                   seen  12x in 7 shortcuts  params: ['UUID', 'WFInput']
+  getlastvideo                                  seen   1x in 1 shortcuts  params: ['UUID', 'WFGetLatestPhotoCount']
+  getlatestlivephotos                           seen   1x in 1 shortcuts  params: ['UUID', 'WFGetLatestPhotoCount']
+  getmapslink                                   seen   2x in 2 shortcuts  params: ['UUID', 'WFInput']
+  getmarkdownfromrichtext                       seen   1x in 1 shortcuts  params: ['UUID', 'WFInput']
+  getmyworkflows                                seen   7x in 4 shortcuts  params: ['Folder', 'UUID']
+  getpodcastsfromlibrary                        seen   2x in 2 shortcuts  params: ['UUID']
+  getrichtextfromhtml                           seen   2x in 1 shortcuts  params: ['UUID', 'WFHTML']
+  getrichtextfrommarkdown                       seen   2x in 2 shortcuts  params: ['UUID', 'WFInput']
+  gettext                                       seen 100x in 43 shortcuts  params: ['CustomOutputName', 'UUID', 'WFTextActionText']
+  gettimebetweendates                           seen   1x in 1 shortcuts  params: ['UUID', 'WFInput', 'WFTimeUntilFromDate', 'WFTimeUntilUnit']
+  gettraveltime                                 seen   1x in 1 shortcuts  params: ['UUID', 'WFDestination']
+  getupcomingevents                             seen   3x in 3 shortcuts  params: ['UUID', 'WFDateSpecifier', 'WFGetUpcomingItemCalendar', 'WFGetUpcomingItemCount']
+  geturlcomponent                               seen   6x in 3 shortcuts  params: ['UUID', 'WFURL', 'WFURLComponent']
+  getvalueforkey                                seen  60x in 17 shortcuts  params: ['CustomOutputName', 'UUID', 'WFDictionaryKey', 'WFGetDictionaryValueType', 'WFInput']
+  getvariable                                   seen  20x in 13 shortcuts  params: ['WFVariable']
+  getwebpagecontents                            seen   4x in 3 shortcuts  params: ['UUID', 'WFInput']
+  getwifi                                       seen   9x in 1 shortcuts  params: ['UUID', 'WFWiFiDetail']
+  handoffplayback                               seen   8x in 1 shortcuts  params: ['WFDestinationMediaRoute', 'WFSourceMediaRoute']
+  health.quantity.log                           seen   7x in 3 shortcuts  params: ['UUID', 'WFQuantitySampleAdditionalQuantity', 'WFQuantitySampleDate', 'WFQuantitySampleQuantity', 'WFQuantitySampleType']
+  image.convert                                 seen   1x in 1 shortcuts  params: ['UUID', 'WFImageCompressionQuality', 'WFImagePreserveMetadata', 'WFInput']
+  list                                          seen   8x in 5 shortcuts  params: ['UUID', 'WFItems']
+  listeningmode.set                             seen   5x in 3 shortcuts  params: ['WFListeningMode', 'WFRoute']
+  location                                      seen   1x in 1 shortcuts  params: ['UUID', 'WFLocation']
+  lowpowermode.set                              seen   2x in 2 shortcuts  params: []
+  makegif                                       seen   2x in 2 shortcuts  params: ['UUID', 'WFInput', 'WFMakeGIFActionAutoSize', 'WFMakeGIFActionManualSizeHeight']
+  math                                          seen  20x in 8 shortcuts  params: ['CustomOutputName', 'UUID', 'WFInput', 'WFMathOperand', 'WFMathOperation']
+  measurement.convert                           seen   5x in 2 shortcuts  params: ['UUID', 'WFInput', 'WFMeasurementUnit', 'WFMeasurementUnitType']
+  measurement.create                            seen  12x in 5 shortcuts  params: ['CustomOutputName', 'UUID', 'WFMeasurementUnit', 'WFMeasurementUnitType']
+  movewindow                                    seen   3x in 2 shortcuts  params: ['Display', 'UUID', 'WFPosition', 'WFWindow', 'WFXCoordinate', 'WFYCoordinate']
+  nothing                                       seen  12x in 10 shortcuts  params: []
+  notification                                  seen   2x in 2 shortcuts  params: ['UUID', 'WFInput', 'WFNotificationActionBody', 'WFNotificationActionSound', 'WFNotificationActionTitle']
+  number                                        seen  13x in 7 shortcuts  params: ['UUID', 'WFNumberActionNumber']
+  openapp                                       seen  25x in 5 shortcuts  params: ['UUID', 'WFAppIdentifier', 'WFOpenInSlideOver', 'WFSelectedApp']
+  openin                                        seen   7x in 6 shortcuts  params: ['UUID', 'WFInput', 'WFOpenInAppIdentifier', 'WFOpenInAskWhenRun', 'WFSelectedApp']
+  openurl                                       seen  58x in 50 shortcuts  params: ['Show-WFInput', 'UUID', 'WFInput']
+  output                                        seen  12x in 12 shortcuts  params: ['UUID', 'WFNoOutputSurfaceBehavior', 'WFOutput', 'WFResponse']
+  phonenumber                                   seen   2x in 2 shortcuts  params: ['UUID', 'WFPhoneNumber']
+  photos.createalbum                            seen   1x in 1 shortcuts  params: ['AlbumName', 'UUID']
+  playmusic                                     seen   1x in 1 shortcuts  params: ['UUID', 'WFMediaItems', 'WFPlayMusicActionShuffle']
+  playpodcast                                   seen  10x in 1 shortcuts  params: ['UUID', 'WFPodcastShow']
+  playsound                                     seen   1x in 1 shortcuts  params: ['WFInput']
+  pocket.get                                    seen   1x in 1 shortcuts  params: ['UUID', 'WFPocketItemCount']
+  posters.switch                                seen  14x in 1 shortcuts  params: ['WFPoster']
+  previewdocument                               seen   6x in 6 shortcuts  params: ['UUID', 'WFInput']
+  print                                         seen   1x in 1 shortcuts  params: ['WFInput']
+  properties.appstore                           seen   1x in 1 shortcuts  params: ['UUID', 'WFContentItemPropertyName', 'WFInput']
+  properties.articles                           seen   9x in 6 shortcuts  params: ['UUID', 'WFContentItemPropertyName', 'WFInput']
+  properties.calendarevents                     seen   4x in 2 shortcuts  params: ['UUID', 'WFContentItemPropertyName', 'WFInput']
+  properties.contacts                           seen   5x in 2 shortcuts  params: ['UUID', 'WFContentItemPropertyName', 'WFInput']
+  properties.health.quantity                    seen   1x in 1 shortcuts  params: ['UUID', 'WFContentItemPropertyName', 'WFInput']
+  properties.images                             seen   2x in 1 shortcuts  params: ['UUID', 'WFContentItemPropertyName', 'WFInput']
+  properties.locations                          seen   1x in 1 shortcuts  params: ['UUID', 'WFContentItemPropertyName', 'WFInput']
+  properties.podcast                            seen   4x in 2 shortcuts  params: ['UUID', 'WFContentItemPropertyName', 'WFInput']
+  properties.podcastshow                        seen   6x in 3 shortcuts  params: ['CustomOutputName', 'UUID', 'WFContentItemPropertyName', 'WFInput']
+  properties.safariwebpage                      seen   1x in 1 shortcuts  params: ['UUID', 'WFContentItemPropertyName', 'WFInput']
+  properties.weather.conditions                 seen   2x in 2 shortcuts  params: ['UUID', 'WFContentItemPropertyName', 'WFInput']
+  readinglist                                   seen   1x in 1 shortcuts  params: ['Show-WFURL', 'UUID', 'WFURL']
+  recordaudio                                   seen   1x in 1 shortcuts  params: ['UUID', 'WFRecordingCompression', 'WFRecordingStart']
+  reminders.showlist                            seen   1x in 1 shortcuts  params: ['WFList']
+  removereminders                               seen   1x in 1 shortcuts  params: ['UUID', 'WFInputReminders']
+  repeat.count                                  seen  10x in 4 shortcuts  params: ['CustomOutputName', 'GroupingIdentifier', 'UUID', 'WFControlFlowMode', 'WFRepeatCount']
+  repeat.each                                   seen  64x in 20 shortcuts  params: ['CustomOutputName', 'GroupingIdentifier', 'UUID', 'WFControlFlowMode', 'WFInput']
+  resizewindow                                  seen   3x in 2 shortcuts  params: ['UUID', 'WFBringToFront', 'WFConfiguration', 'WFHeight', 'WFWidth', 'WFWindow']
+  returntohomescreen                            seen   1x in 1 shortcuts  params: []
+  ride.requestride                              seen   1x in 1 shortcuts  params: ['DropOffLocation', 'PartySize']
+  round                                         seen  15x in 6 shortcuts  params: ['CustomOutputName', 'UUID', 'WFInput', 'WFRoundDecimalPlaces', 'WFRoundMode', 'WFRoundTo', 'WFRoundType']
+  rss                                           seen   5x in 3 shortcuts  params: ['UUID', 'WFRSSFeedURL', 'WFRSSItemQuantity']
+  rss.extract                                   seen   1x in 1 shortcuts  params: ['UUID', 'WFURLs']
+  runapplescript                                seen   2x in 2 shortcuts  params: ['Input', 'Script', 'UUID']
+  runshellscript                                seen   5x in 5 shortcuts  params: ['Input', 'InputMode', 'RunAsRoot', 'Script', 'Shell', 'UUID']
+  runworkflow                                   seen  27x in 15 shortcuts  params: ['UUID', 'WFInput', 'WFWorkflow', 'WFWorkflowName']
+  savetocameraroll                              seen   4x in 4 shortcuts  params: ['UUID', 'WFCameraRollSelectedGroup', 'WFInput']
+  searchappstore                                seen   1x in 1 shortcuts  params: ['UUID', 'WFItemLimit', 'WFSearchTerm']
+  searchitunes                                  seen   4x in 2 shortcuts  params: ['UUID', 'WFAttribute', 'WFEntity', 'WFMediaType', 'WFSearchTerm']
+  searchmaps                                    seen   1x in 1 shortcuts  params: ['WFInput']
+  searchpodcasts                                seen   3x in 3 shortcuts  params: ['UUID', 'WFAttribute', 'WFItemLimit', 'WFSearchTerm']
+  searchweb                                     seen   1x in 1 shortcuts  params: ['WFInputText', 'WFSearchWebDestination']
+  seek                                          seen   1x in 1 shortcuts  params: ['WFTimeInterval']
+  selectcontacts                                seen   2x in 1 shortcuts  params: ['UUID']
+  selectphoto                                   seen   1x in 1 shortcuts  params: ['WFPhotoPickerTypes']
+  sendmessage                                   seen   6x in 5 shortcuts  params: ['IntentAppDefinition', 'ShowWhenRun', 'UUID', 'WFSendMessageActionRecipients', 'WFSendMessageContent']
+  setairdropreceiving                           seen   1x in 1 shortcuts  params: ['WFAirDropState']
+  setbrightness                                 seen   7x in 3 shortcuts  params: ['WFBrightness']
+  setclipboard                                  seen  25x in 22 shortcuts  params: ['UUID', 'WFInput', 'WFLocalOnly']
+  setitemname                                   seen  13x in 11 shortcuts  params: ['Advanced', 'UUID', 'WFInput', 'WFName']
+  setplaybackdestination                        seen  11x in 4 shortcuts  params: ['WFMediaRoute', 'WFMediaRouteOperation']
+  setters.calendarevents                        seen   1x in 1 shortcuts  params: ['Mode', 'UUID', 'ValueLabel', 'WFCalendarEventContentItemAttendees', 'WFContentItemPropertyName', 'WFInput']
+  setvalueforkey                                seen   6x in 4 shortcuts  params: ['UUID', 'WFDictionary', 'WFDictionaryKey', 'WFDictionaryValue']
+  setvariable                                   seen 149x in 46 shortcuts  params: ['WFInput', 'WFVariable', 'WFVariableName']
+  setvolume                                     seen   2x in 2 shortcuts  params: ['WFVolume']
+  share                                         seen   7x in 6 shortcuts  params: ['UUID', 'WFInput']
+  showincalendar                                seen   1x in 1 shortcuts  params: ['WFEvent']
+  shownote                                      seen   3x in 3 shortcuts  params: ['AppIntentDescriptor', 'UUID', 'WFInput']
+  showresult                                    seen  45x in 28 shortcuts  params: ['Text', 'UUID']
+  showwebpage                                   seen   8x in 4 shortcuts  params: ['WFURL']
+  sirikit.donation.handle                       seen  11x in 4 shortcuts  params: ['ForceExecutionOnPhone', 'IntentData', 'ShowWhenRun', 'UUID']
+  speaktext                                     seen   1x in 1 shortcuts  params: ['WFSpeakTextRate', 'WFSpeakTextVoice', 'WFText']
+  splitscreen                                   seen   2x in 1 shortcuts  params: []
+  stagemanager.set                              seen   1x in 1 shortcuts  params: []
+  takescreenshot                                seen   2x in 2 shortcuts  params: ['UUID']
+  text.changecase                               seen  15x in 5 shortcuts  params: ['CustomOutputName', 'Show-text', 'UUID', 'WFCaseType', 'text']
+  text.combine                                  seen  15x in 12 shortcuts  params: ['CustomOutputName', 'Show-text', 'UUID', 'WFTextCustomSeparator', 'WFTextSeparator', 'text']
+  text.match                                    seen   8x in 5 shortcuts  params: ['UUID', 'WFMatchTextCaseSensitive', 'WFMatchTextPattern', 'text']
+  text.match.getgroup                           seen   9x in 4 shortcuts  params: ['CustomOutputName', 'UUID', 'WFGetGroupType', 'WFGroupIndex', 'matches']
+  text.replace                                  seen  37x in 11 shortcuts  params: ['UUID', 'WFInput', 'WFReplaceTextCaseSensitive', 'WFReplaceTextFind', 'WFReplaceTextRegularExpression', 'WFReplaceTextReplace']
+  text.split                                    seen  28x in 14 shortcuts  params: ['Show-text', 'UUID', 'WFTextCustomSeparator', 'WFTextSeparator', 'text']
+  text.translate                                seen   1x in 1 shortcuts  params: ['UUID', 'WFInputText']
+  trimvideo                                     seen   1x in 1 shortcuts  params: ['UUID', 'WFInputMedia']
+  tweet                                         seen   2x in 1 shortcuts  params: ['TweetInput']
+  unzip                                         seen   1x in 1 shortcuts  params: ['UUID', 'WFArchive']
+  url                                           seen 211x in 51 shortcuts  params: ['Show-WFURLActionURL', 'UUID', 'WFURLActionURL']
+  urlencode                                     seen   9x in 9 shortcuts  params: ['UUID', 'WFInput']
+  waittoreturn                                  seen   2x in 2 shortcuts  params: []
+  weather.currentconditions                     seen   1x in 1 shortcuts  params: ['UUID', 'WFWeatherCustomLocation']
+  weather.forecast                              seen   2x in 2 shortcuts  params: ['UUID', 'WFWeatherCustomLocation']
+  wifi.set                                      seen   2x in 2 shortcuts  params: []
+  wordpress.post                                seen   2x in 1 shortcuts  params: ['Advanced', 'Categories', 'Date', 'Excerpt', 'ShowCustomFields', 'Slug', 'Status', 'Tags', 'ThumbnailImage', 'Title', 'Type', 'UUID', 'WFInput']
+
+--- other (18 actions) ---
+  ai.perplexity.mac.AskPerplexityIntent         seen   3x in 1 shortcuts  params: ['AppIntentDescriptor', 'ShowWhenRun', 'UUID', 'query']
+  codes.rambo.AirBuddyHelper.ConnectHeadsetIntent seen   1x in 1 shortcuts  params: ['UUID', 'headset', 'listeningMode']
+  codes.rambo.AirBuddyHelper.GetDeviceStatusIntent seen   1x in 1 shortcuts  params: ['UUID', 'device', 'failureMode']
+  codes.rambo.AirBuddyHelper.GetDevicesListIntent seen   2x in 2 shortcuts  params: ['UUID', 'connectionState', 'deviceKind', 'nearbyState']
+  com.alexhay.ToolboxProForShortcuts.SwitchCaseIntent seen   2x in 2 shortcuts  params: ['Show-defaultReturn', 'Show-match1', 'Show-match10', 'Show-match11', 'Show-match12', 'Show-match13', 'Show-match14', 'Show-match15', 'Show-match2', 'Show-match3', 'Show-match4', 'Show-match5', 'Show-match6', 'Show-match7', 'Show-match8', 'Show-match9', 'Show-matchReturn1', 'Show-matchReturn10', 'Show-matchReturn11', 'Show-matchReturn12', 'Show-matchReturn13', 'Show-matchReturn14', 'Show-matchReturn15', 'Show-matchReturn2', 'Show-matchReturn3', 'Show-matchReturn4', 'Show-matchReturn5', 'Show-matchReturn6', 'Show-matchReturn7', 'Show-matchReturn8', 'Show-matchReturn9', 'UUID', 'input', 'match1', 'match2', 'match3', 'match4', 'matchReturn1', 'matchReturn2', 'matchReturn3', 'matchReturn4']
+  com.amazon.Amazon.OpenAmazonIntent            seen   1x in 1 shortcuts  params: ['AppIntentDescriptor', 'destination']
+  com.culturedcode.ThingsMac.TINAddTodoIntent   seen   1x in 1 shortcuts  params: ['ShowWhenRun', 'UUID', 'notes', 'tags', 'title']
+  com.culturedcode.ThingsMac.beta.TAIAddHeading seen   1x in 1 shortcuts  params: ['AppIntentDescriptor', 'ShowWhenRun', 'UUID', 'project', 'title']
+  com.culturedcode.ThingsMac.beta.TAIAddProject seen   1x in 1 shortcuts  params: ['AppIntentDescriptor', 'ShowWhenRun', 'UUID', 'area', 'tags', 'title']
+  com.culturedcode.ThingsMac.beta.TAIAddTodo2   seen   1x in 1 shortcuts  params: ['AppIntentDescriptor', 'ShowWhenRun', 'UUID', 'heading', 'notes', 'parent', 'tags', 'title']
+  com.culturedcode.ThingsiPad.TINAddTodoIntent  seen   1x in 1 shortcuts  params: ['ShowWhenRun', 'UUID', 'deadline', 'notes', 'title', 'when']
+  com.culturedcode.ThingsiPad.TINShowListIntent seen   1x in 1 shortcuts  params: ['ShowWhenRun', 'UUID', 'list']
+  com.dayonelog.dayoneiphone.post               seen   2x in 2 shortcuts  params: ['EntryJournal', 'EntryTags', 'EntryText', 'UUID', 'imageClipboard']
+  com.pixelmatorteam.pixelmator.x.CropImageToAspectRatioIntent seen   1x in 1 shortcuts  params: ['UUID', 'cropRatioPreset', 'inputFiles', 'useMLCrop']
+  com.reederapp.5.macOS.GetReadLaterIntent      seen   2x in 2 shortcuts  params: ['UUID', 'host', 'limit', 'maxItems', 'search', 'state', 'tag']
+  com.reederapp.5.macOS.OpenReadLaterIntent     seen   2x in 2 shortcuts  params: ['UUID', 'item']
+  com.sindresorhus.Actions.GetAudioPlaybackDestinationIntent seen   2x in 2 shortcuts  params: ['AppIntentDescriptor', 'UUID']
+  com.tapbots.Ivory.PTHIvoryPostStatusIntent    seen   1x in 1 shortcuts  params: ['ShowWhenRun', 'UUID', 'account', 'text']

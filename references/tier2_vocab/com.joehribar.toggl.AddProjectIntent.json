@@ -1,0 +1,13 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "ShowWhenRun": 5,
+  "assignClient": 6,
+  "client": 7,
+  "color": 8,
+  "project": 9,
+  "workspace": 10
+}

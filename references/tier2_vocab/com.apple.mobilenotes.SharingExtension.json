@@ -1,0 +1,14 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "IntentAppDefinition": 4,
+  "IntentAppIdentifier": 5,
+  "OpenWhenRun": 6,
+  "PARAM": 7,
+  "ShowWhenRun": 8,
+  "WFCreateNoteInput": 9,
+  "WFNoteGroup": 10,
+  "folder": 11
+}

@@ -1,0 +1,10 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "WFDateSpecifier": 5,
+  "WFGetUpcomingItemCalendar": 6,
+  "WFGetUpcomingItemCount": 7
+}

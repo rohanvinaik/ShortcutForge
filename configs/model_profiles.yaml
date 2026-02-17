@@ -1,0 +1,53 @@
+profiles:
+  local_8b_mainline:
+    model_path: "mlx-community/Meta-Llama-3.1-8B-Instruct-4bit"
+    adapter_path: "models/baseline-v1-mlx"
+    chat_template: "llama3"
+    validator_mode: "strict_plus_permissive"
+    dynamic_budget: true
+    grammar_retry_only: true
+    max_retries: 3
+    fallback_order: ["claude"]
+    timeout_s: 90
+
+  tiny_qwen_mainline:
+    model_path: "Qwen/Qwen2.5-0.5B-Instruct"
+    adapter_path: null
+    chat_template: "chatml"
+    validator_mode: "strict_plus_permissive"
+    dynamic_budget: true
+    grammar_retry_only: true
+    max_retries: 3
+    fallback_order: ["local_8b", "claude"]
+    timeout_s: 30
+
+  tiny_llama_mainline:
+    model_path: "meta-llama/Llama-3.2-1B-Instruct"
+    adapter_path: null
+    chat_template: "llama3"
+    validator_mode: "strict_plus_permissive"
+    dynamic_budget: true
+    grammar_retry_only: true
+    max_retries: 3
+    fallback_order: ["local_8b", "claude"]
+    timeout_s: 45
+
+  claude_rescue:
+    model_path: "claude-sonnet-4-20250514"
+    adapter_path: null
+    chat_template: null
+    validator_mode: "strict_plus_permissive"
+    dynamic_budget: false
+    grammar_retry_only: false
+    max_retries: 2
+    fallback_order: []
+    timeout_s: 120
+
+default_profile: "local_8b_mainline"
+
+promotion_gates:
+  compile_strict_rate: {min: 95.0}
+  compile_permissive_rate: {min: 97.0}
+  runtime_unverified_compile_rate: {max: 2.0}
+  fallback_rate: {max: 5.0}
+  health_logger_scenario_score: {min: 0.85}

@@ -1,0 +1,11 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "FollowUp": 4,
+  "PARAM": 5,
+  "WFGenerativeResultType": 6,
+  "WFLLMModel": 7,
+  "WFLLMPrompt": 8
+}

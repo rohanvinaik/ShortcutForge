@@ -1,0 +1,57 @@
+{
+  "_meta": {
+    "profile_id": "scheduling",
+    "version": "1.0",
+    "description": "Domain profile for Calendar, Reminders, alarms, and time management shortcuts"
+  },
+
+  "keywords": [
+    "calendar", "reminder", "event", "alarm", "schedule",
+    "appointment", "meeting", "due", "deadline", "timer",
+    "time", "date", "tomorrow", "next week", "recurring",
+    "agenda", "busy", "free", "availability", "invite",
+    "rsvp", "reminders list", "calendar events",
+    "create event", "add reminder"
+  ],
+
+  "prompt_context": "You are generating a scheduling Apple Shortcut. Use addnewevent to create calendar events (specify title, start date, end date, calendar, location, notes). Use addnewreminder to create reminders (specify title, due date, list, priority). Use getcalendarevents to query existing events (filter by date range and calendar). Use format.date to parse and format dates consistently. When creating events with user input, validate that dates are in the future. For recurring events, set the appropriate recurrence parameters.",
+
+  "relevant_actions": [
+    "addnewevent",
+    "addnewreminder",
+    "getcalendarevents",
+    "getupcomingreminders",
+    "removecalendarevents",
+    "format.date",
+    "date",
+    "adjustdate",
+    "gettimebetweendates",
+    "askforinput",
+    "choosefromlist",
+    "alert",
+    "showresult",
+    "notification",
+    "createalarm"
+  ],
+
+  "scheduling_patterns": {
+    "create_event": {
+      "description": "Create a new calendar event",
+      "params": ["title", "start_date", "end_date", "calendar", "location", "notes"]
+    },
+    "create_reminder": {
+      "description": "Create a reminder with due date",
+      "params": ["title", "due_date", "list", "priority", "notes"]
+    },
+    "query_events": {
+      "description": "Get events in a date range",
+      "params": ["start_date", "end_date", "calendar"]
+    }
+  },
+
+  "example_patterns": [
+    "Ask for meeting title and time, create calendar event, set reminder 15 min before",
+    "Get today's calendar events, categorize by calendar, show grouped summary",
+    "Create batch reminders from a list: FOREACH items, addnewreminder for each"
+  ]
+}

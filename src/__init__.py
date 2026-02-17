@@ -1,0 +1,1 @@
+# ShortcutForge core pipeline

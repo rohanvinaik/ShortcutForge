@@ -1,0 +1,30 @@
+{
+  "splits": [
+    {
+      "file": "/Users/rohanvinaik/apple-shortcuts/training_data/shortcutdsl_train_expanded.jsonl",
+      "label": "train",
+      "total": 6679,
+      "success": 6679,
+      "failed": 0,
+      "failure_rate_pct": 0.0,
+      "failed_ids": [],
+      "elapsed_seconds": 4.43
+    },
+    {
+      "file": "/Users/rohanvinaik/apple-shortcuts/training_data/shortcutdsl_eval.jsonl",
+      "label": "eval",
+      "total": 100,
+      "success": 100,
+      "failed": 0,
+      "failure_rate_pct": 0.0,
+      "failed_ids": [],
+      "elapsed_seconds": 0.11
+    }
+  ],
+  "overall": {
+    "total": 6779,
+    "success": 6779,
+    "failed": 0,
+    "failure_rate_pct": 0.0
+  }
+}

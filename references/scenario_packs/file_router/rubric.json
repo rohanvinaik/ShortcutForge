@@ -1,0 +1,107 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "description": "Scoring rubric for File Router scenario benchmark"
+  },
+  "scenario_id": "file_router",
+  "scenario_name": "File Router",
+  "description": "Accept a file input, detect its type or extension, and route it to the appropriate handler: resize images, preview PDFs, display text content, and open other files in a suitable app.",
+  "complexity_tier": "complex",
+
+  "required_actions": [
+    "properties.files",
+    "openin",
+    "image.resize"
+  ],
+
+  "desired_actions": [
+    "showresult",
+    "previewdocument",
+    "file.select",
+    "gettext",
+    "setclipboard",
+    "share",
+    "count",
+    "alert",
+    "notification"
+  ],
+
+  "required_constructs": [
+    "MENU",
+    "SET"
+  ],
+
+  "desired_constructs": [
+    "IF",
+    "FOREACH"
+  ],
+
+  "scoring": {
+    "structural_completeness": {
+      "weight": 0.25,
+      "description": "Does the shortcut have valid structure and compile?",
+      "criteria": {
+        "parses": {"description": "DSL text passes Lark parser", "points": 0.2},
+        "validates": {"description": "IR passes semantic validation (permissive)", "points": 0.2},
+        "compiles": {"description": "Compiler produces .shortcut plist", "points": 0.2},
+        "has_menu_or_if_chain": {"description": "Contains MENU or multi-branch IF for routing", "points": 0.15},
+        "has_variables": {"description": "Uses SET to define variables", "points": 0.1},
+        "has_sufficient_actions": {"description": "Contains >= 8 action statements", "points": 0.1},
+        "has_input_handling": {"description": "Accepts input or prompts for file selection", "points": 0.05}
+      }
+    },
+    "action_coverage": {
+      "weight": 0.3,
+      "description": "Does the shortcut use the right actions for file routing?",
+      "criteria": {
+        "uses_properties_files": {"description": "Uses properties.files to get file extension or type", "points": 0.2},
+        "uses_image_resize": {"description": "Uses image.resize for image handling path", "points": 0.2},
+        "uses_openin": {"description": "Uses openin for opening files in appropriate apps", "points": 0.15},
+        "uses_previewdocument": {"description": "Uses previewdocument (Quick Look) for PDF or general preview", "points": 0.15},
+        "uses_file_select": {"description": "Uses file.select as fallback when no input", "points": 0.1},
+        "uses_gettext": {"description": "Uses gettext for text file content extraction", "points": 0.1},
+        "uses_showresult": {"description": "Uses showresult to display processing results", "points": 0.1}
+      }
+    },
+    "routing_logic": {
+      "weight": 0.25,
+      "description": "Does the shortcut correctly route files by type?",
+      "criteria": {
+        "detects_file_type": {"description": "Extracts file extension or type from input", "points": 0.2},
+        "handles_images": {"description": "Has a dedicated handler path for image files", "points": 0.2},
+        "handles_pdfs": {"description": "Has a dedicated handler path for PDF files", "points": 0.2},
+        "handles_text": {"description": "Has a dedicated handler path for text files", "points": 0.2},
+        "handles_fallback": {"description": "Has a fallback path for unrecognized file types", "points": 0.2}
+      }
+    },
+    "ux_quality": {
+      "weight": 0.2,
+      "description": "Does the shortcut provide good user experience?",
+      "criteria": {
+        "accepts_input": {"description": "Accepts file from shortcut input or share sheet", "points": 0.2},
+        "fallback_selection": {"description": "Falls back to file picker if no input", "points": 0.2},
+        "shows_file_info": {"description": "Displays file name, size, or type info to user", "points": 0.2},
+        "shows_result_per_path": {"description": "Shows appropriate result message for each handler", "points": 0.25},
+        "clean_naming": {"description": "Shortcut has descriptive name", "points": 0.15}
+      }
+    }
+  },
+
+  "prompt_variants": [
+    {
+      "id": "detailed",
+      "difficulty": "easy",
+      "prompt": "Build an Apple Shortcut called 'File Router' that accepts a file (from share sheet or input) and routes it based on file type. Steps: 1) If no input, use file.select to let the user pick a file, 2) Use properties.files to get the file extension and name, 3) Use a MENU or IF/ELSE chain to route: for images, resize to 1024px width using image.resize and copy to clipboard; for PDFs, open with previewdocument (Quick Look); for text files, extract and display the text content with a character count; for all other types, use openin to let the user choose an app. Show a result message for each path."
+    },
+    {
+      "id": "moderate",
+      "difficulty": "medium",
+      "prompt": "Create a file routing shortcut that detects the type of an input file and handles it differently: images get resized, PDFs get previewed, text files show their content, and other files open in a chosen app. Use properties.files to detect the file type and a MENU to route to the right handler."
+    },
+    {
+      "id": "minimal",
+      "difficulty": "hard",
+      "prompt": "I need a shortcut that accepts a file and routes it based on type - resize images, preview PDFs, show text content, and open everything else in an app. Detect the file extension and handle each case."
+    }
+  ]
+}

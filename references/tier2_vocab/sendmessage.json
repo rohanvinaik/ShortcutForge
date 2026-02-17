@@ -1,0 +1,11 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "IntentAppDefinition": 4,
+  "PARAM": 5,
+  "ShowWhenRun": 6,
+  "WFSendMessageActionRecipients": 7,
+  "WFSendMessageContent": 8
+}

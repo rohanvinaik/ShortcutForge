@@ -1,0 +1,85 @@
+{
+  "_meta": {
+    "profile_id": "health_logger",
+    "version": "1.0",
+    "description": "Domain profile for HealthKit-based health logging shortcuts"
+  },
+
+  "keywords": [
+    "health", "healthkit", "nutrition", "nutrient", "supplement",
+    "vitamin", "mineral", "caffeine", "calorie", "protein",
+    "workout", "fitness", "diet", "macro", "tracking",
+    "log health", "health sample", "apple health"
+  ],
+
+  "prompt_context": "You are generating a health-logging Apple Shortcut that interacts with Apple HealthKit. Use the health.quantity.log action to log dietary nutrients and health samples. Each nutrient has a specific sample type name (e.g., 'Caffeine', 'Vitamin C', 'Iron') that must be passed as WFQuantitySampleType. Always validate data before logging. When batch-logging multiple nutrients from a dictionary, iterate over the keys and log each value individually. Provide user feedback showing how many items were logged.",
+
+  "relevant_actions": [
+    "health.quantity.log",
+    "health.workout.log",
+    "filter.health.quantity",
+    "properties.health.quantity",
+    "downloadurl",
+    "detect.dictionary",
+    "getvalueforkey",
+    "showresult",
+    "alert",
+    "notification",
+    "count",
+    "math"
+  ],
+
+  "hk_sample_types": {
+    "Caffeine":         {"unit": "mg",   "category": "dietary"},
+    "Vitamin C":        {"unit": "mg",   "category": "dietary"},
+    "Vitamin D":        {"unit": "mcg",  "category": "dietary"},
+    "Folate, DFE":      {"unit": "mcg",  "category": "dietary"},
+    "Vitamin B12":      {"unit": "mcg",  "category": "dietary"},
+    "Vitamin B6":       {"unit": "mg",   "category": "dietary"},
+    "Iron":             {"unit": "mg",   "category": "dietary"},
+    "Zinc":             {"unit": "mg",   "category": "dietary"},
+    "Magnesium":        {"unit": "mg",   "category": "dietary"},
+    "Calcium":          {"unit": "mg",   "category": "dietary"},
+    "Selenium":         {"unit": "mcg",  "category": "dietary"},
+    "Copper":           {"unit": "mg",   "category": "dietary"},
+    "Manganese":        {"unit": "mg",   "category": "dietary"},
+    "Chromium":         {"unit": "mcg",  "category": "dietary"},
+    "Iodine":           {"unit": "mcg",  "category": "dietary"},
+    "Total Fat":        {"unit": "g",    "category": "dietary"},
+    "Protein":          {"unit": "g",    "category": "dietary"},
+    "Carbohydrates":    {"unit": "g",    "category": "dietary"},
+    "Fiber":            {"unit": "g",    "category": "dietary"},
+    "Sodium":           {"unit": "mg",   "category": "dietary"},
+    "Sugar":            {"unit": "g",    "category": "dietary"},
+    "Saturated Fat":    {"unit": "g",    "category": "dietary"},
+    "Water":            {"unit": "mL",   "category": "dietary"},
+    "Active Energy Burned": {"unit": "kcal", "category": "fitness"},
+    "Sleep":            {"unit": "min",  "category": "sleep"},
+    "Toothbrushing":    {"unit": "min",  "category": "hygiene"}
+  },
+
+  "unit_compatibility": {
+    "mg":   ["Caffeine", "Vitamin C", "Vitamin B6", "Iron", "Zinc", "Magnesium", "Calcium", "Copper", "Manganese", "Sodium"],
+    "mcg":  ["Vitamin D", "Folate, DFE", "Vitamin B12", "Selenium", "Chromium", "Iodine"],
+    "g":    ["Total Fat", "Protein", "Carbohydrates", "Fiber", "Sugar", "Saturated Fat"],
+    "kcal": ["Active Energy Burned"],
+    "mL":   ["Water"],
+    "min":  ["Sleep", "Toothbrushing"]
+  },
+
+  "value_ranges": {
+    "Caffeine":      {"min": 0, "max": 1000,  "typical": [50, 200]},
+    "Vitamin C":     {"min": 0, "max": 5000,  "typical": [60, 500]},
+    "Vitamin D":     {"min": 0, "max": 250,   "typical": [10, 100]},
+    "Iron":          {"min": 0, "max": 200,   "typical": [8, 65]},
+    "Calcium":       {"min": 0, "max": 3000,  "typical": [200, 1000]},
+    "Protein":       {"min": 0, "max": 500,   "typical": [20, 100]},
+    "Active Energy Burned": {"min": 0, "max": 10000, "typical": [100, 2000]}
+  },
+
+  "example_patterns": [
+    "Fetch JSON from server, iterate over nutrient codes, log each to HealthKit",
+    "Parse flat dict where keys are nutrient codes and values are amounts",
+    "Log caffeine intake: ACTION health.quantity.log WFQuantitySampleType=\"Caffeine\" WFQuantitySampleQuantity=200"
+  ]
+}

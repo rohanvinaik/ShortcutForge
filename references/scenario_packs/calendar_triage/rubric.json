@@ -1,0 +1,109 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "description": "Scoring rubric for Calendar Triage scenario benchmark"
+  },
+  "scenario_id": "calendar_triage",
+  "scenario_name": "Calendar Triage",
+  "description": "Get today's calendar events, iterate through them to categorize by calendar name, build a grouped summary with counts, and display the organized overview.",
+  "complexity_tier": "complex",
+
+  "required_actions": [
+    "getupcomingevents",
+    "properties.calendarevents",
+    "gettext"
+  ],
+
+  "desired_actions": [
+    "showresult",
+    "date",
+    "format.date",
+    "count",
+    "math",
+    "appendvariable",
+    "text.combine",
+    "alert",
+    "notification"
+  ],
+
+  "required_constructs": [
+    "FOREACH",
+    "IF",
+    "SET"
+  ],
+
+  "desired_constructs": [
+    "MENU",
+    "REPEAT"
+  ],
+
+  "scoring": {
+    "structural_completeness": {
+      "weight": 0.25,
+      "description": "Does the shortcut have valid structure and compile?",
+      "criteria": {
+        "parses": {"description": "DSL text passes Lark parser", "points": 0.2},
+        "validates": {"description": "IR passes semantic validation (permissive)", "points": 0.2},
+        "compiles": {"description": "Compiler produces .shortcut plist", "points": 0.2},
+        "has_foreach": {"description": "Contains FOREACH block for iterating events", "points": 0.15},
+        "has_conditional": {"description": "Contains IF blocks for categorization", "points": 0.1},
+        "has_variables": {"description": "Uses SET to define category accumulators", "points": 0.05},
+        "has_sufficient_actions": {"description": "Contains >= 10 action statements", "points": 0.1}
+      }
+    },
+    "action_coverage": {
+      "weight": 0.3,
+      "description": "Does the shortcut use the right actions for calendar processing?",
+      "criteria": {
+        "uses_getupcomingevents": {"description": "Fetches calendar events for today", "points": 0.2},
+        "uses_properties_calendarevents": {"description": "Extracts event details (title, time, calendar)", "points": 0.2},
+        "uses_gettext": {"description": "Uses gettext for building formatted text", "points": 0.1},
+        "uses_format_date": {"description": "Formats dates/times for display", "points": 0.15},
+        "uses_appendvariable": {"description": "Accumulates events into category groups", "points": 0.15},
+        "uses_count": {"description": "Counts events for summary", "points": 0.1},
+        "uses_text_combine": {"description": "Combines accumulated events for display", "points": 0.1}
+      }
+    },
+    "categorization_logic": {
+      "weight": 0.25,
+      "description": "Does the shortcut correctly categorize and group events?",
+      "criteria": {
+        "iterates_events": {"description": "Uses FOREACH to process each event", "points": 0.2},
+        "extracts_calendar_name": {"description": "Gets calendar name from each event", "points": 0.2},
+        "categorizes_events": {"description": "Routes events to different categories based on calendar", "points": 0.2},
+        "tracks_category_counts": {"description": "Counts events per category", "points": 0.15},
+        "builds_grouped_output": {"description": "Assembles events into grouped sections", "points": 0.15},
+        "handles_empty_calendar": {"description": "Handles case where no events exist", "points": 0.1}
+      }
+    },
+    "ux_quality": {
+      "weight": 0.2,
+      "description": "Does the shortcut provide good user experience?",
+      "criteria": {
+        "shows_grouped_summary": {"description": "Displays events grouped by calendar category", "points": 0.3},
+        "shows_event_times": {"description": "Includes event times in summary", "points": 0.2},
+        "shows_counts": {"description": "Shows total and per-category event counts", "points": 0.2},
+        "handles_no_events": {"description": "Shows message when no events found", "points": 0.15},
+        "clean_naming": {"description": "Shortcut has descriptive name", "points": 0.15}
+      }
+    }
+  },
+
+  "prompt_variants": [
+    {
+      "id": "detailed",
+      "difficulty": "easy",
+      "prompt": "Build an Apple Shortcut called 'Calendar Triage' that gives you a daily event overview grouped by calendar. Steps: 1) Get the current date and format it, 2) Use getupcomingevents to fetch today's events (up to 50), 3) Count the events and show an alert if none found, 4) Use FOREACH to iterate through each event, extracting the title, start time, and calendar name using properties.calendarevents, 5) Format the start time with format.date, 6) Categorize each event into Work, Personal, or Other using IF blocks that check if the calendar name contains those words, 7) Use appendvariable to accumulate events into separate category lists, 8) After the loop, build a grouped summary with section headers showing category names and counts, 9) Display the final summary with showresult."
+    },
+    {
+      "id": "moderate",
+      "difficulty": "medium",
+      "prompt": "Create a shortcut that triages today's calendar events. Fetch upcoming events, loop through them to extract title, time, and calendar name, categorize them into groups (Work, Personal, Other) based on calendar, and display a grouped summary showing each category's events with counts."
+    },
+    {
+      "id": "minimal",
+      "difficulty": "hard",
+      "prompt": "I need a shortcut that gets today's calendar events, groups them by calendar (Work, Personal, Other), and shows me a categorized summary with event times and counts."
+    }
+  ]
+}

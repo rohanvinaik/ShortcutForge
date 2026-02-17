@@ -1,0 +1,10 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "connectionState": 5,
+  "deviceKind": 6,
+  "nearbyState": 7
+}

@@ -1,0 +1,10 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "WFSpeakTextRate": 5,
+  "WFSpeakTextVoice": 6,
+  "WFText": 7
+}

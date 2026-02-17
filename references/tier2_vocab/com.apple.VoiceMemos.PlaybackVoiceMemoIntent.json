@@ -1,0 +1,9 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "entity": 5,
+  "playbackType": 6
+}

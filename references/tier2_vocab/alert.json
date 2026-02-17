@@ -1,0 +1,10 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "WFAlertActionCancelButtonShown": 5,
+  "WFAlertActionMessage": 6,
+  "WFAlertActionTitle": 7
+}

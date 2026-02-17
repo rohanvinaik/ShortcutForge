@@ -1,0 +1,133 @@
+// ShortcutDSL Grammar — Lark LALR(1)
+// Line-oriented DSL for generating Apple Shortcuts.
+// Syntax validity is enforced by this grammar (via Outlines EBNF constraint).
+// Semantic validity (action names, param names, wrapping) is checked by dsl_validator.py.
+
+// ENDSHORTCUT migration: currently optional ("?") for backward compatibility
+// with pre-ENDSHORTCUT training data. After retraining on data that includes
+// ENDSHORTCUT, change to required: start: header statement* "ENDSHORTCUT" _NL
+start: header statement* ("ENDSHORTCUT" _NL)?
+
+header: "SHORTCUT" QUOTED_STRING _NL
+
+?statement: action_stmt
+          | set_stmt
+          | if_block
+          | menu_block
+          | repeat_block
+          | foreach_block
+          | comment
+          | _NL
+
+// --- Actions ---
+action_stmt: "ACTION" action_name param* _NL
+action_name: DOTTED_IDENT
+param: IDENT "=" value
+
+// --- Variable Assignment ---
+set_stmt: "SET" var_ref "=" value _NL
+
+// --- Values ---
+?value: QUOTED_STRING       -> string_value
+      | SIGNED_NUMBER       -> number_value
+      | BOOL                -> bool_value
+      | var_ref             -> var_ref_value
+      | handle_ref          -> handle_ref_value
+      | interpolated        -> interp_value
+      | dict_literal
+      | list_literal
+      | quantity_literal
+      | headers_literal
+
+var_ref: "$" IDENT
+handle_ref: "@prev"           -> handle_prev
+          | "@item"           -> handle_item
+          | "@index"          -> handle_index
+          | "@input"          -> handle_input
+          | "@date"           -> handle_date
+          | "@" IDENT         -> handle_named
+
+// Interpolated string: `text {$var} more {$var2} end`
+interpolated: "`" interp_part* "`"
+?interp_part: INTERP_TEXT     -> interp_text
+            | "{" var_ref "}" -> interp_var
+            | "{" handle_ref "}" -> interp_handle
+
+// --- Structured Literals ---
+dict_literal: "{" (dict_entry ("," dict_entry)*)? "}"
+dict_entry: QUOTED_STRING ":" value
+
+list_literal: "[" (value ("," value)*)? "]"
+
+quantity_literal: "QTY" "(" qty_magnitude "," QUOTED_STRING ")"
+?qty_magnitude: SIGNED_NUMBER -> number_value
+              | handle_ref   -> handle_ref_value
+              | var_ref      -> var_ref_value
+
+headers_literal: "HEADERS" dict_literal
+
+// --- Control Flow: IF ---
+if_block: "IF" if_target CONDITION value? _NL statement* else_clause? "ENDIF" _NL
+else_clause: "ELSE" _NL statement*
+?if_target: handle_ref | var_ref
+
+// --- Control Flow: MENU ---
+menu_block: "MENU" menu_prompt _NL menu_case+ "ENDMENU" _NL
+?menu_prompt: QUOTED_STRING | interpolated
+menu_case: "CASE" QUOTED_STRING _NL statement*
+
+// --- Control Flow: REPEAT ---
+repeat_block: "REPEAT" repeat_count _NL statement* "ENDREPEAT" _NL
+?repeat_count: SIGNED_NUMBER  -> repeat_number
+             | var_ref
+             | handle_ref
+
+// --- Control Flow: FOREACH ---
+foreach_block: "FOREACH" foreach_collection _NL statement* "ENDFOREACH" _NL
+?foreach_collection: handle_ref | var_ref
+
+// --- Comments ---
+comment: COMMENT_LINE _NL
+
+// ============================================================
+// Terminals
+// ============================================================
+
+// Priority 2: Keywords that must match before IDENT
+CONDITION.2: "has_any_value"
+           | "does_not_have_any_value"
+           | "equals_number"
+           | "is_greater_than"
+           | "is_less_than"
+           | "equals_string"
+           | "not_equal_string"
+           | "contains"
+           | "does_not_contain"
+           | "is_before"
+
+BOOL.2: "true" | "false"
+
+// Priority 1 (default): Identifiers — any valid identifier
+IDENT: /[A-Za-z_][A-Za-z0-9_]*/
+
+// Dotted identifiers for action names: "comment", "text.split", "com.apple.mobiletimer-framework.Intents"
+// Allows hyphens within segments (but not at start or end)
+DOTTED_IDENT: /[A-Za-z_][A-Za-z0-9_.\-]*[A-Za-z0-9_]/ | IDENT
+
+// Quoted strings with escape support
+QUOTED_STRING: "\"" /([^"\\]|\\.)*/ "\""
+
+// Text inside interpolated strings (between backticks, outside braces)
+INTERP_TEXT: /[^`{}]+/
+
+// Comment lines
+COMMENT_LINE: /#[^\n]*/
+
+// _NL: filtered terminal (underscore prefix = Lark auto-discards from tree)
+_NL: /(\r?\n[\t ]*)+/
+
+// Whitespace and newlines
+%import common.SIGNED_NUMBER
+%import common.WS_INLINE
+
+%ignore WS_INLINE

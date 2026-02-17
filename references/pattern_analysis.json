@@ -1,0 +1,2022 @@
+[
+  {
+    "name": "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+    "total_actions": 218,
+    "patterns": [
+      [
+        "CONFIG_DICTIONARY",
+        1,
+        "Dictionary at top: configuration/state initialization"
+      ],
+      [
+        "MENU_ROUTER",
+        -1,
+        "Menu-driven app with 10 branches"
+      ],
+      [
+        "SELF_UPDATE",
+        -1,
+        "Checks RoutineHub API for version updates"
+      ],
+      [
+        "MULTI_INPUT",
+        -1,
+        "Accepts 18 input types"
+      ],
+      [
+        "LONG_LIVED_STATE",
+        -1,
+        "4 vars span >10 actions: installedVersion, Status, Emoji, Rhubid"
+      ],
+      [
+        "PROGRESSIVE_DISCLOSURE",
+        -1,
+        "3 user prompts: multi-step input gathering"
+      ],
+      [
+        "CONDITIONAL_FEEDBACK",
+        -1,
+        "10 notifications inside conditionals: status/error reporting"
+      ]
+    ],
+    "variables": {
+      "set": [
+        "MainDictionary",
+        "self",
+        "Rhubid",
+        "installedVersion",
+        "Path",
+        "sFolder",
+        "Status",
+        "Emoji",
+        "Status",
+        "Emoji",
+        "Input",
+        "Input"
+      ],
+      "append": [],
+      "get": []
+    },
+    "control_flow": {
+      "max_depth": 7,
+      "conditionals": 33,
+      "menus": 5,
+      "repeats": 1
+    },
+    "data_flow": [
+      {
+        "chain": "gettext->setvariable",
+        "count": 5
+      },
+      {
+        "chain": "gettext->choosefrommenu",
+        "count": 4
+      },
+      {
+        "chain": "gettext->setitemname",
+        "count": 3
+      },
+      {
+        "chain": "setitemname->choosefromlist",
+        "count": 3
+      },
+      {
+        "chain": "base64encode->setclipboard",
+        "count": 3
+      }
+    ],
+    "sub_shortcuts": [],
+    "file_ops": [
+      [
+        12,
+        "file.createfolder"
+      ],
+      [
+        111,
+        "documentpicker.save"
+      ],
+      [
+        136,
+        "file.select"
+      ]
+    ],
+    "network_ops": [
+      [
+        21,
+        "downloadurl"
+      ]
+    ]
+  },
+  {
+    "name": "Google: API_Auth",
+    "total_actions": 176,
+    "patterns": [
+      [
+        "CONFIG_DICTIONARY",
+        0,
+        "Dictionary at top: configuration/state initialization"
+      ],
+      [
+        "SELF_UPDATE",
+        -1,
+        "Checks RoutineHub API for version updates"
+      ],
+      [
+        "FILE_PERSISTENCE",
+        -1,
+        "Read/write files for state persistence"
+      ],
+      [
+        "COMPUTED_VALUE",
+        101,
+        "number -> setvariable: Dynamic value computation"
+      ],
+      [
+        "LONG_LIVED_STATE",
+        -1,
+        "14 vars span >10 actions: Top Folder Path, Error, Success, RoutineHub Error Prompt, Current Shortcut Name"
+      ],
+      [
+        "CONDITIONAL_FEEDBACK",
+        -1,
+        "5 notifications inside conditionals: status/error reporting"
+      ]
+    ],
+    "variables": {
+      "set": [
+        "Current Shortcut",
+        "Re-Run Set-Up?",
+        "Current Shortcut Name",
+        "Current Shortcut Version",
+        "Current Shortcut RH Link",
+        "Current Shortcut RH ID",
+        "Wi-Fi",
+        "Cellular Signal",
+        "RoutineHub Error String",
+        "RoutineHub Error Prompt",
+        "Top Folder Path",
+        "Sub Folder Path",
+        "Blank",
+        "Newline",
+        "Error",
+        "Success",
+        "Info",
+        "Yes",
+        "No",
+        "Yes No - String",
+        "Yes No - List",
+        "Required Software",
+        "Latest Shortcut, Changes",
+        "Latest Shortcut, Changes",
+        "API URL",
+        "API Description",
+        "API URL",
+        "API Description"
+      ],
+      "append": [],
+      "get": []
+    },
+    "control_flow": {
+      "max_depth": 9,
+      "conditionals": 19,
+      "menus": 0,
+      "repeats": 0
+    },
+    "data_flow": [
+      {
+        "chain": "gettext->setvariable",
+        "count": 17
+      },
+      {
+        "chain": "count->conditional",
+        "count": 4
+      },
+      {
+        "chain": "getvalueforkey->setvariable",
+        "count": 3
+      },
+      {
+        "chain": "dictionary->gettext",
+        "count": 3
+      },
+      {
+        "chain": "dictionary->setvariable",
+        "count": 2
+      }
+    ],
+    "sub_shortcuts": [
+      "OpenAI: API Auth v5"
+    ],
+    "file_ops": [
+      [
+        77,
+        "documentpicker.open"
+      ],
+      [
+        80,
+        "documentpicker.save"
+      ],
+      [
+        97,
+        "documentpicker.open"
+      ],
+      [
+        126,
+        "documentpicker.save"
+      ],
+      [
+        137,
+        "documentpicker.save"
+      ],
+      [
+        144,
+        "documentpicker.open"
+      ],
+      [
+        166,
+        "documentpicker.save"
+      ]
+    ],
+    "network_ops": [
+      [
+        85,
+        "downloadurl"
+      ]
+    ]
+  },
+  {
+    "name": "Household: Inventory",
+    "total_actions": 205,
+    "patterns": [
+      [
+        "MENU_ROUTER",
+        -1,
+        "Menu-driven app with 21 branches"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        46,
+        "repeat -> appendvariable(inventoryTotal): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        44,
+        "repeat -> appendvariable(storage): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        39,
+        "repeat -> appendvariable(Artikelliste): Building collection"
+      ],
+      [
+        "SELF_UPDATE",
+        -1,
+        "Checks RoutineHub API for version updates"
+      ],
+      [
+        "FILE_PERSISTENCE",
+        -1,
+        "Read/write files for state persistence"
+      ],
+      [
+        "MULTI_INPUT",
+        -1,
+        "Accepts 17 input types"
+      ],
+      [
+        "COMPUTED_VALUE",
+        111,
+        "math -> setvariable: Dynamic value computation"
+      ],
+      [
+        "THIRD_PARTY_INTEGRATION",
+        -1,
+        "Integrates: com.alexhay.ToolboxProForShortcuts, dk.simonbs.DataJar"
+      ],
+      [
+        "LONG_LIVED_STATE",
+        -1,
+        "6 vars span >10 actions: location, amount, article, storageAmount, LocalData"
+      ],
+      [
+        "PROGRESSIVE_DISCLOSURE",
+        -1,
+        "6 user prompts: multi-step input gathering"
+      ],
+      [
+        "CONDITIONAL_FEEDBACK",
+        -1,
+        "4 notifications inside conditionals: status/error reporting"
+      ]
+    ],
+    "variables": {
+      "set": [
+        "language",
+        "language",
+        "language",
+        "amount",
+        "location",
+        "storageAmount",
+        "article",
+        "storageAmount",
+        "article",
+        "amountNew",
+        "amountNew",
+        "storage",
+        "article",
+        "storageAmount",
+        "article",
+        "storageAmount",
+        "amount",
+        "LocalData"
+      ],
+      "append": [
+        "Artikelliste",
+        "storage",
+        "inventoryTotal",
+        "storage",
+        "inventoryTotal",
+        "storage"
+      ],
+      "get": []
+    },
+    "control_flow": {
+      "max_depth": 5,
+      "conditionals": 12,
+      "menus": 8,
+      "repeats": 6
+    },
+    "data_flow": [
+      {
+        "chain": "gettext->appendvariable",
+        "count": 5
+      },
+      {
+        "chain": "gettext->setvariable",
+        "count": 4
+      },
+      {
+        "chain": "gettext->com.alexhay.ToolboxProForShortcuts.SortListIntent",
+        "count": 3
+      },
+      {
+        "chain": "choosefromlist->repeat.each",
+        "count": 3
+      },
+      {
+        "chain": "count->conditional",
+        "count": 2
+      }
+    ],
+    "sub_shortcuts": [
+      "Gefrierschrank",
+      "Gefrierschrank",
+      "Gefrierschrank",
+      "Lebensmittelvorräte "
+    ],
+    "file_ops": [
+      [
+        3,
+        "file.createfolder"
+      ],
+      [
+        4,
+        "documentpicker.open"
+      ],
+      [
+        5,
+        "documentpicker.open"
+      ],
+      [
+        18,
+        "documentpicker.save"
+      ],
+      [
+        124,
+        "file.append"
+      ]
+    ],
+    "network_ops": [
+      [
+        178,
+        "downloadurl"
+      ]
+    ]
+  },
+  {
+    "name": "IE: Image_Editor_",
+    "total_actions": 269,
+    "patterns": [
+      [
+        "CONFIG_DICTIONARY",
+        0,
+        "Dictionary at top: configuration/state initialization"
+      ],
+      [
+        "MENU_ROUTER",
+        -1,
+        "Menu-driven app with 45 branches"
+      ],
+      [
+        "GUARD_CLAUSE",
+        7,
+        "Early exit on invalid input/state"
+      ],
+      [
+        "LONG_LIVED_STATE",
+        -1,
+        "2 vars span >10 actions: Image, Image2"
+      ],
+      [
+        "PROGRESSIVE_DISCLOSURE",
+        -1,
+        "4 user prompts: multi-step input gathering"
+      ],
+      [
+        "CONDITIONAL_FEEDBACK",
+        -1,
+        "2 notifications inside conditionals: status/error reporting"
+      ]
+    ],
+    "variables": {
+      "set": [
+        "WelcomeMessage",
+        "Image",
+        "Image2",
+        "DownloadPage",
+        "Image_1",
+        "Image_2"
+      ],
+      "append": [],
+      "get": []
+    },
+    "control_flow": {
+      "max_depth": 8,
+      "conditionals": 17,
+      "menus": 14,
+      "repeats": 0
+    },
+    "data_flow": [
+      {
+        "chain": "savetocameraroll->runworkflow",
+        "count": 15
+      },
+      {
+        "chain": "image.convert->savetocameraroll",
+        "count": 5
+      },
+      {
+        "chain": "documentpicker.save->runworkflow",
+        "count": 4
+      },
+      {
+        "chain": "downloadurl->savetocameraroll",
+        "count": 4
+      },
+      {
+        "chain": "selectphoto->setvariable",
+        "count": 3
+      }
+    ],
+    "sub_shortcuts": [
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)",
+      "IE (Image Editor)"
+    ],
+    "file_ops": [
+      [
+        22,
+        "file.select"
+      ],
+      [
+        62,
+        "file.select"
+      ],
+      [
+        77,
+        "documentpicker.save"
+      ],
+      [
+        126,
+        "documentpicker.save"
+      ],
+      [
+        155,
+        "file.select"
+      ],
+      [
+        157,
+        "documentpicker.save"
+      ],
+      [
+        162,
+        "documentpicker.save"
+      ],
+      [
+        176,
+        "file.select"
+      ],
+      [
+        196,
+        "file.select"
+      ],
+      [
+        209,
+        "file.select"
+      ],
+      [
+        226,
+        "file.select"
+      ]
+    ],
+    "network_ops": [
+      [
+        104,
+        "downloadurl"
+      ],
+      [
+        109,
+        "downloadurl"
+      ],
+      [
+        114,
+        "downloadurl"
+      ],
+      [
+        120,
+        "downloadurl"
+      ],
+      [
+        125,
+        "downloadurl"
+      ]
+    ]
+  },
+  {
+    "name": "Nutrition_Installer",
+    "total_actions": 188,
+    "patterns": [
+      [
+        "CONFIG_DICTIONARY",
+        0,
+        "Dictionary at top: configuration/state initialization"
+      ],
+      [
+        "FETCH_PARSE_BRANCH",
+        36,
+        "HTTP -> parse response -> branch on result"
+      ],
+      [
+        "MENU_ROUTER",
+        -1,
+        "Menu-driven app with 8 branches"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        160,
+        "repeat -> appendvariable(UpdateLinks): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        158,
+        "repeat -> appendvariable(UpdateText): Building collection"
+      ],
+      [
+        "FILE_PERSISTENCE",
+        -1,
+        "Read/write files for state persistence"
+      ],
+      [
+        "MULTI_INPUT",
+        -1,
+        "Accepts 19 input types"
+      ],
+      [
+        "COMPUTED_VALUE",
+        2,
+        "number -> setvariable: Dynamic value computation"
+      ],
+      [
+        "THIRD_PARTY_INTEGRATION",
+        -1,
+        "Integrates: com.apple.mobilenotes"
+      ],
+      [
+        "LONG_LIVED_STATE",
+        -1,
+        "15 vars span >10 actions: Strings, TRUE, NewInstall, UpdateInfo, EmojiUnicodes"
+      ],
+      [
+        "PROGRESSIVE_DISCLOSURE",
+        -1,
+        "3 user prompts: multi-step input gathering"
+      ]
+    ],
+    "variables": {
+      "set": [
+        "UpdateInfo",
+        "TRUE",
+        "FALSE",
+        "NewInstall",
+        "ProceedWithUpdates",
+        "ExitAfterConfig",
+        "FreshConfig",
+        "ChildVers",
+        "EmojiUnicodes",
+        "Params",
+        "Strings",
+        "Strings",
+        "langs",
+        "Strings",
+        "Storage",
+        "FreshConfig",
+        "NewInstall",
+        "NewInstall",
+        "NewInstall",
+        "ExitAfterConfig",
+        "BlockIfFolderExists",
+        "NewStorage",
+        "NewStorage",
+        "BlockIfFolderExists",
+        "NewStorage",
+        "BreakLoop",
+        "NewStorage",
+        "BreakLoop",
+        "Storage",
+        "UpdateInfo",
+        "ProceedWithUpdates",
+        "UpdateInfo",
+        "ChildVers",
+        "UpdateRes",
+        "ProceedWithUpdates",
+        "Strings",
+        "Child",
+        "CurVer"
+      ],
+      "append": [
+        "UpdateText",
+        "UpdateLinks",
+        "UpdateText",
+        "UpdateLinks"
+      ],
+      "get": []
+    },
+    "control_flow": {
+      "max_depth": 5,
+      "conditionals": 22,
+      "menus": 3,
+      "repeats": 3
+    },
+    "data_flow": [
+      {
+        "chain": "detect.dictionary->setvariable",
+        "count": 9
+      },
+      {
+        "chain": "text.replace->text.replace",
+        "count": 5
+      },
+      {
+        "chain": "gettext->detect.dictionary",
+        "count": 4
+      },
+      {
+        "chain": "downloadurl->detect.dictionary",
+        "count": 4
+      },
+      {
+        "chain": "gettext->appendvariable",
+        "count": 4
+      }
+    ],
+    "sub_shortcuts": [],
+    "file_ops": [
+      [
+        20,
+        "documentpicker.open"
+      ],
+      [
+        23,
+        "documentpicker.open"
+      ],
+      [
+        43,
+        "documentpicker.save"
+      ],
+      [
+        67,
+        "file.select"
+      ],
+      [
+        79,
+        "documentpicker.open"
+      ],
+      [
+        91,
+        "documentpicker.save"
+      ],
+      [
+        92,
+        "documentpicker.save"
+      ],
+      [
+        107,
+        "documentpicker.save"
+      ],
+      [
+        143,
+        "documentpicker.save"
+      ]
+    ],
+    "network_ops": [
+      [
+        31,
+        "downloadurl"
+      ],
+      [
+        36,
+        "downloadurl"
+      ],
+      [
+        116,
+        "downloadurl"
+      ],
+      [
+        140,
+        "downloadurl"
+      ]
+    ]
+  },
+  {
+    "name": "Photos_ToolKit",
+    "total_actions": 226,
+    "patterns": [
+      [
+        "CONFIG_DICTIONARY",
+        0,
+        "Dictionary at top: configuration/state initialization"
+      ],
+      [
+        "MENU_ROUTER",
+        -1,
+        "Menu-driven app with 31 branches"
+      ],
+      [
+        "SELF_UPDATE",
+        -1,
+        "Checks RoutineHub API for version updates"
+      ],
+      [
+        "MULTI_INPUT",
+        -1,
+        "Accepts 17 input types"
+      ],
+      [
+        "LONG_LIVED_STATE",
+        -1,
+        "3 vars span >10 actions: ChosenItem, PhotosConvert, LocalData"
+      ],
+      [
+        "PROGRESSIVE_DISCLOSURE",
+        -1,
+        "4 user prompts: multi-step input gathering"
+      ],
+      [
+        "CONDITIONAL_FEEDBACK",
+        -1,
+        "17 notifications inside conditionals: status/error reporting"
+      ]
+    ],
+    "variables": {
+      "set": [
+        "ChosenItem",
+        "PhotosResize",
+        "PhotosConvert",
+        "PhotosRotate",
+        "PhotosCombine",
+        "PhotosFlip",
+        "PhotosRemoveBG",
+        "PhotosGIF",
+        "PhotosMarkup",
+        "PhotosEncode",
+        "LocalData"
+      ],
+      "append": [],
+      "get": []
+    },
+    "control_flow": {
+      "max_depth": 6,
+      "conditionals": 16,
+      "menus": 12,
+      "repeats": 3
+    },
+    "data_flow": [
+      {
+        "chain": "savetocameraroll->notification",
+        "count": 9
+      },
+      {
+        "chain": "selectphoto->setvariable",
+        "count": 8
+      },
+      {
+        "chain": "gettext->setitemname",
+        "count": 2
+      },
+      {
+        "chain": "properties.images->gettext",
+        "count": 2
+      },
+      {
+        "chain": "gettext->showresult",
+        "count": 2
+      }
+    ],
+    "sub_shortcuts": [
+      "Photos",
+      "Photos",
+      "Photos",
+      "Photos",
+      "Photos",
+      "Photos",
+      "Photos"
+    ],
+    "file_ops": [
+      [
+        37,
+        "documentpicker.save"
+      ],
+      [
+        164,
+        "file.select"
+      ],
+      [
+        166,
+        "documentpicker.save"
+      ]
+    ],
+    "network_ops": [
+      [
+        198,
+        "downloadurl"
+      ]
+    ]
+  },
+  {
+    "name": "Pro_AI",
+    "total_actions": 829,
+    "patterns": [
+      [
+        "CONFIG_DICTIONARY",
+        0,
+        "Dictionary at top: configuration/state initialization"
+      ],
+      [
+        "FETCH_PARSE_BRANCH",
+        47,
+        "HTTP -> parse response -> branch on result"
+      ],
+      [
+        "MENU_ROUTER",
+        -1,
+        "Menu-driven app with 56 branches"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        809,
+        "repeat -> appendvariable(User Messages): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        653,
+        "repeat -> appendvariable(Messages): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        538,
+        "repeat -> appendvariable(request-messages): Building collection"
+      ],
+      [
+        "SELF_UPDATE",
+        -1,
+        "Checks RoutineHub API for version updates"
+      ],
+      [
+        "FILE_PERSISTENCE",
+        -1,
+        "Read/write files for state persistence"
+      ],
+      [
+        "MODULAR_ARCHITECTURE",
+        -1,
+        "Calls 5 unique sub-shortcuts"
+      ],
+      [
+        "COMPUTED_VALUE",
+        372,
+        "number -> repeat.count: Dynamic value computation"
+      ],
+      [
+        "THIRD_PARTY_INTEGRATION",
+        -1,
+        "Integrates: com.apple.ShortcutsActions, com.openai.chat"
+      ],
+      [
+        "LONG_LIVED_STATE",
+        -1,
+        "21 vars span >10 actions: Prompt, prompt, First Request (Voice-Chat), First Request, Transcriptions"
+      ],
+      [
+        "PROGRESSIVE_DISCLOSURE",
+        -1,
+        "11 user prompts: multi-step input gathering"
+      ],
+      [
+        "CONDITIONAL_FEEDBACK",
+        -1,
+        "22 notifications inside conditionals: status/error reporting"
+      ]
+    ],
+    "variables": {
+      "set": [
+        "Prompt",
+        "Low Internet",
+        "TOS, RULES & CREDIT",
+        "Pro AI Data",
+        "Prompt",
+        "Input",
+        "Name",
+        "Version",
+        "ID",
+        "Release Notes",
+        "Prompt",
+        "Prompt",
+        "username",
+        "username",
+        "Gemini?",
+        "API-key",
+        "GPT Model",
+        "GPT Model",
+        "GPT Model",
+        "request-body",
+        "prompt",
+        "prompt",
+        "First Request",
+        "First Request (Voice-Chat)",
+        "Voice-Chat config",
+        "First Request",
+        "First Request (Voice-Chat)",
+        "First Request",
+        "Transcriptions",
+        "Transcriptions",
+        "Transcriptions",
+        "Images",
+        "Images",
+        "Prompt",
+        "Images",
+        "Images",
+        "user-message",
+        "request-messages",
+        "request-body",
+        "response-message",
+        "request-body",
+        "Responce",
+        "Images",
+        "Images",
+        "Messages",
+        "Base",
+        "latestResponce",
+        "Images",
+        "Images",
+        "Base",
+        "latestResponce",
+        "Base",
+        "First Request",
+        "First Request (Voice-Chat)",
+        "prompt",
+        "prompt",
+        "Voice-Chat config",
+        "First Request",
+        "First Request (Voice-Chat)",
+        "Prompt",
+        "Prompt",
+        "First Request",
+        "Images",
+        "Images",
+        "Images",
+        "Transcriptions",
+        "Transcriptions",
+        "Transcriptions",
+        "Pro AI system",
+        "Responce"
+      ],
+      "append": [
+        "request-messages",
+        "request-messages",
+        "Messages",
+        "Messages",
+        "Messages",
+        "User Messages"
+      ],
+      "get": []
+    },
+    "control_flow": {
+      "max_depth": 8,
+      "conditionals": 127,
+      "menus": 22,
+      "repeats": 3
+    },
+    "data_flow": [
+      {
+        "chain": "gettext->setvariable",
+        "count": 33
+      },
+      {
+        "chain": "gettext->documentpicker.save",
+        "count": 11
+      },
+      {
+        "chain": "downloadurl->getvalueforkey",
+        "count": 10
+      },
+      {
+        "chain": "gettext->runworkflow",
+        "count": 9
+      },
+      {
+        "chain": "gettext->setitemname",
+        "count": 6
+      }
+    ],
+    "sub_shortcuts": [
+      "Pro",
+      "Pro",
+      "Pro",
+      "Pro",
+      "Pro",
+      "Pro",
+      "Pro",
+      "Pro",
+      "Pro",
+      "Pro",
+      "Pro Updater",
+      "Pro",
+      "Pro Ai v5 Beta 3 (pre Release)",
+      "Pro AI v6.0 Beta 2.0 4",
+      "Pro AI",
+      "Pro AI",
+      "Pro AI",
+      "Pro AI",
+      "Pro AI",
+      "Pro AI",
+      "Pro AI",
+      "Pro AI"
+    ],
+    "file_ops": [
+      [
+        44,
+        "documentpicker.save"
+      ],
+      [
+        70,
+        "documentpicker.save"
+      ],
+      [
+        72,
+        "documentpicker.open"
+      ],
+      [
+        88,
+        "documentpicker.save"
+      ],
+      [
+        90,
+        "file.delete"
+      ],
+      [
+        96,
+        "documentpicker.save"
+      ],
+      [
+        99,
+        "documentpicker.save"
+      ],
+      [
+        101,
+        "documentpicker.save"
+      ],
+      [
+        104,
+        "documentpicker.save"
+      ],
+      [
+        114,
+        "documentpicker.save"
+      ],
+      [
+        117,
+        "file.delete"
+      ],
+      [
+        124,
+        "documentpicker.save"
+      ],
+      [
+        128,
+        "documentpicker.save"
+      ],
+      [
+        134,
+        "documentpicker.save"
+      ],
+      [
+        141,
+        "file.delete"
+      ],
+      [
+        195,
+        "documentpicker.open"
+      ],
+      [
+        217,
+        "file.createfolder"
+      ],
+      [
+        220,
+        "documentpicker.save"
+      ],
+      [
+        223,
+        "documentpicker.save"
+      ],
+      [
+        224,
+        "documentpicker.save"
+      ],
+      [
+        229,
+        "documentpicker.save"
+      ],
+      [
+        234,
+        "documentpicker.save"
+      ],
+      [
+        237,
+        "documentpicker.save"
+      ],
+      [
+        246,
+        "documentpicker.save"
+      ],
+      [
+        268,
+        "documentpicker.save"
+      ],
+      [
+        294,
+        "documentpicker.open"
+      ],
+      [
+        325,
+        "documentpicker.save"
+      ],
+      [
+        334,
+        "documentpicker.open"
+      ],
+      [
+        340,
+        "file.createfolder"
+      ],
+      [
+        341,
+        "documentpicker.save"
+      ],
+      [
+        345,
+        "documentpicker.open"
+      ],
+      [
+        347,
+        "documentpicker.open"
+      ],
+      [
+        357,
+        "documentpicker.open"
+      ],
+      [
+        408,
+        "file.select"
+      ],
+      [
+        768,
+        "documentpicker.open"
+      ],
+      [
+        784,
+        "documentpicker.save"
+      ]
+    ],
+    "network_ops": [
+      [
+        47,
+        "downloadurl"
+      ],
+      [
+        249,
+        "downloadurl"
+      ],
+      [
+        296,
+        "downloadurl"
+      ],
+      [
+        312,
+        "downloadurl"
+      ],
+      [
+        413,
+        "downloadurl"
+      ],
+      [
+        447,
+        "downloadurl"
+      ],
+      [
+        455,
+        "downloadurl"
+      ],
+      [
+        482,
+        "downloadurl"
+      ],
+      [
+        507,
+        "downloadurl"
+      ],
+      [
+        542,
+        "downloadurl"
+      ],
+      [
+        596,
+        "downloadurl"
+      ],
+      [
+        604,
+        "downloadurl"
+      ],
+      [
+        648,
+        "downloadurl"
+      ],
+      [
+        656,
+        "downloadurl"
+      ],
+      [
+        730,
+        "downloadurl"
+      ]
+    ]
+  },
+  {
+    "name": "Sleep_Widget",
+    "total_actions": 1253,
+    "patterns": [
+      [
+        "DATA_EMBEDDING",
+        1207,
+        "base64encode -> setvariable: Embedding binary data as variables"
+      ],
+      [
+        "MENU_ROUTER",
+        -1,
+        "Menu-driven app with 4 branches"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        645,
+        "repeat -> appendvariable(NoiseLowDates): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        393,
+        "repeat -> appendvariable(AwakeDates): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        369,
+        "repeat -> appendvariable(SleepDates): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        843,
+        "repeat -> appendvariable(RestingDates): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        908,
+        "repeat -> appendvariable(MotionAwakeDates): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        624,
+        "repeat -> appendvariable(NoiseData): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        374,
+        "repeat -> appendvariable(SleepDatesPack): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        302,
+        "repeat -> appendvariable(SleepList): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        841,
+        "repeat -> appendvariable(RestingData): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        390,
+        "repeat -> appendvariable(ReportSummary): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        905,
+        "repeat -> appendvariable(MotionAwakeData): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        633,
+        "repeat -> appendvariable(NoiseSeriesDates): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        834,
+        "repeat -> appendvariable(PerfList): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        639,
+        "repeat -> appendvariable(NoiseLowData): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        398,
+        "repeat -> appendvariable(AwakeDatesPack): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        627,
+        "repeat -> appendvariable(NoiseSeriesData): Building collection"
+      ],
+      [
+        "ACCUMULATE_LOOP",
+        310,
+        "repeat -> appendvariable(AwakeList): Building collection"
+      ],
+      [
+        "SELF_UPDATE",
+        -1,
+        "Checks RoutineHub API for version updates"
+      ],
+      [
+        "COMPUTED_VALUE",
+        3,
+        "number -> setvariable: Dynamic value computation"
+      ],
+      [
+        "THIRD_PARTY_INTEGRATION",
+        -1,
+        "Integrates: com.brogrammers.charty"
+      ],
+      [
+        "LONG_LIVED_STATE",
+        -1,
+        "86 vars span >10 actions: ChartyEnabled, SpringboardEnabled, MenuEnabled, ShowReport, Meta"
+      ],
+      [
+        "CONDITIONAL_FEEDBACK",
+        -1,
+        "17 notifications inside conditionals: status/error reporting"
+      ]
+    ],
+    "variables": {
+      "set": [
+        "ChartyEnabled",
+        "UserConfig",
+        "SpringboardEnabled",
+        "UpdatesEnabled",
+        "RestingEnabled",
+        "MotionEnabled",
+        "HeartAverageEnabled",
+        "MenuEnabled",
+        "NotificationsEnabled",
+        "ShowReport",
+        "NoiseEnabled",
+        "MotionAvgEnabled",
+        "SleepQualityEnabled",
+        "BackgroundEnabled",
+        "Meta",
+        "Config",
+        "DictionaryType",
+        "TextType",
+        "PerfLog",
+        "ChartyEnabled",
+        "ReportDate",
+        "SpringboardEnabled",
+        "ShowReport",
+        "ShowReport",
+        "NotificationsEnabled",
+        "SpringboardEnabled",
+        "BackgroundEnabled",
+        "ChartyEnabled",
+        "Argv",
+        "ReportDate",
+        "MenuEnabled",
+        "ReportDate",
+        "MenuEnabled",
+        "ReportDate",
+        "SpringboardEnabled",
+        "AutoRun",
+        "ShowReport",
+        "ReportDate",
+        "SpringboardEnabled",
+        "Images",
+        "PreviousDate",
+        "NextDate",
+        "EarliestBedtime",
+        "LatestWaketime",
+        "SleepCount",
+        "SleepMinutes",
+        "AwakeCount",
+        "AwakeMinutes",
+        "NapMinutes",
+        "SleepBegin",
+        "SleepEnd",
+        "AwakeReport",
+        "SleepSamplesCount",
+        "SegmentBegin",
+        "SegmentEnd",
+        "SleepBegin",
+        "SleepSamplesEnd",
+        "SleepEnd",
+        "SleepSamplesEnd",
+        "ChartyEnabled",
+        "SleepDates",
+        "AwakeDates",
+        "AwakeItem",
+        "SleepMinutes",
+        "AwakeCount",
+        "AwakeMinutes",
+        "SleepEnd",
+        "NapMinutes",
+        "SleepMinutes",
+        "SleepTotalTime",
+        "PrimarySleepMinutes",
+        "SleepPrimaryTime",
+        "SleepPrimaryShort",
+        "AwakeTime",
+        "SleepEfficiency",
+        "PrimarySleepHours",
+        "HeartSamples",
+        "HeartDataText",
+        "HeartDatesText",
+        "HeartDates",
+        "HeartData",
+        "HeartTrancheDates",
+        "HeartTrancheData",
+        "HeartAverageData",
+        "HeartAverage",
+        "HeartMin",
+        "HeartMax",
+        "HeartSeriesMax",
+        "HeartSeriesMin",
+        "HeartSeriesMin",
+        "HeartSeriesMax",
+        "NoiseSeriesLevel",
+        "NoiseSampleBegin",
+        "NoiseSampleEnd",
+        "NoiseAverage",
+        "NoiseMax",
+        "NoiseMin",
+        "MotionDataText",
+        "MotionDatesText",
+        "EnergyDates",
+        "EnergyData",
+        "EnergyTrancheData",
+        "MotionDeepDates",
+        "MotionDeepData",
+        "MotionRestfulDates",
+        "MotionRestfulData",
+        "MotionRestlessDates",
+        "MotionRestlessData",
+        "SleepDeepMinutes",
+        "SleepDeepTime",
+        "SleepRestfulMinutes",
+        "SleepRestfulTime",
+        "SleepRestlessMinutes",
+        "SleepRestlessTime",
+        "SleepRestfulMinutes",
+        "SleepRestlessMinutes",
+        "SleepRestfulTime",
+        "SleepRestlessTime",
+        "SleepDeepTime",
+        "SleepRestfulTime",
+        "ChartTitle",
+        "ChartImage",
+        "LastAwakeDate",
+        "SleepData",
+        "AwakeMarkerDate",
+        "AwakeMarkerDate",
+        "ChartImage",
+        "ChartHTML",
+        "ChartHTML",
+        "AwakeSummary",
+        "NapCount",
+        "SleepSegmentsCount",
+        "LatestNaptime",
+        "QualityReport",
+        "ReportMarkdown",
+        "SleepReport",
+        "LocalData",
+        "ChartImage64",
+        "ReportMarkdown64",
+        "SleepReport64",
+        "ReturnDictionary"
+      ],
+      "append": [
+        "PerfList",
+        "SleepData",
+        "SleepData",
+        "MinData",
+        "MinData",
+        "PerfList",
+        "SleepList",
+        "AwakeList",
+        "SleepList",
+        "AwakeList",
+        "PerfList",
+        "SleepDates",
+        "SleepDates",
+        "SleepDatesPack",
+        "ReportSummary",
+        "AwakeDates",
+        "AwakeDates",
+        "AwakeDatesPack",
+        "ReportSummary",
+        "ReportSummary",
+        "ReportSummary",
+        "SeriesFailures",
+        "NoiseData",
+        "NoiseSeriesData",
+        "NoiseSeriesData",
+        "NoiseSeriesData",
+        "NoiseSeriesDates",
+        "NoiseSeriesDates",
+        "NoiseSeriesDates",
+        "NoiseLowData",
+        "NoiseLowData",
+        "NoiseLowData",
+        "NoiseLowDates",
+        "NoiseLowDates",
+        "NoiseLowDates",
+        "PerfList",
+        "RestingData",
+        "RestingData",
+        "RestingDates",
+        "RestingDates",
+        "PerfList",
+        "SleepData",
+        "MotionAwakeData",
+        "MotionAwakeDates",
+        "MotionAwakeData",
+        "MotionAwakeDates",
+        "PerfList",
+        "SeriesFailures",
+        "PerfList",
+        "SeriesFailures",
+        "PerfList",
+        "PerfList",
+        "PerfList"
+      ],
+      "get": []
+    },
+    "control_flow": {
+      "max_depth": 9,
+      "conditionals": 140,
+      "menus": 2,
+      "repeats": 13
+    },
+    "data_flow": [
+      {
+        "chain": "number->setvariable",
+        "count": 28
+      },
+      {
+        "chain": "count->conditional",
+        "count": 22
+      },
+      {
+        "chain": "gettext->setitemname",
+        "count": 16
+      },
+      {
+        "chain": "getitemfromlist->text.split",
+        "count": 14
+      },
+      {
+        "chain": "setitemname->appendvariable",
+        "count": 13
+      }
+    ],
+    "sub_shortcuts": [
+      "{'Value': {'VariableName': 'Meta', 'Type': 'Variable', 'Aggrandizements': [{'Type': 'WFDictionaryValueVariableAggrandizement', 'DictionaryKey': 'Name'}]}, 'WFSerializationType': 'WFTextTokenAttachment'}",
+      "{'Value': {'VariableName': 'Meta', 'Type': 'Variable', 'Aggrandizements': [{'Type': 'WFDictionaryValueVariableAggrandizement', 'DictionaryKey': 'Name'}]}, 'WFSerializationType': 'WFTextTokenAttachment'}",
+      "{'Value': {'VariableName': 'Meta', 'Type': 'Variable', 'Aggrandizements': [{'Type': 'WFDictionaryValueVariableAggrandizement', 'DictionaryKey': 'Name'}]}, 'WFSerializationType': 'WFTextTokenAttachment'}",
+      "{'Value': {'VariableName': 'Meta', 'Type': 'Variable', 'Aggrandizements': [{'Type': 'WFDictionaryValueVariableAggrandizement', 'DictionaryKey': 'Name'}]}, 'WFSerializationType': 'WFTextTokenAttachment'}",
+      "{'Value': {'VariableName': 'Config', 'Type': 'Variable', 'Aggrandizements': [{'Type': 'WFDictionaryValueVariableAggrandizement', 'DictionaryKey': 'PerfCut'}]}, 'WFSerializationType': 'WFTextTokenAttachment'}",
+      "{'Value': {'VariableName': 'Meta', 'Type': 'Variable', 'Aggrandizements': [{'Type': 'WFDictionaryValueVariableAggrandizement', 'DictionaryKey': 'Name'}]}, 'WFSerializationType': 'WFTextTokenAttachment'}"
+    ],
+    "file_ops": [],
+    "network_ops": [
+      [
+        1162,
+        "downloadurl"
+      ]
+    ]
+  },
+  {
+    "name": "The_Music_Controller",
+    "total_actions": 26,
+    "patterns": [
+      [
+        "MENU_ROUTER",
+        -1,
+        "Menu-driven app with 12 branches"
+      ],
+      [
+        "MULTI_INPUT",
+        -1,
+        "Accepts 17 input types"
+      ]
+    ],
+    "variables": {
+      "set": [],
+      "append": [],
+      "get": []
+    },
+    "control_flow": {
+      "max_depth": 1,
+      "conditionals": 0,
+      "menus": 1,
+      "repeats": 0
+    },
+    "data_flow": [
+      {
+        "chain": "getcurrentsong->alert",
+        "count": 1
+      }
+    ],
+    "sub_shortcuts": [],
+    "file_ops": [],
+    "network_ops": []
+  },
+  {
+    "name": "Water_Eject",
+    "total_actions": 111,
+    "patterns": [
+      [
+        "DATA_EMBEDDING",
+        3,
+        "base64encode -> setvariable: Embedding binary data as variables"
+      ],
+      [
+        "CONFIG_DICTIONARY",
+        1,
+        "Dictionary at top: configuration/state initialization"
+      ],
+      [
+        "SAVE_RESTORE_STATE",
+        15,
+        "Save device state -> modify -> restore original"
+      ],
+      [
+        "FETCH_PARSE_BRANCH",
+        77,
+        "HTTP -> parse response -> branch on result"
+      ],
+      [
+        "MENU_ROUTER",
+        -1,
+        "Menu-driven app with 6 branches"
+      ],
+      [
+        "SELF_UPDATE",
+        -1,
+        "Checks RoutineHub API for version updates"
+      ],
+      [
+        "FILE_PERSISTENCE",
+        -1,
+        "Read/write files for state persistence"
+      ],
+      [
+        "MULTI_INPUT",
+        -1,
+        "Accepts 17 input types"
+      ],
+      [
+        "COMPUTED_VALUE",
+        27,
+        "number -> delay: Dynamic value computation"
+      ],
+      [
+        "LONG_LIVED_STATE",
+        -1,
+        "8 vars span >10 actions: ShortcutVersion, WaterEject, Timer, WaterDrop, DeviceModel"
+      ],
+      [
+        "CONDITIONAL_FEEDBACK",
+        -1,
+        "7 notifications inside conditionals: status/error reporting"
+      ]
+    ],
+    "variables": {
+      "set": [
+        "ShortcutVersion",
+        "Timer",
+        "WaterEject",
+        "BeepBeep",
+        "WaterDrop",
+        "DeviceModel",
+        "DeviceName",
+        "CurrentVolume"
+      ],
+      "append": [],
+      "get": []
+    },
+    "control_flow": {
+      "max_depth": 9,
+      "conditionals": 12,
+      "menus": 2,
+      "repeats": 3
+    },
+    "data_flow": [
+      {
+        "chain": "base64encode->setvariable",
+        "count": 4
+      },
+      {
+        "chain": "getdevicedetails->setvariable",
+        "count": 3
+      },
+      {
+        "chain": "number->delay",
+        "count": 2
+      },
+      {
+        "chain": "documentpicker.open->conditional",
+        "count": 2
+      },
+      {
+        "chain": "dictionary->setvariable",
+        "count": 1
+      }
+    ],
+    "sub_shortcuts": [
+      "Water Eject",
+      "Water Eject",
+      "Water Eject",
+      "Water Eject",
+      "Water Eject"
+    ],
+    "file_ops": [
+      [
+        45,
+        "documentpicker.open"
+      ],
+      [
+        49,
+        "documentpicker.save"
+      ],
+      [
+        73,
+        "file.createfolder"
+      ],
+      [
+        74,
+        "documentpicker.save"
+      ],
+      [
+        79,
+        "documentpicker.open"
+      ]
+    ],
+    "network_ops": [
+      [
+        77,
+        "downloadurl"
+      ]
+    ]
+  },
+  {
+    "name": "iOS: ",
+    "total_actions": 332,
+    "patterns": [
+      [
+        "MENU_ROUTER",
+        -1,
+        "Menu-driven app with 87 branches"
+      ],
+      [
+        "SELF_UPDATE",
+        -1,
+        "Checks RoutineHub API for version updates"
+      ],
+      [
+        "FILE_PERSISTENCE",
+        -1,
+        "Read/write files for state persistence"
+      ],
+      [
+        "MULTI_INPUT",
+        -1,
+        "Accepts 17 input types"
+      ],
+      [
+        "THIRD_PARTY_INTEGRATION",
+        -1,
+        "Integrates: com.apple.AccessibilityUtilities"
+      ],
+      [
+        "PROGRESSIVE_DISCLOSURE",
+        -1,
+        "17 user prompts: multi-step input gathering"
+      ],
+      [
+        "CONDITIONAL_FEEDBACK",
+        -1,
+        "29 notifications inside conditionals: status/error reporting"
+      ]
+    ],
+    "variables": {
+      "set": [
+        "RHID",
+        "LatestVersion",
+        "ThisVersion"
+      ],
+      "append": [],
+      "get": []
+    },
+    "control_flow": {
+      "max_depth": 5,
+      "conditionals": 2,
+      "menus": 19,
+      "repeats": 4
+    },
+    "data_flow": [
+      {
+        "chain": "url->openurl",
+        "count": 21
+      },
+      {
+        "chain": "savetocameraroll->notification",
+        "count": 4
+      },
+      {
+        "chain": "image.mask->savetocameraroll",
+        "count": 4
+      },
+      {
+        "chain": "gettext->setitemname",
+        "count": 2
+      },
+      {
+        "chain": "setitemname->documentpicker.save",
+        "count": 2
+      }
+    ],
+    "sub_shortcuts": [
+      "iOS++",
+      "iOS++",
+      "iOS++",
+      "iOS++",
+      "iOS++",
+      "iOS++",
+      "iOS++",
+      "iOS++",
+      "iOS++",
+      "iOS++",
+      "iOS++",
+      "iOS++",
+      "iOS++",
+      "iOS++"
+    ],
+    "file_ops": [
+      [
+        2,
+        "file.createfolder"
+      ],
+      [
+        3,
+        "file.createfolder"
+      ],
+      [
+        4,
+        "file.createfolder"
+      ],
+      [
+        5,
+        "file.createfolder"
+      ],
+      [
+        6,
+        "documentpicker.open"
+      ],
+      [
+        11,
+        "documentpicker.save"
+      ],
+      [
+        12,
+        "documentpicker.open"
+      ],
+      [
+        17,
+        "documentpicker.save"
+      ],
+      [
+        23,
+        "documentpicker.save"
+      ],
+      [
+        24,
+        "documentpicker.open"
+      ],
+      [
+        320,
+        "documentpicker.open"
+      ],
+      [
+        321,
+        "file.delete"
+      ]
+    ],
+    "network_ops": [
+      [
+        32,
+        "downloadurl"
+      ]
+    ]
+  }
+]

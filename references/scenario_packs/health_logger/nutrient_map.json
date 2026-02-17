@@ -1,0 +1,32 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "description": "Maps nutrient codes (from Health Logger worker) to HealthKit quantity type identifiers and units",
+    "source": "Derived from health-logger-deploy/worker.js NUTRIENT_MAP and Apple HealthKit documentation"
+  },
+  "nutrients": {
+    "caf":  {"name": "Caffeine",         "hk_type": "Caffeine",                   "unit": "mg",   "category": "stimulant"},
+    "vc":   {"name": "Vitamin C",        "hk_type": "Vitamin C",                  "unit": "mg",   "category": "vitamin"},
+    "vd":   {"name": "Vitamin D",        "hk_type": "Vitamin D",                  "unit": "mcg",  "category": "vitamin"},
+    "fol":  {"name": "Folate",           "hk_type": "Folate, DFE",                "unit": "mcg",  "category": "vitamin"},
+    "b12":  {"name": "Vitamin B12",      "hk_type": "Vitamin B12",                "unit": "mcg",  "category": "vitamin"},
+    "b6":   {"name": "Vitamin B6",       "hk_type": "Vitamin B6",                 "unit": "mg",   "category": "vitamin"},
+    "fe":   {"name": "Iron",             "hk_type": "Iron",                       "unit": "mg",   "category": "mineral"},
+    "zn":   {"name": "Zinc",             "hk_type": "Zinc",                       "unit": "mg",   "category": "mineral"},
+    "mg":   {"name": "Magnesium",        "hk_type": "Magnesium",                  "unit": "mg",   "category": "mineral"},
+    "ca":   {"name": "Calcium",          "hk_type": "Calcium",                    "unit": "mg",   "category": "mineral"},
+    "se":   {"name": "Selenium",         "hk_type": "Selenium",                   "unit": "mcg",  "category": "mineral"},
+    "cu":   {"name": "Copper",           "hk_type": "Copper",                     "unit": "mg",   "category": "mineral"},
+    "mn":   {"name": "Manganese",        "hk_type": "Manganese",                  "unit": "mg",   "category": "mineral"},
+    "cr":   {"name": "Chromium",         "hk_type": "Chromium",                   "unit": "mcg",  "category": "mineral"},
+    "io":   {"name": "Iodine",           "hk_type": "Iodine",                     "unit": "mcg",  "category": "mineral"},
+    "fat":  {"name": "Fat (Total)",      "hk_type": "Total Fat",                  "unit": "g",    "category": "macro"},
+    "cal":  {"name": "Calories",         "hk_type": "Active Energy Burned",       "unit": "kcal", "category": "macro"},
+    "pro":  {"name": "Protein",          "hk_type": "Protein",                    "unit": "g",    "category": "macro"},
+    "carb": {"name": "Carbohydrates",    "hk_type": "Carbohydrates",              "unit": "g",    "category": "macro"},
+    "fib":  {"name": "Fiber",            "hk_type": "Fiber",                      "unit": "g",    "category": "macro"},
+    "sod":  {"name": "Sodium",           "hk_type": "Sodium",                     "unit": "mg",   "category": "mineral"},
+    "sug":  {"name": "Sugar",            "hk_type": "Sugar",                      "unit": "g",    "category": "macro"},
+    "satf": {"name": "Saturated Fat",    "hk_type": "Saturated Fat",              "unit": "g",    "category": "macro"}
+  }
+}

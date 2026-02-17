@@ -1,0 +1,269 @@
+================================================================================
+CONTROL FLOW ANALYSIS - COMPLETE DELIVERABLES
+================================================================================
+
+PROJECT: Apple Shortcuts Control Flow Pattern Analysis
+DATASET: 303 .shortcut files from /downloaded directory
+DATE: February 15, 2026
+
+================================================================================
+GENERATED ARTIFACTS
+================================================================================
+
+1. PYTHON SCRIPT
+   Location: /path/to/apple-shortcuts/scripts/scan_control_flow.py
+   Size: 14K (364 lines)
+   Purpose: Main analysis tool that scans all 303 shortcuts
+   Features:
+     - Parses .shortcut files as plists
+     - Extracts WFWorkflowActions
+     - Identifies control flow action identifiers
+     - Extracts WFControlFlowMode and GroupingIdentifier from parameters
+     - Validates block structure (mode 0 vs mode 2)
+     - Checks for unknown control flow actions
+     - Reports flow-related actions
+   Usage: python3 scripts/scan_control_flow.py
+
+2. SUMMARY REPORT (MARKDOWN)
+   Location: /path/to/apple-shortcuts/CONTROL_FLOW_SUMMARY.md
+   Size: 5.7K
+   Audience: Executive/management
+   Contents:
+     - Executive summary
+     - Key metrics table
+     - Control flow distribution tables
+     - Block structure validation results
+     - GroupingIdentifier coverage analysis
+     - Top 10 flow-related actions
+     - Data quality assessment
+     - Conclusions and recommendations
+
+3. DETAILED REPORT (TEXT)
+   Location: /path/to/apple-shortcuts/CONTROL_FLOW_REPORT.txt
+   Size: 5.2K
+   Audience: Technical analysts
+   Contents:
+     - Dataset overview
+     - Control flow usage by type
+     - Action count by mode (0, 1, 2)
+     - Block validation results
+     - Block mismatches by shortcut
+     - GroupingIdentifier coverage
+     - Unknown control flow actions
+     - Top 30 flow/control related actions
+
+4. ANOMALY ANALYSIS (MARKDOWN)
+   Location: /path/to/apple-shortcuts/BLOCK_MISMATCH_ANALYSIS.md
+   Size: 4.2K
+   Audience: Data quality experts
+   Contents:
+     - Issue summary and impact
+     - Control structure map (table with all 21 actions)
+     - Block hierarchy visualization
+     - Root cause analysis
+     - Expected vs actual count
+     - Impact assessment (LOW-MEDIUM severity)
+     - Possible root causes
+     - Recommendations
+
+5. MASTER DOCUMENTATION (MARKDOWN)
+   Location: /path/to/apple-shortcuts/README_CONTROL_FLOW_ANALYSIS.md
+   Size: 6.8K
+   Audience: Anyone using this analysis
+   Contents:
+     - Complete file guide
+     - All key findings summarized
+     - Control flow action identifiers tracked
+     - Mode explanation
+     - GroupingIdentifier explanation
+     - Block mismatch issue summary
+     - Top flow-related actions
+     - Quick statistics
+     - Analysis methodology
+     - Data dictionary
+     - How to run the analysis
+
+================================================================================
+KEY FINDINGS SUMMARY
+================================================================================
+
+DATASET STATISTICS:
+  Total shortcuts scanned:           303
+  Shortcuts with control flow:       203 (67.0%)
+  Total control flow actions:        1,748
+  Total flow-related actions:        4,722
+
+CONTROL FLOW DISTRIBUTION:
+  Menu (choosefrommenu):             90 shortcuts, 934 actions
+  If/Else (conditional):             128 shortcuts, 702 actions
+  Repeat with Each:                  34 shortcuts, 98 actions
+  Repeat N Times:                    6 shortcuts, 14 actions
+
+MODE DISTRIBUTION (WFControlFlowMode):
+  Mode 0 (block start):              419 actions
+  Mode 1 (middle/else):              909 actions
+  Mode 2 (block end):                420 actions
+
+VALIDATION RESULTS:
+  Block structure balance:           MISMATCH (419 vs 420)
+  Difference:                        +1 block end
+  Affected shortcuts:                1 (Add_link_to_Things.shortcut)
+  GroupingIdentifier coverage:       100% (1,748/1,748)
+  Unknown control flow actions:      0
+
+TOP FLOW-RELATED ACTIONS:
+  1. choosefrommenu:                 934
+  2. conditional:                    702
+  3. comment:                        469
+  4. url:                            270
+  5. setvariable:                    170
+
+DATA QUALITY:
+  ✓ Perfect GroupingIdentifier coverage
+  ✓ Standard mode values only (0, 1, 2)
+  ✓ No unknown control flow actions
+  ✗ One shortcut with imbalanced blocks
+
+ANOMALY DETECTED:
+  File: Add_link_to_Things.shortcut
+  Issue: 7 block starts vs 8 block ends (extra block end)
+  Severity: LOW-MEDIUM (unlikely to affect execution)
+  Root cause: Likely duplicate end marker for GroupingIdentifier 5B48CBEC-1
+
+================================================================================
+CONTROL FLOW ACTIONS TRACKED
+================================================================================
+
+PRIMARY CONTROL FLOW:
+  is.workflow.actions.conditional
+    - If/else logic
+    - Modes: 0 (start), 1 (else), 2 (end)
+    - Count: 702 actions across 128 shortcuts
+
+  is.workflow.actions.choosefrommenu
+    - Menu selection/presentation
+    - Modes: 0 (start), 1 (menu item), 2 (end)
+    - Count: 934 actions across 90 shortcuts
+
+  is.workflow.actions.repeat.count
+    - Repeat N times loop
+    - Modes: 0 (start), 2 (end)
+    - Count: 14 actions across 6 shortcuts
+
+  is.workflow.actions.repeat.each
+    - For-each loop over items
+    - Modes: 0 (start), 2 (end)
+    - Count: 98 actions across 34 shortcuts
+
+OTHER FLOW ACTIONS:
+  is.workflow.actions.output
+    - Output/stop action
+    - Count: 19
+
+  is.workflow.actions.nothing
+    - Nothing action
+    - Count: 18
+
+================================================================================
+TECHNICAL DETAILS
+================================================================================
+
+FILE FORMAT: Apple Shortcuts (.shortcut)
+  - Binary plist format
+  - Contains WFWorkflow dictionary
+  - WFWorkflowActions: Array of action dictionaries
+  - Each action has:
+    - WFWorkflowActionIdentifier: String (e.g., "is.workflow.actions.conditional")
+    - WFWorkflowActionParameters: Dictionary with:
+      - WFControlFlowMode: 0, 1, 2, or None
+      - GroupingIdentifier: UUID-like string or None
+
+MODE VALUES:
+  0 = Block start (opens a control structure)
+  1 = Block middle (else branch, menu item separator)
+  2 = Block end (closes a control structure)
+  None = Not a control flow action
+
+GROUPING IDENTIFIER:
+  - UUID-like identifier (e.g., "5B48CBEC-1")
+  - Groups all related control flow actions into one structure
+  - Same ID for all parts of one if-else, menu, or loop
+  - Coverage: 100% of control flow actions have this
+
+================================================================================
+HOW TO USE
+================================================================================
+
+RUNNING THE SCRIPT:
+  1. Navigate to apple-shortcuts directory
+  2. Run: python3 scripts/scan_control_flow.py
+  3. View output in terminal and in generated report files
+
+INTERPRETING RESULTS:
+  1. Read README_CONTROL_FLOW_ANALYSIS.md for complete guide
+  2. Check CONTROL_FLOW_SUMMARY.md for executive overview
+  3. Review CONTROL_FLOW_REPORT.txt for detailed breakdown
+  4. See BLOCK_MISMATCH_ANALYSIS.md for anomaly explanation
+
+MODIFYING THE SCRIPT:
+  - Change SHORTCUTS_DIR to scan different directories
+  - Modify CONTROL_FLOW_ACTIONS to track different actions
+  - Adjust output format in main() function
+  - Add new statistics or validation logic
+
+SHARING RESULTS:
+  - CONTROL_FLOW_SUMMARY.md: Best for management/stakeholders
+  - CONTROL_FLOW_REPORT.txt: Best for technical teams
+  - README_CONTROL_FLOW_ANALYSIS.md: Best for documentation
+
+================================================================================
+CONCLUSIONS
+================================================================================
+
+1. EXCELLENT STRUCTURAL CONSISTENCY
+   - 302 out of 303 shortcuts (99.7%) have perfectly balanced control structures
+   - Only 1 anomaly detected (likely a data artifact, not a functional issue)
+
+2. SOPHISTICATED CONTROL FLOW
+   - Heavy use of menus (934 actions) and conditionals (702 actions)
+   - Indicates interactive, decision-driven shortcuts
+   - Extensive user input patterns (ask, choose)
+
+3. COMPLETE TRACEABILITY
+   - 100% GroupingIdentifier coverage ensures perfect linking
+   - All control structures properly grouped
+   - No orphaned actions
+
+4. STANDARDIZED IMPLEMENTATION
+   - All actions use only standard modes (0, 1, 2)
+   - No irregular or unexpected mode values
+   - Consistent pattern across all shortcuts
+
+5. ACTIONABLE ANOMALY FOUND
+   - Add_link_to_Things.shortcut has 1 extra block end
+   - LOW-MEDIUM severity (unlikely to cause issues)
+   - Can be investigated/fixed if strict validation required
+
+OVERALL ASSESSMENT: The Apple Shortcuts library demonstrates excellent structural
+integrity and consistent implementation of control flow patterns.
+
+================================================================================
+FILE LOCATIONS
+================================================================================
+
+Analysis Script:
+  /path/to/apple-shortcuts/scripts/scan_control_flow.py
+
+Report Files:
+  /path/to/apple-shortcuts/CONTROL_FLOW_SUMMARY.md
+  /path/to/apple-shortcuts/CONTROL_FLOW_REPORT.txt
+  /path/to/apple-shortcuts/BLOCK_MISMATCH_ANALYSIS.md
+  /path/to/apple-shortcuts/README_CONTROL_FLOW_ANALYSIS.md
+  /path/to/apple-shortcuts/DELIVERABLES.txt (this file)
+
+Source Data:
+  /path/to/apple-shortcuts/downloaded/*.shortcut (303 files)
+
+================================================================================
+END OF DELIVERABLES SUMMARY
+================================================================================

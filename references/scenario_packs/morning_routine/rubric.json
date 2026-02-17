@@ -1,0 +1,110 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "description": "Scoring rubric for Morning Routine Briefing scenario benchmark"
+  },
+  "scenario_id": "morning_routine",
+  "scenario_name": "Morning Briefing",
+  "description": "Time-aware morning routine shortcut: get current weather conditions, preview today's calendar events, calculate commute time to the first meeting, and deliver a comprehensive spoken and visual briefing.",
+  "complexity_tier": "very_complex",
+
+  "required_actions": [
+    "weather.currentconditions",
+    "filter.calendarevents",
+    "gettraveltime",
+    "speaktext"
+  ],
+
+  "desired_actions": [
+    "showresult",
+    "gettext",
+    "date",
+    "format.date",
+    "count",
+    "getvalueforkey",
+    "properties.calendarevents",
+    "math"
+  ],
+
+  "required_constructs": [
+    "IF",
+    "SET",
+    "FOREACH"
+  ],
+
+  "desired_constructs": [
+    "MENU",
+    "REPEAT"
+  ],
+
+  "scoring": {
+    "structural_completeness": {
+      "weight": 0.25,
+      "description": "Does the shortcut have valid structure and compile?",
+      "criteria": {
+        "parses": {"description": "DSL text passes Lark parser", "points": 0.2},
+        "validates": {"description": "IR passes semantic validation (permissive)", "points": 0.2},
+        "compiles": {"description": "Compiler produces .shortcut plist", "points": 0.2},
+        "has_foreach": {"description": "Contains a FOREACH block to iterate calendar events", "points": 0.1},
+        "has_conditional": {"description": "Contains at least two IF blocks for data availability", "points": 0.1},
+        "has_variables": {"description": "Uses SET to define variables", "points": 0.05},
+        "has_sufficient_actions": {"description": "Contains >= 15 action statements", "points": 0.15}
+      }
+    },
+    "action_coverage": {
+      "weight": 0.3,
+      "description": "Does the shortcut use the right actions for a morning briefing?",
+      "criteria": {
+        "uses_weather": {"description": "Gets current weather via weather.currentconditions", "points": 0.2},
+        "uses_calendar_filter": {"description": "Retrieves today's events via filter.calendarevents", "points": 0.2},
+        "uses_gettraveltime": {"description": "Calculates commute time via gettraveltime", "points": 0.2},
+        "uses_speaktext": {"description": "Speaks the briefing aloud via speaktext", "points": 0.15},
+        "uses_properties_calendar": {"description": "Extracts event details (title, location, time) via properties.calendarevents", "points": 0.1},
+        "uses_date_formatting": {"description": "Uses date and format.date for time context", "points": 0.1},
+        "uses_showresult": {"description": "Displays the briefing visually as well", "points": 0.05}
+      }
+    },
+    "data_integration": {
+      "weight": 0.25,
+      "description": "Does the shortcut properly combine multiple data sources into a coherent briefing?",
+      "criteria": {
+        "weather_in_briefing": {"description": "Weather data (temperature, conditions) included in briefing", "points": 0.2},
+        "calendar_in_briefing": {"description": "Calendar events listed in briefing with times", "points": 0.2},
+        "commute_in_briefing": {"description": "Commute time to first event included in briefing", "points": 0.2},
+        "iterates_events": {"description": "Iterates over events to build a list", "points": 0.15},
+        "uses_first_event_location": {"description": "Uses first event location for commute calculation", "points": 0.15},
+        "coherent_structure": {"description": "Briefing text is well-structured and reads naturally", "points": 0.1}
+      }
+    },
+    "ux_quality": {
+      "weight": 0.2,
+      "description": "Does the shortcut provide good user experience?",
+      "criteria": {
+        "handles_no_weather": {"description": "Handles case where weather data is unavailable", "points": 0.2},
+        "handles_no_events": {"description": "Handles case where no calendar events exist", "points": 0.2},
+        "handles_no_location": {"description": "Handles case where first event has no location", "points": 0.2},
+        "dual_output": {"description": "Provides both spoken and visual output", "points": 0.2},
+        "clean_naming": {"description": "Shortcut has descriptive name", "points": 0.1},
+        "greeting": {"description": "Includes a greeting or time-appropriate message", "points": 0.1}
+      }
+    }
+  },
+
+  "prompt_variants": [
+    {
+      "id": "detailed",
+      "difficulty": "easy",
+      "prompt": "Build an Apple Shortcut called 'Morning Briefing' that creates a comprehensive morning routine briefing. It should: (1) Get the current date and format it nicely. (2) Use weather.currentconditions to get current weather and extract temperature, condition, and humidity using getvalueforkey. (3) Use filter.calendarevents to get today's calendar events sorted by start date. (4) Loop through each event using FOREACH and extract its title and start time with properties.calendarevents to build a numbered event list. (5) For the first event, check if it has a location using properties.calendarevents, and if so, calculate commute time using gettraveltime with Driving mode. (6) Combine weather summary, calendar summary with event list, and commute info into one briefing text. (7) Speak the briefing aloud using speaktext and also display it using showresult. Handle cases where weather, events, or location data is unavailable."
+    },
+    {
+      "id": "moderate",
+      "difficulty": "medium",
+      "prompt": "Create a morning briefing shortcut that fetches current weather conditions, retrieves today's calendar events, calculates driving commute time to the first meeting's location, and compiles everything into a spoken and visual briefing. Handle missing data gracefully (no weather, no events, no location). Use FOREACH to list all events and speaktext to read the briefing aloud."
+    },
+    {
+      "id": "minimal",
+      "difficulty": "hard",
+      "prompt": "Make a morning routine shortcut that gives me a spoken briefing with today's weather, my calendar events, and how long it will take to drive to my first meeting."
+    }
+  ]
+}

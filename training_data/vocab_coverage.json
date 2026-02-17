@@ -1,0 +1,53 @@
+{
+  "tier1": {
+    "scope": "tier1",
+    "dataset": "eval",
+    "total_tokens_in_eval": 2220,
+    "covered": 2198,
+    "uncovered": [
+      "WFContactContentItemNotes",
+      "WFHTTPBodyType",
+      "WFIPAddressSourceOption",
+      "WFIPAddressTypeOption",
+      "WFLocalOnly",
+      "WFReminderContentItemWhenMessagingPerson",
+      "WFRequestVariable",
+      "WFSpeakTextLanguage",
+      "WFSpeakTextWait",
+      "WFWiFiDetail",
+      "area",
+      "chooseFromListType",
+      "skipCommand",
+      "skipDuration",
+      "task"
+    ],
+    "coverage_pct": 99.009
+  },
+  "tier2": {
+    "scope": "tier2",
+    "dataset": "eval",
+    "total_tokens_in_eval": 1334,
+    "covered": 1301,
+    "uncovered": [
+      "OpenWhenRun",
+      "PARAM",
+      "WFContactContentItemNotes",
+      "WFContentItemInputParameter",
+      "WFHTTPBodyType",
+      "WFIPAddressSourceOption",
+      "WFIPAddressTypeOption",
+      "WFLocalOnly",
+      "WFReminderContentItemWhenMessagingPerson",
+      "WFRequestVariable",
+      "WFSpeakTextLanguage",
+      "WFSpeakTextWait",
+      "WFWiFiDetail",
+      "area",
+      "chooseFromListType",
+      "skipCommand",
+      "skipDuration",
+      "task"
+    ],
+    "coverage_pct": 97.5262
+  }
+}

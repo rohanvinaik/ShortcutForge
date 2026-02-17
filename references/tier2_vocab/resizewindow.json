@@ -1,0 +1,12 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "WFBringToFront": 5,
+  "WFConfiguration": 6,
+  "WFHeight": 7,
+  "WFWidth": 8,
+  "WFWindow": 9
+}

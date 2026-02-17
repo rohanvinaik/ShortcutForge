@@ -1,0 +1,52 @@
+{
+  "_meta": {
+    "profile_id": "media_processing",
+    "version": "1.0",
+    "description": "Domain profile for photo, video, and audio manipulation shortcuts"
+  },
+
+  "keywords": [
+    "photo", "video", "image", "resize", "crop", "trim",
+    "convert", "encode", "gif", "thumbnail", "camera",
+    "screenshot", "wallpaper", "filter", "overlay",
+    "metadata", "exif", "album", "gallery", "collage",
+    "watermark", "rotate", "flip", "brightness", "contrast",
+    "compress image", "video clip", "slow motion", "timelapse",
+    "media", "picture", "photography"
+  ],
+
+  "prompt_context": "You are generating a media processing Apple Shortcut. Use resizeimage for scaling (specify width/height or fit mode). Use overlayimage for compositing and watermarks. Use getimagedetail to extract EXIF metadata (camera model, date taken, dimensions, location). Use trimvideo for video editing. For batch operations on multiple photos, use FOREACH with getphotos or selectphotos. Always handle the case where the user cancels the photo/video picker.",
+
+  "relevant_actions": [
+    "resizeimage",
+    "overlayimage",
+    "cropimage",
+    "getimagedetail",
+    "selectphotos",
+    "getlatestphotos",
+    "savetophotoalbum",
+    "takephoto",
+    "trimvideo",
+    "encodemedia",
+    "makegif",
+    "setname",
+    "savefile",
+    "quicklook",
+    "share",
+    "markup",
+    "convertimage"
+  ],
+
+  "media_properties": {
+    "image_details": ["Width", "Height", "Camera Make", "Camera Model", "Date Taken", "Location", "File Size", "Orientation"],
+    "resize_modes": ["Fit", "Fill", "Stretch"],
+    "image_formats": ["JPEG", "PNG", "HEIF", "GIF", "TIFF", "BMP", "PDF"],
+    "video_formats": ["MP4", "MOV", "M4V"]
+  },
+
+  "example_patterns": [
+    "Select photos, resize to 1024px wide, save to album",
+    "Take screenshot, add watermark overlay, share via Messages",
+    "Get latest photos, extract EXIF metadata, generate report"
+  ]
+}

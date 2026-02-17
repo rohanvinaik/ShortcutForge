@@ -1,0 +1,68 @@
+{
+  "_meta": {
+    "profile_id": "api_workflow",
+    "version": "1.0",
+    "description": "Domain profile for API integration and HTTP workflow shortcuts"
+  },
+
+  "keywords": [
+    "api", "http", "json", "fetch", "server", "webhook",
+    "rest", "endpoint", "request", "response", "post",
+    "get", "put", "delete", "patch", "bearer", "token",
+    "authentication", "oauth", "header", "download"
+  ],
+
+  "prompt_context": "You are generating an API integration Apple Shortcut. Always include error handling for network requests — check the response with an IF block after downloadurl. Use detect.dictionary to parse JSON responses. For authenticated APIs, use HEADERS with the appropriate auth header. When building URLs with dynamic parameters, use interpolated strings or the url action. Show clear user feedback for both success and failure cases.",
+
+  "relevant_actions": [
+    "downloadurl",
+    "detect.dictionary",
+    "getvalueforkey",
+    "url",
+    "url.expand",
+    "url.getheaders",
+    "geturlcomponent",
+    "gettext",
+    "showresult",
+    "alert",
+    "setclipboard",
+    "count",
+    "filter.files"
+  ],
+
+  "http_patterns": {
+    "GET": {
+      "description": "Retrieve data from an endpoint",
+      "template": "ACTION url WFURLActionURL=\"{url}\"\nACTION downloadurl WFHTTPMethod=\"GET\""
+    },
+    "POST_JSON": {
+      "description": "Send JSON data to an endpoint",
+      "template": "ACTION url WFURLActionURL=\"{url}\"\nACTION downloadurl WFHTTPMethod=\"POST\" WFHTTPBodyType=\"JSON\" WFJSONValues={body}"
+    },
+    "POST_FORM": {
+      "description": "Send form data to an endpoint",
+      "template": "ACTION url WFURLActionURL=\"{url}\"\nACTION downloadurl WFHTTPMethod=\"POST\" WFHTTPBodyType=\"Form\" WFRequestVariable={form_data}"
+    }
+  },
+
+  "auth_patterns": {
+    "bearer_token": {
+      "description": "Bearer token authentication",
+      "example": "HEADERS {\"Authorization\": \"Bearer YOUR_TOKEN\"}"
+    },
+    "api_key_header": {
+      "description": "API key in header",
+      "example": "HEADERS {\"X-API-Key\": \"YOUR_KEY\"}"
+    },
+    "api_key_param": {
+      "description": "API key as URL parameter",
+      "example": "Append ?api_key=YOUR_KEY to the URL"
+    }
+  },
+
+  "example_patterns": [
+    "Fetch URL, parse JSON, extract value, show to user",
+    "POST data to API, check response status, handle errors",
+    "Chain multiple API calls: first fetch returns ID, second fetch uses that ID"
+  ]
+}

@@ -1,0 +1,319 @@
+================================================================================
+CONTROL FLOW ANALYSIS - COMPLETE FILE MANIFEST
+================================================================================
+
+Location: /path/to/apple-shortcuts/
+
+================================================================================
+ANALYSIS SCRIPT
+================================================================================
+
+scripts/scan_control_flow.py                        (14 KB, 364 lines)
+  Description: Main analysis tool
+  Purpose: Scans all 303 shortcuts for control flow patterns
+  Language: Python 3
+  Status: Executable, reusable
+  Features:
+    - Parses .shortcut files as binary plists
+    - Extracts WFWorkflowActions
+    - Identifies control flow action identifiers
+    - Validates block structure (mode 0 vs 2)
+    - Checks GroupingIdentifier coverage
+    - Reports statistics
+
+================================================================================
+ANALYSIS REPORTS
+================================================================================
+
+INDEX.md                                           (4.6 KB)
+  Description: Quick navigation guide
+  Audience: Everyone
+  Purpose: Jump to relevant reports based on need
+  Contains:
+    - What was analyzed
+    - Key findings summary
+    - Statistics at a glance
+    - How to use results
+    - File locator
+
+CONTROL_FLOW_SUMMARY.md                            (5.7 KB)
+  Description: Executive summary report
+  Audience: Managers, stakeholders
+  Purpose: High-level findings and conclusions
+  Contains:
+    - Key metrics
+    - Control flow distribution
+    - Block validation results
+    - GroupingIdentifier coverage
+    - Top flow-related actions
+    - Data quality assessment
+
+CONTROL_FLOW_REPORT.txt                            (5.2 KB)
+  Description: Technical detailed report
+  Audience: Data analysts, engineers
+  Purpose: Complete statistical breakdown
+  Contains:
+    - Dataset overview
+    - Control flow usage by type
+    - Action count by mode
+    - Block validation details
+    - GroupingIdentifier analysis
+    - Top 30 flow-related actions
+
+BLOCK_MISMATCH_ANALYSIS.md                         (5.7 KB)
+  Description: Anomaly investigation
+  Audience: Data quality experts
+  Purpose: Deep analysis of the one issue found
+  Contains:
+    - Issue summary (Add_link_to_Things.shortcut)
+    - Control structure map (21 control flow actions)
+    - Block hierarchy visualization
+    - Root cause analysis
+    - Impact assessment
+    - Recommendations
+
+README_CONTROL_FLOW_ANALYSIS.md                    (7.5 KB)
+  Description: Complete documentation
+  Audience: Anyone using this analysis
+  Purpose: Full context and methodology
+  Contains:
+    - Analysis methodology
+    - Control flow action identifiers
+    - Mode explanation
+    - GroupingIdentifier explanation
+    - Script features and usage
+    - Data dictionary
+    - All key findings
+
+DELIVERABLES.txt                                   (10 KB)
+  Description: Project deliverables summary
+  Audience: Project managers
+  Purpose: Overview of what was delivered
+  Contains:
+    - Artifacts generated
+    - Key findings summary
+    - File locations
+    - How to use results
+    - Conclusions
+    - Recommendations
+
+FILES.txt                                          (This file)
+  Description: File manifest
+  Audience: Everyone
+  Purpose: Guide to all files in this analysis
+  Contains:
+    - File listing
+    - File descriptions
+    - File sizes
+    - Content summary
+
+================================================================================
+STATISTICS AT A GLANCE
+================================================================================
+
+Total Shortcuts Analyzed:        303
+Shortcuts with Control Flow:     203 (67%)
+Control Flow Actions:            1,748
+Flow-Related Actions:            4,722
+
+Control Flow Types:
+  Menu (choosefrommenu):         934 actions, 90 shortcuts
+  If/Else (conditional):         702 actions, 128 shortcuts
+  Repeat with Each:              98 actions, 34 shortcuts
+  Repeat N Times:                14 actions, 6 shortcuts
+
+Block Structure:
+  Block starts (Mode 0):         419
+  Block middles (Mode 1):        909
+  Block ends (Mode 2):           420
+
+Data Quality:
+  Block balance:                 99.8% (1 mismatch)
+  GroupingIdentifier coverage:   100%
+  Unknown control flow:          0
+
+Anomalies:
+  Add_link_to_Things.shortcut:   7 starts vs 8 ends (severity: LOW)
+
+================================================================================
+HOW TO USE THESE FILES
+================================================================================
+
+QUICK START (5 minutes):
+  1. Read: INDEX.md
+  2. Skim: CONTROL_FLOW_SUMMARY.md
+
+MANAGEMENT BRIEFING (10 minutes):
+  1. Read: CONTROL_FLOW_SUMMARY.md
+  2. Reference: DELIVERABLES.txt
+
+TECHNICAL DEEP DIVE (30 minutes):
+  1. Read: CONTROL_FLOW_REPORT.txt
+  2. Review: README_CONTROL_FLOW_ANALYSIS.md
+  3. Examine: scan_control_flow.py
+
+ANOMALY INVESTIGATION (15 minutes):
+  1. Read: BLOCK_MISMATCH_ANALYSIS.md
+  2. Reference: CONTROL_FLOW_REPORT.txt sections
+
+COMPLETE UNDERSTANDING (1 hour):
+  1. Read all reports in order (INDEX → README → REPORT → SUMMARY)
+  2. Examine: scan_control_flow.py code
+  3. Review: BLOCK_MISMATCH_ANALYSIS.md
+
+RE-RUN ANALYSIS:
+  python3 scripts/scan_control_flow.py
+
+================================================================================
+FILE SIZES AND FORMATS
+================================================================================
+
+Markdown Files (.md):
+  INDEX.md                       4.6 KB
+  CONTROL_FLOW_SUMMARY.md        5.7 KB
+  BLOCK_MISMATCH_ANALYSIS.md     5.7 KB
+  README_CONTROL_FLOW_ANALYSIS.md 7.5 KB
+  Total Markdown:                23.5 KB
+
+Text Files (.txt):
+  CONTROL_FLOW_REPORT.txt        5.2 KB
+  DELIVERABLES.txt               10 KB
+  FILES.txt                       This file
+  Total Text:                     15.2 KB+
+
+Python Scripts (.py):
+  scan_control_flow.py           14 KB
+  Total Python:                  14 KB
+
+Total Documentation:             ~52 KB
+
+================================================================================
+WHERE TO FIND THINGS
+================================================================================
+
+To find...                      Look in...
+-------------------------------------------------------------------
+Quick overview                  → INDEX.md
+Key statistics                  → CONTROL_FLOW_SUMMARY.md (table)
+Control flow distribution       → CONTROL_FLOW_SUMMARY.md
+Block validation results        → CONTROL_FLOW_REPORT.txt
+GroupingIdentifier stats        → CONTROL_FLOW_REPORT.txt
+Top flow-related actions        → CONTROL_FLOW_REPORT.txt (bottom)
+The anomaly details             → BLOCK_MISMATCH_ANALYSIS.md
+Analysis methodology            → README_CONTROL_FLOW_ANALYSIS.md
+Data dictionary                 → README_CONTROL_FLOW_ANALYSIS.md
+How to run the script           → README_CONTROL_FLOW_ANALYSIS.md
+Project overview                → DELIVERABLES.txt
+File manifest                   → FILES.txt (this file)
+Python implementation           → scan_control_flow.py
+Executive brief                 → CONTROL_FLOW_SUMMARY.md
+Technical breakdown             → CONTROL_FLOW_REPORT.txt
+Complete context                → README_CONTROL_FLOW_ANALYSIS.md
+
+================================================================================
+DOCUMENT READING ORDER
+================================================================================
+
+For Non-Technical Users:
+  1. INDEX.md (navigation)
+  2. CONTROL_FLOW_SUMMARY.md (findings)
+  3. Done!
+
+For Technical Users:
+  1. INDEX.md (navigation)
+  2. CONTROL_FLOW_REPORT.txt (detailed stats)
+  3. README_CONTROL_FLOW_ANALYSIS.md (methodology)
+  4. scan_control_flow.py (implementation)
+
+For Data Quality Experts:
+  1. INDEX.md (navigation)
+  2. BLOCK_MISMATCH_ANALYSIS.md (anomaly details)
+  3. CONTROL_FLOW_REPORT.txt (validation results)
+  4. README_CONTROL_FLOW_ANALYSIS.md (methodology)
+
+For Project Managers:
+  1. DELIVERABLES.txt (overview)
+  2. CONTROL_FLOW_SUMMARY.md (findings)
+  3. Done!
+
+================================================================================
+KEY CONCEPTS DEFINED
+================================================================================
+
+WFControlFlowMode:
+  0 = Block start (opens control structure)
+  1 = Block middle (else branch, menu item)
+  2 = Block end (closes control structure)
+
+GroupingIdentifier:
+  UUID-like identifier that groups related control flow actions
+  All parts of one if-else/menu/loop share the same ID
+
+Control Flow Actions:
+  is.workflow.actions.conditional (if/else)
+  is.workflow.actions.choosefrommenu (menu)
+  is.workflow.actions.repeat.count (repeat N times)
+  is.workflow.actions.repeat.each (for-each loop)
+
+Flow-Related Actions:
+  Any action with "flow" or "control" in its identifier
+  Includes: ask, setvariable, gettext, url, openurl, etc.
+
+Block Structure:
+  A complete control flow construct (if-else, menu, loop)
+  Must have Mode 0 to open and Mode 2 to close
+
+================================================================================
+QUALITY CHECKLIST
+================================================================================
+
+Data Completeness:
+  ✓ All 303 shortcuts analyzed (100%)
+  ✓ All WFWorkflowActions extracted
+  ✓ All control flow actions identified
+  ✓ All parameters extracted
+
+Data Accuracy:
+  ✓ Mode values validated (only 0, 1, 2)
+  ✓ GroupingIdentifier coverage checked (100%)
+  ✓ Block balance validated (419 vs 420)
+  ✓ Unknown actions identified (0)
+
+Documentation Quality:
+  ✓ Multiple report formats provided
+  ✓ Different detail levels available
+  ✓ Complete methodology documented
+  ✓ All findings explained
+
+Reusability:
+  ✓ Script is executable and portable
+  ✓ Can be re-run on new data
+  ✓ Can be modified for different queries
+  ✓ Code is well-structured
+
+================================================================================
+NEXT STEPS
+================================================================================
+
+Immediate:
+  1. Review INDEX.md (2 min)
+  2. Read CONTROL_FLOW_SUMMARY.md (8 min)
+  3. Decision point: Done or dig deeper?
+
+Optional Follow-up:
+  1. Review CONTROL_FLOW_REPORT.txt for details
+  2. Investigate Add_link_to_Things.shortcut if needed
+  3. Run script periodically on new shortcuts
+
+For Integration:
+  1. Copy scan_control_flow.py to your tools
+  2. Run on new shortcuts as they're added
+  3. Track trends over time
+  4. Monitor for regressions
+
+================================================================================
+
+File manifest prepared: February 15, 2026
+Total documentation: 52 KB of analysis + code
+Analysis coverage: 100% (303 shortcuts)
+

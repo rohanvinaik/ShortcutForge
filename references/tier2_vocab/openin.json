@@ -1,0 +1,10 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "WFOpenInAppIdentifier": 5,
+  "WFOpenInAskWhenRun": 6,
+  "WFSelectedApp": 7
+}

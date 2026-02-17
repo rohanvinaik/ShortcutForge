@@ -1,0 +1,12 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "WFAttribute": 5,
+  "WFCountry": 6,
+  "WFEntity": 7,
+  "WFItemLimit": 8,
+  "WFSearchTerm": 9
+}

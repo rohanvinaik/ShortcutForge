@@ -1,0 +1,105 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "description": "Scoring rubric for Health Logger scenario benchmark"
+  },
+  "scenario_id": "health_logger",
+  "scenario_name": "Health Logger Companion Shortcut",
+  "description": "Companion shortcut for Health Logger worker: fetch nutrient data via 6-char key, parse JSON, log each nutrient to Apple HealthKit with correct sample type and unit.",
+  "complexity_tier": "very_complex",
+
+  "required_actions": [
+    "downloadurl",
+    "detect.dictionary",
+    "getvalueforkey",
+    "health.quantity.log"
+  ],
+
+  "desired_actions": [
+    "showresult",
+    "alert",
+    "notification",
+    "url",
+    "gettext",
+    "count"
+  ],
+
+  "required_constructs": [
+    "FOREACH",
+    "IF",
+    "SET"
+  ],
+
+  "desired_constructs": [
+    "MENU",
+    "REPEAT"
+  ],
+
+  "scoring": {
+    "structural_completeness": {
+      "weight": 0.3,
+      "description": "Does the shortcut have valid structure and compile?",
+      "criteria": {
+        "parses": {"description": "DSL text passes Lark parser", "points": 0.2},
+        "validates": {"description": "IR passes semantic validation (permissive)", "points": 0.2},
+        "compiles": {"description": "Compiler produces .shortcut plist", "points": 0.2},
+        "has_foreach": {"description": "Contains at least one FOREACH block", "points": 0.15},
+        "has_conditional": {"description": "Contains at least one IF block", "points": 0.1},
+        "has_variables": {"description": "Uses SET to define variables", "points": 0.05},
+        "has_sufficient_actions": {"description": "Contains >= 10 action statements", "points": 0.1}
+      }
+    },
+    "action_coverage": {
+      "weight": 0.3,
+      "description": "Does the shortcut use the right actions for health logging?",
+      "criteria": {
+        "uses_downloadurl": {"description": "Fetches data from URL", "points": 0.2},
+        "uses_detect_dictionary": {"description": "Parses JSON response as dictionary", "points": 0.15},
+        "uses_getvalueforkey": {"description": "Extracts values from dictionary by key", "points": 0.15},
+        "uses_health_quantity_log": {"description": "Logs health samples via health.quantity.log", "points": 0.25},
+        "health_log_count_gte_3": {"description": "Logs at least 3 different nutrients", "points": 0.1},
+        "health_log_count_gte_10": {"description": "Logs at least 10 different nutrients", "points": 0.1},
+        "uses_url_action": {"description": "Constructs URL (e.g., with key parameter)", "points": 0.05}
+      }
+    },
+    "error_handling": {
+      "weight": 0.2,
+      "description": "Does the shortcut handle errors and edge cases?",
+      "criteria": {
+        "checks_network_response": {"description": "IF block checks download result before processing", "points": 0.35},
+        "checks_empty_data": {"description": "IF block checks for empty/null data", "points": 0.25},
+        "user_feedback_on_error": {"description": "Shows alert or notification on error", "points": 0.2},
+        "input_validation": {"description": "Validates input key format or existence", "points": 0.2}
+      }
+    },
+    "ux_quality": {
+      "weight": 0.2,
+      "description": "Does the shortcut provide good user experience?",
+      "criteria": {
+        "shows_progress": {"description": "Notifies user of progress during batch logging", "points": 0.2},
+        "shows_summary": {"description": "Shows completion summary (count, success)", "points": 0.3},
+        "uses_notification_or_alert": {"description": "Uses notification or alert for feedback", "points": 0.2},
+        "accepts_input": {"description": "Accepts shortcut input or asks for key", "points": 0.15},
+        "clean_naming": {"description": "Shortcut has descriptive name", "points": 0.15}
+      }
+    }
+  },
+
+  "prompt_variants": [
+    {
+      "id": "detailed",
+      "difficulty": "easy",
+      "prompt": "Build an Apple Shortcut called 'Log Health' that takes a 6-character key as input text, fetches JSON data from https://health-logger.example.com/fetch?key=KEY (replacing KEY with the input), parses the JSON response as a dictionary where keys are nutrient codes (like 'caf' for caffeine, 'vc' for vitamin C, 'fe' for iron) and values are numeric amounts, then logs each nutrient to Apple Health using the health.quantity.log action with the correct WFQuantitySampleType (e.g., 'Caffeine', 'Vitamin C', 'Iron') and WFQuantitySampleQuantity. Show a summary notification when done. Handle the case where the fetch returns no data."
+    },
+    {
+      "id": "moderate",
+      "difficulty": "medium",
+      "prompt": "Create a shortcut companion for a health logging web app. It receives a short key as input, fetches a JSON dictionary of nutrient amounts from a URL (https://health-logger.example.com/fetch?key=KEY), and batch-logs each nutrient to Apple HealthKit using health.quantity.log. Nutrients include caffeine, vitamins, minerals, and macros. Handle errors gracefully and show a completion summary."
+    },
+    {
+      "id": "minimal",
+      "difficulty": "hard",
+      "prompt": "I need a shortcut that fetches nutrient data from a server using a key and logs vitamins, minerals, and macros to Apple Health. The JSON has codes like 'caf' for caffeine, 'vc' for vitamin C mapped to numeric values. Log each to HealthKit and show results."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "Metadata": 4,
+  "PARAM": 5,
+  "WFMedia": 6,
+  "WFMediaAudioFormat": 7,
+  "WFMediaAudioOnly": 8,
+  "WFMetadataTitle": 9,
+  "WFMetadataYear": 10
+}

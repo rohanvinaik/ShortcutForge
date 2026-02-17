@@ -1,0 +1,11 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "WFRecordingCompression": 5,
+  "WFRecordingEnd": 6,
+  "WFRecordingStart": 7,
+  "WFRecordingTimeInterval": 8
+}

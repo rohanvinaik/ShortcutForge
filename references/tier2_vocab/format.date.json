@@ -1,0 +1,11 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "WFDate": 5,
+  "WFDateFormat": 6,
+  "WFDateFormatStyle": 7,
+  "WFTimeFormatStyle": 8
+}

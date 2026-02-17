@@ -1,0 +1,639 @@
+{
+  "_meta": {
+    "version": "2.0",
+    "description": "Macro pattern registry for ShortcutForge L1 expansion. Contains 31 macros across 10+ categories including API, error handling, file ops, notifications, calendar, and messaging. Macros are text-level templates that expand into multi-action DSL sequences before parsing.",
+    "syntax_doc": "MACRO <name> <param>=<value> [<param>=<value> ...]. Parameters: {{param}} for substitution, {{#list}}...{{/list}} for iteration over list items, {{?param}}...{{/param}} for conditional sections (included only when param is provided).",
+    "expansion_phase": "linter Phase 0, before text extraction"
+  },
+
+  "macros": {
+
+    "health.log_batch": {
+      "description": "Log multiple nutrients to Apple HealthKit from a JSON dictionary. Iterates over dictionary keys, extracts each value, and logs as a health sample.",
+      "syntax": "MACRO health.log_batch source=$varname",
+      "params": {
+        "source": {
+          "type": "var_ref",
+          "required": true,
+          "description": "Variable containing the parsed JSON dictionary of nutrient data"
+        }
+      },
+      "expansion_template": "# Batch log nutrients to HealthKit from {{source}}\nFOREACH {{source}}\n  SET $__nutrient_key = @item\n  ACTION getvalueforkey WFDictionaryKey=$__nutrient_key WFInput={{source}}\n  SET $__nutrient_value = @prev\n  IF $__nutrient_value has_any_value\n    ACTION health.quantity.log WFQuantitySampleType=$__nutrient_key WFQuantitySampleQuantity=$__nutrient_value\n  ENDIF\nENDFOREACH",
+      "domain": "health_logger",
+      "tags": ["health", "healthkit", "nutrient", "batch"]
+    },
+
+    "api.fetch_json": {
+      "description": "Fetch a URL via HTTP and parse the response as a JSON dictionary. Combines url + downloadurl + detect.dictionary into a single macro.",
+      "syntax": "MACRO api.fetch_json url=\"https://...\" method=\"GET\"",
+      "params": {
+        "url": {
+          "type": "string",
+          "required": true,
+          "description": "The URL to fetch"
+        },
+        "method": {
+          "type": "string",
+          "required": false,
+          "default": "GET",
+          "description": "HTTP method (GET, POST, PUT, PATCH, DELETE)"
+        }
+      },
+      "expansion_template": "# Fetch JSON from {{url}}\nACTION url WFURLActionURL=\"{{url}}\"\nACTION downloadurl WFHTTPMethod=\"{{method}}\"\nACTION detect.dictionary",
+      "domain": "api_workflow",
+      "tags": ["api", "http", "json", "fetch"]
+    },
+
+    "api.fetch_json_with_headers": {
+      "description": "Fetch a URL via HTTP with custom headers and parse the response as a JSON dictionary.",
+      "syntax": "MACRO api.fetch_json_with_headers url=\"https://...\" method=\"GET\" headers={\"Key\": \"Value\"}",
+      "params": {
+        "url": {
+          "type": "string",
+          "required": true,
+          "description": "The URL to fetch"
+        },
+        "method": {
+          "type": "string",
+          "required": false,
+          "default": "GET",
+          "description": "HTTP method"
+        },
+        "headers": {
+          "type": "dict",
+          "required": true,
+          "description": "HTTP headers dictionary"
+        }
+      },
+      "expansion_template": "# Fetch JSON from {{url}} with headers\nACTION url WFURLActionURL=\"{{url}}\"\nACTION downloadurl WFHTTPMethod=\"{{method}}\" WFHTTPHeaders=HEADERS {{headers}}\nACTION detect.dictionary",
+      "domain": "api_workflow",
+      "tags": ["api", "http", "json", "headers"]
+    },
+
+    "ui.sectioned_select": {
+      "description": "Multi-section menu-driven selection. Creates a MENU with cases for each section name.",
+      "syntax": "MACRO ui.sectioned_select prompt=\"Choose\" sections=[\"Morning\", \"Evening\"]",
+      "params": {
+        "prompt": {
+          "type": "string",
+          "required": true,
+          "description": "Menu prompt text"
+        },
+        "sections": {
+          "type": "list",
+          "required": true,
+          "description": "List of section names to create menu cases for"
+        }
+      },
+      "expansion_template": "MENU \"{{prompt}}\"\n{{#sections}}\nCASE \"{{.}}\"\n  # Actions for {{.}} section\n{{/sections}}\nENDMENU",
+      "domain": "general",
+      "tags": ["ui", "menu", "selection"]
+    },
+
+    "state.persist": {
+      "description": "Save a variable value to a file for cross-run persistence. Creates a JSON file with the key-value pair.",
+      "syntax": "MACRO state.persist key=\"my_key\" value=$var",
+      "params": {
+        "key": {
+          "type": "string",
+          "required": true,
+          "description": "Storage key name"
+        },
+        "value": {
+          "type": "var_ref",
+          "required": true,
+          "description": "Variable to persist"
+        }
+      },
+      "expansion_template": "# Persist {{key}} to file\nACTION gettext Text=`{{value}}`\nSET $__persist_data = @prev\nACTION documentpicker.save WFFileName=\"shortcutforge_state_{{key}}.txt\"",
+      "domain": "general",
+      "tags": ["state", "persistence", "save"]
+    },
+
+    "state.load": {
+      "description": "Load a previously persisted value from file.",
+      "syntax": "MACRO state.load key=\"my_key\"",
+      "params": {
+        "key": {
+          "type": "string",
+          "required": true,
+          "description": "Storage key name (matches the filename used by state.persist)"
+        }
+      },
+      "expansion_template": "# Load persisted {{key}} from file\nACTION documentpicker.open\nACTION gettext",
+      "domain": "general",
+      "tags": ["state", "persistence", "load"]
+    },
+
+    "platform.if_ios": {
+      "description": "Conditional block that only executes on iOS (iPhone/iPad). Expands to device detail check.",
+      "syntax": "MACRO platform.if_ios",
+      "params": {},
+      "expansion_template": "# Platform check: iOS only\nACTION getdevicedetails WFDeviceDetail=\"Device Model\"\nSET $__platform_model = @prev\nIF $__platform_model contains \"iPhone\"",
+      "end_marker": "ENDPLATFORM",
+      "end_expansion": "ENDIF",
+      "domain": "general",
+      "tags": ["platform", "ios", "conditional"],
+      "block_macro": true
+    },
+
+    "platform.if_macos": {
+      "description": "Conditional block that only executes on macOS. Expands to device detail check.",
+      "syntax": "MACRO platform.if_macos",
+      "params": {},
+      "expansion_template": "# Platform check: macOS only\nACTION getdevicedetails WFDeviceDetail=\"Device Model\"\nSET $__platform_model = @prev\nIF $__platform_model contains \"Mac\"",
+      "end_marker": "ENDPLATFORM",
+      "end_expansion": "ENDIF",
+      "domain": "general",
+      "tags": ["platform", "macos", "conditional"],
+      "block_macro": true
+    },
+
+    "platform.if_watchos": {
+      "description": "Conditional block that only executes on watchOS (Apple Watch). Expands to device detail check.",
+      "syntax": "MACRO platform.if_watchos",
+      "params": {},
+      "expansion_template": "# Platform check: watchOS only\nACTION getdevicedetails WFDeviceDetail=\"Device Model\"\nSET $__platform_model = @prev\nIF $__platform_model contains \"Watch\"",
+      "end_marker": "ENDPLATFORM",
+      "end_expansion": "ENDIF",
+      "domain": "general",
+      "tags": ["platform", "watchos", "conditional"],
+      "block_macro": true
+    },
+
+    "ui.confirm": {
+      "description": "Show a confirmation dialog and store the result. Combines alert with cancel button check.",
+      "syntax": "MACRO ui.confirm message=\"Are you sure?\" title=\"Confirm\"",
+      "params": {
+        "message": {
+          "type": "string",
+          "required": true,
+          "description": "Confirmation message"
+        },
+        "title": {
+          "type": "string",
+          "required": false,
+          "default": "Confirm",
+          "description": "Alert title"
+        }
+      },
+      "expansion_template": "# Confirmation dialog\nACTION alert WFAlertActionMessage=\"{{message}}\" WFAlertActionTitle=\"{{title}}\" WFAlertActionCancelButtonShown=true",
+      "domain": "general",
+      "tags": ["ui", "confirm", "dialog"]
+    },
+
+    "data.json_to_dict": {
+      "description": "Parse text/data as a JSON dictionary. Convenience wrapper for detect.dictionary.",
+      "syntax": "MACRO data.json_to_dict",
+      "params": {},
+      "expansion_template": "ACTION detect.dictionary",
+      "domain": "general",
+      "tags": ["data", "json", "parse"]
+    },
+
+    "error.guard_network": {
+      "description": "Check internet connectivity and exit the shortcut with an alert if no connection is available.",
+      "syntax": "MACRO error.guard_network",
+      "params": {},
+      "expansion_template": "# Guard: check network connectivity\nACTION getipaddress\nSET $__net_check = @prev\nIF $__net_check \"is\" \"\"\n  ACTION alert WFAlertActionMessage=\"No internet connection\" WFAlertActionTitle=\"Network Error\"\n  ACTION exitshortcut\nENDIF",
+      "domain": "general",
+      "tags": ["error", "network", "guard"]
+    },
+
+    "error.guard_input": {
+      "description": "Validate that a variable is non-empty. Shows an alert and exits the shortcut if the variable is empty.",
+      "syntax": "MACRO error.guard_input var=$varname message=\"Input required\"",
+      "params": {
+        "var": {
+          "type": "var_ref",
+          "required": true,
+          "description": "Variable to validate for non-empty value"
+        },
+        "message": {
+          "type": "string",
+          "required": false,
+          "default": "Input required",
+          "description": "Error message to display if validation fails"
+        }
+      },
+      "expansion_template": "# Guard: validate input {{var}}\nIF {{var}} \"is\" \"\"\n  ACTION alert WFAlertActionMessage=\"{{message}}\" WFAlertActionTitle=\"Missing Input\"\n  ACTION exitshortcut\nENDIF",
+      "domain": "general",
+      "tags": ["error", "input", "validation"]
+    },
+
+    "error.retry_loop": {
+      "description": "Retry pattern with a counter. Wraps the body in a repeat loop with a retry counter variable.",
+      "syntax": "MACRO error.retry_loop max_retries=\"3\"",
+      "params": {
+        "max_retries": {
+          "type": "string",
+          "required": false,
+          "default": "3",
+          "description": "Maximum number of retry attempts"
+        }
+      },
+      "expansion_template": "# Retry loop (max {{max_retries}} attempts)\nSET $__retry_count = 0\nREPEAT {{max_retries}}",
+      "end_marker": "ENDRETRY",
+      "end_expansion": "  SET $__retry_count = $__retry_count + 1\nENDREPEAT",
+      "domain": "general",
+      "tags": ["error", "retry", "loop"],
+      "block_macro": true
+    },
+
+    "api.fetch_parse_guard": {
+      "description": "Full fetch, parse, and error-check pipeline. Fetches a URL, checks for an empty response with an alert and exit, then parses as a dictionary.",
+      "syntax": "MACRO api.fetch_parse_guard url=\"https://...\" method=\"GET\"",
+      "params": {
+        "url": {
+          "type": "string",
+          "required": true,
+          "description": "The URL to fetch"
+        },
+        "method": {
+          "type": "string",
+          "required": false,
+          "default": "GET",
+          "description": "HTTP method (GET, POST, PUT, PATCH, DELETE)"
+        }
+      },
+      "expansion_template": "# Fetch + parse + guard from {{url}}\nACTION url WFURLActionURL=\"{{url}}\"\nACTION downloadurl WFHTTPMethod=\"{{method}}\"\nSET $__api_response = @prev\nIF $__api_response \"is\" \"\"\n  ACTION alert WFAlertActionMessage=\"Request failed\" WFAlertActionTitle=\"API Error\"\n  ACTION exitshortcut\nENDIF\nACTION detect.dictionary",
+      "domain": "api_workflow",
+      "tags": ["api", "fetch", "guard", "error"]
+    },
+
+    "api.paginate": {
+      "description": "Pagination loop pattern. Iterates through paginated API results by incrementing a page parameter until no more data is returned.",
+      "syntax": "MACRO api.paginate base_url=\"https://...\" page_param=\"page\" limit=\"10\"",
+      "params": {
+        "base_url": {
+          "type": "string",
+          "required": true,
+          "description": "Base URL for the paginated API endpoint"
+        },
+        "page_param": {
+          "type": "string",
+          "required": false,
+          "default": "page",
+          "description": "Query parameter name for the page number"
+        },
+        "limit": {
+          "type": "string",
+          "required": false,
+          "default": "10",
+          "description": "Maximum number of pages to fetch"
+        }
+      },
+      "expansion_template": "# Paginate {{base_url}} (max {{limit}} pages)\nSET $__page = 1\nSET $__all_results = \"\"\nREPEAT {{limit}}\n  ACTION url WFURLActionURL=\"{{base_url}}?{{page_param}}=$__page\"\n  ACTION downloadurl\n  ACTION detect.dictionary\n  SET $__page_data = @prev\n  IF $__page_data has_any_value\n    ACTION appendvariable WFVariableName=\"$__all_results\" WFInput=$__page_data\n    SET $__page = $__page + 1\n  ELSE\n    ACTION exitrepeat\n  ENDIF\nENDREPEAT",
+      "domain": "api_workflow",
+      "tags": ["api", "pagination", "loop"]
+    },
+
+    "api.auth_header": {
+      "description": "Set an Authorization header variable from a token. Combines a scheme (e.g. Bearer) with a token variable into $__auth_header.",
+      "syntax": "MACRO api.auth_header token_var=$token scheme=\"Bearer\"",
+      "params": {
+        "token_var": {
+          "type": "var_ref",
+          "required": true,
+          "description": "Variable containing the auth token"
+        },
+        "scheme": {
+          "type": "string",
+          "required": false,
+          "default": "Bearer",
+          "description": "Authorization scheme (e.g. Bearer, Basic, Token)"
+        }
+      },
+      "expansion_template": "# Build Authorization header\nACTION text WFTextActionText=\"{{scheme}} {{token_var}}\"\nSET $__auth_header = @prev",
+      "domain": "api_workflow",
+      "tags": ["api", "auth", "header"]
+    },
+
+    "api.multipart_upload": {
+      "description": "Multipart form data upload. Posts a file variable to a URL using multipart form encoding.",
+      "syntax": "MACRO api.multipart_upload url=\"https://...\" file_var=$file field_name=\"file\"",
+      "params": {
+        "url": {
+          "type": "string",
+          "required": true,
+          "description": "The upload endpoint URL"
+        },
+        "file_var": {
+          "type": "var_ref",
+          "required": true,
+          "description": "Variable containing the file data to upload"
+        },
+        "field_name": {
+          "type": "string",
+          "required": false,
+          "default": "file",
+          "description": "Form field name for the uploaded file"
+        }
+      },
+      "expansion_template": "# Multipart upload to {{url}}\nACTION url WFURLActionURL=\"{{url}}\"\nACTION downloadurl WFHTTPMethod=\"POST\" WFHTTPBodyType=\"Form\" WFRequestVariable={{file_var}}",
+      "domain": "api_workflow",
+      "tags": ["api", "upload", "multipart"]
+    },
+
+    "file.save_with_picker": {
+      "description": "Save file data using the system file picker, allowing the user to choose the destination.",
+      "syntax": "MACRO file.save_with_picker data_var=$data",
+      "params": {
+        "data_var": {
+          "type": "var_ref",
+          "required": true,
+          "description": "Variable containing the data to save"
+        }
+      },
+      "expansion_template": "# Save file with picker\nACTION savefile WFInput={{data_var}} WFAskWhere=true",
+      "domain": "general",
+      "tags": ["file", "save", "picker"]
+    },
+
+    "file.import_and_validate": {
+      "description": "Import a file using the file picker and extract its extension for type validation.",
+      "syntax": "MACRO file.import_and_validate allowed_types=\"pdf,txt,csv\" error_message=\"Invalid file type\"",
+      "params": {
+        "allowed_types": {
+          "type": "string",
+          "required": true,
+          "description": "Comma-separated file extensions to accept (e.g. pdf,txt,csv)"
+        },
+        "error_message": {
+          "type": "string",
+          "required": false,
+          "default": "Invalid file type",
+          "description": "Error message to display if the file type is not allowed"
+        }
+      },
+      "expansion_template": "# Import file and validate type (allowed: {{allowed_types}})\nACTION getfile\nSET $__imported_file = @prev\nACTION getfiledetail WFFileDetailProperty=\"File Extension\"\nSET $__file_ext = @prev\n# Validate $__file_ext against allowed types: {{allowed_types}}",
+      "domain": "general",
+      "tags": ["file", "import", "validate"]
+    },
+
+    "file.batch_rename": {
+      "description": "Batch rename files by applying a find-and-replace pattern to each file name in a collection.",
+      "syntax": "MACRO file.batch_rename source_var=$files pattern=\"old\" replacement=\"new\"",
+      "params": {
+        "source_var": {
+          "type": "var_ref",
+          "required": true,
+          "description": "Variable containing the list of files to rename"
+        },
+        "pattern": {
+          "type": "string",
+          "required": true,
+          "description": "Text pattern to find in file names"
+        },
+        "replacement": {
+          "type": "string",
+          "required": true,
+          "description": "Replacement text for matched pattern"
+        }
+      },
+      "expansion_template": "# Batch rename: replace \"{{pattern}}\" with \"{{replacement}}\"\nFOREACH {{source_var}}\n  ACTION getfiledetail WFFileDetailProperty=\"Name\"\n  SET $__old_name = @prev\n  ACTION replacetext WFFind=\"{{pattern}}\" WFReplace=\"{{replacement}}\"\n  SET $__new_name = @prev\n  ACTION rename WFNewName=$__new_name\nENDFOREACH",
+      "domain": "general",
+      "tags": ["file", "rename", "batch"]
+    },
+
+    "notify.rich_alert": {
+      "description": "Show a rich alert dialog with title, body, and optional confirm/cancel buttons.",
+      "syntax": "MACRO notify.rich_alert title=\"Title\" body=\"Message\" confirm_label=\"OK\" cancel_label=\"Cancel\"",
+      "params": {
+        "title": {
+          "type": "string",
+          "required": true,
+          "description": "Alert title"
+        },
+        "body": {
+          "type": "string",
+          "required": true,
+          "description": "Alert body message"
+        },
+        "confirm_label": {
+          "type": "string",
+          "required": false,
+          "default": "OK",
+          "description": "Label for the confirm button"
+        },
+        "cancel_label": {
+          "type": "string",
+          "required": false,
+          "description": "Label for the cancel button (omit to hide cancel)"
+        }
+      },
+      "expansion_template": "# Rich alert: {{title}}\nACTION alert WFAlertActionTitle=\"{{title}}\" WFAlertActionMessage=\"{{body}}\" WFAlertActionCancelButtonShown=true",
+      "domain": "general",
+      "tags": ["notification", "alert", "rich"]
+    },
+
+    "notify.progress_update": {
+      "description": "Show a notification with a message and subtitle to indicate progress or status updates.",
+      "syntax": "MACRO notify.progress_update message=\"Processing...\" subtitle=\"ShortcutForge\"",
+      "params": {
+        "message": {
+          "type": "string",
+          "required": true,
+          "description": "Notification body message"
+        },
+        "subtitle": {
+          "type": "string",
+          "required": false,
+          "default": "ShortcutForge",
+          "description": "Notification title/subtitle"
+        }
+      },
+      "expansion_template": "# Progress notification\nACTION notification WFNotificationActionTitle=\"{{subtitle}}\" WFNotificationActionBody=\"{{message}}\"",
+      "domain": "general",
+      "tags": ["notification", "progress", "update"]
+    },
+
+    "notify.sound_haptic": {
+      "description": "Play a sound for audible feedback or haptic-style notification.",
+      "syntax": "MACRO notify.sound_haptic sound=\"default\"",
+      "params": {
+        "sound": {
+          "type": "string",
+          "required": false,
+          "default": "default",
+          "description": "Sound to play"
+        }
+      },
+      "expansion_template": "# Play sound\nACTION playsound",
+      "domain": "general",
+      "tags": ["notification", "sound", "haptic"]
+    },
+
+    "calendar.create_event": {
+      "description": "Create a new calendar event with title, start date, and duration. Optionally specify a calendar and notes.",
+      "syntax": "MACRO calendar.create_event title=\"Meeting\" start=$date duration=\"60\" calendar=\"Work\" notes=\"Agenda\"",
+      "params": {
+        "title": {
+          "type": "string",
+          "required": true,
+          "description": "Event title"
+        },
+        "start": {
+          "type": "var_ref",
+          "required": true,
+          "description": "Variable containing the event start date/time"
+        },
+        "duration": {
+          "type": "string",
+          "required": false,
+          "default": "60",
+          "description": "Event duration in minutes"
+        },
+        "calendar": {
+          "type": "string",
+          "required": false,
+          "description": "Target calendar name (omit for default calendar)"
+        },
+        "notes": {
+          "type": "string",
+          "required": false,
+          "description": "Event notes or description"
+        }
+      },
+      "expansion_template": "# Create calendar event: {{title}}\nACTION addnewevent WFCalendarItemTitle=\"{{title}}\" WFCalendarItemStartDate={{start}} WFCalendarItemDuration={{duration}}{{?calendar}} WFCalendarItemCalendar=\"{{calendar}}\"{{/calendar}}{{?notes}} WFCalendarItemNotes=\"{{notes}}\"{{/notes}}",
+      "domain": "calendar",
+      "tags": ["calendar", "event", "create"]
+    },
+
+    "calendar.find_free_slot": {
+      "description": "Retrieve upcoming calendar events to help find the next free time slot of a given duration.",
+      "syntax": "MACRO calendar.find_free_slot duration=\"30\" start_date=$date",
+      "params": {
+        "duration": {
+          "type": "string",
+          "required": true,
+          "description": "Desired free slot duration in minutes"
+        },
+        "start_date": {
+          "type": "var_ref",
+          "required": false,
+          "description": "Variable containing the earliest date to search from (omit for now)"
+        }
+      },
+      "expansion_template": "# Find free slot ({{duration}} min)\nACTION getcalendarevents WFGetCalendarEventsCalendar=\"All Calendars\"\nSET $__events = @prev\n# Analyze $__events to find free slot of {{duration}} minutes",
+      "domain": "calendar",
+      "tags": ["calendar", "free", "slot"]
+    },
+
+    "reminders.create_with_due": {
+      "description": "Create a reminder with a title, due date, and optional list and priority.",
+      "syntax": "MACRO reminders.create_with_due title=\"Task\" due=$date list=\"Personal\" priority=\"0\"",
+      "params": {
+        "title": {
+          "type": "string",
+          "required": true,
+          "description": "Reminder title"
+        },
+        "due": {
+          "type": "var_ref",
+          "required": true,
+          "description": "Variable containing the due date"
+        },
+        "list": {
+          "type": "string",
+          "required": false,
+          "description": "Reminders list name (omit for default list)"
+        },
+        "priority": {
+          "type": "string",
+          "required": false,
+          "default": "0",
+          "description": "Reminder priority (0=none, 1=high, 5=medium, 9=low)"
+        }
+      },
+      "expansion_template": "# Create reminder: {{title}}\nACTION addnewreminder WFReminderTitle=\"{{title}}\" WFReminderDueDate={{due}} WFReminderPriority={{priority}}{{?list}} WFReminderList=\"{{list}}\"{{/list}}",
+      "domain": "calendar",
+      "tags": ["reminder", "create", "due"]
+    },
+
+    "reminders.batch_create": {
+      "description": "Create multiple reminders from a list variable. Iterates over each item and adds it as a new reminder.",
+      "syntax": "MACRO reminders.batch_create items_var=$items list=\"Personal\"",
+      "params": {
+        "items_var": {
+          "type": "var_ref",
+          "required": true,
+          "description": "Variable containing the list of reminder titles"
+        },
+        "list": {
+          "type": "string",
+          "required": false,
+          "description": "Reminders list name (omit for default list)"
+        }
+      },
+      "expansion_template": "# Batch create reminders from {{items_var}}\nFOREACH {{items_var}}\n  SET $__reminder_text = @item\n  ACTION addnewreminder WFReminderTitle=$__reminder_text{{?list}} WFReminderList=\"{{list}}\"{{/list}}\nENDFOREACH",
+      "domain": "calendar",
+      "tags": ["reminder", "batch", "create"]
+    },
+
+    "message.send_with_confirm": {
+      "description": "Compose a message and show a confirmation alert before sending. Prevents accidental sends.",
+      "syntax": "MACRO message.send_with_confirm recipient=$contact body=$text",
+      "params": {
+        "recipient": {
+          "type": "var_ref",
+          "required": true,
+          "description": "Variable containing the recipient contact or phone number"
+        },
+        "body": {
+          "type": "var_ref",
+          "required": true,
+          "description": "Variable containing the message body text"
+        }
+      },
+      "expansion_template": "# Send message with confirmation\nACTION alert WFAlertActionTitle=\"Confirm Send\" WFAlertActionMessage=\"Send to {{recipient}}?\" WFAlertActionCancelButtonShown=true\nACTION sendmessage WFSendMessageContent={{body}} WFSendMessageRecipients={{recipient}}",
+      "domain": "messaging",
+      "tags": ["message", "send", "confirm"]
+    },
+
+    "message.share_result": {
+      "description": "Share output data via the system share sheet.",
+      "syntax": "MACRO message.share_result data_var=$result prompt=\"Share via\"",
+      "params": {
+        "data_var": {
+          "type": "var_ref",
+          "required": true,
+          "description": "Variable containing the data to share"
+        },
+        "prompt": {
+          "type": "string",
+          "required": false,
+          "description": "Optional prompt text for the share sheet"
+        }
+      },
+      "expansion_template": "# Share result via share sheet\nACTION share WFInput={{data_var}}",
+      "domain": "messaging",
+      "tags": ["message", "share", "result"]
+    },
+
+    "message.email_report": {
+      "description": "Send a formatted email report with a specified recipient, subject, and body content.",
+      "syntax": "MACRO message.email_report to=\"user@example.com\" subject=\"Report\" body_var=$report",
+      "params": {
+        "to": {
+          "type": "string",
+          "required": true,
+          "description": "Recipient email address"
+        },
+        "subject": {
+          "type": "string",
+          "required": true,
+          "description": "Email subject line"
+        },
+        "body_var": {
+          "type": "var_ref",
+          "required": true,
+          "description": "Variable containing the email body content"
+        }
+      },
+      "expansion_template": "# Email report to {{to}}\nACTION sendemail WFSendEmailTo=\"{{to}}\" WFSendEmailSubject=\"{{subject}}\" WFSendEmailBody={{body_var}}",
+      "domain": "messaging",
+      "tags": ["message", "email", "report"]
+    }
+  }
+}

@@ -1,0 +1,92 @@
+======================================================================
+APPLE SHORTCUTS — FINAL EXTRACTION COVERAGE REPORT
+======================================================================
+
+SUMMARY
+----------------------------------------
+  Shortcuts processed:          166
+  Catalog actions (Cassinelli):  324
+  Extracted unique action types: 239
+    Verified (in catalog):       189 (58.3%)
+    Extra (not in catalog):      50
+    Unverified:                  135
+  Synthetic templates added:     34
+  Total with param info:         223
+
+WHAT THIS MEANS
+----------------------------------------
+  For 189 actions, we have REAL plist parameter structures extracted
+  from working shortcuts. The LLM can use actions.raw() with exact
+  parameter keys and value types copied from these verified examples.
+
+  For 34 device-specific actions (Accessibility, Watch, TV Remote),
+  we added synthetic templates based on their known Intent patterns.
+
+  The remaining ~101 unverified actions are mostly:
+    - Image editing (resize, crop, flip, mask, overlay) — 9
+    - Music playback (playlists, skip, shazam) — 12
+    - File operations (get, move, rename, delete) — 7
+    - PDF manipulation (make, split, extract text) — 5
+    - Data processing (filter, detect, format, properties) — 23
+    - Photo library (get latest, delete, bursts) — 8
+    - Communication (call, email, Venmo) — 7
+    - Other (SSH, JavaScript, HomeKit, etc.) — 30
+
+  These can still be used via actions.raw() — the catalog has
+  descriptions and parameter hints from Cassinelli's documentation.
+  They just lack verified plist examples. Most will work with
+  educated guesses based on the patterns we've documented.
+
+======================================================================
+EXTRA ACTIONS FOUND (not in Cassinelli catalog)
+======================================================================
+  ai.perplexity.mac.AskPerplexityIntent              (3x)
+  codes.rambo.AirBuddyHelper.ConnectHeadsetIntent    (1x)
+  codes.rambo.AirBuddyHelper.GetDeviceStatusIntent   (1x)
+  codes.rambo.AirBuddyHelper.GetDevicesListIntent    (2x)
+  com.alexhay.ToolboxProForShortcuts.SwitchCaseIntent (2x)
+  com.amazon.Amazon.OpenAmazonIntent                 (1x)
+  Notes.OpenAppLocationLinkAction                    (1x)
+  Pages.TSADocumentCreateIntent                      (129x)
+  ShortcutsActions.GetOrientationAction              (1x)
+  ShortcutsActions.SetSilentModeAction               (1x)
+  iWork.Keynote.TSADocumentCreateIntent              (10x)
+  iWork.Numbers.TSADocumentCreateIntent              (28x)
+  iWork.Pages.TSADocumentCreateIntent                (1x)
+  musicrecognition.RecognizeMusicIntent              (2x)
+  reminders.TTROpenSmartListAppIntent                (2x)
+  shortcuts.OpenNavigationDestinationAction          (2x)
+  shortcuts.OpenWorkflowAction                       (1x)
+  com.culturedcode.ThingsMac.TINAddTodoIntent        (1x)
+  com.culturedcode.ThingsMac.beta.TAIAddHeading      (1x)
+  com.culturedcode.ThingsMac.beta.TAIAddProject      (1x)
+  com.culturedcode.ThingsMac.beta.TAIAddTodo2        (1x)
+  com.culturedcode.ThingsiPad.TINAddTodoIntent       (1x)
+  com.culturedcode.ThingsiPad.TINShowListIntent      (1x)
+  com.dayonelog.dayoneiphone.post                    (2x)
+  com.pixelmatorteam.pixelmator.x.CropImageToAspectRatioIntent (1x)
+  com.reederapp.5.macOS.GetReadLaterIntent           (2x)
+  com.reederapp.5.macOS.OpenReadLaterIntent          (2x)
+  com.sindresorhus.Actions.GetAudioPlaybackDestinationIntent (2x)
+  com.tapbots.Ivory.PTHIvoryPostStatusIntent         (1x)
+  dnd.getfocus                                       (1x)
+  file                                               (2x)
+  file.reveal                                        (1x)
+  filter.windows                                     (2x)
+  getcurrentapp                                      (1x)
+  getvariable                                        (20x)
+  movewindow                                         (3x)
+  openin                                             (7x)
+  pocket.get                                         (1x)
+  posters.switch                                     (14x)
+  properties.locations                               (1x)
+  resizewindow                                       (3x)
+  runapplescript                                     (2x)
+  runshellscript                                     (5x)
+  setairdropreceiving                                (1x)
+  setters.calendarevents                             (1x)
+  sirikit.donation.handle                            (11x)
+  stagemanager.set                                   (1x)
+  takescreenshot                                     (2x)
+  tweet                                              (2x)
+  wordpress.post                                     (2x)

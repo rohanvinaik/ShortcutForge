@@ -1,0 +1,97 @@
+==========================================================================================
+COMPREHENSIVE CONTROL FLOW ANALYSIS - APPLE SHORTCUTS
+==========================================================================================
+
+DATASET OVERVIEW
+------------------------------------------------------------------------------------------
+Total shortcuts scanned: 1772
+Shortcuts with control flow: 488
+Percentage with control flow: 27.5%
+
+CONTROL FLOW USAGE BY TYPE
+------------------------------------------------------------------------------------------
+if/else             : 333 shortcuts using it, 1376 total actions
+menu                : 143 shortcuts using it, 1223 total actions
+repeat N times      :   9 shortcuts using it,   20 total actions
+repeat with each    :  73 shortcuts using it,  176 total actions
+
+CONTROL FLOW ACTION COUNT BY MODE
+------------------------------------------------------------------------------------------
+Action Type              Mode 0     Mode 1     Mode 2      Total
+------------------------------------------------------------------------------------------
+if/else                     483        409        484       1376
+menu                        172        879        172       1223
+repeat N times               10          0         10         20
+repeat with each             88          0         88        176
+------------------------------------------------------------------------------------------
+TOTAL                       753       1288        754       2795
+
+BLOCK START/END VALIDATION
+------------------------------------------------------------------------------------------
+Block starts (Mode 0): 753
+Block ends (Mode 2):   754
+Difference: 1
+
+STATUS: ✗ MISMATCH - Block starts and ends are not balanced!
+WARNING: More block ends than starts - malformed structure detected
+
+BLOCK START/END MISMATCHES BY SHORTCUT
+------------------------------------------------------------------------------------------
+Found 1 shortcuts with mismatches:
+
+  Add_link_to_Things.shortcut                        7 starts, 8 ends (excess ends: 1)
+
+GROUPING IDENTIFIER COVERAGE
+------------------------------------------------------------------------------------------
+Total control flow actions: 2795
+With GroupingIdentifier: 2795
+Missing GroupingIdentifier: 0
+Coverage: 100.0%
+
+STATUS: ✓ All control flow actions have GroupingIdentifier!
+
+UNKNOWN CONTROL FLOW ACTIONS
+------------------------------------------------------------------------------------------
+STATUS: ✓ No unknown control flow actions found
+
+ALL FLOW/CONTROL RELATED ACTIONS
+------------------------------------------------------------------------------------------
+Total actions with 'flow' or 'control' in identifier: 10886
+
+Top 30 flow/control related actions by frequency:
+Action ID                                                         Count
+------------------------------------------------------------------------------------------
+is.workflow.actions.comment                                        2339
+is.workflow.actions.conditional                                    1376
+is.workflow.actions.choosefrommenu                                 1223
+is.workflow.actions.url                                             739
+is.workflow.actions.openurl                                         546
+is.workflow.actions.ask                                             295
+is.workflow.actions.setvariable                                     288
+is.workflow.actions.gettext                                         275
+is.workflow.actions.choosefromlist                                  225
+is.workflow.actions.repeat.each                                     176
+is.workflow.actions.openapp                                         142
+is.workflow.actions.showresult                                      121
+is.workflow.actions.setclipboard                                    102
+is.workflow.actions.getvalueforkey                                   88
+is.workflow.actions.getitemfromlist                                  87
+is.workflow.actions.runworkflow                                      78
+is.workflow.actions.format.date                                      75
+is.workflow.actions.text.replace                                     72
+is.workflow.actions.text.split                                       71
+is.workflow.actions.runapplescript                                   68
+is.workflow.actions.setplaybackdestination                           60
+is.workflow.actions.adjustdate                                       58
+is.workflow.actions.detect.link                                      58
+is.workflow.actions.output                                           54
+is.workflow.actions.sirikit.donation.handle                          53
+is.workflow.actions.exit                                             51
+is.workflow.actions.dictionary                                       45
+is.workflow.actions.openin                                           45
+is.workflow.actions.useractivity.open                                44
+is.workflow.actions.runsshscript                                     41
+
+==========================================================================================
+ANALYSIS COMPLETE
+==========================================================================================

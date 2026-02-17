@@ -1,0 +1,10 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "DropOffLocation": 4,
+  "PARAM": 5,
+  "PartySize": 6,
+  "PickupLocation": 7
+}

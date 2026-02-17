@@ -1,0 +1,12 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "Display": 4,
+  "PARAM": 5,
+  "WFPosition": 6,
+  "WFWindow": 7,
+  "WFXCoordinate": 8,
+  "WFYCoordinate": 9
+}

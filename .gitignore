@@ -1,0 +1,67 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.venv/
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Model weights (too large for git — 3.9GB total)
+models/baseline-v1/
+models/baseline-v1-mlx/
+models/mini-v1/
+models/mini-v1-mlx/
+models/expanded-v1/
+models/expanded-v1-mlx/
+models/expanded-v1-step1000/
+models/expanded-v1-step1000-mlx/
+models/local-runs/
+
+# Research model checkpoints
+research/models/
+research/runs/
+
+# Large training artifacts (regenerable via scripts)
+training_data/hard_negative_bank.jsonl
+training_data/distillation_log_full.jsonl
+training_data/typed_ir_train.jsonl
+training_data/typed_ir_eval.jsonl
+training_data/distillation_log.jsonl
+training_data/distilled_chat.jsonl
+training_data/distilled_curated.jsonl
+training_data/merged_train.jsonl
+training_data/labeled_train.jsonl
+training_data/expansion_cache.jsonl
+training_data/new_eval_prompts.jsonl
+training_data/balanced_sashimi/
+
+# Symlinks (point to real files)
+training_data/train.jsonl
+training_data/valid.jsonl
+
+# Generated shortcut binaries
+output/
+*_signed.shortcut
+
+# Downloaded corpus (14MB, 1,772 files — fetch separately)
+downloaded/
+
+# Claude Code session state
+.claude/continuity/
+
+# Environment and secrets
+.env
+*.key

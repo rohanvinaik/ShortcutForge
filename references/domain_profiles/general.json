@@ -1,0 +1,43 @@
+{
+  "_meta": {
+    "profile_id": "general",
+    "version": "1.1",
+    "description": "Default domain profile for shortcuts that don't match a specialized domain. Provides common patterns and best practices."
+  },
+
+  "keywords": [],
+
+  "prompt_context": "You are generating an Apple Shortcut. Follow these best practices: use descriptive variable names that reflect their content, provide user feedback with showresult or alert when a shortcut completes, handle edge cases (empty input, missing data) with IF checks. Keep shortcuts focused on a single task. Use COMMENT actions to document complex logic sections.",
+
+  "relevant_actions": [
+    "showresult",
+    "alert",
+    "askforinput",
+    "choosefromlist",
+    "setclipboard",
+    "getclipboard",
+    "text",
+    "gettext",
+    "notification",
+    "openapp",
+    "openurl",
+    "setvar",
+    "getvar",
+    "nothing",
+    "comment",
+    "exitshortcut"
+  ],
+
+  "common_patterns": {
+    "input_handling": "Use askforinput or shortcutinput for user data. Validate with IF before processing.",
+    "output_delivery": "Use showresult for simple output, setclipboard for copy-to-clipboard, share for flexible sharing.",
+    "error_feedback": "Use alert for errors (modal, requires acknowledgment). Use notification for non-critical warnings.",
+    "variable_naming": "Use descriptive names: $UserInput, $ProcessedResult, $ErrorMessage — not $x, $tmp, $a."
+  },
+
+  "example_patterns": [
+    "Ask for input, process it, show result to user",
+    "Get clipboard, transform content, copy back to clipboard",
+    "Present menu of options, execute chosen action, confirm completion"
+  ]
+}

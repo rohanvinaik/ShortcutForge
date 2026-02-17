@@ -1,0 +1,9 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "OpenWhenRun": 4,
+  "PARAM": 5,
+  "name": 6
+}

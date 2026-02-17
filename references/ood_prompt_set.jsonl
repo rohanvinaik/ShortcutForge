@@ -1,0 +1,1000 @@
+{"prompt": "Get the temperature and humidity readings from my Eve Room", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me write a Python function that sorts a list", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Help me how do I make friends as an adult? please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Can you can you recommend a good restaurant? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Can you write a CloudFormation template", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Jump into Overcast or put it in Slide Over on iPad.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to create a GitHub Actions workflow for CI/CD for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Write a fairy tale set in modern times", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Record sleep interruption details in Health", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me create dialogue between a robot and a human", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Write a SQL query to find duplicate records", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "I need you to write a Kubernetes deployment manifest for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Show me Amazon's basic everyday items", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "check my Mastodon profile", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Show me where to turn Location Services on or off", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to implement an LRU cache in Python right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Help me compose a haiku about autumn for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Can you build a Slack bot integration", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Display my Toggl time for today", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open Control Center settings", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Convert URLs to QR codes with preview and sharing options", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Go to Notion AI with a page attached", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Enable panorama shooting mode", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to create a CSS grid layout for a dashboard for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Open Always Allowed Apps in Screen Time", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please find the integral of sin(x)dx please", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Can you find the slope of the line passing through (2,3) and (5,9) right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Help me build a CircleCI config for a Node project", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Check out The News Desk's tech stories on Flipboard", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me create a database migration script", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Can you create a JavaScript class for a shopping cart", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Help me find the integral of sin(x)dx for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Tell me about Maximo Gallardo's story at Las Colinas resort", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Show my allergy information from connected providers", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you what is the derivative of x^3?", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Write a bash script to backup files right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Help me write a children's story about a brave mouse right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Start the creator and entrepreneur podcast station", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens the URL to your unsent Drafts in Notion Mail where you can continue where you left off.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Use AppleScript to access Continue Watching on Apple TV", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me who won the World Series last year? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Can you create a mystery story opening paragraph for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "I need you to write a children's story about a brave mouse please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "I need you to calculate compound interest on $1000 at 5% for 3 years right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "see exclusive netflix content", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Runs AppleScript to press the key code for Option + Space, the keyboard shortcut for ChatGPT’s launcher.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to prove that the square root of 2 is irrational please", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "I need you to set up a GitLab CI pipeline for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Switch True Tone based on surroundings", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Write a poem about the ocean for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Compose a graduation speech for aliens please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "start tiktok and silence the sound", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Grab my current location, get the Maps link, begin a message to share", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Toggles background sounds and sets the noise to Rain.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you write a bash script to find large files please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Help me set up a cron job to run every hour right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Can you create a JavaScript class for a shopping cart right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Create a gardening expert AI with knowledge of native plants and water conservation", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you write a short story about a time traveler please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Can you implement merge sort in Python please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Look up a Flipboard account by username", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please who won the World Series last year?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Help me what's the capital of France?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Show Twitter feed", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you what's the capital of France? please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Opens to News stories about the NBA, including scores, schedules, teams, and special curated categories for events like the Playoffs.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Uses the Dictate Text action set to stop listening \"After Pause\" and then saves my text into the To Do list created in Reminders (or your default list).", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me build a Terraform config for AWS right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Send voice input to Google Assistant", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Play the new Upgrade podcast episode", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "“Gemini 3 Pro is designed to tackle the most challenging agentic problems with strong coding and state-of-the-art reasoning capabilities. It is the best model for complex multimodal understanding. Compared to Gemini 2.5 Pro, it improves significantly on complex instruction following and delivers outcomes with better output efficiency.”", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to implement a binary search tree in Java please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "I need you to create a Makefile for a C project right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Read QR codes and open them", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please tell me something interesting about space", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Help me find the GCD of 48 and 18 please", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Implement a linked list in C++ for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "What is the sum of the first 100 natural numbers? please", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Take a window screenshot without the background", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me how do I make friends as an adult? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "disable continuous scroll in books", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Clean up checked-off grocery reminder items", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Tell me about Google AI Pro and Ultra memberships", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Tell me something interesting about space please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "I need you to how do I tie a tie?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "What is 15% of 240? please", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Help me compose a graduation speech for aliens for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Turn text into Markdown format", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me how do I get better at chess? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "capture issue and add to feedback report", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Show details about my shared prompts", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Browse Amazon Holiday Gift Guide", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please implement an LRU cache in Python right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Lock or unlock iPad orientation", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens Bluesky to the Settings tab, letting you manage multiple accounts, change basic settings, and adjust advanced account settings.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open Apple's problem report page for purchases", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please tell me something interesting about space right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "What's the meaning of life? please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Open Mastoot app", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens the Sonic the Hedgehog game on the Apple TV.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me implement a linked list in C++ please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Check Regal promotions and deals", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please create a systemd service file for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Activates the “Deeper Focus” mode on Endel that uses more intense beats to help you get in the flow.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please set up a GitLab CI pipeline please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Calculate seconds from timestamp and jump", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "View tasks assigned to me", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "search for threads posts by topic", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "How do I make friends as an adult? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Build a CircleCI config for a Node project for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Please write a Python decorator for caching for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Find the Discover a new comic series section on Comixology", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Add my copyright watermark to this photo", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to what is the sum of the first 100 natural numbers? for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Can you write a Gradle build script", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Find and open a specific note by searching", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please write an Ansible playbook for server setup for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Please what's the weather like today? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Can you find the integral of sin(x)dx right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Resumes playing from the All view in Overcast.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Presents a list of folders, then pulls stories from that folder and lets you choose which one(s) to open in Safari.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me build a Terraform config for AWS for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "I need you to what is the probability of rolling two sixes? please", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Write a recipe as if it were a love story for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Can you implement a binary search tree in Java", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Start MindNode on iPad", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Choose ringer volume and apply it", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Asks you to pick from your Shortcuts folders, then repeats through the shortcuts from that folder asking you for a custom title and image from Photos before adding it to the Home Screen with a custom icon.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Snap a photo, make it 1440px wide in JPEG format, open share options", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you calculate the area of a circle with radius 5 please", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "I need you to what's the best way to learn a new language? please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Call Apple Support customer service", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you create a Zapier workflow to sync contacts right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "create a jira issue from text", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you what should I have for dinner tonight? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Please calculate the volume of a sphere with radius 3 right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Please create a Datadog monitor for CPU usage please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Use this shortcut to sort the list of shortcuts that appear in the Menu Bar on macOS.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Set up movie time with TV automation and ambient settings", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Write a children's story about a brave mouse", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Implement a stack using two queues right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Help me set up a GitLab CI pipeline for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Remember where I parked my car", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Create a JavaScript class for a shopping cart", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Opens into the Health app to show Nutrition data tracked by food-logging apps.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open Discord to start a Relay.FM live show", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to compose a sonnet about technology for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Switches between wallpapers to the one you have set for your Work focus.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you create a news article from the year 3000 right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Help me what is the determinant of a 3x3 identity matrix? for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Can you build a CircleCI config for a Node project", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Add something to my Reeder read later list from various sources", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "How are you feeling? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Set up temporary WiFi access for guests", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you write a love letter from one planet to another", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Open the Camera app in Photo mode", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "This shortcut Asks you to enter a time and sets an alarm called “Apple Preorder.”", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open Regal Cinemas on Apple TV with remote", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Launch ChatGPT for Mac and maximize it", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Message my mother", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please what should I have for dinner tonight? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "new meal planning sheet", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you calculate the volume of a sphere with radius 3 for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Turns the appearance dark, turns on Do Not Disturb, and sets an embedded wallpaper.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you calculate the standard deviation of 1,2,3,4,5 please", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Please explain quantum physics to me please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Help me write a bash script to find large files", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Can you create a Chef recipe for web server setup for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Select a Reminders list and type in new tasks all together", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to tell me a fun fact about dolphins", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Trigger fullscreen mode with keyboard shortcut", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to what's your opinion on artificial intelligence? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Please compose a haiku about autumn right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Have ChatGPT correct my spelling", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Launch Alfred, Plex, and 1Password", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to what's the meaning of life? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "I need you to write a regex to validate email addresses please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Help me create a Datadog monitor for CPU usage right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Search TikTok by entering a query", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Show my backup credit card", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me create a React component for a login form", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Please set up a cron job to run every hour for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Can you write a fairy tale set in modern times for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Can you write a horror story in exactly 100 words please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Help me compose a eulogy for a fictional character", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Help me what is the derivative of x^3? for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "I need you to create a React component for a login form for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Help me write a science fiction story about first contact right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Open Find My preferences", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Change AirPlay 2 destinations and pass around music or podcasts.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Creates a template from the Business category in Numbers, including an employee schedule, invoice spreadsheet, ROI calculator, financials spreadsheet, and break-even analysis.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens the Conversation in Messages with your mother, so you can ask when’s a good time to call her.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Ask me to name a shortcut and create it", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Write a poem about the ocean please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Convert timestamp to seconds", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Create a CSS grid layout for a dashboard for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Show organized YouTube playlists", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open my Disney+ saved items", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Show me today's top 5 Techmeme articles", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Encode a picture as a giant text string", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open Geico insurance card", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Send a quick note to my own email address", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you write a Python decorator for caching right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Can you how do I get better at chess? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Manage Focus modes and Home Screens", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Record what I say and save as a note", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please create a GitHub Actions workflow for CI/CD please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Write a CloudFormation template for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Please create a Zapier workflow to sync contacts right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Build a Slack bot integration right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Launch Hulu (TV or Mac)", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open Anytime view by tag", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Create a post on Threads using URL scheme or copy on Mac", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Let me change my keyboard settings in iOS", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me write an Ansible playbook for server setup right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Show photos by location", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to compose a haiku about autumn for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Prompts for a username (or accepts one as input) and opens the redirect into the Threads app.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please what's the best way to learn a new language? please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "connect airpods and enable noise cancellation with airbuddy on mac", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please create a Makefile for a C project right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Compose a haiku about autumn for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Opens various apps you want running in the Menu Bar like Alfred, Plex, or 1Password.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please calculate the volume of a sphere with radius 3 for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Implement a rate limiter in Python right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "I need you to find the integral of sin(x)dx right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "play essentials playlists", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Turn Notes hashtag auto-tagging on/off", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Get an iCloud link to a shortcut for feedback", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Asks you to enter a date, then generates the calendar week plus start or end dates.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens to the Subscribe page for Comixology Unlimited so you can start your free trial and agree to sign up after 30 days.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please implement a rate limiter in Python for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Please prove that the square root of 2 is irrational for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Identify furniture with Magnifier", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Let me set up what my Action button does", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Create a TypeScript interface for a user profile for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Open the main Shortcuts view", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Start my pomodoro timer for work", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please write a bash script to backup files please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Pick a theme for your Books app", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Implement a linked list in C++", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "I need you to calculate the volume of a sphere with radius 3 for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Create a Datadog monitor for CPU usage please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Help me create a systemd service file", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Please write a science fiction story about first contact please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Pick a shortcuts folder and add each to Home Screen with custom titles and photo icons", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Build a Terraform config for AWS for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Play my favorite albums from Notes", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Use Sidecar with iPad Pro remotely via Siri over SSH", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Check my Amazon account for recent activity", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Implement a linked list in C++ please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Please how do I get better at chess? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Write once, post to both Mastodon and Threads", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to create a Datadog monitor for CPU usage", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "What happened in the news today? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "get help with my device", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Show my parked car location", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "check what wifi i'm on and disconnect from it", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens into the Motion section of Accessibility sesttings to let you control features like Reduce Motion, Auto-Play Message Effects, Auto-Play Animated Images, Dim Flashing Lights, Auto-Play Video Previews, and Limit Frame Rate.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "What's the meaning of life?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Can you implement a binary search tree in Java for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Help me create a Zapier workflow to sync contacts for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Set up a Prometheus alerting rule right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Run a script to trigger the Escape key", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Launch Freeform with a keyboard shortcut for new window", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please write a children's story about a brave mouse right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "What's a to-do from Things that's due today?", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me what are the benefits of meditation? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Create a GitHub Actions workflow for CI/CD for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Toggles a smart switch by checking its current power state and turning it off or back on accordingly.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens the Apple Music curator page for Essentials playlists of the top tracks from popular artists – great for playing across an artist’s discography instead of picking an album.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Connects to AirPods and activates noise cancellation. Utilizes AirBuddy when run from Mac, and on iOS uses Actions to check for AirPods Pro vs AirPods Max.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens into the Health app to the Clinical Notes section of your Health Records where you can “connect to your providers to see your health records and get updates when there’s a new entry.”", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Toggles the Color Filters accessibility setting, which can turn your device black or white and remove all color if set to grayscale (among other options).", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you write a bash script to backup files for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Please find the limit of (sin x)/x as x approaches 0 right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Please create dialogue between a robot and a human for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Browse folders and grab all the shortcut names to copy", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me write a unit test for a calculator class right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Open YouTube subscriptions feed", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Show me my saved Xcode sessions", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Toggle my second Eve Switch for the studio softbox", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open Prime Video on Apple TV or web", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you what is the derivative of x^3? for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "What if the space race never ended? Show me that series", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me write a travel blog post about an imaginary place for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Asks you to pick a folder, then a shortcut to open and copy as an iCloud link to paste into your Feedback report.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please convert 72 degrees Fahrenheit to Celsius for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "I need you to create a news article from the year 3000", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Disables any Focus mode by toggling Do Not Disturb off.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Presents your presentations in Keynote, asks you to pick one, and opens it in Rehearsal Mode.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens the “See More” link in the New Releases section of your Comixology home on the Amazon website where you can see comics curated for you that are top sellers.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "show me bluesky feeds", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Remove photo background and save to my outfit notes", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Pick a subreddit and read latest posts", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Write a fairy tale set in modern times right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "I need you to create a Docker compose file for a web app", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Write a song about Monday mornings", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Open Apple TV and get the remote ready", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Expand shortened URLs to their full links", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Turn on Enhanced Recording in Voice Memos", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open the Jason Momoa post-apocalyptic series", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to set up a cron job to run every hour please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Create a new timer based on your last Timery event", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to what happened in the news today?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Generate a contact card to share", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please write a short story about a time traveler", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Can you set up a Prometheus alerting rule for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Opens into the special News+ Spotlight section of the News app curated by Apple editors, including sections like Conversation Starters, Better Living, Weekend Reads, Good News, and Best of News+.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please describe the color blue to a blind person please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Implement a binary search tree in Java please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Open Fantastical for Mac", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Look up my Apple ID password", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Start Perplexity Discover Live Activity", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me write a short story about a time traveler", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Write a bash script to backup files for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Open the Perplexity website", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please write a PowerShell script to manage users", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "I need you to create dialogue between a robot and a human", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "I need you to what is the factorial of 10? please", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Go to Advanced Custom Fields on WordPress", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me create a GitHub Actions workflow for CI/CD please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Write a horror story in exactly 100 words please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "I need you to write a Puppet manifest for package management", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Can you tell me a joke about programming for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Dictate and translate to English", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to write a science fiction story about first contact right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Open a Keynote presentation in Rehearsal Mode", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me set up a Prometheus alerting rule right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Prove that the square root of 2 is irrational", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Go to the Alarms section", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you write a PowerShell script to manage users", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "I need you to create dialogue between a robot and a human right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Help me write a children's story about a brave mouse for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Please what's your opinion on artificial intelligence? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Help me describe the color blue to a blind person right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Opens your Amazon wish list page where you can curate items you want, and share your lists with others.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Search Podcasts and copy the RSS feed", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you what is the sum of the first 100 natural numbers?", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "I need you to create a limerick about a lazy cat please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Please write a SQL query to find duplicate records right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Take a photo with my camera and save it to my parked car location", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please write a unit test for a calculator class right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Opens the Share Sheet folder in Shortcuts so you can add, remove, or sort included shortcuts.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open a TikTok hashtag I specify", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Go to the next page in Books app", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you implement an LRU cache in Python for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Help me explain quantum physics to me please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Can you write a poem about the ocean for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Find Marvel stuff on Disney Plus", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you create a monologue for a villain please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Show me the barcode scanner in Amazon", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Display hourly temps for daytime today", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please how do I make friends as an adult? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Execute immediate logout with the Mac shortcut", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you create a Chef recipe for web server setup please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Open Freeform and create a new window", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "What is the determinant of a 3x3 identity matrix? right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Help me implement merge sort in Python for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Open Amazon's Manage Your Content and Devices for Kindle Docs", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Activate sound recognition for workplace hazards", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Turns on my living room, turns off your alarm in case you've woken up before it, and softly plays the radio station on my HomePod.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me what is the sum of the first 100 natural numbers? right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Get biking directions home from where I am", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please create a Datadog monitor for CPU usage right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Set all my device preferences to a preset configuration", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me what is the derivative of x^3? right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Build an IFTTT applet for smart home right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Adds a checklist in Things for how to transfer Panasonic Lumix GH5 settings.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please explain quantum physics to me right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Open Photos Recents album", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Pick a photo and set it for both lock and home screens", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open the Subscriptions page of the App Store where you can manage recurring purchases for your apps.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you solve the equation 2x + 5 = 15", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Play Apple Music radio, set 10-minute timer, enable water lock", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "pick an archive file and extract it somewhere", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens the deep link into Settings > Privacy > Location Services where you can enable or disable Location entirely, adjust Location Alerts, control which device is used for Share My Location, and adjust settings for individual apps.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Write a bash script to find large files right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Check food tracking progress", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Get 25 recent MacStories articles and let me pick one.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Capture contact info and save to Cardhop", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open Health to see my mobility data", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please create a Jenkins pipeline for testing", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Choose your Keynote presentation and start Show Mode", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Set AirPods Pro to Adaptive and start a bike workout with vibration", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Format the date with time zone offset like +0800", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Create an animated GIF from burst photos", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open the Print Center on Mac", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Show me the emoji word game", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Find and run a shortcut by name", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Takes a logo stored in Files, resizes it to 150px, and overlays it 200px away from the bottom right of another image.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Asks you to pick a movie review to share with others.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "What is the probability of rolling two sixes? for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Help me create a Datadog monitor for CPU usage please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Presents the share sheet for any content you have copied to your clipboard.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open Perplexity API reference for testing", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me write a song about Monday mornings right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Access the text replacement menu", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Get public transport route from where I am to somewhere", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to write a Go function for concurrent HTTP requests", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Trigger ChatGPT settings via AppleScript", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Launch Apple Developer app on Apple TV", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "see recent posts from matthewcassinelli.com", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Write a PowerShell script to manage users please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Please write a Go function for concurrent HTTP requests please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Go to Bluetooth to adjust my AirPods", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to compose a ballad about a lost treasure please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Help me write a travel blog post about an imaginary place please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Let me check my iCloud storage and manage settings like Keychain and Private Relay", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Play 25 random songs from the past 12 weeks on shuffle", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to write a science fiction story about first contact please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Please find the limit of (sin x)/x as x approaches 0 for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "summarize my input using advanced chatgpt", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open Netflix Movies section", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "What time is it in Tokyo? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "I need you to what should I have for dinner tonight? please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Open shared Reminders list", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me what's the weather like today? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Please write a travel blog post about an imaginary place please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "I need you to write a song about Monday mornings", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Help me what happened in the news today?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Please create a TypeScript interface for a user profile right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Help me write a GraphQL schema for a blog for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Help me create a limerick about a lazy cat", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Please create a database migration script", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Open Settings deep link for ringtones", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you compose a ballad about a lost treasure", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Turn Personal Hotspot on/off", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Use Google's voice dictation to search instead of Apple's", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "switch to personal focus wallpaper", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Prompts you for a reminder about a type of food you have and when it expires.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please compose a graduation speech for aliens for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Please write a science fiction story about first contact right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Find Apple News Today episodes in the podcast category", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Ask about the game and store notes with time", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Access top-level Notes folder", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Enable cinematic video on Camera app", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me what are some good books to read?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Help me write a poem about the ocean right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "I need you to create a limerick about a lazy cat", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Can you what happened in the news today?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Help me convert 72 degrees Fahrenheit to Celsius", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "What is 15% of 240? for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Please build a Slack bot integration", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Can you what's the capital of France?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "How do I tie a tie? please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "open home app and go to intercom", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me write a children's story about a brave mouse", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Open Health to see noise measurements from my watch", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens the QuickBooks page for connecting your bank accounts – use this to set up new accounts or update your connection if it falls out of sync.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Get blog links and format them for sharing", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Asks you to enter a subject line and then a message, then saves both as an email draft in the Mail app.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you what's the meaning of life? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Open Books app library", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me find the GCD of 48 and 18 right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Play the Crossword Mini in News.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Look up a show on Podcasts and grab the feed link", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please simplify the expression (3x^2 + 2x) / x right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Please what is the determinant of a 3x3 identity matrix? right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Shuts down the current device after a confirmation prompt.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Save where I parked", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you write a unit test for a calculator class", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "What's the capital of France? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Change home screen layout in Settings", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Add a shared app to my Reminders list with its App Store info", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Write a children's story about a brave mouse right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Pick a Freeform board to remove", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Auto-send birthday messages to contacts with today's date", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "wake up routine: living room lights on, alarm off, play radio", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open my Safari Reading List if there's no story to save", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "adjust my hearing settings", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Ask me for a reminder title and save it silently", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please how do I tie a tie?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Turns my Eve Switch on or off depending on its current state, which controls the sound machine we have in our bedroom for drowning out little noises and providing a constant background sound to sleep to.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Who won the World Series last year? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "let me access the apple store", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you write a short story about a time traveler right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "open bluesky notifications", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Compose a graduation speech for aliens", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Go to Pano mode on Camera", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Update Apple TV account and disable loud sounds", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Takes text shared as input or copied to the clipboard and converts it to Markdown formatting.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Remind me 6 days before my contact's birthday", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Adjust voice settings in Accessibility", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Write a fairy tale set in modern times for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Please what's the capital of France?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "What is the sum of the first 100 natural numbers?", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Plays a sound file of your choice. Use this as a confirmation sound for your NFC tags.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me calculate the volume of a sphere with radius 3", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Prompts you to pick from your main list of voice memos and opens it.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens into Advanced Custom Fields groups on a Wordpress domain.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Where's the Feedback tool?", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Execute the Lock command via AppleScript", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Enable Emergency SOS and Medical ID", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me write a love letter from one planet to another", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Set up a trip budget in Numbers", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Look up GIFs on Giphy for my request", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me what's the best way to learn a new language? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "bring up spotlight or alfred search", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you calculate compound interest on $1000 at 5% for 3 years for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "show me my wifi name then disconnect", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to write a science fiction story about first contact for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "I need you to write a SQL query to find duplicate records for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Can you write a children's story about a brave mouse for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Activates Stage Manager with the Show Dock option toggled (and Recent Apps hidden).", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to implement a pub/sub system in Node.js for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Stream Netflix from Mac", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please write a bash script to backup files for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Start the Endel app's sleep sounds", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Split my text list into Things tasks with a checklist", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please compose a sonnet about technology please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Turn Night Shift on/off", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Creates a special message for Discord to help avoid confusion that displays a specified date and time in each user’s timezone by converting the value to a Unix timestamp, with your choice of formatting options. Includes a bypass with Shortcut Input values.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Show me all 52 weeks this year", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Looks for contacts from a given company name (added on input), then asks you to choose which contact and calls them.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me calculate the area of a circle with radius 5 for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Help me compose a ballad about a lost treasure please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Open Feedback app", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you what's the meaning of life?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Help me create a React component for a login form right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Browse Regal Cinemas for Now Playing and Coming Soon films", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Uninstall the Grab YouTube playlist ID shortcut", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens the “TV” tab in the Netflix app using the “Genre” deep link from the website.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Pick friends and message them for the holidays", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Imagine a world where the global space race never ended. This thrilling \"what if\" take on history from Ronald D. Moore (Outlander, Battlestar Galactica) spotlights the high-stakes lives of NASA astronauts and their families.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you write a SQL query to find duplicate records right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Turn your favorite iPhone burst photo into a GIF", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me create a monologue for a villain right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "I need you to what's the capital of France? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Opens the TV app to the dedicated section for Friday Night Baseball.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens the Google app to the Lens feature and looks for text to translate using the camera.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me create a mystery story opening paragraph please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "I need you to write a Kubernetes deployment manifest please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Please write a travel blog post about an imaginary place", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Can you prove that the square root of 2 is irrational right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Help me write a science fiction story about first contact for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "What's your opinion on artificial intelligence? please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Open personalized comic recommendations", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please write a CloudFormation template", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Can you compose a eulogy for a fictional character for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Search Apple's Marketing Toolbox for shows or movies and choose where to send them", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Write a GraphQL schema for a blog please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Please calculate the area of a circle with radius 5 for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Enter a search term and I'll open Google in Safari", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to solve the equation 2x + 5 = 15", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Type in what you're looking for and pick a search category to find it on TV Forecast", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Toggle Night Shift on or off", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Create a mystery story opening paragraph please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Get my Regal Unlimited card QR code", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open Halide for quick photography", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me create a monologue for a villain", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Call someone from your contacts", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you build a Terraform config for AWS please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Can you write a diary entry from a cat's perspective", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Configure my device: AirPods Pro transparency mode, connectivity on, volume 85%, brightness 100%, light mode, sound recognition enabled, haptic feedback", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens the App Store Search page where you can look for games and apps or see curated categories.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Plays the preselected Replay 2016 playlist on Shuffle. My top tracks of the year—not even joking—were Burn The Witch, Can’t Keep Checking My Phone, Daydreaming, Better Strange, and Bored to Death. Uncanny.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "View my Screenshots album in Photos", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you how do I tie a tie? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Help me what should I have for dinner tonight? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Help me tell me a joke about programming right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Activates Sound Recognition and listens for fire alarms, sirens, smoke alarms, glass breaking, and shouting – anything you’d definitely want to know about in a work environment.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open the underground silo survival series", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Choose where to play this media", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you create a news article from the year 3000", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Get recent posts from your Letterboxd movie diary.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me prove that the square root of 2 is irrational for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Build a CircleCI config for a Node project please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Add my current task with 1-minute due time", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Save this as a Pages template", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to calculate the area of a circle with radius 5 right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "go to meta ai studio create page", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens the “Bag” checkout page for the Apple Store. Use this shortcut to reopen your Apple Store “cart” and see the subtotal or add or remove items before checking out.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Extract podcast quotes and save the episode reference", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you recommend a good restaurant? please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Can you simplify the expression (3x^2 + 2x) / x", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Move files from Desktop after selecting what to relocate", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me what are the benefits of meditation? please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Opens the Lost Password section in WordPress.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please write a diary entry from a cat's perspective please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Please create a monologue for a villain please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Enable Stage Manager showing both Dock and Recent apps visible", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to write a love letter from one planet to another please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "I need you to implement a stack using two queues", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "What happened in the news today?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Who won the World Series last year?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Please create a limerick about a lazy cat right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Opens the Magnifier app and activates the Point and Speak feature that will detect text near your finger.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to how do I get better at chess? please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "open AirBnB on Mac or the app on iPhone", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you create a Zapier workflow to sync contacts", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Help me calculate compound interest on $1000 at 5% for 3 years right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Help me what are the benefits of meditation?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "I need you to create a TypeScript interface for a user profile please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Open a watch app on my wearable device", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "How do I tie a tie?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Encode a sound from my device into a base64 string", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Type a query and search Amazon", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open Freeform and fit the board to the content", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open my WordPress site homepage", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please create a Jenkins pipeline for testing right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Help me create a limerick about a lazy cat for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "View mindfulness and sleep stats", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to write a regex to validate email addresses for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "I need you to what are the benefits of meditation? please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Get the RSS link to clipboard", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Add the selected speaker to my current audio group", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Auto-switch between dark and light mode", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me how do I tie a tie? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "take a raw photo with halide", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Show Stream Deck profile backups", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Display ECG and HRV measurements in Health", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Go to Find My settings", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Set current location as parking spot in Maps", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you write a Kubernetes deployment manifest please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Pick a Focus and keep it on until I go", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Takes an input location or your current location and searches for gas stations, then gives you driving directions to your choice.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to what's your favorite movie? please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Can you who won the World Series last year? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Can you what happened in the news today? please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Build an IFTTT applet for smart home please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "I need you to create a Docker compose file for a web app please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Tell me the last reminder I added", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Request a home ride and tell how many people", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Set up a cron job to run every hour for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Start Perplexity AI and position it centered with custom dimensions", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Use Apple Watch as a remote for my iPhone", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you find the integral of sin(x)dx for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Please set up a Prometheus alerting rule for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Switches to your default Wallpaper, untied from any Focus mode.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Calculate compound interest on $1000 at 5% for 3 years", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Creates a new Categories template spreadsheet in Numbers.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to what is the factorial of 10?", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Help me what is 15% of 240? for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Open my Meta AI profile", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open Perplexity Profile settings to tell it about me", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Search your journal - what do you want to find?", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you what's your opinion on artificial intelligence? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Create a Zapier workflow to sync contacts right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Can you what are the benefits of meditation? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Can you write a CloudFormation template for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Please create a Docker compose file for a web app for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "I need you to build an IFTTT applet for smart home please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "I need you to calculate the standard deviation of 1,2,3,4,5 right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Please find the limit of (sin x)/x as x approaches 0", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Please create dialogue between a robot and a human please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "start recording in journal app", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to what is the determinant of a 3x3 identity matrix?", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Create a Jenkins pipeline for testing for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "I need you to build a Terraform config for AWS", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Show me the behind-the-scenes look at early morning television", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Random inspiration generator for events and projects", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please how do I make friends as an adult? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Help me how do I get better at chess?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Create a systemd service file please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Create a Keynote presentation with Parchment, Renaissance, Moroccan, Hard Cover, Linen Book, Vintage, Typeset, Harmony, or Formal", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "View watched videos in YouTube", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Pulls your Starred items from Reeder and asks you to choose one to open.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Write a bash script to backup files", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Help me write a short story about a time traveler for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Access my actively-used shortcuts folder", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me tell me something interesting about space please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "AirBnb - view my reservations", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to find the GCD of 48 and 18 for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "open my pages documents from icloud drive", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Implement a linked list in C++ right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "let me pick which comic to read", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Play Endel Relax to help me wind down", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me compose a sonnet about technology", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Opens the URL for “Your AIs” in Meta AI Studio, where you can manage AIs that you’ve created.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Play Getting Things Done by David Allen", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you build an IFTTT applet for smart home right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Set up background sounds with a specific type and volume settings", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you find the GCD of 48 and 18 right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "I need you to what is 15% of 240? please", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Browse Airbnb guides and support", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Use AppleScript to open Developer and jump to the Discover page with Command+1", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please create a mystery story opening paragraph", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "where do i access twitch tv?", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me write a regex to validate email addresses right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Write a diary entry from a cat's perspective", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Can you what time is it in Tokyo?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Extract and save a shortcut's icon", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "What's the time gap in seconds?", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "take a custom-sized screenshot", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you create a systemd service file", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "I need you to write a CloudFormation template right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Please write a regex to validate email addresses right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Plays my Apple Podcasts station for media discussions and entertainment shows.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Let me select Recents, Portraits, Selfies, or Panoramas to share", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Check my Health Records in the Health app", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Browse Disney+ Originals tab", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Access Perplexity Settings page", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Create a Journal entry by typing text", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Send document to Kindle via email", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Pulls your List data from the Mastodon API, then opens the deep link into Ivory for the chosen list.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me build an IFTTT applet for smart home for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Can you what's your opinion on artificial intelligence?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Can you implement merge sort in Python right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Please find the limit of (sin x)/x as x approaches 0 please", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Please tell me a fun fact about dolphins", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "I need you to write a recipe as if it were a love story", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Show nature and history content", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Takes PNGs from input, resizes them to 2048px wide, appends a number for each image found, and asks you where to save it in Files.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Press Command+3 to get to Developer's Downloads", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please implement a binary search tree in Java right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Can you calculate the area of a circle with radius 5 right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Help me set up a Prometheus alerting rule please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Can you write a science fiction story about first contact please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Create a TypeScript interface for a user profile right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Using your Bluesky username, opens the link to the list of people you are Following.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Show me driving directions to my saved Airbnb address", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please write a Python function that sorts a list please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Please build an IFTTT applet for smart home for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Help me solve the system of equations: x+y=10, x-y=4 please", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Open Twitter notifications", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please what's the weather like today? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Take me into the Journal app", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Use Arc Search to browse and summarize results for a query", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Display one thing from my Things to-do list", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Manage my shared chat links", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Proof of concept of the URL pattern in Notion for taking a Page URL and opening it in Side Peek as a `Subpage` of a particular View.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please create a mystery story opening paragraph right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Go to iPad multitasking settings", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Set up a customizable quiet time shortcut with colloquial phrases like \"a bit\" or \"a while\"", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open your Comixology account to delete or organize comics", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "activate apple tv fireplace mode with remote", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Go to Mastodon search", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me what's the weather like today?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Please write a bash script to backup files", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Can you who won the World Series last year? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Can you build a CircleCI config for a Node project for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Go to Desktop in Files app", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Pause my next timer", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me write a Puppet manifest for package management for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "What is the derivative of x^3? please", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Can you write a regex to validate email addresses right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Start GTD audiobook", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please calculate the standard deviation of 1,2,3,4,5 please", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "I need you to set up a Prometheus alerting rule for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Please can you recommend a good restaurant? please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Please write a Go function for concurrent HTTP requests", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Please find the integral of sin(x)dx right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Can you what is 15% of 240? right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Open document scanner and pass the file along", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens the Assigned list in the Reminders app where you can filter down to show only reminders assigned to you.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Show shared Reminders tasks", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Show curated Twitter list", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Presents a list of preset emoji and copies your choice to the clipboard.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you how do I make friends as an adult? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Open Disney+ Movies section", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me what is the probability of rolling two sixes?", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Create a GitHub Actions workflow for CI/CD right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Display my ticket to scan", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Make my phone dark with Do Not Disturb on", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me can you recommend a good restaurant?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "I need you to create a mystery story opening paragraph", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Set a new location for parked car", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Convert an Amazon link to a Camel Camel Camel price tracker search", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Get the latest unread item from Reeder and open it", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Create a Docker compose file for a web app please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Please write a children's story about a brave mouse for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Opens the Books app to the Finished tab where you can see past books you’ve completed.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Change to a different time zone", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Pick and play a Podcasts Station", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Export my mind map as tasks in Things", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me how do I get better at chess? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Please implement a linked list in C++ for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Please compose a ballad about a lost treasure for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Change default Apple Pay card", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Strip the background from a photo", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Write a CloudFormation template please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "I need you to write a Puppet manifest for package management please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Edit my Stream Deck setup (Mac or remote from iOS)", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me find the integral of sin(x)dx right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "I need you to simplify the expression (3x^2 + 2x) / x", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Show me transit directions to a destination", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Exit all Focus modes", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens the iCloud Drive folder in Finder or Files to show your synced folders.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Estimate reading time for an article", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens the Health app to the Activity section to display Rings and Workouts data gathered by Apple Watch.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens into the Health app to to the Vitals category where you can see data like Heart Rate, Respiratory Rate, Bloody Oxygen, and the new all-inclusive “Vitals” stats that range from Low to Tpyical to High.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please write a SQL query to find duplicate records", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "open my animated photos collection", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "What's your opinion on artificial intelligence? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Open a starred Reeder article", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you create a systemd service file please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "I need you to simplify the expression (3x^2 + 2x) / x right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Prompts for dictation, then starts a timer for the given number of minutes.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens to the Apple News Today podcast category, where you can find individual episodes published as stories as well as links to articles mentioned in the show.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "What time is it in Tokyo? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Mark leads a team of office workers whose memories have been surgically divided between their work and personal lives. They begin a journey to discover the truth about their jobs.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Create a REST API endpoint in Flask right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Open Notion home workspace", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me prove that the square root of 2 is irrational", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Help me what is 15% of 240?", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Convert an image from Photos to base64", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please what's the weather like today?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Help me write a poem about the ocean for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Please compose a haiku about autumn", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Write a Kubernetes deployment manifest please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Where are my completed books?", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Go to Accessibility > Captions", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Connect to the upcoming Zoom meeting", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Toggle VPN connection", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Dictate a message and share it", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Takes two dates chosen as input and calculates the duration in seconds between thme – works as a Unix timestamp converter.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Set playback to local speaker and pause", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please create a Chef recipe for web server setup please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Help me what's the best way to learn a new language? please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "What's the weather like today? please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Write a unit test for a calculator class please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "open a page from my notion teamspace", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please create a REST API endpoint in Flask", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Help me what time is it in Tokyo? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Device shutdown with prompt", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me what time is it in Tokyo?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Screenshot the screen, wait for me to come back, then add it to Reminders with a title", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Get my location's altitude and show it", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Play the system Announce Message tone", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "What image do you want? Choose a style and I'll generate it", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me write a diary entry from a cat's perspective for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Add a Discord friend as a contact to a gaming group", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to compose a sonnet about technology right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Can you write a SQL query to find duplicate records please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Can you what should I have for dinner tonight? please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Show my transit pass in Wallet", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Get an address and pick how to share it", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Switch the desk fill light with Elgato app", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me set up a cron job to run every hour for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Go to Things", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Find all the email addresses in this and save them to my clipboard", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Write a travel blog post about an imaginary place", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "blank notion page shortcut", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "What is the derivative of x^3? right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Gets a URL from input, expands the short URL, and outputs the original link – works well for turning a Flipboard link into the source U", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open MacStories podcasts", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please tell me a joke about programming for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Manage my watchOS shortcuts and reorder them", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Extract and save links from web pages", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Choose a photo and apply it to lock/home screen", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please build a Slack bot integration right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Please what should I have for dinner tonight? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Help me implement merge sort in Python", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Help me implement a binary search tree in Java please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "new presentation using theme", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please find the eigenvalues of a 2x2 matrix for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "open bluesky messages", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you prove that the square root of 2 is irrational please", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "How do I make friends as an adult? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Enter where you are and book a ride", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please create a REST API endpoint in Flask please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "I need you to create a monologue for a villain right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Corrects the spelling of the text shared as input or from your clipboard, then presents it a prompt to confirm before copying.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Starts a cooldown workout, plus sets AirPods Pro to Noise Cancellation.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "open siri settings", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please create a Docker compose file for a web app", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Help me implement a rate limiter in Python", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Find and subscribe to a podcast by name, host, or URL", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Find MacStories' Mastodon account", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Go to Perplexity in my browser", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you write a science fiction story about first contact right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Help me implement a stack using two queues", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "I need you to create a Chef recipe for web server setup", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Show me the weather and calculate Golden Hour for days I pick", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Decode a Flipboard link to find the source URL", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Join my next Zoom meeting", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Access your digital library to manage Kindle Unlimited content", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open Flipboard Picks", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to write a Kubernetes deployment manifest", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "How many seconds between these dates?", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you build a Slack bot integration for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Show all tabs in tab group", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "What is the factorial of 10? right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Help me how do I tie a tie? please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Browse photography and camera-related News stories", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you what time is it in Tokyo? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Template for using Split Screen on iPad and Mac.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "access apple rss feed generator", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you write a Python function that sorts a list right now", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Use SwitchBot hardware to push a button", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me create a systemd service file please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Find the GCD of 48 and 18", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Please implement an LRU cache in Python for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Draft and send email using Gmail Smart Replies", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "open halide to take raw photos", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "find notion templates to buy", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open Gemini and let me pick a photo", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Toggle Apple Watch always-on display", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Access saved Numbers templates", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Convert special chars to URL encoding", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please what's your favorite movie?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Strip the first heading and line from content", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to write a diary entry from a cat's perspective", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Help me convert 72 degrees Fahrenheit to Celsius for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "YouTube timestamps to total seconds", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Log a game recap with timestamp", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please tell me a fun fact about dolphins right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Buy Kindle books in the Amazon app", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you set up a cron job to run every hour for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Help me who won the World Series last year? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Can you prove that the square root of 2 is irrational for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "I need you to what is the factorial of 10? for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Write a poem about the ocean", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Log a recovery session in Health as a workout", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Show password matches for my email account", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens biking directions to your home address from your current location.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Calculate the standard deviation of 1,2,3,4,5", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Please write a science fiction story about first contact for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Find API reference for Mastodon", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please implement an LRU cache in Python", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "customize an app icon and add it to home screen", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me what time is it in Tokyo? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Can you write a Python decorator for caching for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "I need you to solve the system of equations: x+y=10, x-y=4 for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Please write a children's story about a brave mouse", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Gets an app shared from input or the clipboard, then adds it to a Reminders list using its App Store details.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you write a bash script to backup files please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Help me write a poem about the ocean please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Read QR code to clipboard", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me implement a pub/sub system in Node.js please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Show me where these shortened links actually go", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Calculate compound interest on $1000 at 5% for 3 years for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Opens my email app of choice Gmail so I can immediately see relevant emails, then quickly filter out anything I don't care about.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open Kindle to my current book", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Create a CSS grid layout for a dashboard", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "view my Mastodon account", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Accept a file and activate AirDrop for sharing", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "What are some good books to read?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Help me write a Python decorator for caching please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Make a new tab group in Safari with a custom name", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Calculate speed in kilometers per hour", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to what is the derivative of x^3? right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Help me write a diary entry from a cat's perspective right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Search Apple.com for Shortcuts release notes", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please solve the equation 2x + 5 = 15", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Can you implement a pub/sub system in Node.js for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Turns the Wi-Fi on, waits a second, and shows the currently-connected network’s name.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Get the latest Do By Friday After Show", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to what's the weather like today? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Show Netflix New and Popular content", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Pick a family member and start a FaceTime Audio call", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "set wallpaper for personal focus", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "personal finance templates: budget, savings, stock portfolio, calculators", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to find the slope of the line passing through (2,3) and (5,9) please", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Share my Apple Music profile link", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Scrapes text from input and looks for strings formatted as phone numbers.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to create a Makefile for a C project", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Create dialogue between a robot and a human", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "I need you to build an IFTTT applet for smart home for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Please implement a binary search tree in Java", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Display all the hourly weather details", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "In the far future, humankind has lost its sense of sight. Jason Momoa stars as the father of twins born with the mythic ability to see—who must protect his tribe against a threatened queen. Dave Bautista and Alfre Woodard also star.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please write a recipe as if it were a love story right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Please create a database migration script please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "I need you to what is 15% of 240? for me", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Launch Instagram app or website", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Start the next timer in the queue", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Go to Appearance settings and customize my homepage", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you what's your opinion on artificial intelligence? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Play the five-perspective alien invasion show", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Help me write a bash script to backup files for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Please create a mystery story opening paragraph please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Show me what comics I own on Kindle", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Tell me a joke about programming right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Can you what are the benefits of meditation? for me", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Show me all my emails in one place", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Open YouTube on web or in the app", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please write a Kubernetes deployment manifest", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "I need you to write a CloudFormation template for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Help me calculate the volume of a sphere with radius 3 please", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "Help me what time is it in Tokyo? please", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Please what time is it in Tokyo?", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Help me write a Gradle build script right now", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "What's the best way to learn a new language? right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "I need you to describe the color blue to a blind person right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Mark where I'm parked right now", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "I need you to write a poem about the ocean right now", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Changes the current Apple Watch face to the one I’ve designed with smart-home specific complications.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you set up a GitLab CI pipeline for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "“Bring it all together with Gemini and your favorite apps. Go from tons of tabs to one conversation. Gemini can now access info from new sources, starting with Maps, YouTube, Flights, and Hotels so you can bring your ideas to life easier and faster.”", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Spell check and confirm before copying", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Enable Stage Manager with only recent apps visible", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Opens the deep link into Parks and Recreation in the TV app.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Start my all-time top tracks", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "stop the current time entry", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "make a clean quicktime screenshot", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please create a Datadog monitor for CPU usage for me", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "From a list of subreddit names, lets you choose a subreddit, pull items from its RSS feed, and choose from the results before opening it into the Apollo app for Reddit.", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Please write a bash script to find large files for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "I need you to write a short story about a time traveler please", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "I need you to implement a stack using two queues for me", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Write a regex to validate email addresses please", "label": "ood", "category": "code_generation", "source": "synthetic"}
+{"prompt": "Check out Regal Crown Club merchandise like popcorn buckets", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Use Google Lens to translate signs", "label": "in_domain", "category": "apple_shortcuts", "source": "seed_file"}
+{"prompt": "Can you build a Slack bot integration please", "label": "ood", "category": "other_automation", "source": "synthetic"}
+{"prompt": "Calculate the volume of a sphere with radius 3 right now", "label": "ood", "category": "math_homework", "source": "synthetic"}
+{"prompt": "I need you to tell me something interesting about space right now", "label": "ood", "category": "general_chat", "source": "synthetic"}
+{"prompt": "Please write a horror story in exactly 100 words for me", "label": "ood", "category": "creative_writing", "source": "synthetic"}
+{"prompt": "Please what's the meaning of life? please", "label": "ood", "category": "general_chat", "source": "synthetic"}

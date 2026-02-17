@@ -1,0 +1,10 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "WFImageCompressionQuality": 5,
+  "WFImageFormat": 6,
+  "WFImagePreserveMetadata": 7
+}

@@ -1,0 +1,13 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "WFCategorySampleEnumeration": 5,
+  "WFQuantitySampleAdditionalQuantity": 6,
+  "WFQuantitySampleDate": 7,
+  "WFQuantitySampleQuantity": 8,
+  "WFQuantitySampleType": 9,
+  "WFSampleEndDate": 10
+}

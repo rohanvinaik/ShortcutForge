@@ -1,0 +1,20 @@
+{
+  "timestamp": "2026-02-14T22:24:31.019754",
+  "attempted": 1545,
+  "successes": 1543,
+  "failures_count": 2,
+  "signed_only": 0,
+  "elapsed_seconds": 2209.098054,
+  "failures": [
+    {
+      "name": "Check Side Button emergency settings",
+      "link": "Opens the deep link directly to the \u201cCall with Side Button\u201d feature for Emergency SOS.",
+      "error": "ValueError: Bad iCloud URL: Opens the deep link directly to the \u201cCall with Side Button\u201d feature for Emergency SOS."
+    },
+    {
+      "name": "Show my coffee rewards card",
+      "link": "https://www.icloud.com/shortcuts/68ba030b3561416fbf776b19632370b",
+      "error": "HTTP 404: Not Found"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "Mode": 4,
+  "PARAM": 5,
+  "ValueLabel": 6,
+  "WFCalendarEventContentItemAttachments": 7,
+  "WFCalendarEventContentItemAttendees": 8,
+  "WFCalendarEventContentItemURL": 9,
+  "WFContentItemPropertyName": 10
+}

@@ -1,0 +1,19 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "WFAllowsMultilineText": 5,
+  "WFAskActionAllowsDecimalNumbers": 6,
+  "WFAskActionAllowsNegativeNumbers": 7,
+  "WFAskActionDefaultAnswer": 8,
+  "WFAskActionDefaultAnswerDate": 9,
+  "WFAskActionDefaultAnswerDateAndTime": 10,
+  "WFAskActionDefaultAnswerNumber": 11,
+  "WFAskActionDefaultAnswerTime": 12,
+  "WFAskActionDefaultAnswerURL": 13,
+  "WFAskActionImmediateDictation": 14,
+  "WFAskActionPrompt": 15,
+  "WFInputType": 16
+}

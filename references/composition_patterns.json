@@ -1,0 +1,990 @@
+{
+  "_meta": {
+    "version": "6.0",
+    "source": "1,772 real shortcuts from Matthew Cassinelli's library + 27 advanced community XML shortcuts",
+    "description": "Composition patterns, archetypes, and idioms extracted from real-world Apple Shortcuts",
+    "total_shortcuts": 1799,
+    "total_actions": 19265,
+    "unique_action_identifiers": 554,
+    "avg_actions_per_shortcut": 10.7,
+    "corpus_breakdown": {
+      "linear_simple_pct": 61.8,
+      "with_control_flow_pct": 38.2,
+      "note": "Majority of shortcuts are simple 1-5 action macros; complexity clusters in the top 38%"
+    }
+  },
+  "patterns": {
+    "LINEAR_SIMPLE": {
+      "count": 1112,
+      "percentage": 61.8,
+      "description": "Short sequential macro (≤5 actions, no control flow) — the dominant archetype"
+    },
+    "THIRD_PARTY_INTENTS": {
+      "count": 591,
+      "percentage": 32.9,
+      "description": "Uses non-workflow identifiers (Apple app intents, third-party apps like Charty, DataJar, Ivory, etc.)"
+    },
+    "CONDITIONAL_BRANCHING": {
+      "count": 356,
+      "percentage": 19.8,
+      "description": "If/then/else logic gates (1,264 blocks across corpus, avg 3.6 per branching shortcut)"
+    },
+    "LINEAR_PIPELINE": {
+      "count": 174,
+      "percentage": 9.7,
+      "description": "Longer sequential chain (6+ actions) with no branching — data transformation pipelines"
+    },
+    "MENU_DRIVEN_APP": {
+      "count": 163,
+      "percentage": 9.1,
+      "description": "User-facing menu (Choose From Menu) for navigation and selection (301 total menus, avg 4.3 items)"
+    },
+    "CLIPBOARD_PIPELINE": {
+      "count": 113,
+      "percentage": 6.3,
+      "description": "Reads from or writes to system clipboard for data passing"
+    },
+    "DISPLAY_RESULT": {
+      "count": 108,
+      "percentage": 6.0,
+      "description": "Shows results to user via Show Result action"
+    },
+    "TEXT_PROCESSING": {
+      "count": 106,
+      "percentage": 5.9,
+      "description": "Chains of regex/replace/split/combine for data parsing"
+    },
+    "APP_LAUNCHER": {
+      "count": 80,
+      "percentage": 4.4,
+      "description": "Opens specific apps by bundle identifier"
+    },
+    "SUB_SHORTCUT_DELEGATION": {
+      "count": 79,
+      "percentage": 4.4,
+      "description": "Delegates work to other shortcuts via Run Shortcut"
+    },
+    "DEVICE_SETTINGS": {
+      "count": 60,
+      "percentage": 3.3,
+      "description": "Adjusts device settings (brightness, volume, Wi-Fi, Bluetooth, Focus modes)"
+    },
+    "MENU_DISPATCHER": {
+      "count": 49,
+      "percentage": 2.7,
+      "description": "Large menus (6+ items) acting as command centers or app launchers"
+    },
+    "INPUT_GUARD": {
+      "count": 47,
+      "percentage": 2.6,
+      "description": "Early conditional + exit in first 30 actions for input validation"
+    },
+    "VARIABLE_STATE_MACHINE": {
+      "count": 47,
+      "percentage": 2.6,
+      "description": "3+ setvariable calls for complex state management across actions"
+    },
+    "HEALTH_INTEGRATION": {
+      "count": 40,
+      "percentage": 2.2,
+      "description": "Reads or writes Apple Health data (sleep, steps, heart rate, caffeine, etc.)"
+    },
+    "HARDWARE_CONTROL": {
+      "count": 32,
+      "percentage": 1.8,
+      "description": "Physical effects via flashlight, vibrate, brightness, volume controls"
+    },
+    "NOTIFICATION_FEEDBACK": {
+      "count": 30,
+      "percentage": 1.7,
+      "description": "Notification/alert inside conditional — contextual status/error reporting"
+    },
+    "BINARY_DATA": {
+      "count": 26,
+      "percentage": 1.4,
+      "description": "Base64-encoded assets embedded in dictionaries for self-contained data"
+    },
+    "HUB_DELEGATION": {
+      "count": 24,
+      "percentage": 1.3,
+      "description": "Menu-based dispatch to sub-shortcuts via runworkflow"
+    },
+    "COMMUNICATION": {
+      "count": 19,
+      "percentage": 1.1,
+      "description": "Sends messages or emails programmatically"
+    },
+    "SHARE_SHEET": {
+      "count": 19,
+      "percentage": 1.1,
+      "description": "Uses system share sheet for inter-app data passing"
+    },
+    "API_DATA_PIPELINE": {
+      "count": 14,
+      "percentage": 0.8,
+      "description": "Full API chain: url → downloadurl → detect.dictionary → getvalueforkey"
+    },
+    "FILE_PERSISTED_STATE": {
+      "count": 14,
+      "percentage": 0.8,
+      "description": "documentpicker.open + save for persistent state between runs"
+    },
+    "MEDIA_CAPTURE": {
+      "count": 12,
+      "percentage": 0.7,
+      "description": "Camera capture or photo selection"
+    },
+    "LOOP_ACCUMULATOR": {
+      "count": 11,
+      "percentage": 0.6,
+      "description": "repeat.each + appendvariable for building collections"
+    },
+    "CALENDAR_OPS": {
+      "count": 11,
+      "percentage": 0.6,
+      "description": "Creates or queries calendar events and reminders"
+    },
+    "BATCH_API": {
+      "count": 7,
+      "percentage": 0.4,
+      "description": "downloadurl inside repeat loop for bulk API calls"
+    }
+  },
+  "archetypes": {
+    "MENU_ROUTER": {
+      "count": 30,
+      "percentage": 9.9,
+      "examples": [
+        "Action_Shortcuts",
+        "Base64_encode_asset",
+        "Capture_contact_info",
+        "Check_the_Front_Page",
+        "Copy_shortcut_AppleScript",
+        "Create_photo_entry",
+        "Embiggen",
+        "Estimate_driving_time_to_meeting",
+        "Extract_Live_Photo",
+        "Generate_QR_code"
+      ],
+      "description": "Menu-driven but simpler than HUB_APP. Routes to 2-5 options."
+    },
+    "HUB_APP": {
+      "count": 56,
+      "percentage": 18.5,
+      "examples": [
+        "Activate_picture-in-picture",
+        "Add_Basic_spreadsheet",
+        "Add_Pages_template",
+        "Add_Personal_Finance_spreadsheet",
+        "Add_Personal_Life_spreadsheet",
+        "Add_playback_destination",
+        "Add_to_my_TV_watchlist",
+        "Analyze_address",
+        "Browse_the_TV_Store",
+        "Calculate_tip"
+      ],
+      "description": "Large menu-driven shortcut (6+ menu items). Acts as an app launcher or command center."
+    },
+    "MIXED": {
+      "count": 37,
+      "percentage": 12.2,
+      "examples": [
+        "Add_Now_Playing_to_Menu_Bar",
+        "Add_shortcuts_folder_to_Things",
+        "Add_to_Read_Later",
+        "Arrange_2_screens_horizontally",
+        "Batch-send_file_to_a_group",
+        "Bulk-add_reminders",
+        "Check_my_email",
+        "Check_network_quality",
+        "Check_upcoming_Golden_Hour_times",
+        "Control_air_purifier"
+      ],
+      "description": "Combines multiple patterns. Menus + conditionals + loops etc."
+    },
+    "SIMPLE_AUTOMATION": {
+      "count": 58,
+      "percentage": 19.1,
+      "examples": [
+        "Add_a_birthday",
+        "Add_to_Reading_List",
+        "AirPlay_to_the_TV",
+        "Ask_Google",
+        "Balanced_Noise",
+        "Buy_Again_on_Amazon",
+        "Convert_time_zones",
+        "Copy_Feedback_ID",
+        "Copy_iCloud_link",
+        "Count_down_to_Christmas_morning"
+      ],
+      "description": "Short linear sequence (≤5 actions, no branching). Quick toggles, settings changes, app launches."
+    },
+    "DATA_PROCESSOR": {
+      "count": 9,
+      "percentage": 3.0,
+      "examples": [
+        "Add_account_to_Mastodon_list",
+        "Add_link_to_Things",
+        "Check_BART_departures",
+        "Check_tech_headlines",
+        "Export_Heart_Rate_data",
+        "NATO_Alphabet",
+        "Open_into_a_List_in_Ivory",
+        "Save_Window_setup",
+        "Set_alarm_by_sunrise"
+      ],
+      "description": "Loop-based data transformation. Iterates + accumulates + transforms."
+    },
+    "LINEAR_PIPELINE": {
+      "count": 32,
+      "percentage": 10.6,
+      "examples": [
+        "Add_birthday_reminder",
+        "Change_volume",
+        "Check_Apollo_feeds",
+        "Check_Photos_access_for_an_App_Store_app",
+        "Check_morning_heat",
+        "Convert_time_between_dates_to_total_seconds",
+        "Convert_timecode_to_seconds",
+        "Copy_Markdown_image_with_caption__filename",
+        "Copy_View_from_Notion_link",
+        "Encode_audio_recording_as_text"
+      ],
+      "description": "Longer sequential chain (6+ actions) with no branching. Data transformation pipelines."
+    },
+    "SMART_HANDLER": {
+      "count": 53,
+      "percentage": 17.5,
+      "examples": [
+        "Add_to_App_Store_wish_list",
+        "Add_to_Things_from_Reminders",
+        "Add_to_wishlist",
+        "Capture_podcast_quote",
+        "Check_battery_level",
+        "Check_for_a_white_christmas",
+        "Check_the_weather_forecast",
+        "Connect_my_AirPods_Pro",
+        "Convert_timecode_to_total_seconds",
+        "Copy_app_link"
+      ],
+      "description": "Medium-to-complex shortcut with conditional logic. Adapts behavior based on context."
+    },
+    "DEVICE_CONFIGURATOR": {
+      "count": 5,
+      "percentage": 1.7,
+      "examples": [
+        "Book_Mode",
+        "Movie_Setup",
+        "Set_my_Focus_Wallpaper",
+        "Silencio",
+        "TV_Setup"
+      ],
+      "description": "Batch-sets multiple device settings. Brightness + volume + focus + appearance."
+    },
+    "DELEGATOR": {
+      "count": 10,
+      "percentage": 3.3,
+      "examples": [
+        "Convert_YouTube_chapters_to_linked_list",
+        "OCR_Thread",
+        "Open_creator_YouTube_playlists",
+        "Open_my_YouTube_playlists",
+        "Open_personal_YouTube_playlists",
+        "Open_video_podcasts",
+        "Open_work_YouTube_playlists",
+        "Post_link_to_Threads",
+        "Repost_thread_to_Mastodon",
+        "Search_by_website"
+      ],
+      "description": "Orchestrates other shortcuts via Run Shortcut. Minimal own logic."
+    },
+    "API_CLIENT": {
+      "count": 5,
+      "percentage": 1.7,
+      "examples": [
+        "Current_Apex_rotation",
+        "Get_Youtube_Channel_ID",
+        "Log_Letterboxd_entry_to_Wordpress",
+        "Scrape_Mastodon_link",
+        "Scrape_Threads_post"
+      ],
+      "description": "Makes HTTP API calls and processes responses. URL → Fetch → Parse → Display."
+    },
+    "APP_CONTROLLER": {
+      "count": 8,
+      "percentage": 2.6,
+      "examples": [
+        "High_alert",
+        "Monitor_The_House",
+        "Monitor_The_Office",
+        "Open_from_Archive",
+        "Open_from_Read_Later",
+        "Open_random_Things_project",
+        "Please_disturb_me",
+        "Turn_off_alarms"
+      ],
+      "description": "Primarily invokes third-party app intents. Thin wrapper around app functionality."
+    }
+  },
+  "idioms": {
+    "multi_menu": {
+      "count": 90,
+      "examples": [
+        "Action_Shortcuts",
+        "Activate_picture-in-picture",
+        "Add_Basic_spreadsheet",
+        "Add_Pages_template",
+        "Add_Personal_Finance_spreadsheet",
+        "Add_Personal_Life_spreadsheet",
+        "Add_playback_destination",
+        "Add_to_my_TV_watchlist"
+      ],
+      "description": "Multiple Choose From Menu blocks in one shortcut"
+    },
+    "conditional_chain": {
+      "count": 28,
+      "examples": [
+        "Action_Shortcuts",
+        "Add_account_to_Mastodon_list",
+        "Add_link_to_Things",
+        "Add_to_my_TV_watchlist",
+        "Analyze_address",
+        "Browse_the_TV_Store",
+        "Check_for_a_white_christmas",
+        "Check_my_bank_accounts"
+      ],
+      "description": "Multiple sequential If/Then blocks (3+)"
+    },
+    "sub_shortcut": {
+      "count": 20,
+      "examples": [
+        "Action_Shortcuts",
+        "Activate_picture-in-picture",
+        "Add_account_to_Mastodon_list",
+        "Add_link_to_Things",
+        "Convert_YouTube_chapters_to_linked_list",
+        "Friend_of_the_Show",
+        "I_need_to_do_something",
+        "Movie_Setup"
+      ],
+      "description": "Delegates to other shortcuts via Run Shortcut"
+    },
+    "large_menu": {
+      "count": 32,
+      "examples": [
+        "Activate_picture-in-picture",
+        "Add_Basic_spreadsheet",
+        "Add_Pages_template",
+        "Add_Personal_Finance_spreadsheet",
+        "Add_Personal_Life_spreadsheet",
+        "Add_playback_destination",
+        "Add_to_my_TV_watchlist",
+        "Browse_the_TV_Store"
+      ],
+      "description": "Menu with 6+ options (typically a hub or launcher)"
+    },
+    "nested_menu": {
+      "count": 7,
+      "examples": [
+        "Add_Pages_template",
+        "Browse_the_TV_Store",
+        "Hand_off_music",
+        "Make_Things_URLs",
+        "Open_by_folder_group",
+        "Set_bedtime_by_alarm",
+        "Watch_Star_Wars"
+      ],
+      "description": "Menu inside menu for hierarchical navigation"
+    },
+    "api_fetch_chain": {
+      "count": 6,
+      "examples": [
+        "Add_account_to_Mastodon_list",
+        "Check_BART_departures",
+        "Check_the_Front_Page",
+        "Current_Apex_rotation",
+        "Open_into_a_List_in_Ivory",
+        "Scrape_Mastodon_link"
+      ],
+      "description": "URL → Get Contents of URL for API calls"
+    },
+    "repeat_each": {
+      "count": 34,
+      "examples": [
+        "Add_account_to_Mastodon_list",
+        "Add_link_to_Things",
+        "Add_shortcuts_folder_to_Things",
+        "Add_to_Things_from_Reminders",
+        "Add_to_my_TV_watchlist",
+        "Batch-send_file_to_a_group",
+        "Bulk-add_reminders",
+        "Capture_podcast_quote"
+      ],
+      "description": "Iterate over a collection with Repeat With Each"
+    },
+    "smart_input_handler": {
+      "count": 9,
+      "examples": [
+        "Add_to_wishlist",
+        "Analyze_address",
+        "Copy_my_Shortcuts_folder_names",
+        "Generate_QR_code",
+        "Make_Things_URLs",
+        "NATO_Alphabet",
+        "Save_TikTok",
+        "Summarize_articles_with_Perplexity"
+      ],
+      "description": "Checks Shortcut Input → falls back to clipboard → asks user"
+    },
+    "ssh_remote": {
+      "count": 6,
+      "examples": [
+        "Arrange_2_screens_horizontally",
+        "New_Freeform_window",
+        "Open_Mac_app",
+        "Open_Tweetdeck",
+        "Screen_Capture_with_Perplexity",
+        "Upload_File_in_Perplexity"
+      ],
+      "description": "Executes commands on remote machines via SSH"
+    },
+    "device_settings_batch": {
+      "count": 8,
+      "examples": [
+        "Book_Mode",
+        "Control_appearance",
+        "High_alert",
+        "Please_disturb_me",
+        "Please_do_not_disturb_me",
+        "Set_Focus",
+        "Set_default_device_settings",
+        "Set_my_Focus_Wallpaper"
+      ],
+      "description": "Sets 3+ device settings in one shortcut"
+    },
+    "applescript_hybrid": {
+      "count": 11,
+      "examples": [
+        "Book_Mode",
+        "Copy_Feedback_ID",
+        "New_Freeform_window",
+        "Open_Developer_TV",
+        "Open_Tweetdeck",
+        "Open_all_inboxes",
+        "Screen_Capture_with_Perplexity",
+        "Turn_on_the_fireplace"
+      ],
+      "description": "Mixes native Shortcuts actions with inline AppleScript"
+    },
+    "shell_hybrid": {
+      "count": 8,
+      "examples": [
+        "Browse_the_TV_Store",
+        "Check_network_quality",
+        "Copy_my_Shortcuts_folder_names",
+        "Open_Apple_TV_home",
+        "Open_Portland_Timbers_TV",
+        "Open_from_Apple_TV_Plus",
+        "Open_into_the_TV_app",
+        "Open_sports_in_the_TV_app"
+      ],
+      "description": "Mixes native Shortcuts actions with shell scripts"
+    },
+    "text_split_pipeline": {
+      "count": 11,
+      "examples": [
+        "Bulk-add_reminders",
+        "Capture_podcast_quote",
+        "Convert_YouTube_chapters_to_linked_list",
+        "Convert_timecode_to_seconds",
+        "Log_meeting_notes",
+        "Make_Things_URLs",
+        "Make_fun_of_me",
+        "NATO_Alphabet"
+      ],
+      "description": "Ask/Get Text → Split Text → process items"
+    },
+    "dictionary_routing": {
+      "count": 7,
+      "examples": [
+        "Check_BART_departures",
+        "Date_formatter",
+        "Log_caffeine",
+        "Open_Mac_app",
+        "Open_into_a_List_from_X",
+        "Open_my_Twitter_Lists",
+        "Time_formatter"
+      ],
+      "description": "Dictionary → Choose From List → Get Value for routing decisions"
+    },
+    "date_arithmetic": {
+      "count": 7,
+      "examples": [
+        "Check_upcoming_Golden_Hour_times",
+        "Copy_calendar_year",
+        "Generate_calendar_weeks",
+        "Please_do_not_disturb_me",
+        "Set_bedtime_by_alarm",
+        "Set_stand_reminders",
+        "When_is_Golden_Hour"
+      ],
+      "description": "Multiple date adjustment operations (calculating durations, offsets)"
+    },
+    "clipboard_roundtrip": {
+      "count": 3,
+      "examples": [
+        "Copy_to_my_clipboard_manager",
+        "Make_Things_URLs",
+        "Unencode_link"
+      ],
+      "description": "Get Clipboard → process → Set Clipboard"
+    },
+    "file_accumulation": {
+      "count": 1,
+      "examples": [
+        "Copy_to_my_clipboard_manager"
+      ],
+      "description": "Append to file for persistent data accumulation"
+    },
+    "health_data": {
+      "count": 5,
+      "examples": [
+        "Export_Heart_Rate_data",
+        "Log_caffeine",
+        "Log_time_awake",
+        "Log_toothbrushing",
+        "Log_water"
+      ],
+      "description": "Reads or writes Apple Health data"
+    }
+  },
+  "bigrams": [
+    {
+      "sequence": [
+        "TSADocumentCreateIntent",
+        "choosefrommenu"
+      ],
+      "count": 187
+    },
+    {
+      "sequence": [
+        "choosefrommenu",
+        "TSADocumentCreateIntent"
+      ],
+      "count": 177
+    },
+    {
+      "sequence": [
+        "choosefrommenu",
+        "choosefrommenu"
+      ],
+      "count": 169
+    },
+    {
+      "sequence": [
+        "choosefrommenu",
+        "url"
+      ],
+      "count": 156
+    },
+    {
+      "sequence": [
+        "url",
+        "choosefrommenu"
+      ],
+      "count": 150
+    },
+    {
+      "sequence": [
+        "conditional",
+        "conditional"
+      ],
+      "count": 116
+    },
+    {
+      "sequence": [
+        "url",
+        "openurl"
+      ],
+      "count": 56
+    },
+    {
+      "sequence": [
+        "AXSetSoundDetectorIntent",
+        "AXSetSoundDetectorIntent"
+      ],
+      "count": 36
+    },
+    {
+      "sequence": [
+        "conditional",
+        "choosefrommenu"
+      ],
+      "count": 33
+    },
+    {
+      "sequence": [
+        "conditional",
+        "url"
+      ],
+      "count": 32
+    },
+    {
+      "sequence": [
+        "choosefrommenu",
+        "conditional"
+      ],
+      "count": 30
+    },
+    {
+      "sequence": [
+        "text.split",
+        "getitemfromlist"
+      ],
+      "count": 30
+    },
+    {
+      "sequence": [
+        "conditional",
+        "gettext"
+      ],
+      "count": 29
+    },
+    {
+      "sequence": [
+        "url",
+        "conditional"
+      ],
+      "count": 29
+    },
+    {
+      "sequence": [
+        "choosefrommenu",
+        "ICNotesFolderIntent"
+      ],
+      "count": 28
+    },
+    {
+      "sequence": [
+        "ICNotesFolderIntent",
+        "choosefrommenu"
+      ],
+      "count": 28
+    },
+    {
+      "sequence": [
+        "getitemfromlist",
+        "setvariable"
+      ],
+      "count": 26
+    },
+    {
+      "sequence": [
+        "choosefrommenu",
+        "setplaybackdestination"
+      ],
+      "count": 26
+    },
+    {
+      "sequence": [
+        "setplaybackdestination",
+        "choosefrommenu"
+      ],
+      "count": 26
+    },
+    {
+      "sequence": [
+        "choosefrommenu",
+        "gettext"
+      ],
+      "count": 25
+    },
+    {
+      "sequence": [
+        "choosefromlist",
+        "getvalueforkey"
+      ],
+      "count": 25
+    },
+    {
+      "sequence": [
+        "openurl",
+        "conditional"
+      ],
+      "count": 25
+    },
+    {
+      "sequence": [
+        "ask",
+        "ask"
+      ],
+      "count": 25
+    },
+    {
+      "sequence": [
+        "gettext",
+        "conditional"
+      ],
+      "count": 24
+    },
+    {
+      "sequence": [
+        "gettext",
+        "showresult"
+      ],
+      "count": 22
+    },
+    {
+      "sequence": [
+        "conditional",
+        "ask"
+      ],
+      "count": 22
+    },
+    {
+      "sequence": [
+        "conditional",
+        "ICNotesFolderIntent"
+      ],
+      "count": 22
+    },
+    {
+      "sequence": [
+        "ICNotesFolderIntent",
+        "conditional"
+      ],
+      "count": 22
+    },
+    {
+      "sequence": [
+        "conditional",
+        "getvariable"
+      ],
+      "count": 21
+    },
+    {
+      "sequence": [
+        "getvariable",
+        "conditional"
+      ],
+      "count": 21
+    },
+    {
+      "sequence": [
+        "conditional",
+        "openapp"
+      ],
+      "count": 21
+    },
+    {
+      "sequence": [
+        "detect.link",
+        "conditional"
+      ],
+      "count": 20
+    },
+    {
+      "sequence": [
+        "choosefrommenu",
+        "ask"
+      ],
+      "count": 20
+    },
+    {
+      "sequence": [
+        "conditional",
+        "detect.link"
+      ],
+      "count": 19
+    },
+    {
+      "sequence": [
+        "setvariable",
+        "conditional"
+      ],
+      "count": 18
+    },
+    {
+      "sequence": [
+        "getvalueforkey",
+        "choosefromlist"
+      ],
+      "count": 18
+    },
+    {
+      "sequence": [
+        "exit",
+        "conditional"
+      ],
+      "count": 17
+    },
+    {
+      "sequence": [
+        "conditional",
+        "setvariable"
+      ],
+      "count": 17
+    },
+    {
+      "sequence": [
+        "conditional",
+        "openurl"
+      ],
+      "count": 17
+    },
+    {
+      "sequence": [
+        "choosefromlist",
+        "conditional"
+      ],
+      "count": 16
+    },
+    {
+      "sequence": [
+        "conditional",
+        "nothing"
+      ],
+      "count": 16
+    },
+    {
+      "sequence": [
+        "nothing",
+        "conditional"
+      ],
+      "count": 16
+    },
+    {
+      "sequence": [
+        "dnd.set",
+        "choosefrommenu"
+      ],
+      "count": 16
+    },
+    {
+      "sequence": [
+        "count",
+        "conditional"
+      ],
+      "count": 15
+    },
+    {
+      "sequence": [
+        "openapp",
+        "choosefrommenu"
+      ],
+      "count": 15
+    },
+    {
+      "sequence": [
+        "setvariable",
+        "gettext"
+      ],
+      "count": 15
+    },
+    {
+      "sequence": [
+        "gettext",
+        "setvariable"
+      ],
+      "count": 15
+    },
+    {
+      "sequence": [
+        "format.date",
+        "format.date"
+      ],
+      "count": 15
+    },
+    {
+      "sequence": [
+        "choosefrommenu",
+        "WakeAppleTVIntent"
+      ],
+      "count": 15
+    },
+    {
+      "sequence": [
+        "WakeAppleTVIntent",
+        "LaunchApplicationIntent"
+      ],
+      "count": 15
+    }
+  ],
+  "pattern_frequency": {
+    "LINEAR_SIMPLE": 1112,
+    "THIRD_PARTY_INTENTS": 591,
+    "CONDITIONAL_BRANCHING": 356,
+    "LINEAR_PIPELINE": 174,
+    "MENU_DRIVEN_APP": 163,
+    "CLIPBOARD_PIPELINE": 113,
+    "DISPLAY_RESULT": 108,
+    "TEXT_PROCESSING": 106,
+    "APP_LAUNCHER": 80,
+    "SUB_SHORTCUT_DELEGATION": 79,
+    "DEVICE_SETTINGS": 60,
+    "MENU_DISPATCHER": 49,
+    "INPUT_GUARD": 47,
+    "VARIABLE_STATE_MACHINE": 47,
+    "HEALTH_INTEGRATION": 40,
+    "HARDWARE_CONTROL": 32,
+    "NOTIFICATION_FEEDBACK": 30,
+    "BINARY_DATA": 26,
+    "HUB_DELEGATION": 24,
+    "COMMUNICATION": 19,
+    "SHARE_SHEET": 19,
+    "API_DATA_PIPELINE": 14,
+    "FILE_PERSISTED_STATE": 14,
+    "MEDIA_CAPTURE": 12,
+    "LOOP_ACCUMULATOR": 11,
+    "CALENDAR_OPS": 11,
+    "BATCH_API": 7
+  },
+  "layer2_statistics": {
+    "corpus_size": 1799,
+    "total_actions": 19265,
+    "avg_actions_per_shortcut": 10.7,
+    "api_usage_pct": 1.9,
+    "file_io_pct": 2.3,
+    "loops": {
+      "repeat_each_pct": 4.7,
+      "repeat_count_pct": 1.1,
+      "total_loop_blocks": 176,
+      "avg_loop_body_actions": 15.1,
+      "loops_with_conditionals_pct": 40.9
+    },
+    "menus": {
+      "shortcuts_with_menus_pct": 9.1,
+      "total_menu_blocks": 301,
+      "avg_items_per_menu": 4.3,
+      "small_2_4_pct": 71.1,
+      "medium_5_7_pct": 15.0,
+      "large_8_plus_pct": 12.6
+    },
+    "input_collection": {
+      "shortcuts_with_ask_pct": 12.7,
+      "total_ask_actions": 404,
+      "text_input_pct": 71.0,
+      "number_input_pct": 16.1,
+      "with_defaults_pct": 16.1,
+      "immediate_conditional_pct": 9.2
+    },
+    "variables": {
+      "shortcuts_with_setvariable_pct": 8.6,
+      "total_setvariable": 852,
+      "total_getvariable": 42,
+      "set_get_ratio": "20:1",
+      "mutable_usage_pct": 1.7
+    },
+    "conditionals": {
+      "shortcuts_with_conditionals_pct": 19.8,
+      "total_conditional_blocks": 1264,
+      "avg_per_branching_shortcut": 3.6
+    },
+    "nesting": {
+      "zero_nesting_pct": 71.5,
+      "avg_max_depth": 0.43,
+      "max_depth_observed": 12,
+      "exceeds_depth_2_pct": 2.3
+    }
+  }
+}

@@ -1,0 +1,4422 @@
+{
+  "meta": {
+    "batch": 3,
+    "shortcuts_processed": 9,
+    "total_actions_parsed": 2410,
+    "unique_action_types": 93,
+    "apple_action_types": 90,
+    "third_party_types": 3
+  },
+  "per_shortcut": {
+    "ShortcutGPT": {
+      "total_actions": 48,
+      "unique_action_types": 12,
+      "action_counts": {
+        "is.workflow.actions.choosefrommenu": 16,
+        "is.workflow.actions.ask": 8,
+        "is.workflow.actions.showresult": 5,
+        "is.workflow.actions.gettext": 4,
+        "is.workflow.actions.urlencode": 4,
+        "is.workflow.actions.downloadurl": 4,
+        "is.workflow.actions.nothing": 2,
+        "is.workflow.actions.comment": 1,
+        "is.workflow.actions.setclipboard": 1,
+        "is.workflow.actions.previewdocument": 1,
+        "is.workflow.actions.exit": 1,
+        "is.workflow.actions.runworkflow": 1
+      },
+      "control_flow": {
+        "conditionals": 0,
+        "repeat_loops": 0,
+        "repeat_each_loops": 0,
+        "menus": 3,
+        "max_nesting_depth": 2
+      },
+      "patterns": [
+        {
+          "pattern": "MENU_ROUTER",
+          "evidence": "Found 16 menu(s)"
+        },
+        {
+          "pattern": "PROGRESSIVE_DISCLOSURE",
+          "evidence": "ask + choose sequence"
+        },
+        {
+          "pattern": "SELF_REFERENTIAL",
+          "evidence": "Runs other shortcuts"
+        }
+      ],
+      "creative_techniques": []
+    },
+    "AI_Facial_Recognition": {
+      "total_actions": 34,
+      "unique_action_types": 12,
+      "action_counts": {
+        "is.workflow.actions.conditional": 12,
+        "is.workflow.actions.setvariable": 7,
+        "is.workflow.actions.repeat.each": 4,
+        "is.workflow.actions.url": 2,
+        "is.workflow.actions.getvalueforkey": 2,
+        "is.workflow.actions.detect.images": 1,
+        "is.workflow.actions.nothing": 1,
+        "is.workflow.actions.selectphoto": 1,
+        "is.workflow.actions.downloadurl": 1,
+        "is.workflow.actions.detect.dictionary": 1,
+        "is.workflow.actions.overlayimageonimage": 1,
+        "is.workflow.actions.previewdocument": 1
+      },
+      "control_flow": {
+        "conditionals": 4,
+        "repeat_loops": 0,
+        "repeat_each_loops": 2,
+        "menus": 0,
+        "max_nesting_depth": 6
+      },
+      "patterns": [
+        {
+          "pattern": "LONG_LIVED_STATE",
+          "evidence": "7 set_variable, 0 get_variable"
+        },
+        {
+          "pattern": "CONFIG_DICTIONARY",
+          "evidence": "Dictionary in first 20 actions"
+        },
+        {
+          "pattern": "FETCH_PARSE_BRANCH",
+          "evidence": "HTTP fetch + JSON parsing"
+        },
+        {
+          "pattern": "API_INTEGRATION",
+          "evidence": "HTTP requests with custom headers/body"
+        }
+      ],
+      "creative_techniques": []
+    },
+    "Lucy": {
+      "total_actions": 712,
+      "unique_action_types": 58,
+      "action_counts": {
+        "is.workflow.actions.conditional": 253,
+        "is.workflow.actions.gettext": 62,
+        "is.workflow.actions.setvariable": 59,
+        "com.alexhay.Console.LogMessageIntent": 29,
+        "is.workflow.actions.dictionary": 28,
+        "is.workflow.actions.choosefrommenu": 24,
+        "is.workflow.actions.text.replace": 22,
+        "is.workflow.actions.getvalueforkey": 21,
+        "is.workflow.actions.comment": 15,
+        "is.workflow.actions.url": 11,
+        "is.workflow.actions.number": 11,
+        "is.workflow.actions.repeat.each": 10,
+        "is.workflow.actions.urlencode": 9,
+        "is.workflow.actions.text.split": 9,
+        "is.workflow.actions.exit": 9,
+        "is.workflow.actions.nothing": 9,
+        "is.workflow.actions.runworkflow": 9,
+        "is.workflow.actions.alert": 8,
+        "is.workflow.actions.detect.dictionary": 7,
+        "is.workflow.actions.ask": 7,
+        "is.workflow.actions.output": 6,
+        "is.workflow.actions.getitemfromlist": 6,
+        "is.workflow.actions.count": 6,
+        "is.workflow.actions.getvariable": 5,
+        "is.workflow.actions.openurl": 5,
+        "is.workflow.actions.choosefromlist": 5,
+        "is.workflow.actions.text.combine": 5,
+        "is.workflow.actions.detect.link": 4,
+        "is.workflow.actions.downloadurl": 4,
+        "is.workflow.actions.setvalueforkey": 4,
+        "is.workflow.actions.repeat.count": 4,
+        "is.workflow.actions.notification": 4,
+        "is.workflow.actions.setitemname": 3,
+        "is.workflow.actions.filter.files": 3,
+        "is.workflow.actions.text.match": 3,
+        "is.workflow.actions.math": 3,
+        "is.workflow.actions.file.createfolder": 2,
+        "is.workflow.actions.documentpicker.open": 2,
+        "is.workflow.actions.documentpicker.save": 2,
+        "is.workflow.actions.text.trimwhitespace": 2,
+        "is.workflow.actions.gettypeaction": 2,
+        "is.workflow.actions.detect.text": 2,
+        "is.workflow.actions.text.match.getgroup": 2,
+        "com.apple.shortcuts.DeleteWorkflowAction": 2,
+        "is.workflow.actions.gettimebetweendates": 1,
+        "is.workflow.actions.getipaddress": 1,
+        "is.workflow.actions.url.expand": 1,
+        "is.workflow.actions.getcurrentapp": 1,
+        "is.workflow.actions.getmyworkflows": 1,
+        "is.workflow.actions.delay": 1,
+        "is.workflow.actions.detect.images": 1,
+        "is.workflow.actions.extracttextfromimage": 1,
+        "is.workflow.actions.image.convert": 1,
+        "is.workflow.actions.base64encode": 1,
+        "is.workflow.actions.list": 1,
+        "is.workflow.actions.getrichtextfrommarkdown": 1,
+        "is.workflow.actions.showresult": 1,
+        "is.workflow.actions.appendvariable": 1
+      },
+      "control_flow": {
+        "conditionals": 107,
+        "repeat_loops": 2,
+        "repeat_each_loops": 5,
+        "menus": 5,
+        "max_nesting_depth": 12
+      },
+      "patterns": [
+        {
+          "pattern": "MENU_ROUTER",
+          "evidence": "Found 24 menu(s)"
+        },
+        {
+          "pattern": "LONG_LIVED_STATE",
+          "evidence": "59 set_variable, 5 get_variable"
+        },
+        {
+          "pattern": "CONDITIONAL_FEEDBACK",
+          "evidence": "13 notifications inside conditionals"
+        },
+        {
+          "pattern": "CONFIG_DICTIONARY",
+          "evidence": "Dictionary in first 20 actions"
+        },
+        {
+          "pattern": "FILE_PERSISTENCE",
+          "evidence": "save=True, open=True"
+        },
+        {
+          "pattern": "SELF_UPDATE",
+          "evidence": "RoutineHub API or version check detected"
+        },
+        {
+          "pattern": "FETCH_PARSE_BRANCH",
+          "evidence": "HTTP fetch + JSON parsing"
+        },
+        {
+          "pattern": "ACCUMULATE_LOOP",
+          "evidence": "repeat + appendvariable"
+        },
+        {
+          "pattern": "DATA_EMBEDDING",
+          "evidence": "base64=True, long_strings=True"
+        },
+        {
+          "pattern": "COMPUTED_VALUE",
+          "evidence": "math=True, number+repeat"
+        },
+        {
+          "pattern": "TIMED_REPEAT",
+          "evidence": "repeat + delay/wait"
+        },
+        {
+          "pattern": "PROGRESSIVE_DISCLOSURE",
+          "evidence": "ask + choose sequence"
+        },
+        {
+          "pattern": "SELF_REFERENTIAL",
+          "evidence": "Runs other shortcuts"
+        },
+        {
+          "pattern": "PROTOCOL_HANDLER",
+          "evidence": "URL scheme / x-callback-url usage"
+        },
+        {
+          "pattern": "API_INTEGRATION",
+          "evidence": "HTTP requests with custom headers/body"
+        },
+        {
+          "pattern": "DEVICE_INTERROGATION",
+          "evidence": "Reads device properties"
+        }
+      ],
+      "creative_techniques": [
+        {
+          "technique": "SELF_MODIFYING",
+          "description": "Shortcut that can modify or generate other shortcuts"
+        },
+        {
+          "technique": "AI_INTEGRATION",
+          "description": "Uses AI/ML services: ['is.workflow.actions.choosefromlist', 'is.workflow.actions.getitemfromlist']"
+        },
+        {
+          "technique": "MULTI_SHORTCUT_ORCHESTRATION",
+          "description": "Runs 9 other shortcuts - acts as an orchestrator"
+        },
+        {
+          "technique": "META_SHORTCUT",
+          "description": "Manipulates shortcut files or the Shortcuts app itself"
+        },
+        {
+          "technique": "ENCODING_CRYPTO",
+          "description": "Encoding/crypto operations: ['is.workflow.actions.base64encode']"
+        }
+      ]
+    },
+    "Battery_Report": {
+      "total_actions": 179,
+      "unique_action_types": 29,
+      "action_counts": {
+        "is.workflow.actions.setvariable": 38,
+        "is.workflow.actions.text.match": 32,
+        "is.workflow.actions.conditional": 25,
+        "is.workflow.actions.gettext": 24,
+        "is.workflow.actions.comment": 13,
+        "is.workflow.actions.documentpicker.open": 5,
+        "is.workflow.actions.documentpicker.save": 4,
+        "is.workflow.actions.round": 4,
+        "is.workflow.actions.openurl": 3,
+        "is.workflow.actions.exit": 3,
+        "is.workflow.actions.getitemfromlist": 3,
+        "is.workflow.actions.dictionary": 2,
+        "is.workflow.actions.date": 2,
+        "is.workflow.actions.calculateexpression": 2,
+        "is.workflow.actions.format.number": 2,
+        "is.workflow.actions.text.replace": 2,
+        "is.workflow.actions.math": 2,
+        "is.workflow.actions.url": 2,
+        "is.workflow.actions.getrichtextfromhtml": 1,
+        "is.workflow.actions.previewdocument": 1,
+        "is.workflow.actions.setitemname": 1,
+        "is.workflow.actions.getdevicedetails": 1,
+        "is.workflow.actions.notification": 1,
+        "is.workflow.actions.statistics": 1,
+        "is.workflow.actions.choosefromlist": 1,
+        "is.workflow.actions.getvalueforkey": 1,
+        "is.workflow.actions.filter.notes": 1,
+        "is.workflow.actions.appendnote": 1,
+        "is.workflow.actions.file.append": 1
+      },
+      "control_flow": {
+        "conditionals": 10,
+        "repeat_loops": 0,
+        "repeat_each_loops": 0,
+        "menus": 0,
+        "max_nesting_depth": 2
+      },
+      "patterns": [
+        {
+          "pattern": "LONG_LIVED_STATE",
+          "evidence": "38 set_variable, 0 get_variable"
+        },
+        {
+          "pattern": "CONFIG_DICTIONARY",
+          "evidence": "Dictionary in first 20 actions"
+        },
+        {
+          "pattern": "FILE_PERSISTENCE",
+          "evidence": "save=True, open=True"
+        },
+        {
+          "pattern": "SELF_UPDATE",
+          "evidence": "RoutineHub API or version check detected"
+        },
+        {
+          "pattern": "DATA_EMBEDDING",
+          "evidence": "base64=False, long_strings=True"
+        },
+        {
+          "pattern": "COMPUTED_VALUE",
+          "evidence": "math=True, number+repeat"
+        },
+        {
+          "pattern": "GUARD_CLAUSE",
+          "evidence": "Early conditional + exit"
+        },
+        {
+          "pattern": "DEVICE_INTERROGATION",
+          "evidence": "Reads device properties"
+        }
+      ],
+      "creative_techniques": [
+        {
+          "technique": "AI_INTEGRATION",
+          "description": "Uses AI/ML services: ['is.workflow.actions.choosefromlist', 'is.workflow.actions.getitemfromlist', 'is.workflow.actions.getrichtextfromhtml']"
+        }
+      ]
+    },
+    "Save_MobileGestalt": {
+      "total_actions": 66,
+      "unique_action_types": 20,
+      "action_counts": {
+        "is.workflow.actions.conditional": 20,
+        "is.workflow.actions.choosefrommenu": 8,
+        "is.workflow.actions.gettext": 7,
+        "is.workflow.actions.comment": 5,
+        "is.workflow.actions.setclipboard": 4,
+        "is.workflow.actions.url": 3,
+        "is.workflow.actions.alert": 3,
+        "is.workflow.actions.dictionary": 2,
+        "is.workflow.actions.output": 2,
+        "is.workflow.actions.setitemname": 2,
+        "is.workflow.actions.setvariable": 1,
+        "is.workflow.actions.getipaddress": 1,
+        "is.workflow.actions.count": 1,
+        "is.workflow.actions.downloadurl": 1,
+        "is.workflow.actions.getwebpagecontents": 1,
+        "is.workflow.actions.openurl": 1,
+        "is.workflow.actions.viewresult": 1,
+        "is.workflow.actions.getclipboard": 1,
+        "AsheKube.app.a-Shell-mini.GetFileIntent": 1,
+        "is.workflow.actions.share": 1
+      },
+      "control_flow": {
+        "conditionals": 7,
+        "repeat_loops": 0,
+        "repeat_each_loops": 0,
+        "menus": 2,
+        "max_nesting_depth": 5
+      },
+      "patterns": [
+        {
+          "pattern": "MENU_ROUTER",
+          "evidence": "Found 8 menu(s)"
+        },
+        {
+          "pattern": "CONDITIONAL_FEEDBACK",
+          "evidence": "2 notifications inside conditionals"
+        },
+        {
+          "pattern": "CONFIG_DICTIONARY",
+          "evidence": "Dictionary in first 20 actions"
+        },
+        {
+          "pattern": "SELF_UPDATE",
+          "evidence": "RoutineHub API or version check detected"
+        },
+        {
+          "pattern": "DEVICE_INTERROGATION",
+          "evidence": "Reads device properties"
+        }
+      ],
+      "creative_techniques": [
+        {
+          "technique": "SYSTEM_ACCESS",
+          "description": "Low-level system access: ['AsheKube.app.a-Shell-mini.GetFileIntent']"
+        },
+        {
+          "technique": "META_SHORTCUT",
+          "description": "Manipulates shortcut files or the Shortcuts app itself"
+        }
+      ]
+    },
+    "Morse_Code_Torch": {
+      "total_actions": 124,
+      "unique_action_types": 33,
+      "action_counts": {
+        "is.workflow.actions.conditional": 24,
+        "is.workflow.actions.gettext": 13,
+        "is.workflow.actions.setvariable": 9,
+        "is.workflow.actions.choosefrommenu": 9,
+        "is.workflow.actions.repeat.each": 8,
+        "is.workflow.actions.text.combine": 7,
+        "is.workflow.actions.appendvariable": 6,
+        "is.workflow.actions.ask": 5,
+        "is.workflow.actions.setvalueforkey": 4,
+        "is.workflow.actions.exit": 4,
+        "is.workflow.actions.text.split": 4,
+        "is.workflow.actions.getvalueforkey": 3,
+        "is.workflow.actions.flashlight": 3,
+        "is.workflow.actions.number": 2,
+        "is.workflow.actions.runworkflow": 2,
+        "is.workflow.actions.repeat.count": 2,
+        "is.workflow.actions.math": 2,
+        "is.workflow.actions.delay": 2,
+        "is.workflow.actions.documentpicker.open": 1,
+        "is.workflow.actions.detect.dictionary": 1,
+        "is.workflow.actions.nothing": 1,
+        "is.workflow.actions.text.changecase": 1,
+        "is.workflow.actions.text.match": 1,
+        "is.workflow.actions.list": 1,
+        "is.workflow.actions.choosefromlist": 1,
+        "is.workflow.actions.alert": 1,
+        "is.workflow.actions.documentpicker.save": 1,
+        "is.workflow.actions.notification": 1,
+        "is.workflow.actions.calculateexpression": 1,
+        "is.workflow.actions.base64encode": 1,
+        "is.workflow.actions.image.resize": 1,
+        "is.workflow.actions.overlaytext": 1,
+        "is.workflow.actions.showresult": 1
+      },
+      "control_flow": {
+        "conditionals": 11,
+        "repeat_loops": 1,
+        "repeat_each_loops": 4,
+        "menus": 1,
+        "max_nesting_depth": 3
+      },
+      "patterns": [
+        {
+          "pattern": "MENU_ROUTER",
+          "evidence": "Found 9 menu(s)"
+        },
+        {
+          "pattern": "LONG_LIVED_STATE",
+          "evidence": "9 set_variable, 0 get_variable"
+        },
+        {
+          "pattern": "CONDITIONAL_FEEDBACK",
+          "evidence": "3 notifications inside conditionals"
+        },
+        {
+          "pattern": "CONFIG_DICTIONARY",
+          "evidence": "Dictionary in first 20 actions"
+        },
+        {
+          "pattern": "FILE_PERSISTENCE",
+          "evidence": "save=True, open=True"
+        },
+        {
+          "pattern": "ACCUMULATE_LOOP",
+          "evidence": "repeat + appendvariable"
+        },
+        {
+          "pattern": "DATA_EMBEDDING",
+          "evidence": "base64=True, long_strings=False"
+        },
+        {
+          "pattern": "COMPUTED_VALUE",
+          "evidence": "math=True, number+repeat"
+        },
+        {
+          "pattern": "TIMED_REPEAT",
+          "evidence": "repeat + delay/wait"
+        },
+        {
+          "pattern": "PROGRESSIVE_DISCLOSURE",
+          "evidence": "ask + choose sequence"
+        },
+        {
+          "pattern": "SELF_REFERENTIAL",
+          "evidence": "Runs other shortcuts"
+        },
+        {
+          "pattern": "HARDWARE_CONTROL",
+          "evidence": "3 hardware actions: ['is.workflow.actions.flashlight', 'is.workflow.actions.flashlight', 'is.workflow.actions.flashlight']"
+        }
+      ],
+      "creative_techniques": [
+        {
+          "technique": "SELF_MODIFYING",
+          "description": "Shortcut that can modify or generate other shortcuts"
+        },
+        {
+          "technique": "AI_INTEGRATION",
+          "description": "Uses AI/ML services: ['is.workflow.actions.choosefromlist']"
+        },
+        {
+          "technique": "MULTI_SHORTCUT_ORCHESTRATION",
+          "description": "Runs 2 other shortcuts - acts as an orchestrator"
+        },
+        {
+          "technique": "PHYSICAL_WORLD",
+          "description": "Interacts with physical world: ['is.workflow.actions.flashlight']"
+        },
+        {
+          "technique": "ENCODING_CRYPTO",
+          "description": "Encoding/crypto operations: ['is.workflow.actions.base64encode']"
+        }
+      ]
+    },
+    "Swing_Updater": {
+      "total_actions": 293,
+      "unique_action_types": 44,
+      "action_counts": {
+        "is.workflow.actions.conditional": 89,
+        "is.workflow.actions.getvalueforkey": 17,
+        "is.workflow.actions.alert": 16,
+        "is.workflow.actions.output": 14,
+        "is.workflow.actions.gettext": 12,
+        "is.workflow.actions.documentpicker.save": 11,
+        "is.workflow.actions.setvariable": 10,
+        "is.workflow.actions.choosefromlist": 10,
+        "is.workflow.actions.repeat.each": 10,
+        "is.workflow.actions.setitemname": 9,
+        "is.workflow.actions.runworkflow": 8,
+        "is.workflow.actions.setvalueforkey": 8,
+        "is.workflow.actions.dictionary": 7,
+        "is.workflow.actions.documentpicker.open": 7,
+        "is.workflow.actions.text.combine": 6,
+        "is.workflow.actions.ask": 5,
+        "is.workflow.actions.file.delete": 5,
+        "is.workflow.actions.text.match": 5,
+        "is.workflow.actions.filter.files": 4,
+        "is.workflow.actions.choosefrommenu": 4,
+        "is.workflow.actions.text.replace": 4,
+        "is.workflow.actions.detect.dictionary": 3,
+        "is.workflow.actions.openurl": 3,
+        "is.workflow.actions.exit": 2,
+        "is.workflow.actions.downloadurl": 2,
+        "is.workflow.actions.getmyworkflows": 2,
+        "is.workflow.actions.base64encode": 2,
+        "is.workflow.actions.appendvariable": 2,
+        "is.workflow.actions.comment": 1,
+        "is.workflow.actions.file.createfolder": 1,
+        "is.workflow.actions.getdevicedetails": 1,
+        "is.workflow.actions.previewdocument": 1,
+        "is.workflow.actions.getwebpagecontents": 1,
+        "is.workflow.actions.adjustdate": 1,
+        "is.workflow.actions.gettimebetweendates": 1,
+        "is.workflow.actions.list": 1,
+        "is.workflow.actions.file.getfoldercontents": 1,
+        "is.workflow.actions.properties.workflow": 1,
+        "is.workflow.actions.image.resize": 1,
+        "is.workflow.actions.overlayimageonimage": 1,
+        "is.workflow.actions.getvariable": 1,
+        "is.workflow.actions.text.split": 1,
+        "is.workflow.actions.sendemail": 1,
+        "is.workflow.actions.showwebpage": 1
+      },
+      "control_flow": {
+        "conditionals": 41,
+        "repeat_loops": 0,
+        "repeat_each_loops": 5,
+        "menus": 1,
+        "max_nesting_depth": 6
+      },
+      "patterns": [
+        {
+          "pattern": "MENU_ROUTER",
+          "evidence": "Found 4 menu(s)"
+        },
+        {
+          "pattern": "LONG_LIVED_STATE",
+          "evidence": "10 set_variable, 1 get_variable"
+        },
+        {
+          "pattern": "CONDITIONAL_FEEDBACK",
+          "evidence": "16 notifications inside conditionals"
+        },
+        {
+          "pattern": "CONFIG_DICTIONARY",
+          "evidence": "Dictionary in first 20 actions"
+        },
+        {
+          "pattern": "FILE_PERSISTENCE",
+          "evidence": "save=True, open=True"
+        },
+        {
+          "pattern": "SELF_UPDATE",
+          "evidence": "RoutineHub API or version check detected"
+        },
+        {
+          "pattern": "FETCH_PARSE_BRANCH",
+          "evidence": "HTTP fetch + JSON parsing"
+        },
+        {
+          "pattern": "ACCUMULATE_LOOP",
+          "evidence": "repeat + appendvariable"
+        },
+        {
+          "pattern": "DATA_EMBEDDING",
+          "evidence": "base64=True, long_strings=False"
+        },
+        {
+          "pattern": "PROGRESSIVE_DISCLOSURE",
+          "evidence": "ask + choose sequence"
+        },
+        {
+          "pattern": "GUARD_CLAUSE",
+          "evidence": "Early conditional + exit"
+        },
+        {
+          "pattern": "SELF_REFERENTIAL",
+          "evidence": "Runs other shortcuts"
+        },
+        {
+          "pattern": "DEVICE_INTERROGATION",
+          "evidence": "Reads device properties"
+        },
+        {
+          "pattern": "CONTACT_AUTOMATION",
+          "evidence": "Messaging/contact operations"
+        }
+      ],
+      "creative_techniques": [
+        {
+          "technique": "SELF_MODIFYING",
+          "description": "Shortcut that can modify or generate other shortcuts"
+        },
+        {
+          "technique": "AI_INTEGRATION",
+          "description": "Uses AI/ML services: ['is.workflow.actions.choosefromlist']"
+        },
+        {
+          "technique": "MULTI_SHORTCUT_ORCHESTRATION",
+          "description": "Runs 8 other shortcuts - acts as an orchestrator"
+        },
+        {
+          "technique": "ENCODING_CRYPTO",
+          "description": "Encoding/crypto operations: ['is.workflow.actions.base64encode']"
+        }
+      ]
+    },
+    "MergeCuts": {
+      "total_actions": 850,
+      "unique_action_types": 43,
+      "action_counts": {
+        "is.workflow.actions.conditional": 240,
+        "is.workflow.actions.comment": 95,
+        "is.workflow.actions.setvariable": 77,
+        "is.workflow.actions.choosefrommenu": 62,
+        "is.workflow.actions.gettext": 61,
+        "is.workflow.actions.exit": 35,
+        "is.workflow.actions.runworkflow": 29,
+        "is.workflow.actions.text.replace": 29,
+        "is.workflow.actions.setvalueforkey": 25,
+        "is.workflow.actions.dictionary": 21,
+        "is.workflow.actions.getvalueforkey": 17,
+        "is.workflow.actions.documentpicker.save": 17,
+        "is.workflow.actions.setitemname": 15,
+        "is.workflow.actions.filter.files": 15,
+        "is.workflow.actions.choosefromlist": 14,
+        "is.workflow.actions.number": 11,
+        "is.workflow.actions.url": 10,
+        "is.workflow.actions.repeat.each": 8,
+        "is.workflow.actions.alert": 6,
+        "is.workflow.actions.detect.text": 6,
+        "is.workflow.actions.ask": 5,
+        "is.workflow.actions.count": 5,
+        "is.workflow.actions.text.combine": 5,
+        "is.workflow.actions.notification": 5,
+        "is.workflow.actions.repeat.count": 4,
+        "is.workflow.actions.getmyworkflows": 4,
+        "is.workflow.actions.file.createfolder": 3,
+        "is.workflow.actions.showwebpage": 3,
+        "is.workflow.actions.openurl": 3,
+        "is.workflow.actions.documentpicker.open": 2,
+        "is.workflow.actions.date": 2,
+        "is.workflow.actions.getwebpagecontents": 2,
+        "is.workflow.actions.appendvariable": 2,
+        "is.workflow.actions.file.delete": 2,
+        "is.workflow.actions.file.getlink": 2,
+        "is.workflow.actions.handoff": 1,
+        "is.workflow.actions.getipaddress": 1,
+        "is.workflow.actions.downloadurl": 1,
+        "is.workflow.actions.detect.dictionary": 1,
+        "is.workflow.actions.list": 1,
+        "is.workflow.actions.text.changecase": 1,
+        "is.workflow.actions.nothing": 1,
+        "is.workflow.actions.base64encode": 1
+      },
+      "control_flow": {
+        "conditionals": 92,
+        "repeat_loops": 2,
+        "repeat_each_loops": 4,
+        "menus": 14,
+        "max_nesting_depth": 7
+      },
+      "patterns": [
+        {
+          "pattern": "MENU_ROUTER",
+          "evidence": "Found 62 menu(s)"
+        },
+        {
+          "pattern": "LONG_LIVED_STATE",
+          "evidence": "77 set_variable, 0 get_variable"
+        },
+        {
+          "pattern": "CONDITIONAL_FEEDBACK",
+          "evidence": "11 notifications inside conditionals"
+        },
+        {
+          "pattern": "CONFIG_DICTIONARY",
+          "evidence": "Dictionary in first 20 actions"
+        },
+        {
+          "pattern": "FILE_PERSISTENCE",
+          "evidence": "save=True, open=True"
+        },
+        {
+          "pattern": "SELF_UPDATE",
+          "evidence": "RoutineHub API or version check detected"
+        },
+        {
+          "pattern": "FETCH_PARSE_BRANCH",
+          "evidence": "HTTP fetch + JSON parsing"
+        },
+        {
+          "pattern": "ACCUMULATE_LOOP",
+          "evidence": "repeat + appendvariable"
+        },
+        {
+          "pattern": "DATA_EMBEDDING",
+          "evidence": "base64=True, long_strings=True"
+        },
+        {
+          "pattern": "COMPUTED_VALUE",
+          "evidence": "math=False, number+repeat"
+        },
+        {
+          "pattern": "PROGRESSIVE_DISCLOSURE",
+          "evidence": "ask + choose sequence"
+        },
+        {
+          "pattern": "SELF_REFERENTIAL",
+          "evidence": "Runs other shortcuts"
+        },
+        {
+          "pattern": "DEVICE_INTERROGATION",
+          "evidence": "Reads device properties"
+        }
+      ],
+      "creative_techniques": [
+        {
+          "technique": "SELF_MODIFYING",
+          "description": "Shortcut that can modify or generate other shortcuts"
+        },
+        {
+          "technique": "AI_INTEGRATION",
+          "description": "Uses AI/ML services: ['is.workflow.actions.choosefromlist']"
+        },
+        {
+          "technique": "MULTI_SHORTCUT_ORCHESTRATION",
+          "description": "Runs 29 other shortcuts - acts as an orchestrator"
+        },
+        {
+          "technique": "META_SHORTCUT",
+          "description": "Manipulates shortcut files or the Shortcuts app itself"
+        },
+        {
+          "technique": "ENCODING_CRYPTO",
+          "description": "Encoding/crypto operations: ['is.workflow.actions.base64encode']"
+        }
+      ]
+    },
+    "Birthday_Text_Blast": {
+      "total_actions": 52,
+      "unique_action_types": 14,
+      "action_counts": {
+        "is.workflow.actions.setvariable": 14,
+        "is.workflow.actions.choosefrommenu": 10,
+        "is.workflow.actions.conditional": 6,
+        "is.workflow.actions.choosefromlist": 4,
+        "is.workflow.actions.list": 3,
+        "is.workflow.actions.sendmessage": 3,
+        "is.workflow.actions.ask": 3,
+        "is.workflow.actions.gettext": 2,
+        "is.workflow.actions.repeat.each": 2,
+        "is.workflow.actions.selectcontacts": 1,
+        "is.workflow.actions.filter.contacts": 1,
+        "is.workflow.actions.alert": 1,
+        "is.workflow.actions.exit": 1,
+        "is.workflow.actions.askllm": 1
+      },
+      "patterns": [
+        {
+          "pattern": "MENU_ROUTER",
+          "evidence": "Found menu(s)"
+        },
+        {
+          "pattern": "LONG_LIVED_STATE",
+          "evidence": "14 set_variable"
+        },
+        {
+          "pattern": "CONTACT_AUTOMATION",
+          "evidence": "sendmessage + selectcontacts + filter.contacts"
+        },
+        {
+          "pattern": "PROGRESSIVE_DISCLOSURE",
+          "evidence": "ask + choose sequence"
+        }
+      ],
+      "creative_techniques": [
+        {
+          "technique": "AI_INTEGRATION",
+          "description": "Uses askllm action - on-device Apple Intelligence LLM"
+        },
+        {
+          "technique": "COMMUNICATION_AUTOMATION",
+          "description": "Automated birthday text message blasting"
+        }
+      ]
+    }
+  },
+  "actions": {
+    "is.workflow.actions.comment": {
+      "total_occurrences": 130,
+      "shortcuts_seen_in": [
+        "ShortcutGPT",
+        "Lucy",
+        "Battery_Report",
+        "Save_MobileGestalt",
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "WFCommentActionText"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "WFCommentActionText": "Created by AI2025\nCopyright \u00a9 2025 AI2025"
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFCommentActionText": "Lucy - AI Assistant by Neurogram and twilsonco\n\n - Natural Language Driven\n - Uses tool Shortcuts to interact with apps/web, run code, etc.\n - Custom Tools Supported\n - Run via Siri\n\nShortcut input:\n ..."
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFCommentActionText": "Check for and load settings file"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.choosefrommenu": {
+      "total_occurrences": 143,
+      "shortcuts_seen_in": [
+        "ShortcutGPT",
+        "Lucy",
+        "Save_MobileGestalt",
+        "Morse_Code_Torch",
+        "Swing_Updater",
+        "MergeCuts",
+        "Birthday_Text_Blast"
+      ],
+      "parameter_keys": [
+        "WFMenuItemAttributedTitle",
+        "WFMenuItemTitle",
+        "WFMenuItems",
+        "WFMenuLegacyCancelBehavior",
+        "WFMenuPrompt"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "WFMenuPrompt": "ShortcutGPT",
+            "WFControlFlowMode": 0,
+            "WFMenuItems": [
+              "\ud83d\udca1Create a new idea for a Shortcut ",
+              "\ud83d\udcdaCreate a name for a Shortcut",
+              "\u270d\ufe0fWrite a description for a Shortcut ",
+              "\ud83d\uddbc\ufe0f Generate a Shortcut icon",
+              "\u2795ShortcutGPT Pro Features ",
+              "Exit \ud83d\udeaa\u27a1\ufe0f"
+            ]
+          }
+        },
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "WFMenuItemTitle": "\ud83d\udca1Create a new idea for a Shortcut ",
+            "WFControlFlowMode": 1
+          }
+        },
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "WFMenuItemTitle": "\ud83d\udcdaCreate a name for a Shortcut",
+            "WFControlFlowMode": 1
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.ask": {
+      "total_occurrences": 36,
+      "shortcuts_seen_in": [
+        "ShortcutGPT",
+        "Lucy",
+        "Morse_Code_Torch",
+        "Swing_Updater",
+        "MergeCuts",
+        "Birthday_Text_Blast"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFAllowsMultilineText",
+        "WFAskActionAllowsDecimalNumbers",
+        "WFAskActionAllowsNegativeNumbers",
+        "WFAskActionDefaultAnswer",
+        "WFAskActionDefaultAnswerNumber",
+        "WFAskActionDefaultAnswerURL",
+        "WFAskActionPrompt",
+        "WFInputType"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "WFAskActionPrompt": "Your Goal with the shortcut"
+          }
+        },
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "WFAskActionDefaultAnswer": "",
+            "CustomOutputName": "Shortcuts Idea",
+            "WFAskActionPrompt": "How many ideas?"
+          }
+        },
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "WFAskActionPrompt": "What do your Shortcut do?"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.gettext": {
+      "total_occurrences": 187,
+      "shortcuts_seen_in": [
+        "ShortcutGPT",
+        "Lucy",
+        "Battery_Report",
+        "Save_MobileGestalt",
+        "Morse_Code_Torch",
+        "Swing_Updater",
+        "MergeCuts",
+        "Birthday_Text_Blast"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFTextActionText"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "WFTextActionText": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "WFTextActionText": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "WFTextActionText": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.urlencode": {
+      "total_occurrences": 13,
+      "shortcuts_seen_in": [
+        "ShortcutGPT",
+        "Lucy"
+      ],
+      "parameter_keys": [
+        "WFEncodeMode",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.downloadurl": {
+      "total_occurrences": 13,
+      "shortcuts_seen_in": [
+        "ShortcutGPT",
+        "AI_Facial_Recognition",
+        "Lucy",
+        "Save_MobileGestalt",
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "ShowHeaders",
+        "WFFormValues",
+        "WFHTTPBodyType",
+        "WFHTTPHeaders",
+        "WFHTTPMethod",
+        "WFJSONValues",
+        "WFRequestVariable",
+        "WFURL"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "WFURL": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "WFURL": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "WFURL": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.showresult": {
+      "total_occurrences": 7,
+      "shortcuts_seen_in": [
+        "ShortcutGPT",
+        "Lucy",
+        "Morse_Code_Torch"
+      ],
+      "parameter_keys": [
+        "Text"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "Text": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "Text": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "Text": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.setclipboard": {
+      "total_occurrences": 5,
+      "shortcuts_seen_in": [
+        "ShortcutGPT",
+        "Save_MobileGestalt"
+      ],
+      "parameter_keys": [
+        "WFExpirationDate",
+        "WFInput",
+        "WFLocalOnly"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Save_MobileGestalt",
+          "params": {
+            "WFLocalOnly": true,
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFExpirationDate": ""
+          }
+        },
+        {
+          "from_shortcut": "Save_MobileGestalt",
+          "params": {
+            "WFLocalOnly": true
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.nothing": {
+      "total_occurrences": 14,
+      "shortcuts_seen_in": [
+        "ShortcutGPT",
+        "AI_Facial_Recognition",
+        "Lucy",
+        "Morse_Code_Torch",
+        "MergeCuts"
+      ],
+      "parameter_keys": [],
+      "examples": [
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {}
+        },
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {}
+        },
+        {
+          "from_shortcut": "AI_Facial_Recognition",
+          "params": {}
+        }
+      ]
+    },
+    "is.workflow.actions.previewdocument": {
+      "total_occurrences": 4,
+      "shortcuts_seen_in": [
+        "ShortcutGPT",
+        "AI_Facial_Recognition",
+        "Battery_Report",
+        "Swing_Updater"
+      ],
+      "parameter_keys": [
+        "WFInput",
+        "WFQuickLookActionFullScreen"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "AI_Facial_Recognition",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFQuickLookActionFullScreen": true
+          }
+        },
+        {
+          "from_shortcut": "Battery_Report",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.exit": {
+      "total_occurrences": 56,
+      "shortcuts_seen_in": [
+        "ShortcutGPT",
+        "Lucy",
+        "Battery_Report",
+        "Morse_Code_Torch",
+        "Swing_Updater",
+        "MergeCuts",
+        "Birthday_Text_Blast"
+      ],
+      "parameter_keys": [
+        "WFResult"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {}
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {}
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {}
+        }
+      ]
+    },
+    "is.workflow.actions.runworkflow": {
+      "total_occurrences": 49,
+      "shortcuts_seen_in": [
+        "ShortcutGPT",
+        "Lucy",
+        "Morse_Code_Torch",
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "WFInput",
+        "WFShowWorkflow",
+        "WFWorkflow",
+        "WFWorkflowName"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "ShortcutGPT",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFWorkflow": {
+              "workflowIdentifier": "E9733F26-E6D9-4282-96B5-A885ED404A13",
+              "workflowName": "ShortcutGPT",
+              "isSelf": true
+            },
+            "WFWorkflowName": "ShortcutGPT"
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFWorkflow": {
+              "workflowIdentifier": "543DFEA8-7573-4326-92EC-4C3E9081E55C",
+              "workflowName": "Lucy",
+              "isSelf": true
+            },
+            "WFWorkflowName": "Lucy"
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFWorkflow": {
+              "workflowIdentifier": "543DFEA8-7573-4326-92EC-4C3E9081E55C",
+              "workflowName": "Lucy",
+              "isSelf": true
+            },
+            "WFWorkflowName": "Lucy"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.url": {
+      "total_occurrences": 28,
+      "shortcuts_seen_in": [
+        "AI_Facial_Recognition",
+        "Lucy",
+        "Battery_Report",
+        "Save_MobileGestalt",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFURLActionURL"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "AI_Facial_Recognition",
+          "params": {
+            "WFURLActionURL": "https://s8.gifyu.com/images/C5364E28-DAD3-4237-A1C7-B7E48E782DFF.png"
+          }
+        },
+        {
+          "from_shortcut": "AI_Facial_Recognition",
+          "params": {
+            "WFURLActionURL": "https://api.deepai.org/api/facial-recognition"
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFURLActionURL": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "CustomOutputName": "URL as rich text"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.detect.images": {
+      "total_occurrences": 2,
+      "shortcuts_seen_in": [
+        "AI_Facial_Recognition",
+        "Lucy"
+      ],
+      "parameter_keys": [
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "AI_Facial_Recognition",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.setvariable": {
+      "total_occurrences": 229,
+      "shortcuts_seen_in": [
+        "AI_Facial_Recognition",
+        "Lucy",
+        "Battery_Report",
+        "Save_MobileGestalt",
+        "Morse_Code_Torch",
+        "Swing_Updater",
+        "MergeCuts",
+        "Birthday_Text_Blast"
+      ],
+      "parameter_keys": [
+        "WFInput",
+        "WFVariableName"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "AI_Facial_Recognition",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFVariableName": "Borderimg"
+          }
+        },
+        {
+          "from_shortcut": "AI_Facial_Recognition",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFVariableName": "Baseimg"
+          }
+        },
+        {
+          "from_shortcut": "AI_Facial_Recognition",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFVariableName": "X"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.selectphoto": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "AI_Facial_Recognition"
+      ],
+      "parameter_keys": [],
+      "examples": [
+        {
+          "from_shortcut": "AI_Facial_Recognition",
+          "params": {}
+        }
+      ]
+    },
+    "is.workflow.actions.detect.dictionary": {
+      "total_occurrences": 13,
+      "shortcuts_seen_in": [
+        "AI_Facial_Recognition",
+        "Lucy",
+        "Morse_Code_Torch",
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "AI_Facial_Recognition",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "CustomOutputName": "JS result dict"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.getvalueforkey": {
+      "total_occurrences": 61,
+      "shortcuts_seen_in": [
+        "AI_Facial_Recognition",
+        "Lucy",
+        "Battery_Report",
+        "Morse_Code_Torch",
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFDictionaryKey",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "AI_Facial_Recognition",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFDictionaryKey": "faces"
+          }
+        },
+        {
+          "from_shortcut": "AI_Facial_Recognition",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFDictionaryKey": "bounding_box"
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "CustomOutputName": "function name",
+            "WFDictionaryKey": "function_name"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.repeat.each": {
+      "total_occurrences": 44,
+      "shortcuts_seen_in": [
+        "AI_Facial_Recognition",
+        "Lucy",
+        "Morse_Code_Torch",
+        "Swing_Updater",
+        "MergeCuts",
+        "Birthday_Text_Blast"
+      ],
+      "parameter_keys": [
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "AI_Facial_Recognition",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFControlFlowMode": 0
+          }
+        },
+        {
+          "from_shortcut": "AI_Facial_Recognition",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFControlFlowMode": 0
+          }
+        },
+        {
+          "from_shortcut": "AI_Facial_Recognition",
+          "params": {
+            "WFControlFlowMode": 2
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.conditional": {
+      "total_occurrences": 675,
+      "shortcuts_seen_in": [
+        "AI_Facial_Recognition",
+        "Lucy",
+        "Battery_Report",
+        "Save_MobileGestalt",
+        "Morse_Code_Torch",
+        "Swing_Updater",
+        "MergeCuts",
+        "Birthday_Text_Blast"
+      ],
+      "parameter_keys": [
+        "WFCondition",
+        "WFConditionalActionString",
+        "WFConditionalLegacyComparisonBehavior",
+        "WFConditions",
+        "WFDate",
+        "WFDuration",
+        "WFEnumeration",
+        "WFInput",
+        "WFNumberValue"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "AI_Facial_Recognition",
+          "params": {
+            "WFCondition": 4,
+            "WFInput": {
+              "Type": "Variable",
+              "Variable": "<...>"
+            },
+            "WFControlFlowMode": 0,
+            "WFNumberValue": "1"
+          }
+        },
+        {
+          "from_shortcut": "AI_Facial_Recognition",
+          "params": {
+            "WFControlFlowMode": 1
+          }
+        },
+        {
+          "from_shortcut": "AI_Facial_Recognition",
+          "params": {
+            "WFCondition": 4,
+            "WFInput": {
+              "Type": "Variable",
+              "Variable": "<...>"
+            },
+            "WFControlFlowMode": 0,
+            "WFNumberValue": "2"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.overlayimageonimage": {
+      "total_occurrences": 2,
+      "shortcuts_seen_in": [
+        "AI_Facial_Recognition",
+        "Swing_Updater"
+      ],
+      "parameter_keys": [
+        "WFImage",
+        "WFImageHeight",
+        "WFImagePosition",
+        "WFImageWidth",
+        "WFImageX",
+        "WFImageY",
+        "WFInput",
+        "WFOverlayImageOpacity",
+        "WFRotation",
+        "WFShouldShowImageEditor"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "AI_Facial_Recognition",
+          "params": {
+            "WFShouldShowImageEditor": false,
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFImage": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFImageWidth": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFImageY": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFImagePosition": "Custom",
+            "WFImageHeight": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFImageX": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Swing_Updater",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFRotation": "0",
+            "WFImage": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFOverlayImageOpacity": "100",
+            "WFShouldShowImageEditor": false
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.file.createfolder": {
+      "total_occurrences": 6,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "WFFilePath"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFFilePath": "Lucy"
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFFilePath": "Lucy"
+          }
+        },
+        {
+          "from_shortcut": "Swing_Updater",
+          "params": {
+            "WFFilePath": "Swing Updater/SFU"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.documentpicker.open": {
+      "total_occurrences": 17,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Battery_Report",
+        "Morse_Code_Torch",
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFFile",
+        "WFFileErrorIfNotFound",
+        "WFGetFilePath",
+        "WFGetFolderContents",
+        "WFShowFilePicker"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFGetFilePath": "settings.json",
+            "WFFileErrorIfNotFound": false,
+            "WFFile": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "CustomOutputName": "Config file"
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFGetFilePath": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFFileErrorIfNotFound": false,
+            "WFFile": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Battery_Report",
+          "params": {
+            "WFFile": {
+              "fileLocation": "<...>",
+              "filename": "File Provider Storage",
+              "displayName": "Sur mon iPhone"
+            },
+            "WFFileErrorIfNotFound": false,
+            "WFGetFilePath": "/Battery Report/ModelName.txt",
+            "WFGetFolderContents": true,
+            "WFShowFilePicker": false
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.dictionary": {
+      "total_occurrences": 60,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Battery_Report",
+        "Save_MobileGestalt",
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFItems"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFItems": {
+              "Value": "<...>",
+              "WFSerializationType": "WFDictionaryFieldValue"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFItems": {
+              "Value": "<...>",
+              "WFSerializationType": "WFDictionaryFieldValue"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {}
+        }
+      ]
+    },
+    "is.workflow.actions.detect.link": {
+      "total_occurrences": 4,
+      "shortcuts_seen_in": [
+        "Lucy"
+      ],
+      "parameter_keys": [
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.text.replace": {
+      "total_occurrences": 57,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Battery_Report",
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFInput",
+        "WFReplaceTextCaseSensitive",
+        "WFReplaceTextFind",
+        "WFReplaceTextRegularExpression",
+        "WFReplaceTextReplace"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFReplaceTextReplace": "%23",
+            "WFReplaceTextFind": "#"
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFReplaceTextReplace": "#",
+            "CustomOutputName": "model list",
+            "WFReplaceTextFind": "%23"
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFReplaceTextReplace": "%23",
+            "WFReplaceTextFind": "#"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.text.split": {
+      "total_occurrences": 14,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Morse_Code_Torch",
+        "Swing_Updater"
+      ],
+      "parameter_keys": [
+        "Show-text",
+        "WFTextCustomSeparator",
+        "WFTextSeparator",
+        "text"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFTextCustomSeparator": ",",
+            "WFTextSeparator": "Custom",
+            "text": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFTextCustomSeparator": ".",
+            "WFTextSeparator": "Custom",
+            "text": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFTextCustomSeparator": ",",
+            "WFTextSeparator": "Custom",
+            "text": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.setvalueforkey": {
+      "total_occurrences": 41,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Morse_Code_Torch",
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "WFDictionary",
+        "WFDictionaryKey",
+        "WFDictionaryValue"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFDictionaryValue": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFDictionary": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFDictionaryKey": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFDictionaryValue": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFDictionary": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFDictionaryKey": "new_value"
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFDictionaryValue": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFDictionary": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFDictionaryKey": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.getvariable": {
+      "total_occurrences": 6,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Swing_Updater"
+      ],
+      "parameter_keys": [
+        "WFVariable"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFVariable": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFVariable": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFVariable": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.number": {
+      "total_occurrences": 24,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Morse_Code_Torch",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFNumberActionNumber"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "CustomOutputName": "Num iterations",
+            "WFNumberActionNumber": "1000"
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "CustomOutputName": "update check freq",
+            "WFNumberActionNumber": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "CustomOutputName": "use reasoning model",
+            "WFNumberActionNumber": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.repeat.count": {
+      "total_occurrences": 10,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Morse_Code_Torch",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "WFRepeatCount"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFControlFlowMode": 0,
+            "WFRepeatCount": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFControlFlowMode": 2
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFControlFlowMode": 0,
+            "WFRepeatCount": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.alert": {
+      "total_occurrences": 36,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Save_MobileGestalt",
+        "Morse_Code_Torch",
+        "Swing_Updater",
+        "MergeCuts",
+        "Birthday_Text_Blast"
+      ],
+      "parameter_keys": [
+        "WFAlertActionCancelButtonShown",
+        "WFAlertActionMessage",
+        "WFAlertActionTitle"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFAlertActionMessage": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFAlertActionCancelButtonShown": false
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFAlertActionMessage": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFAlertActionMessage": "To get started, we'll open Lucy's settings so you can configure the AI model and tools. Tip: disable the tools you don't intend to use, which speeds up the install process and reduces unnecessary LLM ...",
+            "WFAlertActionTitle": "Welcome to Lucy!"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.setitemname": {
+      "total_occurrences": 30,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Battery_Report",
+        "Save_MobileGestalt",
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFDontIncludeFileExtension",
+        "WFInput",
+        "WFName"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFName": "menu.vcf",
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFName": "settings.json",
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFName": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.documentpicker.save": {
+      "total_occurrences": 35,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Battery_Report",
+        "Morse_Code_Torch",
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "WFAskWhereToSave",
+        "WFFileDestinationPath",
+        "WFFolder",
+        "WFInput",
+        "WFSaveFileOverwrite"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFFolder": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFAskWhereToSave": false,
+            "WFSaveFileOverwrite": true,
+            "WFFileDestinationPath": "settings.json"
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFFolder": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFAskWhereToSave": false,
+            "WFSaveFileOverwrite": true,
+            "WFFileDestinationPath": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Battery_Report",
+          "params": {
+            "WFFolder": {
+              "fileLocation": "<...>",
+              "filename": "File Provider Storage",
+              "displayName": "Sur mon iPhone"
+            },
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFAskWhereToSave": false,
+            "WFFileDestinationPath": "/Battery Report/BatteryReport.txt"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.openurl": {
+      "total_occurrences": 15,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Battery_Report",
+        "Save_MobileGestalt",
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "Show-WFInput",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.output": {
+      "total_occurrences": 22,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Save_MobileGestalt",
+        "Swing_Updater"
+      ],
+      "parameter_keys": [
+        "WFNoOutputSurfaceBehavior",
+        "WFOutput",
+        "WFResponse"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFOutput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFOutput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFOutput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.getitemfromlist": {
+      "total_occurrences": 9,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Battery_Report"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFInput",
+        "WFItemRangeEnd",
+        "WFItemSpecifier"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFItemSpecifier": "Last Item"
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFItemSpecifier": "Items in Range",
+            "WFItemRangeEnd": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "CustomOutputName": "Tool definition"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.choosefromlist": {
+      "total_occurrences": 39,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Battery_Report",
+        "Morse_Code_Torch",
+        "Swing_Updater",
+        "MergeCuts",
+        "Birthday_Text_Blast"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFChooseFromListActionPrompt",
+        "WFChooseFromListActionSelectAll",
+        "WFChooseFromListActionSelectMultiple",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFChooseFromListActionPrompt": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFChooseFromListActionPrompt": "Please choose the tools you want to use",
+            "WFChooseFromListActionSelectMultiple": true,
+            "WFChooseFromListActionSelectAll": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFChooseFromListActionPrompt": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFChooseFromListActionSelectMultiple": true,
+            "WFChooseFromListActionSelectAll": true
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.text.trimwhitespace": {
+      "total_occurrences": 2,
+      "shortcuts_seen_in": [
+        "Lucy"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "CustomOutputName": "user input"
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.count": {
+      "total_occurrences": 12,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Save_MobileGestalt",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "Input",
+        "WFCountType"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFCountType": "Characters",
+            "Input": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFCountType": "Words",
+            "Input": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "Input": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "CustomOutputName": "Total count"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.gettimebetweendates": {
+      "total_occurrences": 2,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Swing_Updater"
+      ],
+      "parameter_keys": [
+        "WFInput",
+        "WFTimeUntilFromDate",
+        "WFTimeUntilUnit"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFTimeUntilFromDate": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFTimeUntilUnit": "Days"
+          }
+        },
+        {
+          "from_shortcut": "Swing_Updater",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFTimeUntilFromDate": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFTimeUntilUnit": "Minutes"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.getipaddress": {
+      "total_occurrences": 3,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Save_MobileGestalt",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "WFIPAddressSourceOption",
+        "WFIPAddressTypeOption"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFIPAddressSourceOption": "External",
+            "WFIPAddressTypeOption": "IPv4"
+          }
+        },
+        {
+          "from_shortcut": "Save_MobileGestalt",
+          "params": {
+            "WFIPAddressTypeOption": "IPv4"
+          }
+        },
+        {
+          "from_shortcut": "MergeCuts",
+          "params": {}
+        }
+      ]
+    },
+    "is.workflow.actions.gettypeaction": {
+      "total_occurrences": 2,
+      "shortcuts_seen_in": [
+        "Lucy"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFFileType",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFFileType": "com.apple.webarchive",
+            "CustomOutputName": "Get File of Type"
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFFileType": "com.apple.webarchive",
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.text.combine": {
+      "total_occurrences": 23,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Morse_Code_Torch",
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "Show-text",
+        "WFTextCustomSeparator",
+        "WFTextSeparator",
+        "text"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFTextSeparator": "Spaces",
+            "text": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFTextCustomSeparator": ", ",
+            "WFTextSeparator": "Custom",
+            "text": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFTextCustomSeparator": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFTextSeparator": "Custom",
+            "text": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.url.expand": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "Lucy"
+      ],
+      "parameter_keys": [
+        "URL"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "URL": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.getcurrentapp": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "Lucy"
+      ],
+      "parameter_keys": [
+        "WFVisibleAppScope"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFVisibleAppScope": "Visible"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.detect.text": {
+      "total_occurrences": 8,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "CustomOutputName": "Language-region"
+          }
+        },
+        {
+          "from_shortcut": "MergeCuts",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "com.alexhay.Console.LogMessageIntent": {
+      "total_occurrences": 29,
+      "shortcuts_seen_in": [
+        "Lucy"
+      ],
+      "parameter_keys": [
+        "AppIntentDescriptor",
+        "category",
+        "errorIfEmpty",
+        "errorMessage",
+        "messages",
+        "title"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "messages": "Checking for installed tools.",
+            "title": "Lucy startup",
+            "errorIfEmpty": false,
+            "AppIntentDescriptor": {
+              "TeamIdentifier": "QRVYSKD5TN",
+              "BundleIdentifier": "com.alexhay.Console",
+              "AppIntentIdentifier": "LogMessageIntent",
+              "Name": "Logger"
+            },
+            "errorMessage": "Empty dictionary sent to tool"
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "category": "warning",
+            "messages": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "errorMessage": "Empty dictionary sent to tool",
+            "title": "Lucy startup",
+            "AppIntentDescriptor": {
+              "TeamIdentifier": "QRVYSKD5TN",
+              "BundleIdentifier": "com.alexhay.Console",
+              "AppIntentIdentifier": "LogMessageIntent",
+              "Name": "Logger"
+            },
+            "errorIfEmpty": false
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "category": "warning",
+            "messages": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "errorMessage": "Empty dictionary sent to tool",
+            "title": "Missing tools",
+            "AppIntentDescriptor": {
+              "TeamIdentifier": "QRVYSKD5TN",
+              "BundleIdentifier": "com.alexhay.Console",
+              "AppIntentIdentifier": "LogMessageIntent",
+              "Name": "Logger"
+            },
+            "errorIfEmpty": false
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.getmyworkflows": {
+      "total_occurrences": 7,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {}
+        },
+        {
+          "from_shortcut": "Swing_Updater",
+          "params": {}
+        },
+        {
+          "from_shortcut": "Swing_Updater",
+          "params": {}
+        }
+      ]
+    },
+    "is.workflow.actions.filter.files": {
+      "total_occurrences": 22,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFContentItemFilter",
+        "WFContentItemInputParameter",
+        "WFContentItemLimitEnabled",
+        "WFContentItemLimitNumber",
+        "WFContentItemSortOrder",
+        "WFContentItemSortProperty"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFContentItemInputParameter": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFContentItemSortProperty": "Name",
+            "WFContentItemSortOrder": "A to Z"
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFContentItemFilter": {
+              "Value": "<...>",
+              "WFSerializationType": "WFContentPredicateTableTemplate"
+            },
+            "WFContentItemInputParameter": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFContentItemInputParameter": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFContentItemSortProperty": "Name",
+            "WFContentItemSortOrder": "A to Z"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.text.match": {
+      "total_occurrences": 41,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Battery_Report",
+        "Morse_Code_Torch",
+        "Swing_Updater"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFMatchTextCaseSensitive",
+        "WFMatchTextPattern",
+        "text"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFMatchTextPattern": "(.*)_v",
+            "WFMatchTextCaseSensitive": false,
+            "text": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFMatchTextPattern": "^([sS]ettings?)|([cC]onfig(uration)?)|([oO]ptions?)$",
+            "text": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFMatchTextPattern": "(.*)_v",
+            "text": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.text.match.getgroup": {
+      "total_occurrences": 2,
+      "shortcuts_seen_in": [
+        "Lucy"
+      ],
+      "parameter_keys": [
+        "matches"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "matches": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "matches": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "com.apple.shortcuts.DeleteWorkflowAction": {
+      "total_occurrences": 2,
+      "shortcuts_seen_in": [
+        "Lucy"
+      ],
+      "parameter_keys": [
+        "AppIntentDescriptor",
+        "entities"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "AppIntentDescriptor": {
+              "TeamIdentifier": "0000000000",
+              "BundleIdentifier": "com.apple.shortcuts",
+              "Name": "Shortcuts",
+              "AppIntentIdentifier": "DeleteWorkflowAction"
+            },
+            "entities": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "AppIntentDescriptor": {
+              "TeamIdentifier": "0000000000",
+              "BundleIdentifier": "com.apple.shortcuts",
+              "AppIntentIdentifier": "DeleteWorkflowAction",
+              "Name": "Shortcuts"
+            },
+            "entities": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.delay": {
+      "total_occurrences": 3,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Morse_Code_Torch"
+      ],
+      "parameter_keys": [
+        "WFDelayTime"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFDelayTime": 5
+          }
+        },
+        {
+          "from_shortcut": "Morse_Code_Torch",
+          "params": {
+            "WFDelayTime": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Morse_Code_Torch",
+          "params": {
+            "WFDelayTime": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.math": {
+      "total_occurrences": 7,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Battery_Report",
+        "Morse_Code_Torch"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFInput",
+        "WFMathOperand",
+        "WFMathOperation"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFMathOperand": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFMathOperand": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFMathOperand": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.notification": {
+      "total_occurrences": 11,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Battery_Report",
+        "Morse_Code_Torch",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "WFInput",
+        "WFNotificationActionBody",
+        "WFNotificationActionSound",
+        "WFNotificationActionTitle"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFNotificationActionBody": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFNotificationActionSound": false,
+            "WFNotificationActionTitle": "Tokens Usage"
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFNotificationActionSound": false,
+            "WFNotificationActionBody": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFNotificationActionBody": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFNotificationActionSound": false,
+            "WFNotificationActionTitle": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.extracttextfromimage": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "Lucy"
+      ],
+      "parameter_keys": [
+        "WFImage"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFImage": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.image.convert": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "Lucy"
+      ],
+      "parameter_keys": [
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.base64encode": {
+      "total_occurrences": 5,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Morse_Code_Torch",
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFBase64LineBreakMode",
+        "WFEncodeMode",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFBase64LineBreakMode": "None",
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Morse_Code_Torch",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "CustomOutputName": "plain_bg",
+            "WFEncodeMode": "Decode"
+          }
+        },
+        {
+          "from_shortcut": "Swing_Updater",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFEncodeMode": "Decode"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.list": {
+      "total_occurrences": 10,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Morse_Code_Torch",
+        "Swing_Updater",
+        "MergeCuts",
+        "Birthday_Text_Blast"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFItems"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFItems": [
+              "settings",
+              "config",
+              "configuration",
+              "options"
+            ]
+          }
+        },
+        {
+          "from_shortcut": "Morse_Code_Torch",
+          "params": {
+            "WFItems": [
+              "Yes",
+              "No"
+            ],
+            "CustomOutputName": "display_options"
+          }
+        },
+        {
+          "from_shortcut": "Swing_Updater",
+          "params": {
+            "WFItems": [
+              {
+                "WFItemType": 0,
+                "WFValue": {
+                  "Value": {
+                    "string": "\ufffc",
+                    "attachmentsByRange": {
+                      "{0, 1}": {
+                        "VariableName": "Strings",
+                        "Type": "Variable",
+                        "Aggrandizements": [
+                          {
+                            "Type": "WFCoercionVariableAggrandizement",
+                            "CoercionItemClass": "WFDictionaryContentItem"
+                          },
+                          {
+                            "Type": "WFDictionaryValueVariableAggrandizement",
+                            "DictionaryKey": "Load SFU"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "WFSerializationType": "WFTextTokenString"
+                }
+              },
+              {
+                "WFItemType": 0,
+                "WFValue": {
+                  "Value": {
+                    "string": "\ufffc",
+                    "attachmentsByRange": {
+                      "{0, 1}": {
+                        "VariableName": "Strings",
+                        "Type": "Variable",
+                        "Aggrandizements": [
+                          {
+                            "Type": "WFCoercionVariableAggrandizement",
+                            "CoercionItemClass": "WFDictionaryContentItem"
+                          },
+                          {
+                            "Type": "WFDictionaryValueVariableAggrandizement",
+                            "DictionaryKey": "Check For Updates again"
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "WFSerializationType": "WFTextTokenString"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.getrichtextfrommarkdown": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "Lucy"
+      ],
+      "parameter_keys": [
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.appendvariable": {
+      "total_occurrences": 11,
+      "shortcuts_seen_in": [
+        "Lucy",
+        "Morse_Code_Torch",
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "WFInput",
+        "WFVariableName"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Lucy",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFVariableName": "Approved tools"
+          }
+        },
+        {
+          "from_shortcut": "Morse_Code_Torch",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFVariableName": "timing_output"
+          }
+        },
+        {
+          "from_shortcut": "Morse_Code_Torch",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFVariableName": "dit-dash_output"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.getrichtextfromhtml": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "Battery_Report"
+      ],
+      "parameter_keys": [
+        "WFHTML"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Battery_Report",
+          "params": {
+            "WFHTML": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.date": {
+      "total_occurrences": 4,
+      "shortcuts_seen_in": [
+        "Battery_Report",
+        "MergeCuts"
+      ],
+      "parameter_keys": [],
+      "examples": [
+        {
+          "from_shortcut": "Battery_Report",
+          "params": {}
+        },
+        {
+          "from_shortcut": "Battery_Report",
+          "params": {}
+        },
+        {
+          "from_shortcut": "MergeCuts",
+          "params": {}
+        }
+      ]
+    },
+    "is.workflow.actions.getdevicedetails": {
+      "total_occurrences": 2,
+      "shortcuts_seen_in": [
+        "Battery_Report",
+        "Swing_Updater"
+      ],
+      "parameter_keys": [
+        "WFDeviceDetail"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Battery_Report",
+          "params": {
+            "WFDeviceDetail": "Device Model"
+          }
+        },
+        {
+          "from_shortcut": "Swing_Updater",
+          "params": {}
+        }
+      ]
+    },
+    "is.workflow.actions.statistics": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "Battery_Report"
+      ],
+      "parameter_keys": [
+        "Input",
+        "WFStatisticsOperation"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Battery_Report",
+          "params": {
+            "Input": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFStatisticsOperation": "Average"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.round": {
+      "total_occurrences": 4,
+      "shortcuts_seen_in": [
+        "Battery_Report"
+      ],
+      "parameter_keys": [
+        "WFInput",
+        "WFRoundTo"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Battery_Report",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFRoundTo": "Ones Place"
+          }
+        },
+        {
+          "from_shortcut": "Battery_Report",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFRoundTo": "Hundredths"
+          }
+        },
+        {
+          "from_shortcut": "Battery_Report",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFRoundTo": "Hundredths"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.calculateexpression": {
+      "total_occurrences": 3,
+      "shortcuts_seen_in": [
+        "Battery_Report",
+        "Morse_Code_Torch"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "Input"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Battery_Report",
+          "params": {
+            "Input": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Battery_Report",
+          "params": {
+            "Input": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Morse_Code_Torch",
+          "params": {
+            "Input": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "CustomOutputName": "on_off_check"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.format.number": {
+      "total_occurrences": 2,
+      "shortcuts_seen_in": [
+        "Battery_Report"
+      ],
+      "parameter_keys": [
+        "WFNumber"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Battery_Report",
+          "params": {
+            "WFNumber": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Battery_Report",
+          "params": {
+            "WFNumber": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.filter.notes": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "Battery_Report"
+      ],
+      "parameter_keys": [
+        "AppIntentDescriptor",
+        "WFContentItemFilter",
+        "WFContentItemInputParameter"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Battery_Report",
+          "params": {
+            "WFContentItemInputParameter": "Library",
+            "AppIntentDescriptor": {
+              "TeamIdentifier": "0000000000",
+              "BundleIdentifier": "com.apple.mobilenotes",
+              "Name": "Notes",
+              "AppIntentIdentifier": "NoteEntity",
+              "ActionRequiresAppInstallation": true
+            },
+            "WFContentItemFilter": {
+              "Value": "<...>",
+              "WFSerializationType": "WFContentPredicateTableTemplate"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.appendnote": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "Battery_Report"
+      ],
+      "parameter_keys": [
+        "AppIntentDescriptor",
+        "WFInput",
+        "WFNote"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Battery_Report",
+          "params": {
+            "WFNote": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "AppIntentDescriptor": {
+              "TeamIdentifier": "0000000000",
+              "BundleIdentifier": "com.apple.mobilenotes",
+              "Name": "Notes",
+              "AppIntentIdentifier": "AppendToNoteLinkAction"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.file.append": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "Battery_Report"
+      ],
+      "parameter_keys": [
+        "WFAppendOnNewLine",
+        "WFFile",
+        "WFFilePath",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Battery_Report",
+          "params": {
+            "WFFile": {
+              "fileLocation": "<...>",
+              "filename": "File Provider Storage",
+              "displayName": "Sur mon iPhone"
+            },
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFAppendOnNewLine": false,
+            "WFFilePath": "/Battery Report/BatteryReport.txt"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.getwebpagecontents": {
+      "total_occurrences": 4,
+      "shortcuts_seen_in": [
+        "Save_MobileGestalt",
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Save_MobileGestalt",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Swing_Updater",
+          "params": {
+            "WFInput": "data:text/html,%3Cscript%3Edocument.write(navigator.onLine)%3C/script%3E"
+          }
+        },
+        {
+          "from_shortcut": "MergeCuts",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.viewresult": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "Save_MobileGestalt"
+      ],
+      "parameter_keys": [
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Save_MobileGestalt",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.getclipboard": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "Save_MobileGestalt"
+      ],
+      "parameter_keys": [],
+      "examples": [
+        {
+          "from_shortcut": "Save_MobileGestalt",
+          "params": {}
+        }
+      ]
+    },
+    "AsheKube.app.a-Shell-mini.GetFileIntent": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "Save_MobileGestalt"
+      ],
+      "parameter_keys": [
+        "ShowWhenRun",
+        "copyFile",
+        "fileName"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Save_MobileGestalt",
+          "params": {
+            "fileName": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "copyFile": true,
+            "ShowWhenRun": false
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.share": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "Save_MobileGestalt"
+      ],
+      "parameter_keys": [
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Save_MobileGestalt",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.text.changecase": {
+      "total_occurrences": 2,
+      "shortcuts_seen_in": [
+        "Morse_Code_Torch",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFCaseType",
+        "text"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Morse_Code_Torch",
+          "params": {
+            "WFCaseType": "lowercase",
+            "CustomOutputName": "input_lower",
+            "text": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "MergeCuts",
+          "params": {
+            "WFCaseType": "Capitalize with Title Case",
+            "text": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.flashlight": {
+      "total_occurrences": 3,
+      "shortcuts_seen_in": [
+        "Morse_Code_Torch"
+      ],
+      "parameter_keys": [
+        "WFFlashlightLevel",
+        "state"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Morse_Code_Torch",
+          "params": {
+            "state": 1,
+            "WFFlashlightLevel": 1
+          }
+        },
+        {
+          "from_shortcut": "Morse_Code_Torch",
+          "params": {
+            "state": 0,
+            "WFFlashlightLevel": 1
+          }
+        },
+        {
+          "from_shortcut": "Morse_Code_Torch",
+          "params": {
+            "state": 0,
+            "WFFlashlightLevel": 1
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.image.resize": {
+      "total_occurrences": 2,
+      "shortcuts_seen_in": [
+        "Morse_Code_Torch",
+        "Swing_Updater"
+      ],
+      "parameter_keys": [
+        "WFImage",
+        "WFImageResizeHeight",
+        "WFImageResizeKey",
+        "WFImageResizeWidth"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Morse_Code_Torch",
+          "params": {
+            "WFImageResizeHeight": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFImage": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFImageResizeWidth": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Swing_Updater",
+          "params": {
+            "WFImageResizeKey": "Size",
+            "WFImageResizeHeight": "62",
+            "WFImage": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFImageResizeWidth": "62"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.overlaytext": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "Morse_Code_Torch"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFFontSize",
+        "WFImage",
+        "WFPercentageFontSize",
+        "WFPercentageTextBoxWidth",
+        "WFSizingMethod",
+        "WFText",
+        "WFTextColor",
+        "WFTextRotation"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Morse_Code_Torch",
+          "params": {
+            "WFTextColor": {
+              "alphaComponent": 1,
+              "WFColorRepresentationType": "WFColorRepresentationTypeCGColor",
+              "greenComponent": 0,
+              "redComponent": 0,
+              "blueComponent": 0
+            },
+            "WFText": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFFontSize": "36",
+            "WFImage": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFPercentageTextBoxWidth": 0.9512499570846558,
+            "WFTextRotation": "0",
+            "WFSizingMethod": "Proportional",
+            "WFPercentageFontSize": 0.10135127604007721,
+            "CustomOutputName": "output_morse_code"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.file.delete": {
+      "total_occurrences": 7,
+      "shortcuts_seen_in": [
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "WFDeleteFileConfirmDeletion",
+        "WFDeleteImmediatelyDelete",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Swing_Updater",
+          "params": {
+            "WFDeleteFileConfirmDeletion": false,
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        },
+        {
+          "from_shortcut": "Swing_Updater",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFDeleteImmediatelyDelete": true
+          }
+        },
+        {
+          "from_shortcut": "Swing_Updater",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFDeleteImmediatelyDelete": true
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.adjustdate": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "Swing_Updater"
+      ],
+      "parameter_keys": [
+        "WFDate",
+        "WFDuration"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Swing_Updater",
+          "params": {
+            "WFDate": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFDuration": {
+              "Value": "<...>",
+              "WFSerializationType": "WFQuantityFieldValue"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.file.getfoldercontents": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "Swing_Updater"
+      ],
+      "parameter_keys": [
+        "Recursive",
+        "WFFolder"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Swing_Updater",
+          "params": {
+            "WFFolder": {
+              "fileLocation": "<...>",
+              "filename": "SFU",
+              "displayName": "SFU"
+            },
+            "Recursive": false
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.properties.workflow": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "Swing_Updater"
+      ],
+      "parameter_keys": [
+        "WFContentItemPropertyName",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Swing_Updater",
+          "params": {
+            "WFInput": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "WFContentItemPropertyName": "Icon"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.sendemail": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "Swing_Updater"
+      ],
+      "parameter_keys": [
+        "WFEmailAccountActionSelectedAccount",
+        "WFSendEmailActionInputAttachments",
+        "WFSendEmailActionSubject",
+        "WFSendEmailActionToRecipients"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Swing_Updater",
+          "params": {
+            "WFSendEmailActionToRecipients": {
+              "Value": "<...>",
+              "WFSerializationType": "WFContactFieldValue"
+            },
+            "WFSendEmailActionSubject": "Feedback",
+            "WFSendEmailActionInputAttachments": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            },
+            "WFEmailAccountActionSelectedAccount": "danyribeironunes15@icloud.com"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.showwebpage": {
+      "total_occurrences": 4,
+      "shortcuts_seen_in": [
+        "Swing_Updater",
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "WFURL"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Swing_Updater",
+          "params": {
+            "WFURL": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "MergeCuts",
+          "params": {
+            "WFURL": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        },
+        {
+          "from_shortcut": "MergeCuts",
+          "params": {
+            "WFURL": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenString"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.handoff": {
+      "total_occurrences": 1,
+      "shortcuts_seen_in": [
+        "MergeCuts"
+      ],
+      "parameter_keys": [],
+      "examples": [
+        {
+          "from_shortcut": "MergeCuts",
+          "params": {}
+        }
+      ]
+    },
+    "is.workflow.actions.file.getlink": {
+      "total_occurrences": 2,
+      "shortcuts_seen_in": [
+        "MergeCuts"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "WFFile"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "MergeCuts",
+          "params": {
+            "WFFile": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            },
+            "CustomOutputName": "iCloudURL"
+          }
+        },
+        {
+          "from_shortcut": "MergeCuts",
+          "params": {
+            "CustomOutputName": "updatedShortcut",
+            "WFFile": {
+              "Value": "<...>",
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.selectcontacts": {
+      "total_occurrences": 2,
+      "shortcuts_seen_in": [
+        "Birthday_Text_Blast"
+      ],
+      "parameter_keys": [
+        "WFSelectMultiple"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Birthday_Text_Blast",
+          "params": {
+            "WFSelectMultiple": true
+          }
+        },
+        {
+          "from_shortcut": "Birthday_Text_Blast",
+          "params": {
+            "WFSelectMultiple": true
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.filter.contacts": {
+      "total_occurrences": 2,
+      "shortcuts_seen_in": [
+        "Birthday_Text_Blast"
+      ],
+      "parameter_keys": [
+        "WFContentItemFilter",
+        "WFContentItemSortOrder",
+        "WFContentItemSortProperty"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Birthday_Text_Blast",
+          "params": {
+            "WFContentItemSortProperty": "First Name",
+            "WFContentItemSortOrder": "A to Z",
+            "WFContentItemFilter": "{'Value': {'WFActionParameterFilterPrefix': 1, 'WFActionParameterFilterTemplates': [{'Operator': 1002, 'Values': {'Unit': 4, 'Date': datetime.datetime(2025, 11, 2, 3, 8)}, 'Removable': True, 'Property"
+          }
+        },
+        {
+          "from_shortcut": "Birthday_Text_Blast",
+          "params": {
+            "WFContentItemSortProperty": "First Name",
+            "WFContentItemSortOrder": "A to Z",
+            "WFContentItemFilter": "{'Value': {'WFActionParameterFilterPrefix': 1, 'WFActionParameterFilterTemplates': [{'Operator': 1002, 'Values': {'Unit': 4, 'Date': datetime.datetime(2025, 11, 2, 3, 8)}, 'Removable': True, 'Property"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.sendmessage": {
+      "total_occurrences": 6,
+      "shortcuts_seen_in": [
+        "Birthday_Text_Blast"
+      ],
+      "parameter_keys": [
+        "IntentAppDefinition",
+        "ShowWhenRun",
+        "WFSendMessageActionRecipients",
+        "WFSendMessageContent"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Birthday_Text_Blast",
+          "params": {
+            "IntentAppDefinition": "{'BundleIdentifier': 'com.apple.MobileSMS', 'Name': 'Messages', 'TeamIdentifier': '0000000000'}",
+            "WFSendMessageContent": "{'Value': {'string': '\ufffc', 'attachmentsByRange': {'{0, 1}': {'VariableName': 'Default message', 'Type': 'Variable'}}}, 'WFSerializationType': 'WFTextTokenString'}",
+            "WFSendMessageActionRecipients": "{'Value': {'VariableName': 'Recipient', 'Type': 'Variable'}, 'WFSerializationType': 'WFTextTokenAttachment'}",
+            "ShowWhenRun": false
+          }
+        },
+        {
+          "from_shortcut": "Birthday_Text_Blast",
+          "params": {
+            "IntentAppDefinition": "{'BundleIdentifier': 'com.apple.MobileSMS', 'Name': 'Messages', 'TeamIdentifier': '0000000000'}",
+            "WFSendMessageContent": "{'Value': {'string': '\ufffc', 'attachmentsByRange': {'{0, 1}': {'VariableName': 'Default message', 'Type': 'Variable'}}}, 'WFSerializationType': 'WFTextTokenString'}",
+            "WFSendMessageActionRecipients": "{'Value': {'VariableName': 'Recipient', 'Type': 'Variable'}, 'WFSerializationType': 'WFTextTokenAttachment'}",
+            "ShowWhenRun": true
+          }
+        },
+        {
+          "from_shortcut": "Birthday_Text_Blast",
+          "params": {
+            "IntentAppDefinition": "{'BundleIdentifier': 'com.apple.MobileSMS', 'Name': 'Messages', 'TeamIdentifier': '0000000000'}",
+            "WFSendMessageContent": "{'Value': {'string': '\ufffc', 'attachmentsByRange': {'{0, 1}': {'OutputUUID': 'CAD78591-4DFA-4F0C-8927-D0CA2E3224D6', 'Type': 'ActionOutput', 'OutputName': 'Response'}}}, 'WFSerializationType': 'WFTextTok",
+            "WFSendMessageActionRecipients": "{'Value': {'VariableName': 'Recipient', 'Type': 'Variable'}, 'WFSerializationType': 'WFTextTokenAttachment'}",
+            "ShowWhenRun": true
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.askllm": {
+      "total_occurrences": 2,
+      "shortcuts_seen_in": [
+        "Birthday_Text_Blast"
+      ],
+      "parameter_keys": [
+        "WFGenerativeResultType",
+        "WFLLMModel",
+        "WFLLMPrompt"
+      ],
+      "examples": [
+        {
+          "from_shortcut": "Birthday_Text_Blast",
+          "params": {
+            "WFLLMPrompt": "{'Value': {'string': 'Write a birthday message to \ufffc.\\n\\nRecipient\\'s birthday (optional): \ufffc\\nThe recipient\\'s relationship to the sender: \ufffc\\nTone: \ufffc\\nMessage length: \ufffc\\nOptional personal detail: \ufffc\\n\\n",
+            "WFLLMModel": "Apple Intelligence",
+            "WFGenerativeResultType": "Text"
+          }
+        },
+        {
+          "from_shortcut": "Birthday_Text_Blast",
+          "params": {
+            "WFLLMPrompt": "{'Value': {'string': 'Write a birthday message to \ufffc.\\n\\nRecipient\\'s birthday (optional): \ufffc\\nThe recipient\\'s relationship to the sender: \ufffc\\nTone: \ufffc\\nMessage length: \ufffc\\nOptional personal detail: \ufffc\\n\\n",
+            "WFLLMModel": "Apple Intelligence",
+            "WFGenerativeResultType": "Text"
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,107 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "description": "Scoring rubric for Media Metadata Pipeline scenario benchmark"
+  },
+  "scenario_id": "media_metadata_pipeline",
+  "scenario_name": "Photo Metadata Report",
+  "description": "Accept photos, extract EXIF/image details (dimensions, date, camera info) for each, generate a formatted summary report, and offer to share or save.",
+  "complexity_tier": "complex",
+
+  "required_actions": [
+    "selectphoto",
+    "properties.images",
+    "gettext",
+    "share"
+  ],
+
+  "desired_actions": [
+    "showresult",
+    "alert",
+    "count",
+    "math",
+    "date",
+    "format.date",
+    "appendnote"
+  ],
+
+  "required_constructs": [
+    "FOREACH",
+    "SET",
+    "IF"
+  ],
+
+  "desired_constructs": [
+    "MENU",
+    "REPEAT"
+  ],
+
+  "scoring": {
+    "structural_completeness": {
+      "weight": 0.25,
+      "description": "Does the shortcut have valid structure and compile?",
+      "criteria": {
+        "parses": {"description": "DSL text passes Lark parser", "points": 0.2},
+        "validates": {"description": "IR passes semantic validation (permissive)", "points": 0.2},
+        "compiles": {"description": "Compiler produces .shortcut plist", "points": 0.2},
+        "has_foreach": {"description": "Contains a FOREACH block to iterate over photos", "points": 0.15},
+        "has_conditional": {"description": "Contains at least one IF block", "points": 0.1},
+        "has_variables": {"description": "Uses SET to define variables", "points": 0.05},
+        "has_sufficient_actions": {"description": "Contains >= 12 action statements", "points": 0.1}
+      }
+    },
+    "action_coverage": {
+      "weight": 0.3,
+      "description": "Does the shortcut use the right actions for photo metadata extraction?",
+      "criteria": {
+        "uses_selectphoto": {"description": "Prompts user to select photos", "points": 0.15},
+        "uses_properties_images": {"description": "Extracts image properties (dimensions, date, camera)", "points": 0.25},
+        "extracts_multiple_properties": {"description": "Extracts at least 3 different image properties", "points": 0.15},
+        "uses_gettext_for_report": {"description": "Builds text report using gettext with interpolation", "points": 0.15},
+        "uses_share_or_save": {"description": "Offers to share or save the report", "points": 0.15},
+        "uses_count": {"description": "Counts the number of selected photos", "points": 0.1},
+        "uses_math_for_index": {"description": "Uses math to track photo index in loop", "points": 0.05}
+      }
+    },
+    "data_processing": {
+      "weight": 0.25,
+      "description": "Does the shortcut correctly process and format metadata?",
+      "criteria": {
+        "iterates_all_photos": {"description": "FOREACH iterates over all selected photos", "points": 0.25},
+        "builds_per_photo_entry": {"description": "Creates a formatted entry for each photo", "points": 0.25},
+        "accumulates_report": {"description": "Accumulates entries into a single report string", "points": 0.2},
+        "includes_header": {"description": "Report includes a header with date and count", "points": 0.15},
+        "includes_footer": {"description": "Report includes a summary footer", "points": 0.15}
+      }
+    },
+    "ux_quality": {
+      "weight": 0.2,
+      "description": "Does the shortcut provide good user experience?",
+      "criteria": {
+        "handles_no_selection": {"description": "Handles case where no photos are selected", "points": 0.25},
+        "shows_report": {"description": "Displays the final report to the user", "points": 0.25},
+        "offers_output_options": {"description": "Offers multiple output options (view, share, save)", "points": 0.2},
+        "clean_formatting": {"description": "Report has clear, readable formatting", "points": 0.15},
+        "clean_naming": {"description": "Shortcut has descriptive name", "points": 0.15}
+      }
+    }
+  },
+
+  "prompt_variants": [
+    {
+      "id": "detailed",
+      "difficulty": "easy",
+      "prompt": "Build an Apple Shortcut called 'Photo Metadata Report' that lets the user select multiple photos, then loops through each photo using FOREACH to extract image properties (Width, Height, Date Taken, Camera Make, Camera Model, Orientation) via properties.images with WFContentItemPropertyName. For each photo, build a formatted text entry showing all the extracted details. Accumulate all entries into a single report string with a header (including the date and photo count) and footer. After processing, show a menu with three options: 'View Report' (show the report text), 'Share Report' (share it), or 'Save to Note' (append to a note called 'Photo Reports'). Handle the case where no photos are selected."
+    },
+    {
+      "id": "moderate",
+      "difficulty": "medium",
+      "prompt": "Create a shortcut that accepts multiple photos, extracts EXIF metadata (dimensions, date taken, camera info) from each using properties.images, builds a formatted text report with all the details, and offers to view, share, or save the report. Include a header with the date and total photo count. Handle empty selection gracefully."
+    },
+    {
+      "id": "minimal",
+      "difficulty": "hard",
+      "prompt": "Make a shortcut that takes selected photos, extracts their metadata (size, date, camera), creates a summary report, and lets the user share or save it."
+    }
+  ]
+}

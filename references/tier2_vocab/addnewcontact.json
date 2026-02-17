@@ -1,0 +1,14 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "ShowWhenRun": 5,
+  "WFContactCompany": 6,
+  "WFContactEmails": 7,
+  "WFContactFirstName": 8,
+  "WFContactLastName": 9,
+  "WFContactNotes": 10,
+  "WFContactPhoneNumbers": 11
+}

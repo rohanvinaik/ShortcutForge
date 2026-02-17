@@ -1,0 +1,19 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "ShowWhenRun": 5,
+  "WFAlertCustomTime": 6,
+  "WFAlertTime": 7,
+  "WFCalendarDescriptor": 8,
+  "WFCalendarItemAllDay": 9,
+  "WFCalendarItemCalendar": 10,
+  "WFCalendarItemDates": 11,
+  "WFCalendarItemEndDate": 12,
+  "WFCalendarItemLocation": 13,
+  "WFCalendarItemNotes": 14,
+  "WFCalendarItemStartDate": 15,
+  "WFCalendarItemTitle": 16
+}

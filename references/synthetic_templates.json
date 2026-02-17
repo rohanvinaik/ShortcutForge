@@ -1,0 +1,1245 @@
+{
+  "addframetogif": {
+    "identifier": "is.workflow.actions.addframetogif",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFInput": "gif",
+      "WFImage": "new frame"
+    },
+    "parameter_keys": [
+      "WFImage",
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "addnewcalendar": {
+    "identifier": "is.workflow.actions.addnewcalendar",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFCalendarTitle": "calendar name"
+    },
+    "parameter_keys": [
+      "WFCalendarTitle"
+    ],
+    "notes": ""
+  },
+  "airdropdocument": {
+    "identifier": "is.workflow.actions.airdropdocument",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFInput": "document"
+    },
+    "parameter_keys": [
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXStartGuidedAccessIntent": {
+    "identifier": "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXStartGuidedAccessIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXStartSpeakScreenIntent": {
+    "identifier": "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXStartSpeakScreenIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleAudioDescriptionsIntent": {
+    "identifier": "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleAudioDescriptionsIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleCaptionsIntent": {
+    "identifier": "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleCaptionsIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleClassicInvertIntent": {
+    "identifier": "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleClassicInvertIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleLEDFlashIntent": {
+    "identifier": "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleLEDFlashIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleMonoAudioIntent": {
+    "identifier": "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleMonoAudioIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleSmartInvertIntent": {
+    "identifier": "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleSmartInvertIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleSwitchControlIntent": {
+    "identifier": "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleSwitchControlIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleVoiceControlIntent": {
+    "identifier": "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleVoiceControlIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleVoiceOverIntent": {
+    "identifier": "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleVoiceOverIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.Keynote.KNiOSOpenAnyDocumentIntent": {
+    "identifier": "com.apple.Keynote.KNiOSOpenAnyDocumentIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.NanoSettings.NPRFSetAlwaysOnIntent": {
+    "identifier": "com.apple.NanoSettings.NPRFSetAlwaysOnIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.NanoSettings.NPRFSetAutoLaunchAudioAppsIntent": {
+    "identifier": "com.apple.NanoSettings.NPRFSetAutoLaunchAudioAppsIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.NanoSettings.NPRFSetSchoolTimeIntent": {
+    "identifier": "com.apple.NanoSettings.NPRFSetSchoolTimeIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.NanoSettings.NPRFSetSilentModeIntent": {
+    "identifier": "com.apple.NanoSettings.NPRFSetSilentModeIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.NanoSettings.NPRFSetTheaterModeIntent": {
+    "identifier": "com.apple.NanoSettings.NPRFSetTheaterModeIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.NanoSettings.NPRFSetWakeOnWristRaiseIntent": {
+    "identifier": "com.apple.NanoSettings.NPRFSetWakeOnWristRaiseIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.NanoSettings.NPRFSetWaterLockIntent": {
+    "identifier": "com.apple.NanoSettings.NPRFSetWaterLockIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.Numbers.TNiOSAddValueIntent": {
+    "identifier": "com.apple.Numbers.TNiOSAddValueIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.Numbers.TNiOSOpenAnyDocumentIntent": {
+    "identifier": "com.apple.Numbers.TNiOSOpenAnyDocumentIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.PBBridgeSupport.BridgeIntents.COSGetCurrentGizmoFaceIntent": {
+    "identifier": "com.apple.PBBridgeSupport.BridgeIntents.COSGetCurrentGizmoFaceIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.PBBridgeSupport.BridgeIntents.COSListGizmoFacesIntent": {
+    "identifier": "com.apple.PBBridgeSupport.BridgeIntents.COSListGizmoFacesIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.PBBridgeSupport.BridgeIntents.COSSetGizmoFaceIntent": {
+    "identifier": "com.apple.PBBridgeSupport.BridgeIntents.COSSetGizmoFaceIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.Pages.TPiOSOpenAnyDocumentIntent": {
+    "identifier": "com.apple.Pages.TPiOSOpenAnyDocumentIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.TVRemoteUIService.LaunchScreenSaverIntent": {
+    "identifier": "com.apple.TVRemoteUIService.LaunchScreenSaverIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.TVRemoteUIService.PauseContentIntent": {
+    "identifier": "com.apple.TVRemoteUIService.PauseContentIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.TVRemoteUIService.ReduceLoudSoundsIntent": {
+    "identifier": "com.apple.TVRemoteUIService.ReduceLoudSoundsIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.TVRemoteUIService.SkipContentIntent": {
+    "identifier": "com.apple.TVRemoteUIService.SkipContentIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.TVRemoteUIService.SleepAppleTVIntent": {
+    "identifier": "com.apple.TVRemoteUIService.SleepAppleTVIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.TVRemoteUIService.SwitchUserAccountIntent": {
+    "identifier": "com.apple.TVRemoteUIService.SwitchUserAccountIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.TVRemoteUIService.ToggleCaptionsIntent": {
+    "identifier": "com.apple.TVRemoteUIService.ToggleCaptionsIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.TVRemoteUIService.ToggleSystemAppearanceIntent": {
+    "identifier": "com.apple.TVRemoteUIService.ToggleSystemAppearanceIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.iBooks.openin": {
+    "identifier": "com.apple.iBooks.openin",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {
+      "WFInput": "file"
+    },
+    "parameter_keys": [
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "com.apple.mobilephone.call": {
+    "identifier": "com.apple.mobilephone.call",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {
+      "WFPhoneNumber": "phone number"
+    },
+    "parameter_keys": [
+      "WFPhoneNumber"
+    ],
+    "notes": ""
+  },
+  "com.apple.mobileslideshow.StreamShareService": {
+    "identifier": "com.apple.mobileslideshow.StreamShareService",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {
+      "WFInput": "photos"
+    },
+    "parameter_keys": [
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "com.apple.news.TodayIntent": {
+    "identifier": "com.apple.news.TodayIntent",
+    "confidence": "LOW",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "com.apple.stocks.StockIntent": {
+    "identifier": "com.apple.stocks.StockIntent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundVolumeIntent, com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetLargeTextIntent",
+    "parameters": {
+      "WFStockSymbol": "symbol"
+    },
+    "parameter_keys": [
+      "WFStockSymbol"
+    ],
+    "notes": ""
+  },
+  "correctspelling": {
+    "identifier": "is.workflow.actions.correctspelling",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFInput": "text"
+    },
+    "parameter_keys": [
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "createplaylist": {
+    "identifier": "is.workflow.actions.createplaylist",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFPlaylistName": "playlist name",
+      "WFPlaylistAuthorName": "author"
+    },
+    "parameter_keys": [
+      "WFPlaylistAuthorName",
+      "WFPlaylistName"
+    ],
+    "notes": ""
+  },
+  "deletephotos": {
+    "identifier": "is.workflow.actions.deletephotos",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFInput": "photos"
+    },
+    "parameter_keys": [
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "detect.emailaddress": {
+    "identifier": "is.workflow.actions.detect.emailaddress",
+    "confidence": "HIGH",
+    "version": 3,
+    "pattern_source": "sibling_actions: detect.address, detect.contacts, detect.date",
+    "parameters": {
+      "WFInput": "text"
+    },
+    "parameter_keys": [
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "detect.phonenumber": {
+    "identifier": "is.workflow.actions.detect.phonenumber",
+    "confidence": "HIGH",
+    "version": 3,
+    "pattern_source": "sibling_actions: detect.address, detect.contacts, detect.date",
+    "parameters": {
+      "WFInput": "text"
+    },
+    "parameter_keys": [
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "detectlanguage": {
+    "identifier": "is.workflow.actions.detectlanguage",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFInput": "text"
+    },
+    "parameter_keys": [
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "dismisssiri": {
+    "identifier": "is.workflow.actions.dismisssiri",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "exportsong": {
+    "identifier": "is.workflow.actions.exportsong",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFInput": "song"
+    },
+    "parameter_keys": [
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "file.move": {
+    "identifier": "is.workflow.actions.file.move",
+    "confidence": "HIGH",
+    "version": 3,
+    "pattern_source": "sibling_actions: file.append, file.createfolder, file.delete",
+    "parameters": {
+      "WFInput": "file",
+      "WFFilePath": "destination path",
+      "WFSaveFileOverwrite": true
+    },
+    "parameter_keys": [
+      "WFFilePath",
+      "WFInput",
+      "WFSaveFileOverwrite"
+    ],
+    "notes": ""
+  },
+  "file.rename": {
+    "identifier": "is.workflow.actions.file.rename",
+    "confidence": "HIGH",
+    "version": 3,
+    "pattern_source": "sibling_actions: file.append, file.createfolder, file.delete",
+    "parameters": {
+      "WFInput": "file",
+      "WFNewFilename": "new name"
+    },
+    "parameter_keys": [
+      "WFInput",
+      "WFNewFilename"
+    ],
+    "notes": ""
+  },
+  "filter.articles": {
+    "identifier": "is.workflow.actions.filter.articles",
+    "confidence": "HIGH",
+    "version": 3,
+    "pattern_source": "sibling_actions: filter.calendarevents, filter.contacts, filter.files",
+    "parameters": {
+      "WFContentItemSortProperty": "sort field",
+      "WFContentItemSortOrder": "A to Z",
+      "WFContentItemFilter": "filter spec"
+    },
+    "parameter_keys": [
+      "WFContentItemFilter",
+      "WFContentItemSortOrder",
+      "WFContentItemSortProperty"
+    ],
+    "notes": "Follows standard filter pattern: WFContentItemSortProperty + WFContentItemSortOrder + WFContentItemFilter"
+  },
+  "filter.eventattendees": {
+    "identifier": "is.workflow.actions.filter.eventattendees",
+    "confidence": "HIGH",
+    "version": 3,
+    "pattern_source": "sibling_actions: filter.calendarevents, filter.contacts, filter.files",
+    "parameters": {
+      "WFContentItemSortProperty": "sort field",
+      "WFContentItemSortOrder": "A to Z",
+      "WFContentItemFilter": "filter spec"
+    },
+    "parameter_keys": [
+      "WFContentItemFilter",
+      "WFContentItemSortOrder",
+      "WFContentItemSortProperty"
+    ],
+    "notes": "Follows standard filter pattern: WFContentItemSortProperty + WFContentItemSortOrder + WFContentItemFilter"
+  },
+  "filter.images": {
+    "identifier": "is.workflow.actions.filter.images",
+    "confidence": "HIGH",
+    "version": 3,
+    "pattern_source": "sibling_actions: filter.calendarevents, filter.contacts, filter.files",
+    "parameters": {
+      "WFContentItemSortProperty": "sort field",
+      "WFContentItemSortOrder": "A to Z",
+      "WFContentItemFilter": "filter spec"
+    },
+    "parameter_keys": [
+      "WFContentItemFilter",
+      "WFContentItemSortOrder",
+      "WFContentItemSortProperty"
+    ],
+    "notes": "Follows standard filter pattern: WFContentItemSortProperty + WFContentItemSortOrder + WFContentItemFilter"
+  },
+  "filter.locations": {
+    "identifier": "is.workflow.actions.filter.locations",
+    "confidence": "HIGH",
+    "version": 3,
+    "pattern_source": "sibling_actions: filter.calendarevents, filter.contacts, filter.files",
+    "parameters": {
+      "WFContentItemSortProperty": "sort field",
+      "WFContentItemSortOrder": "A to Z",
+      "WFContentItemFilter": "filter spec"
+    },
+    "parameter_keys": [
+      "WFContentItemFilter",
+      "WFContentItemSortOrder",
+      "WFContentItemSortProperty"
+    ],
+    "notes": "Follows standard filter pattern: WFContentItemSortProperty + WFContentItemSortOrder + WFContentItemFilter"
+  },
+  "filter.music": {
+    "identifier": "is.workflow.actions.filter.music",
+    "confidence": "HIGH",
+    "version": 3,
+    "pattern_source": "sibling_actions: filter.calendarevents, filter.contacts, filter.files",
+    "parameters": {
+      "WFContentItemSortProperty": "sort field",
+      "WFContentItemSortOrder": "A to Z",
+      "WFContentItemFilter": "filter spec"
+    },
+    "parameter_keys": [
+      "WFContentItemFilter",
+      "WFContentItemSortOrder",
+      "WFContentItemSortProperty"
+    ],
+    "notes": "Follows standard filter pattern: WFContentItemSortProperty + WFContentItemSortOrder + WFContentItemFilter"
+  },
+  "format.filesize": {
+    "identifier": "is.workflow.actions.format.filesize",
+    "confidence": "HIGH",
+    "version": 3,
+    "pattern_source": "sibling_actions: format.date, format.number",
+    "parameters": {
+      "WFInput": "file size",
+      "WFFileSizeFormat": "Closest Unit"
+    },
+    "parameter_keys": [
+      "WFFileSizeFormat",
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "get.playlist": {
+    "identifier": "is.workflow.actions.get.playlist",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFPlaylistName": "playlist name"
+    },
+    "parameter_keys": [
+      "WFPlaylistName"
+    ],
+    "notes": ""
+  },
+  "getdistance": {
+    "identifier": "is.workflow.actions.getdistance",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFGetDirectionsFrom": "start",
+      "WFGetDirectionsTo": "end"
+    },
+    "parameter_keys": [
+      "WFGetDirectionsFrom",
+      "WFGetDirectionsTo"
+    ],
+    "notes": ""
+  },
+  "getframesfromimage": {
+    "identifier": "is.workflow.actions.getframesfromimage",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFImage": "gif/animated image"
+    },
+    "parameter_keys": [
+      "WFImage"
+    ],
+    "notes": ""
+  },
+  "gethalfwaypoint": {
+    "identifier": "is.workflow.actions.gethalfwaypoint",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFGetHalfwayPointFirstLocation": "loc1",
+      "WFGetHalfwayPointSecondLocation": "loc2"
+    },
+    "parameter_keys": [
+      "WFGetHalfwayPointFirstLocation",
+      "WFGetHalfwayPointSecondLocation"
+    ],
+    "notes": ""
+  },
+  "getlastphoto": {
+    "identifier": "is.workflow.actions.getlastphoto",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFGetLatestPhotoCount": 1
+    },
+    "parameter_keys": [
+      "WFGetLatestPhotoCount"
+    ],
+    "notes": ""
+  },
+  "getlastscreenshot": {
+    "identifier": "is.workflow.actions.getlastscreenshot",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFGetLatestPhotoCount": 1
+    },
+    "parameter_keys": [
+      "WFGetLatestPhotoCount"
+    ],
+    "notes": ""
+  },
+  "getlatestbursts": {
+    "identifier": "is.workflow.actions.getlatestbursts",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFGetLatestPhotoCount": 1
+    },
+    "parameter_keys": [
+      "WFGetLatestPhotoCount"
+    ],
+    "notes": ""
+  },
+  "getlatestphotoimport": {
+    "identifier": "is.workflow.actions.getlatestphotoimport",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFGetLatestPhotoCount": 1
+    },
+    "parameter_keys": [
+      "WFGetLatestPhotoCount"
+    ],
+    "notes": ""
+  },
+  "getonscreencontent": {
+    "identifier": "is.workflow.actions.getonscreencontent",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "gettextfrompdf": {
+    "identifier": "is.workflow.actions.gettextfrompdf",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFInput": "pdf"
+    },
+    "parameter_keys": [
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "getupcomingreminders": {
+    "identifier": "is.workflow.actions.getupcomingreminders",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFGetUpcomingItemCount": 5
+    },
+    "parameter_keys": [
+      "WFGetUpcomingItemCount"
+    ],
+    "notes": ""
+  },
+  "hash": {
+    "identifier": "is.workflow.actions.hash",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFInput": "data",
+      "WFHashType": "MD5"
+    },
+    "parameter_keys": [
+      "WFHashType",
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "health.workout.log": {
+    "identifier": "is.workflow.actions.health.workout.log",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: health.quantity.log",
+    "parameters": {
+      "WFWorkoutType": "Running",
+      "WFWorkoutDate": "date"
+    },
+    "parameter_keys": [
+      "WFWorkoutDate",
+      "WFWorkoutType"
+    ],
+    "notes": ""
+  },
+  "homeaccessory": {
+    "identifier": "is.workflow.actions.homeaccessory",
+    "confidence": "LOW",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFHomeName": "home",
+      "WFHomeAccessoryName": "accessory"
+    },
+    "parameter_keys": [
+      "WFHomeAccessoryName",
+      "WFHomeName"
+    ],
+    "notes": ""
+  },
+  "image.crop": {
+    "identifier": "is.workflow.actions.image.crop",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "sibling_actions: image.combine, image.convert, image.flip",
+    "parameters": {
+      "WFImage": "image",
+      "WFImageCropPosition": "Center",
+      "WFImageCropWidth": 100,
+      "WFImageCropHeight": 100
+    },
+    "parameter_keys": [
+      "WFImage",
+      "WFImageCropHeight",
+      "WFImageCropPosition",
+      "WFImageCropWidth"
+    ],
+    "notes": ""
+  },
+  "makeimagefrompdfpage": {
+    "identifier": "is.workflow.actions.makeimagefrompdfpage",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFInput": "pdf"
+    },
+    "parameter_keys": [
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "makepdf": {
+    "identifier": "is.workflow.actions.makepdf",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFInput": "content",
+      "WFPDFIncludeMargin": true
+    },
+    "parameter_keys": [
+      "WFInput",
+      "WFPDFIncludeMargin"
+    ],
+    "notes": ""
+  },
+  "makespokenaudiofromtext": {
+    "identifier": "is.workflow.actions.makespokenaudiofromtext",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFInput": "text",
+      "WFSpeakTextVoice": "voice"
+    },
+    "parameter_keys": [
+      "WFInput",
+      "WFSpeakTextVoice"
+    ],
+    "notes": ""
+  },
+  "openworkflow": {
+    "identifier": "is.workflow.actions.openworkflow",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFWorkflow": "shortcut to open"
+    },
+    "parameter_keys": [
+      "WFWorkflow"
+    ],
+    "notes": ""
+  },
+  "openxcallbackurl": {
+    "identifier": "is.workflow.actions.openxcallbackurl",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFURL": "x-callback-url"
+    },
+    "parameter_keys": [
+      "WFURL"
+    ],
+    "notes": ""
+  },
+  "podcasts.subscribe": {
+    "identifier": "is.workflow.actions.podcasts.subscribe",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFInput": "podcast url"
+    },
+    "parameter_keys": [
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "properties.eventattendees": {
+    "identifier": "is.workflow.actions.properties.eventattendees",
+    "confidence": "HIGH",
+    "version": 3,
+    "pattern_source": "sibling_actions: properties.appstore, properties.articles, properties.calendarevents",
+    "parameters": {
+      "WFInput": "event attendee",
+      "WFContentItemPropertyName": "property name"
+    },
+    "parameter_keys": [
+      "WFContentItemPropertyName",
+      "WFInput"
+    ],
+    "notes": "Follows standard properties pattern: WFInput + WFContentItemPropertyName"
+  },
+  "properties.files": {
+    "identifier": "is.workflow.actions.properties.files",
+    "confidence": "HIGH",
+    "version": 3,
+    "pattern_source": "sibling_actions: properties.appstore, properties.articles, properties.calendarevents",
+    "parameters": {
+      "WFInput": "file",
+      "WFContentItemPropertyName": "property name"
+    },
+    "parameter_keys": [
+      "WFContentItemPropertyName",
+      "WFInput"
+    ],
+    "notes": "Follows standard properties pattern: WFInput + WFContentItemPropertyName"
+  },
+  "properties.itunesartist": {
+    "identifier": "is.workflow.actions.properties.itunesartist",
+    "confidence": "HIGH",
+    "version": 3,
+    "pattern_source": "sibling_actions: properties.appstore, properties.articles, properties.calendarevents",
+    "parameters": {
+      "WFInput": "artist",
+      "WFContentItemPropertyName": "property name"
+    },
+    "parameter_keys": [
+      "WFContentItemPropertyName",
+      "WFInput"
+    ],
+    "notes": "Follows standard properties pattern: WFInput + WFContentItemPropertyName"
+  },
+  "properties.itunesstore": {
+    "identifier": "is.workflow.actions.properties.itunesstore",
+    "confidence": "HIGH",
+    "version": 3,
+    "pattern_source": "sibling_actions: properties.appstore, properties.articles, properties.calendarevents",
+    "parameters": {
+      "WFInput": "iTunes item",
+      "WFContentItemPropertyName": "property name"
+    },
+    "parameter_keys": [
+      "WFContentItemPropertyName",
+      "WFInput"
+    ],
+    "notes": "Follows standard properties pattern: WFInput + WFContentItemPropertyName"
+  },
+  "properties.reminders": {
+    "identifier": "is.workflow.actions.properties.reminders",
+    "confidence": "HIGH",
+    "version": 3,
+    "pattern_source": "sibling_actions: properties.appstore, properties.articles, properties.calendarevents",
+    "parameters": {
+      "WFInput": "reminder",
+      "WFContentItemPropertyName": "property name"
+    },
+    "parameter_keys": [
+      "WFContentItemPropertyName",
+      "WFInput"
+    ],
+    "notes": "Follows standard properties pattern: WFInput + WFContentItemPropertyName"
+  },
+  "properties.stock": {
+    "identifier": "is.workflow.actions.properties.stock",
+    "confidence": "HIGH",
+    "version": 3,
+    "pattern_source": "sibling_actions: properties.appstore, properties.articles, properties.calendarevents",
+    "parameters": {
+      "WFInput": "stock",
+      "WFContentItemPropertyName": "property name"
+    },
+    "parameter_keys": [
+      "WFContentItemPropertyName",
+      "WFInput"
+    ],
+    "notes": "Follows standard properties pattern: WFInput + WFContentItemPropertyName"
+  },
+  "removeevents": {
+    "identifier": "is.workflow.actions.removeevents",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFInput": "events"
+    },
+    "parameter_keys": [
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "removefromalbum": {
+    "identifier": "is.workflow.actions.removefromalbum",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFInput": "photos",
+      "WFPhotoAlbum": "album name"
+    },
+    "parameter_keys": [
+      "WFInput",
+      "WFPhotoAlbum"
+    ],
+    "notes": ""
+  },
+  "runextension": {
+    "identifier": "is.workflow.actions.runextension",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFInput": "input"
+    },
+    "parameter_keys": [
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "runjavascriptonwebpage": {
+    "identifier": "is.workflow.actions.runjavascriptonwebpage",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFJavaScript": "code"
+    },
+    "parameter_keys": [
+      "WFJavaScript"
+    ],
+    "notes": ""
+  },
+  "searchlocalbusinesses": {
+    "identifier": "is.workflow.actions.searchlocalbusinesses",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFInput": "search query"
+    },
+    "parameter_keys": [
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "selectphone": {
+    "identifier": "is.workflow.actions.selectphone",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "shazamMedia": {
+    "identifier": "is.workflow.actions.shazamMedia",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {},
+    "parameter_keys": [],
+    "notes": ""
+  },
+  "showdefinition": {
+    "identifier": "is.workflow.actions.showdefinition",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFWord": "word"
+    },
+    "parameter_keys": [
+      "WFWord"
+    ],
+    "notes": ""
+  },
+  "splitpdf": {
+    "identifier": "is.workflow.actions.splitpdf",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFInput": "pdf"
+    },
+    "parameter_keys": [
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "stocks.quote": {
+    "identifier": "is.workflow.actions.stocks.quote",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFInput": "stock symbol"
+    },
+    "parameter_keys": [
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "takevideo": {
+    "identifier": "is.workflow.actions.takevideo",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFCameraCaptureDevice": "Back",
+      "WFCameraCaptureQuality": "Medium"
+    },
+    "parameter_keys": [
+      "WFCameraCaptureDevice",
+      "WFCameraCaptureQuality"
+    ],
+    "notes": ""
+  },
+  "timer.start": {
+    "identifier": "is.workflow.actions.timer.start",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFTimerDuration": 300
+    },
+    "parameter_keys": [
+      "WFTimerDuration"
+    ],
+    "notes": ""
+  },
+  "url.getheaders": {
+    "identifier": "is.workflow.actions.url.getheaders",
+    "confidence": "HIGH",
+    "version": 3,
+    "pattern_source": "sibling_actions: url, url.expand",
+    "parameters": {
+      "WFInput": "url"
+    },
+    "parameter_keys": [
+      "WFInput"
+    ],
+    "notes": ""
+  },
+  "venmo.pay": {
+    "identifier": "is.workflow.actions.venmo.pay",
+    "confidence": "LOW",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFVenmoRecipient": "recipient",
+      "WFVenmoAmount": "amount",
+      "WFVenmoNote": "note"
+    },
+    "parameter_keys": [
+      "WFVenmoAmount",
+      "WFVenmoNote",
+      "WFVenmoRecipient"
+    ],
+    "notes": ""
+  },
+  "venmo.request": {
+    "identifier": "is.workflow.actions.venmo.request",
+    "confidence": "LOW",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFVenmoRecipient": "recipient",
+      "WFVenmoAmount": "amount",
+      "WFVenmoNote": "note"
+    },
+    "parameter_keys": [
+      "WFVenmoAmount",
+      "WFVenmoNote",
+      "WFVenmoRecipient"
+    ],
+    "notes": ""
+  },
+  "workout.start": {
+    "identifier": "is.workflow.actions.workout.start",
+    "confidence": "MEDIUM",
+    "version": 3,
+    "pattern_source": "apple_convention",
+    "parameters": {
+      "WFWorkoutType": "Running"
+    },
+    "parameter_keys": [
+      "WFWorkoutType"
+    ],
+    "notes": ""
+  },
+  "meta": {
+    "total": 99,
+    "version": 3,
+    "confidence_counts": {
+      "HIGH": 17,
+      "MEDIUM": 79,
+      "LOW": 4
+    },
+    "improvements_over_v2": [
+      "Unified naming: short names matching catalog (not full identifiers)",
+      "Media-specific input keys applied based on verified findings",
+      "url.expand uses URL key (not WFInput) - verified",
+      "format.number uses WFNumber key (not WFInput) - verified",
+      "UUID removed from all parameter lists",
+      "Better parameter inference from sibling verified actions",
+      "Confidence recalibrated based on family coverage",
+      "All filter.* and properties.* actions use verified sibling patterns"
+    ]
+  }
+}

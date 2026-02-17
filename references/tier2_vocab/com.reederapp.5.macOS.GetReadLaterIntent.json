@@ -1,0 +1,13 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "host": 5,
+  "limit": 6,
+  "maxItems": 7,
+  "search": 8,
+  "state": 9,
+  "tag": 10
+}

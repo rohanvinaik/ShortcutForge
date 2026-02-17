@@ -1,0 +1,14 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "ShowWhenRun": 5,
+  "checklist": 6,
+  "notes": 7,
+  "reminderTime": 8,
+  "tags": 9,
+  "title": 10,
+  "when": 11
+}

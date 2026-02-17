@@ -1,0 +1,11 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "WFReplaceTextCaseSensitive": 5,
+  "WFReplaceTextFind": 6,
+  "WFReplaceTextRegularExpression": 7,
+  "WFReplaceTextReplace": 8
+}

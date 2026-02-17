@@ -1,0 +1,18 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "WFAlertCondition": 5,
+  "WFAlertCustomTime": 6,
+  "WFAlertEnabled": 7,
+  "WFCalendarDescriptor": 8,
+  "WFCalendarItemCalendar": 9,
+  "WFCalendarItemNotes": 10,
+  "WFCalendarItemTitle": 11,
+  "WFFlag": 12,
+  "WFImages": 13,
+  "WFPriority": 14,
+  "WFURL": 15
+}

@@ -1,0 +1,57 @@
+{
+  "_meta": {
+    "profile_id": "notifications",
+    "version": "1.0",
+    "description": "Domain profile for alerts, notifications, sounds, and user feedback shortcuts"
+  },
+
+  "keywords": [
+    "notification", "alert", "banner", "sound", "vibrate",
+    "announce", "speak", "voice", "haptic", "feedback",
+    "pop up", "dialog", "confirm", "prompt", "warning",
+    "toast", "badge", "notify me", "play sound",
+    "text to speech", "siri", "voiceover"
+  ],
+
+  "prompt_context": "You are generating a notification/feedback Apple Shortcut. Use notification to show system banners (with title, body, sound, and optional attachment). Use alert/showalert for modal dialogs requiring user acknowledgment. Use speaktext for text-to-speech output. Use playsound for audio feedback. For confirmation dialogs, use showalert with ShowCancelButton=true and handle both outcomes with IF. Choose the right feedback mechanism: notifications for background updates, alerts for foreground confirmations, speaktext for hands-free contexts.",
+
+  "relevant_actions": [
+    "notification",
+    "alert",
+    "showalert",
+    "showresult",
+    "speaktext",
+    "playsound",
+    "vibrate",
+    "askforinput",
+    "choosefromlist",
+    "setbrightness",
+    "setvolume",
+    "text"
+  ],
+
+  "feedback_patterns": {
+    "banner": {
+      "description": "System notification banner (non-blocking)",
+      "use_case": "Background completion, status updates"
+    },
+    "alert": {
+      "description": "Modal dialog (blocking, requires dismissal)",
+      "use_case": "Confirmations, errors, important information"
+    },
+    "speech": {
+      "description": "Text-to-speech output",
+      "use_case": "Hands-free contexts, accessibility, driving mode"
+    },
+    "sound": {
+      "description": "Audio feedback (system or custom sound)",
+      "use_case": "Completion chimes, error sounds, timer alerts"
+    }
+  },
+
+  "example_patterns": [
+    "Show notification with title and body when background task completes",
+    "Alert with confirm/cancel buttons, branch on user choice",
+    "Speak current time and weather summary for hands-free morning briefing"
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "WFImageCombineMode": 5,
+  "WFImageCombineSpacing": 6
+}

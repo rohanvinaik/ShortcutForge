@@ -1,0 +1,28 @@
+{
+  "snapshot_version": 3,
+  "date": "2026-02-15T20:46:02.684123+00:00",
+  "model_path": "mlx-community/Meta-Llama-3.1-8B-Instruct-4bit",
+  "adapter_path": "models/baseline-v1-mlx",
+  "eval_file": "training_data/shortcutdsl_eval.jsonl",
+  "n_examples": 100,
+  "pipeline_version": "phase-12",
+  "metrics": {
+    "parse_pass": 93,
+    "parse_rate": 93.0,
+    "validate_strict_pass": 85,
+    "validate_strict_rate": 85.0,
+    "validate_permissive_pass": 89,
+    "validate_permissive_rate": 89.0,
+    "compile_strict_pass": 85,
+    "compile_strict_rate": 85.0,
+    "compile_permissive_pass": 89,
+    "compile_permissive_rate": 89.0,
+    "runtime_unverified_compile_pass": 4,
+    "runtime_unverified_compile_rate": 4.0
+  },
+  "failure_categories": {
+    "parse_overflow": 2,
+    "validate_unknown_action": 8,
+    "parse_syntax": 5
+  }
+}

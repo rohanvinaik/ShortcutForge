@@ -1,0 +1,12 @@
+{
+  "total_examples": 3374,
+  "clean_count": 3374,
+  "hard_negative_count": 0,
+  "avg_repairs": 0.0,
+  "repairs_by_kind": {},
+  "dominant_kind_dist": {},
+  "avg_confidence": 1.0,
+  "weight_distribution": {
+    "1.0x": 3374
+  }
+}

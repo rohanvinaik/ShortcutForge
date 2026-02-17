@@ -1,0 +1,12 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "AssertionType": 4,
+  "Enabled": 5,
+  "Event": 6,
+  "FocusModes": 7,
+  "PARAM": 8,
+  "Time": 9
+}

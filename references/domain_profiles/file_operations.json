@@ -1,0 +1,51 @@
+{
+  "_meta": {
+    "profile_id": "file_operations",
+    "version": "1.0",
+    "description": "Domain profile for file management, import/export, and document handling shortcuts"
+  },
+
+  "keywords": [
+    "file", "save", "folder", "document", "pdf", "export", "import",
+    "rename", "move", "copy", "delete file", "create folder",
+    "icloud", "dropbox", "files app", "file type", "extension",
+    "zip", "archive", "unzip", "compress", "extract",
+    "save to files", "get file", "share file"
+  ],
+
+  "prompt_context": "You are generating a file management Apple Shortcut. Use the savefile action to save files with the user's choice of location. Use getfile to retrieve files from iCloud Drive or other providers. Use getfiledetail to inspect file properties (name, extension, size, creation date). When handling multiple file types, check the file extension or type with an IF block to route to appropriate handlers. Always provide user feedback about successful operations.",
+
+  "relevant_actions": [
+    "savefile",
+    "getfile",
+    "getfiledetail",
+    "rename",
+    "createfolder",
+    "openin",
+    "filter.files",
+    "selectfile",
+    "gettext",
+    "setname",
+    "alert",
+    "showresult",
+    "quicklook",
+    "share",
+    "base64encode",
+    "makezip",
+    "extractarchive"
+  ],
+
+  "file_type_patterns": {
+    "document": ["pdf", "doc", "docx", "txt", "rtf", "pages"],
+    "image": ["jpg", "jpeg", "png", "gif", "heic", "webp", "tiff"],
+    "video": ["mp4", "mov", "avi", "mkv"],
+    "audio": ["mp3", "m4a", "wav", "aac", "flac"],
+    "archive": ["zip", "tar", "gz", "7z"]
+  },
+
+  "example_patterns": [
+    "Save input to Files app with user-chosen location",
+    "Get file, check type, route to handler (PDF to markup, image to resize)",
+    "Batch rename files: FOREACH items, getfiledetail for name, rename with pattern"
+  ]
+}

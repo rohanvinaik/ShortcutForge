@@ -1,0 +1,101 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "description": "Scoring rubric for Share Sheet Text Cleaner scenario benchmark"
+  },
+  "scenario_id": "share_sheet_text_cleaner",
+  "scenario_name": "Share Sheet Text Cleaner",
+  "description": "Accept shared text from the share sheet, strip URLs, emoji characters, and excess whitespace, then copy the cleaned version to the clipboard and show the result.",
+  "complexity_tier": "medium",
+
+  "required_actions": [
+    "gettext",
+    "text.replace",
+    "setclipboard"
+  ],
+
+  "desired_actions": [
+    "showresult",
+    "text.trimwhitespace",
+    "count",
+    "ask",
+    "alert",
+    "notification"
+  ],
+
+  "required_constructs": [
+    "IF",
+    "SET"
+  ],
+
+  "desired_constructs": [
+    "FOREACH",
+    "MENU"
+  ],
+
+  "scoring": {
+    "structural_completeness": {
+      "weight": 0.25,
+      "description": "Does the shortcut have valid structure and compile?",
+      "criteria": {
+        "parses": {"description": "DSL text passes Lark parser", "points": 0.2},
+        "validates": {"description": "IR passes semantic validation (permissive)", "points": 0.2},
+        "compiles": {"description": "Compiler produces .shortcut plist", "points": 0.2},
+        "has_conditional": {"description": "Contains at least one IF block for input handling", "points": 0.15},
+        "has_variables": {"description": "Uses SET to define variables", "points": 0.15},
+        "has_sufficient_actions": {"description": "Contains >= 6 action statements", "points": 0.1}
+      }
+    },
+    "action_coverage": {
+      "weight": 0.3,
+      "description": "Does the shortcut use the right actions for text cleaning?",
+      "criteria": {
+        "uses_text_replace": {"description": "Uses text.replace for regex-based text stripping", "points": 0.25},
+        "uses_setclipboard": {"description": "Copies cleaned text to clipboard", "points": 0.2},
+        "uses_gettext": {"description": "Uses gettext to handle text input", "points": 0.15},
+        "text_replace_count_gte_2": {"description": "Uses text.replace at least 2 times (URLs + another pattern)", "points": 0.15},
+        "uses_regex_mode": {"description": "Enables regular expression mode in text.replace", "points": 0.15},
+        "uses_trimwhitespace": {"description": "Uses text.trimwhitespace or equivalent for cleanup", "points": 0.1}
+      }
+    },
+    "text_processing": {
+      "weight": 0.25,
+      "description": "Does the shortcut handle all required text cleaning operations?",
+      "criteria": {
+        "strips_urls": {"description": "Regex pattern removes http/https URLs", "points": 0.35},
+        "strips_emoji": {"description": "Removes emoji characters via regex or replacement", "points": 0.25},
+        "strips_whitespace": {"description": "Collapses or trims excess whitespace", "points": 0.25},
+        "preserves_content": {"description": "Does not destroy meaningful text content", "points": 0.15}
+      }
+    },
+    "ux_quality": {
+      "weight": 0.2,
+      "description": "Does the shortcut provide good user experience?",
+      "criteria": {
+        "accepts_share_input": {"description": "Accepts input from share sheet or shortcut input", "points": 0.25},
+        "fallback_input": {"description": "Falls back to asking user if no input provided", "points": 0.2},
+        "shows_result": {"description": "Shows cleaned text result to user", "points": 0.25},
+        "copies_to_clipboard": {"description": "Copies result to clipboard for easy pasting", "points": 0.2},
+        "clean_naming": {"description": "Shortcut has descriptive name", "points": 0.1}
+      }
+    }
+  },
+
+  "prompt_variants": [
+    {
+      "id": "detailed",
+      "difficulty": "easy",
+      "prompt": "Build an Apple Shortcut called 'Clean Shared Text' that accepts text from the iOS share sheet. It should: 1) Get the shared text input (or ask the user to paste text if no input), 2) Use text.replace with regular expressions to strip all URLs (http:// and https:// links), 3) Use text.replace with regex to remove emoji characters, 4) Collapse multiple spaces into single spaces and trim excess blank lines, 5) Trim leading/trailing whitespace, 6) Copy the cleaned text to the clipboard using setclipboard, 7) Show the cleaned result with a character count comparison (original vs cleaned). Handle the case where no text is shared by prompting the user."
+    },
+    {
+      "id": "moderate",
+      "difficulty": "medium",
+      "prompt": "Create a share sheet shortcut that cleans up messy text. It should accept shared text, use regex replacements to remove URLs and emoji characters, clean up extra whitespace, copy the cleaned version to the clipboard, and show the result. If no text is provided, ask the user for input."
+    },
+    {
+      "id": "minimal",
+      "difficulty": "hard",
+      "prompt": "I need a shortcut that takes shared text, strips out URLs, emoji, and extra whitespace, then copies the clean text to my clipboard and shows me the result."
+    }
+  ]
+}

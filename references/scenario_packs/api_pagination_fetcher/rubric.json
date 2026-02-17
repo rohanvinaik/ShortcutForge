@@ -1,0 +1,108 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "description": "Scoring rubric for API Pagination Fetcher scenario benchmark"
+  },
+  "scenario_id": "api_pagination_fetcher",
+  "scenario_name": "API Pagination Fetcher",
+  "description": "Fetch paginated results from a JSON API, accumulate items across multiple pages using a loop, format the combined output, and display the final results.",
+  "complexity_tier": "complex",
+
+  "required_actions": [
+    "downloadurl",
+    "getvalueforkey",
+    "appendvariable",
+    "detect.dictionary"
+  ],
+
+  "desired_actions": [
+    "showresult",
+    "url",
+    "gettext",
+    "count",
+    "math",
+    "text.combine",
+    "alert",
+    "notification"
+  ],
+
+  "required_constructs": [
+    "REPEAT",
+    "SET",
+    "IF"
+  ],
+
+  "desired_constructs": [
+    "FOREACH",
+    "MENU"
+  ],
+
+  "scoring": {
+    "structural_completeness": {
+      "weight": 0.25,
+      "description": "Does the shortcut have valid structure and compile?",
+      "criteria": {
+        "parses": {"description": "DSL text passes Lark parser", "points": 0.2},
+        "validates": {"description": "IR passes semantic validation (permissive)", "points": 0.2},
+        "compiles": {"description": "Compiler produces .shortcut plist", "points": 0.2},
+        "has_repeat": {"description": "Contains a REPEAT block for pagination loop", "points": 0.15},
+        "has_conditional": {"description": "Contains IF blocks for response/pagination checks", "points": 0.1},
+        "has_variables": {"description": "Uses SET to define variables for state tracking", "points": 0.05},
+        "has_sufficient_actions": {"description": "Contains >= 10 action statements", "points": 0.1}
+      }
+    },
+    "action_coverage": {
+      "weight": 0.3,
+      "description": "Does the shortcut use the right actions for API fetching and accumulation?",
+      "criteria": {
+        "uses_downloadurl": {"description": "Fetches data from API URL", "points": 0.2},
+        "uses_detect_dictionary": {"description": "Parses JSON response as dictionary", "points": 0.15},
+        "uses_getvalueforkey": {"description": "Extracts values from API response by key", "points": 0.15},
+        "uses_appendvariable": {"description": "Accumulates results across pages", "points": 0.2},
+        "uses_url_construction": {"description": "Builds URL with page parameter", "points": 0.1},
+        "uses_count_or_math": {"description": "Tracks item count or page number", "points": 0.1},
+        "uses_text_combine": {"description": "Combines accumulated items for display", "points": 0.1}
+      }
+    },
+    "pagination_logic": {
+      "weight": 0.25,
+      "description": "Does the shortcut correctly implement pagination logic?",
+      "criteria": {
+        "loop_over_pages": {"description": "Uses REPEAT or equivalent to fetch multiple pages", "points": 0.3},
+        "page_number_tracking": {"description": "Tracks and increments page number between requests", "points": 0.2},
+        "accumulates_results": {"description": "Builds up results across pages using appendvariable", "points": 0.2},
+        "checks_more_pages": {"description": "Checks API response for has_more or equivalent stop condition", "points": 0.2},
+        "handles_empty_response": {"description": "Handles case where API returns no data or empty page", "points": 0.1}
+      }
+    },
+    "ux_quality": {
+      "weight": 0.2,
+      "description": "Does the shortcut provide good user experience?",
+      "criteria": {
+        "shows_formatted_output": {"description": "Displays formatted combined results to user", "points": 0.3},
+        "shows_count_or_summary": {"description": "Shows total count or summary of fetched items", "points": 0.25},
+        "handles_errors": {"description": "Handles network errors or empty responses gracefully", "points": 0.25},
+        "clean_naming": {"description": "Shortcut has descriptive name", "points": 0.1},
+        "configurable_url": {"description": "URL or endpoint is configurable via variable", "points": 0.1}
+      }
+    }
+  },
+
+  "prompt_variants": [
+    {
+      "id": "detailed",
+      "difficulty": "easy",
+      "prompt": "Build an Apple Shortcut called 'API Paginator' that fetches paginated data from a REST API. It should: 1) Set a base URL (https://api.example.com/items), 2) Use a REPEAT loop to iterate through pages (up to 10 pages), 3) On each iteration, build a URL with ?page=N&per_page=20, 4) Fetch the page using downloadurl with GET, 5) Parse the JSON response with detect.dictionary, 6) Extract the 'items' array using getvalueforkey, 7) Use a FOREACH loop to process each item — extract 'name' and 'id' fields and append a formatted line to an accumulator variable, 8) Check the 'has_more' field to decide whether to continue, 9) After all pages, combine the accumulated items with text.combine and show a summary with the total count."
+    },
+    {
+      "id": "moderate",
+      "difficulty": "medium",
+      "prompt": "Create a shortcut that fetches all results from a paginated JSON API. Loop through pages of https://api.example.com/items, extracting items from each response, accumulating them with appendvariable. Stop when has_more is false or after 10 pages. Show the formatted combined results with a total count."
+    },
+    {
+      "id": "minimal",
+      "difficulty": "hard",
+      "prompt": "I need a shortcut that fetches paginated API data, looping through pages and accumulating all the items. It should parse JSON responses, extract items, build up a list, and show the combined results when done."
+    }
+  ]
+}

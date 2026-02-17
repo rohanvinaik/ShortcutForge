@@ -1,0 +1,10 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "WFAppendFileWriteMode": 5,
+  "WFAppendOnNewLine": 6,
+  "WFFilePath": 7
+}

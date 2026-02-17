@@ -1,0 +1,56 @@
+{
+  "_meta": {
+    "profile_id": "messaging",
+    "version": "1.0",
+    "description": "Domain profile for iMessage, Mail, sharing, and communication shortcuts"
+  },
+
+  "keywords": [
+    "message", "email", "send", "share", "contact",
+    "sms", "text", "mail", "imessage", "compose",
+    "reply", "forward", "attachment", "recipient",
+    "facetime", "call", "phone", "whatsapp",
+    "slack", "telegram", "share sheet", "airdrop",
+    "send message", "send email"
+  ],
+
+  "prompt_context": "You are generating a communication Apple Shortcut. Use sendmessage to send iMessages (specify recipients and body). Use sendemail for email (specify to, subject, body, and optional attachments). Use the share action for general sharing via the system share sheet. When composing messages, always let the user confirm before sending unless explicitly asked for auto-send. Use askforinput to get recipient or message body if not provided. For bulk messaging, iterate with FOREACH but add confirmation before each send.",
+
+  "relevant_actions": [
+    "sendmessage",
+    "sendemail",
+    "share",
+    "getcontacts",
+    "selectcontact",
+    "getcontactdetail",
+    "phone",
+    "facetime",
+    "askforinput",
+    "text",
+    "setclipboard",
+    "alert",
+    "showresult",
+    "notification"
+  ],
+
+  "messaging_patterns": {
+    "imessage": {
+      "description": "Send iMessage to a contact",
+      "template": "ACTION sendmessage WFSendMessageContent=$MessageBody WFSendMessageRecipients=$Recipient"
+    },
+    "email": {
+      "description": "Send email with subject and body",
+      "template": "ACTION sendemail WFSendEmailTo=$Recipient WFSendEmailSubject=$Subject WFSendEmailBody=$Body"
+    },
+    "share_sheet": {
+      "description": "Share content via system share sheet",
+      "template": "ACTION share"
+    }
+  },
+
+  "example_patterns": [
+    "Get clipboard, compose message with it, send to selected contact",
+    "Build daily report text, email to fixed recipient with subject line",
+    "Ask for message and recipient, confirm before sending iMessage"
+  ]
+}

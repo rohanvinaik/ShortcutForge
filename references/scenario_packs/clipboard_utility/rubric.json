@@ -1,0 +1,105 @@
+{
+  "_meta": {
+    "version": "1.0",
+    "description": "Scoring rubric for Clipboard Utility scenario benchmark"
+  },
+  "scenario_id": "clipboard_utility",
+  "scenario_name": "Clipboard Utility",
+  "description": "Menu-driven clipboard tool: clean clipboard (strip whitespace/formatting), append to a running list stored in a Note, or search clipboard history via Notes.",
+  "complexity_tier": "medium",
+
+  "required_actions": [
+    "getclipboard",
+    "setclipboard",
+    "appendnote",
+    "filter.notes"
+  ],
+
+  "desired_actions": [
+    "showresult",
+    "alert",
+    "ask",
+    "gettext",
+    "text.replace",
+    "date",
+    "format.date"
+  ],
+
+  "required_constructs": [
+    "MENU",
+    "IF",
+    "SET"
+  ],
+
+  "desired_constructs": [
+    "FOREACH",
+    "REPEAT"
+  ],
+
+  "scoring": {
+    "structural_completeness": {
+      "weight": 0.25,
+      "description": "Does the shortcut have valid structure and compile?",
+      "criteria": {
+        "parses": {"description": "DSL text passes Lark parser", "points": 0.2},
+        "validates": {"description": "IR passes semantic validation (permissive)", "points": 0.2},
+        "compiles": {"description": "Compiler produces .shortcut plist", "points": 0.2},
+        "has_menu": {"description": "Contains a MENU block with 3 cases", "points": 0.15},
+        "has_conditional": {"description": "Contains at least one IF block", "points": 0.1},
+        "has_variables": {"description": "Uses SET to define variables", "points": 0.05},
+        "has_sufficient_actions": {"description": "Contains >= 8 action statements", "points": 0.1}
+      }
+    },
+    "action_coverage": {
+      "weight": 0.25,
+      "description": "Does the shortcut use the right actions for clipboard management?",
+      "criteria": {
+        "uses_getclipboard": {"description": "Reads from clipboard", "points": 0.2},
+        "uses_setclipboard": {"description": "Writes cleaned text back to clipboard", "points": 0.2},
+        "uses_appendnote": {"description": "Appends clipboard content to a note", "points": 0.2},
+        "uses_filter_notes": {"description": "Searches notes for clipboard history", "points": 0.2},
+        "uses_ask": {"description": "Prompts user for search term", "points": 0.1},
+        "uses_text_processing": {"description": "Uses text.replace or similar to clean text", "points": 0.1}
+      }
+    },
+    "menu_design": {
+      "weight": 0.25,
+      "description": "Does the menu structure provide clear, functional options?",
+      "criteria": {
+        "has_three_cases": {"description": "Menu has exactly 3 options (Clean, Append, Search)", "points": 0.3},
+        "clean_option_works": {"description": "Clean Clipboard option reads, cleans, and sets clipboard", "points": 0.25},
+        "append_option_works": {"description": "Append to List option reads clipboard and appends to note", "points": 0.25},
+        "search_option_works": {"description": "Search History option prompts for term and searches notes", "points": 0.2}
+      }
+    },
+    "ux_quality": {
+      "weight": 0.25,
+      "description": "Does the shortcut provide good user experience?",
+      "criteria": {
+        "shows_feedback": {"description": "Shows confirmation after each action", "points": 0.25},
+        "handles_empty_clipboard": {"description": "Handles case where clipboard is empty", "points": 0.25},
+        "handles_no_results": {"description": "Shows message when search finds nothing", "points": 0.2},
+        "includes_timestamp": {"description": "Appended entries include a timestamp", "points": 0.15},
+        "clean_naming": {"description": "Shortcut and menu labels have descriptive names", "points": 0.15}
+      }
+    }
+  },
+
+  "prompt_variants": [
+    {
+      "id": "detailed",
+      "difficulty": "easy",
+      "prompt": "Build an Apple Shortcut called 'Clipboard Utility' that presents a menu with three options: (1) 'Clean Clipboard' - gets the current clipboard text, strips leading and trailing whitespace using text.replace with a regex, then sets the cleaned text back to the clipboard and shows a confirmation; (2) 'Append to List' - gets the clipboard text, formats it with the current date as a timestamp, then appends it to a note called 'Clipboard History'; (3) 'Search History' - asks the user for a search term, uses filter.notes to find notes matching that term, and shows the results or an error if nothing is found. Handle empty clipboard in each case."
+    },
+    {
+      "id": "moderate",
+      "difficulty": "medium",
+      "prompt": "Create a shortcut with a 3-option menu for clipboard management: clean the clipboard by stripping whitespace, append the current clipboard to a 'Clipboard History' note with a timestamp, or search your clipboard history notes by keyword. Show appropriate feedback for each action and handle empty clipboard gracefully."
+    },
+    {
+      "id": "minimal",
+      "difficulty": "hard",
+      "prompt": "Make a clipboard utility shortcut with options to clean clipboard text, save clipboard to a running notes list, and search clipboard history."
+    }
+  ]
+}

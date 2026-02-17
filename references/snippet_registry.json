@@ -1,0 +1,2414 @@
+{
+  "version": "1.0",
+  "extracted_from": "training_data/shortcutdsl_train.jsonl",
+  "snippet_count": 200,
+  "snippets": [
+    {
+      "id": "snip_001",
+      "structural_key": "comment.url.openurl",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Opens the deep link to the phone app, then sets playback to AirPods and turns on Noise Cancellation.\"\nACTION url WFURLActionURL=\"mobilephone://\"\nACTION openurl",
+      "action_count": 3,
+      "frequency": 281,
+      "score": 281.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Comment, Create URL, Open URL"
+    },
+    {
+      "id": "snip_002",
+      "structural_key": "url.openurl",
+      "canonical_dsl": "FOREACH @prev\n  ACTION url WFURLActionURL=`{$__v1}?upnext=true`\n  ACTION openurl",
+      "action_count": 2,
+      "frequency": 164,
+      "score": 246.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Create URL, Open URL (with control flow)"
+    },
+    {
+      "id": "snip_003",
+      "structural_key": "comment.url",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Presents a menu of your favorite nearby theaters, then opens the corresponding URLs for that theater so you can buy tickets.\"\nMENU ...\nCASE ...\n  ACTION url WFURLActionURL=\"https://www.regmovies.com/theatres/regal-bridgeport-village-0652\"\nCASE ...",
+      "action_count": 2,
+      "frequency": 70,
+      "score": 105.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Comment, Create URL (with control flow)"
+    },
+    {
+      "id": "snip_004",
+      "structural_key": "com.apple.TVRemoteUIService.WakeAppleTVIntent.com.apple.TVRemoteUIService.LaunchApplicationIntent.com.apple.TVRemoteUIService.LaunchRemoteIntent",
+      "canonical_dsl": "ACTION com.apple.TVRemoteUIService.WakeAppleTVIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"}\nACTION com.apple.TVRemoteUIService.LaunchApplicationIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"} application={\"displayString\": \"Settings\", \"pronunciationHint\": \"Settings\", \"identifier\": \"com.apple.TVSettings\"} ShowWhenRun=false\nACTION com.apple.TVRemoteUIService.LaunchRemoteIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"}",
+      "action_count": 3,
+      "frequency": 78,
+      "score": 78.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Com apple TVRemoteUIService WakeAppleTVIntent, Com apple TVRemoteUIService LaunchApplicationIntent, Com apple TVRemoteUIService LaunchRemoteIntent"
+    },
+    {
+      "id": "snip_005",
+      "structural_key": "com.apple.TVRemoteUIService.WakeAppleTVIntent.com.apple.TVRemoteUIService.LaunchApplicationIntent",
+      "canonical_dsl": "CASE ...\nACTION com.apple.TVRemoteUIService.WakeAppleTVIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"}\nACTION com.apple.TVRemoteUIService.LaunchApplicationIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"} application={\"displayString\": \"Settings\", \"pronunciationHint\": \"Settings\", \"identifier\": \"com.apple.TVSettings\"} ShowWhenRun=false",
+      "action_count": 2,
+      "frequency": 47,
+      "score": 70.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Com apple TVRemoteUIService WakeAppleTVIntent, Com apple TVRemoteUIService LaunchApplicationIntent (with control flow)"
+    },
+    {
+      "id": "snip_006",
+      "structural_key": "filter.apps.comment.runworkflow",
+      "canonical_dsl": "IF ...\n  ACTION filter.apps WFContentItemFilter={\"Value\": {\"WFActionParameterFilterPrefix\": 1, \"WFContentPredicateBoundedDate\": false, \"WFActionParameterFilterTemplates\": [{\"Operator\": 4, \"Values\": {\"Unit\": 4, \"String\": \"Disney+\"}, \"Removable\": true, \"Property\": \"Name\"}]}, \"WFSerializationType\": \"WFContentPredicateTableTemplate\"}\n  IF ...\n    ACTION comment WFCommentActionText=\"If the web app for Disney+ is installed, run the shortcut \u201cOpen in Disney+ app\u201d to redirect the URL using AppleScript.\"\n    ACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"2AB917BD-A532-48EA-927C-DC4F8DE598C8\", \"workflowName\": \"Open in Disney+ web app\", \"isSelf\": false} WFWorkflowName=\"Open in Disney+ web app\"",
+      "action_count": 3,
+      "frequency": 42,
+      "score": 63.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Filter apps, Comment, Run shortcut (with control flow)"
+    },
+    {
+      "id": "snip_007",
+      "structural_key": "comment.runworkflow.openurl",
+      "canonical_dsl": "IF ...\n  ACTION comment WFCommentActionText=\"If the web app for Disney+ is installed, run the shortcut \u201cOpen in Disney+ app\u201d to redirect the URL using AppleScript.\"\n  ACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"2AB917BD-A532-48EA-927C-DC4F8DE598C8\", \"workflowName\": \"Open in Disney+ web app\", \"isSelf\": false} WFWorkflowName=\"Open in Disney+ web app\"\nELSE\n  ACTION openurl",
+      "action_count": 3,
+      "frequency": 42,
+      "score": 63.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Run shortcut, Open URL (with control flow)"
+    },
+    {
+      "id": "snip_008",
+      "structural_key": "filter.apps.comment.runworkflow.openurl",
+      "canonical_dsl": "IF ...\n  ACTION filter.apps WFContentItemFilter={\"Value\": {\"WFActionParameterFilterPrefix\": 1, \"WFContentPredicateBoundedDate\": false, \"WFActionParameterFilterTemplates\": [{\"Operator\": 4, \"Values\": {\"Unit\": 4, \"String\": \"Disney+\"}, \"Removable\": true, \"Property\": \"Name\"}]}, \"WFSerializationType\": \"WFContentPredicateTableTemplate\"}\n  IF ...\n    ACTION comment WFCommentActionText=\"If the web app for Disney+ is installed, run the shortcut \u201cOpen in Disney+ app\u201d to redirect the URL using AppleScript.\"\n    ACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"2AB917BD-A532-48EA-927C-DC4F8DE598C8\", \"workflowName\": \"Open in Disney+ web app\", \"isSelf\": false} WFWorkflowName=\"Open in Disney+ web app\"\n  ELSE\n    ACTION openurl",
+      "action_count": 4,
+      "frequency": 42,
+      "score": 63.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Filter apps, Comment, Run shortcut, Open URL (with control flow)"
+    },
+    {
+      "id": "snip_009",
+      "structural_key": "comment.runworkflow",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Presents a menu of apps compatible with picture-in-picture, waits 30 seconds for you to pick a video, then goes to the Home Screen to pop out the video.\"\nMENU ...\nCASE ...\n  ACTION runworkflow WFWorkflowName=\"YouTube viewer\" WFWorkflow={\"workflowIdentifier\": \"6AA8EA9B-9CE7-43F5-BBA0-B772785D6DF0\", \"workflowName\": \"YouTube viewer\", \"isSelf\": false}\nCASE ...",
+      "action_count": 2,
+      "frequency": 39,
+      "score": 58.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Run shortcut (with control flow)"
+    },
+    {
+      "id": "snip_010",
+      "structural_key": "comment.ask",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Use this shortcut to create new projects with Timery and keep saved timers distinct by project over time.\n\nI use this whenever I have a new video or other project that I want to track with Toggl.\"\nACTION ask WFAskActionPrompt=\"What\u2019s the name of the project?\"\nMENU ...",
+      "action_count": 2,
+      "frequency": 35,
+      "score": 52.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Ask for input (with control flow)"
+    },
+    {
+      "id": "snip_011",
+      "structural_key": "openin.exit",
+      "canonical_dsl": "IF ...\n  ACTION openin WFOpenInAskWhenRun=false\n  ACTION exit",
+      "action_count": 2,
+      "frequency": 35,
+      "score": 52.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Openin, Exit shortcut (with control flow)"
+    },
+    {
+      "id": "snip_012",
+      "structural_key": "openurl.runshellscript",
+      "canonical_dsl": "ACTION openurl\nELSE\nACTION runshellscript Input=$__v1 Script=`open -a TV {$__v1}`",
+      "action_count": 2,
+      "frequency": 34,
+      "score": 51.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Open URL, Runshellscript (with control flow)"
+    },
+    {
+      "id": "snip_013",
+      "structural_key": "openin.exit.url.openurl",
+      "canonical_dsl": "ACTION openin WFOpenInAskWhenRun=false\nACTION exit\nELSE\nACTION url WFURLActionURL=\"prefs:root=DISPLAY\"\nACTION openurl",
+      "action_count": 4,
+      "frequency": 34,
+      "score": 51.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Openin, Exit shortcut, Create URL, Open URL (with control flow)"
+    },
+    {
+      "id": "snip_014",
+      "structural_key": "filter.apps.comment.runworkflow.openurl.openurl",
+      "canonical_dsl": "IF ...\n  ACTION filter.apps WFContentItemFilter={\"Value\": {\"WFActionParameterFilterPrefix\": 1, \"WFContentPredicateBoundedDate\": false, \"WFActionParameterFilterTemplates\": [{\"Operator\": 4, \"Values\": {\"Unit\": 4, \"String\": \"Disney+\"}, \"Removable\": true, \"Property\": \"Name\"}]}, \"WFSerializationType\": \"WFContentPredicateTableTemplate\"}\n  IF ...\n    ACTION comment WFCommentActionText=\"If the web app for Disney+ is installed, run the shortcut \u201cOpen in Disney+ app\u201d to redirect the URL using AppleScript.\"\n    ACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"2AB917BD-A532-48EA-927C-DC4F8DE598C8\", \"workflowName\": \"Open in Disney+ web app\", \"isSelf\": false} WFWorkflowName=\"Open in Disney+ web app\"\n  ELSE\n    ACTION openurl\n  ENDIF\nELSE\n  ACTION openurl",
+      "action_count": 5,
+      "frequency": 42,
+      "score": 50.4,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Filter apps, Comment, Run shortcut, Open URL, Open URL (with control flow)"
+    },
+    {
+      "id": "snip_015",
+      "structural_key": "runapplescript.runsshscript",
+      "canonical_dsl": "ACTION runapplescript Script=\"on run {input, parameters}\r\ttell application \"System Events\"\n    tell process \"Control Center\"\n        tell menu bar item \"control center\" of menu bar 1\n            click\n        end tell\n    end tell\nend tell\r\treturn input\rend run\"\nELSE\nACTION runsshscript WFSSHScript=\"caffeinate -u -t 2\n\nosascript -e 'tell application \"System Events\"\n    tell process \"Control Center\"\n        tell menu bar item \"control center\" of menu bar 1\n            click\n        end tell\n    end tell\nend tell'\" WFSSHPassword=\"\" WFSSHHost=\"\" WFSSHUser=\"\"",
+      "action_count": 2,
+      "frequency": 32,
+      "score": 48.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Runapplescript, Runsshscript (with control flow)"
+    },
+    {
+      "id": "snip_016",
+      "structural_key": "text.split.getitemfromlist",
+      "canonical_dsl": "ENDIF\nACTION text.split WFTextCustomSeparator=\"id\" WFTextSeparator=\"Custom\" text=@input\nACTION getitemfromlist WFItemSpecifier=\"Last Item\"",
+      "action_count": 2,
+      "frequency": 29,
+      "score": 43.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Text split, Get item from list (with control flow)"
+    },
+    {
+      "id": "snip_017",
+      "structural_key": "comment.url.url",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Presents a menu of your favorite nearby theaters, then opens the corresponding URLs for that theater so you can buy tickets.\"\nMENU ...\nCASE ...\n  ACTION url WFURLActionURL=\"https://www.regmovies.com/theatres/regal-bridgeport-village-0652\"\nCASE ...\n  ACTION url WFURLActionURL=\"https://www.regmovies.com/theatres/regal-lloyd-center-0807\"\nCASE ...",
+      "action_count": 3,
+      "frequency": 42,
+      "score": 42.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Comment, Create URL, Create URL (with control flow)"
+    },
+    {
+      "id": "snip_018",
+      "structural_key": "filter.apps.comment",
+      "canonical_dsl": "ACTION filter.apps WFContentItemFilter={\"Value\": {\"WFActionParameterFilterPrefix\": 1, \"WFContentPredicateBoundedDate\": false, \"WFActionParameterFilterTemplates\": [{\"Operator\": 4, \"Values\": {\"Unit\": 4, \"String\": \"Disney+\"}, \"Removable\": true, \"Property\": \"Name\"}]}, \"WFSerializationType\": \"WFContentPredicateTableTemplate\"}\nIF ...\n  ACTION comment WFCommentActionText=\"If the web app for Disney+ is installed, run the shortcut \u201cOpen in Disney+ app\u201d to redirect the URL using AppleScript.\"",
+      "action_count": 2,
+      "frequency": 28,
+      "score": 42.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Filter apps, Comment (with control flow)"
+    },
+    {
+      "id": "snip_019",
+      "structural_key": "runworkflow.openurl",
+      "canonical_dsl": "ACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"2AB917BD-A532-48EA-927C-DC4F8DE598C8\", \"workflowName\": \"Open in Disney+ web app\", \"isSelf\": false} WFWorkflowName=\"Open in Disney+ web app\"\nELSE\nACTION openurl",
+      "action_count": 2,
+      "frequency": 28,
+      "score": 42.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Run shortcut, Open URL (with control flow)"
+    },
+    {
+      "id": "snip_020",
+      "structural_key": "comment.runapplescript",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Use this shortcut to quickly access you WiFi, Bluetooth, Display, Keyboard Brightness, Sound, Music, Focus, and Screen Mirroring controls inside the new(ish) Control Center on the Mac.\n\nThis works well for keeping those individual items off the main Menu Bar and rememembering to trigger those from Control Center more often by quickly popping up the menu \u2013 I just don\u2019t think to click on it most of the time due to muscle memory.\"\nIF ...\n  ACTION runapplescript Script=\"on run {input, parameters}\r\ttell application \"System Events\"\n    tell process \"Control Center\"\n        tell menu bar item \"control center\" of menu bar 1\n            click\n        end tell\n    end tell\nend tell\r\treturn input\rend run\"",
+      "action_count": 2,
+      "frequency": 27,
+      "score": 40.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Runapplescript (with control flow)"
+    },
+    {
+      "id": "snip_021",
+      "structural_key": "openapp.showwebpage",
+      "canonical_dsl": "ACTION openapp WFAppIdentifier=\"com.mint.internal\" WFSelectedApp={\"BundleIdentifier\": \"com.mint.internal\", \"Name\": \"Mint\", \"TeamIdentifier\": \"FPR5C96X44\"}\nELSE\nACTION showwebpage WFURL=\"mint.com\"",
+      "action_count": 2,
+      "frequency": 27,
+      "score": 40.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Open app, Showwebpage (with control flow)"
+    },
+    {
+      "id": "snip_022",
+      "structural_key": "getvariable.detect.link",
+      "canonical_dsl": "ACTION getvariable WFVariable=$__v1\nENDIF\nACTION detect.link",
+      "action_count": 2,
+      "frequency": 26,
+      "score": 39.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Get variable, Detect link (with control flow)"
+    },
+    {
+      "id": "snip_023",
+      "structural_key": "com.apple.TVRemoteUIService.LaunchApplicationIntent.com.apple.TVRemoteUIService.LaunchRemoteIntent",
+      "canonical_dsl": "ACTION com.apple.TVRemoteUIService.LaunchApplicationIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"} application={\"displayString\": \"Settings\", \"pronunciationHint\": \"Settings\", \"identifier\": \"com.apple.TVSettings\"} ShowWhenRun=false\nACTION com.apple.TVRemoteUIService.LaunchRemoteIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"}\nCASE ...",
+      "action_count": 2,
+      "frequency": 25,
+      "score": 37.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Com apple TVRemoteUIService LaunchApplicationIntent, Com apple TVRemoteUIService LaunchRemoteIntent (with control flow)"
+    },
+    {
+      "id": "snip_024",
+      "structural_key": "comment.openin",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Opens into Settings > Display on iOS and System Settings > Displays on macOS so you can arrange your Mac/iPad displays accordingly.\"\nIF ...\n  ACTION openin WFOpenInAskWhenRun=false",
+      "action_count": 2,
+      "frequency": 24,
+      "score": 36.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Openin (with control flow)"
+    },
+    {
+      "id": "snip_025",
+      "structural_key": "comment.url.filter.apps.comment.runworkflow.openurl",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Opens the \u201cEdit Profiles\u201d page which lets you select between your profiles and change the details.\"\nACTION url WFURLActionURL=\"https://www.disneyplus.com/edit-profiles\"\nSET $__v1 = @prev\nIF ...\n  ACTION filter.apps WFContentItemFilter={\"Value\": {\"WFActionParameterFilterPrefix\": 1, \"WFContentPredicateBoundedDate\": false, \"WFActionParameterFilterTemplates\": [{\"Operator\": 4, \"Values\": {\"Unit\": 4, \"String\": \"Disney+\"}, \"Removable\": true, \"Property\": \"Name\"}]}, \"WFSerializationType\": \"WFContentPredicateTableTemplate\"}\n  IF ...\n    ACTION comment WFCommentActionText=\"If the web app for Disney+ is installed, run the shortcut \u201cOpen in Disney+ app\u201d to redirect the URL using AppleScript.\"\n    ACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"2AB917BD-A532-48EA-927C-DC4F8DE598C8\", \"workflowName\": \"Open in Disney+ web app\", \"isSelf\": false} WFWorkflowName=\"Open in Disney+ web app\"\n  ELSE\n    ACTION openurl",
+      "action_count": 6,
+      "frequency": 28,
+      "score": 35.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Comment, Create URL, Filter apps, Comment, Run shortcut, Open URL (with control flow)"
+    },
+    {
+      "id": "snip_026",
+      "structural_key": "choosefromlist.getvalueforkey",
+      "canonical_dsl": "ACTION choosefromlist WFChooseFromListActionPrompt=\"Which one?\"\nACTION getvalueforkey WFDictionaryKey=`{@prev}`\nELSE",
+      "action_count": 2,
+      "frequency": 23,
+      "score": 34.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Choose from list, Getvalueforkey (with control flow)"
+    },
+    {
+      "id": "snip_027",
+      "structural_key": "comment.openapp",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Use this shortcut as a universal quick-access to the default settings app depending on which platform you\u2019re running the shortcut from.\n\nWorks well as an example of the built-in Device Details function added to the If action in iOS 15, which allows for cross-platform shortcuts to be built without adding \u201cGet Device Details\u201d to every single shortcut.\"\nIF ...\n  ACTION openapp WFAppIdentifier=\"com.apple.systempreferences\" WFSelectedApp={\"BundleIdentifier\": \"com.apple.systempreferences\", \"Name\": \"System Preferences\", \"TeamIdentifier\": \"0000000000\"}",
+      "action_count": 2,
+      "frequency": 22,
+      "score": 33.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Open app (with control flow)"
+    },
+    {
+      "id": "snip_028",
+      "structural_key": "url.url.openurl",
+      "canonical_dsl": "ACTION url WFURLActionURL=\"https://www.regmovies.com/theatres/regal-pioneer-place-0656\"\nCASE ...\nACTION url WFURLActionURL=\"https://www.regmovies.com/theatres/regal-cascade-0845\"\nENDMENU\nACTION openurl",
+      "action_count": 3,
+      "frequency": 32,
+      "score": 32.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Create URL, Create URL, Open URL (with control flow)"
+    },
+    {
+      "id": "snip_029",
+      "structural_key": "showresult.exit",
+      "canonical_dsl": "IF ...\n  ACTION showresult Text=\"No addresses found! Copy or share one and please try again.\"\n  ACTION exit",
+      "action_count": 2,
+      "frequency": 21,
+      "score": 31.5,
+      "domain_tags": [
+        "user_feedback"
+      ],
+      "description": "Show result, Exit shortcut (with control flow)"
+    },
+    {
+      "id": "snip_030",
+      "structural_key": "url.showwebpage",
+      "canonical_dsl": "ELSE\nACTION url WFURLActionURL=\"speedtest.net\"\nACTION showwebpage WFURL=`{@prev}`",
+      "action_count": 2,
+      "frequency": 21,
+      "score": 31.5,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Create URL, Showwebpage (with control flow)"
+    },
+    {
+      "id": "snip_031",
+      "structural_key": "comment.comment.ask",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Asks you to enter a project name, client, then pick from tags/colors to create a new project in Toggle using Timery.\"\nACTION comment WFCommentActionText=\"Use this shortcut to create new projects with Timery and keep saved timers distinct by project over time.\n\nI use this whenever I have a new video or other project that I want to track with Toggl.\"\nACTION ask WFAskActionPrompt=\"What\u2019s the name of the project?\"",
+      "action_count": 3,
+      "frequency": 46,
+      "score": 30.6667,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Comment, Ask for input"
+    },
+    {
+      "id": "snip_032",
+      "structural_key": "comment.comment.sirikit.donation.handle",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Presents a menu of the various options in the soundscape app Endel, then activates the individual shortcut action for the chosen option.\"\nACTION comment WFCommentActionText=\"This is my multi-tool shortcut for Endel that I like to keep in a widget area for quickly launching one of the various modes they offer \u2013 works well from the single Shortcuts widget.\"\nMENU ...\nCASE ...\n  ACTION sirikit.donation.handle ShowWhenRun=false ForceExecutionOnPhone=false IntentData=\"<binary:1582bytes>\"",
+      "action_count": 3,
+      "frequency": 30,
+      "score": 30.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Comment, Sirikit donation handle (with control flow)"
+    },
+    {
+      "id": "snip_033",
+      "structural_key": "gettext.runsshscript",
+      "canonical_dsl": "ELSE\nACTION gettext WFTextActionText=\"Stream Deck\"\nACTION runsshscript WFSSHScript=`caffeinate -u -t 2\\n\\nosascript -e 'tell application \"{@prev}\" to activate\\ntell application \"System Events\" \\ndelay 1\\nkey code 123\\nend tell'`",
+      "action_count": 2,
+      "frequency": 20,
+      "score": 30.0,
+      "domain_tags": [
+        "text_processing"
+      ],
+      "description": "Get text, Runsshscript (with control flow)"
+    },
+    {
+      "id": "snip_034",
+      "structural_key": "com.apple.TVRemoteUIService.WakeAppleTVIntent.com.apple.TVRemoteUIService.LaunchApplicationIntent.com.apple.TVRemoteUIService.LaunchRemoteIntent.com.apple.TVRemoteUIService.WakeAppleTVIntent.com.apple.TVRemoteUIService.LaunchApplicationIntent.com.apple.TVRemoteUIService.LaunchRemoteIntent",
+      "canonical_dsl": "ACTION com.apple.TVRemoteUIService.WakeAppleTVIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"}\nACTION com.apple.TVRemoteUIService.LaunchApplicationIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"} application={\"displayString\": \"Settings\", \"pronunciationHint\": \"Settings\", \"identifier\": \"com.apple.TVSettings\"} ShowWhenRun=false\nACTION com.apple.TVRemoteUIService.LaunchRemoteIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"}\nCASE ...\nACTION com.apple.TVRemoteUIService.WakeAppleTVIntent device={\"displayString\": \"Family Room TV\", \"pronunciationHint\": \"Family Room TV\", \"identifier\": \"ebbd24874a17\"}\nACTION com.apple.TVRemoteUIService.LaunchApplicationIntent device={\"displayString\": \"Family Room TV\", \"pronunciationHint\": \"Family Room TV\", \"identifier\": \"ebbd24874a17\"} application={\"displayString\": \"Settings\", \"pronunciationHint\": \"Settings\", \"identifier\": \"com.apple.TVSettings\"} ShowWhenRun=false\nACTION com.apple.TVRemoteUIService.LaunchRemoteIntent device={\"displayString\": \"Family Room TV\", \"pronunciationHint\": \"Family Room TV\", \"identifier\": \"ebbd24874a17\"}",
+      "action_count": 6,
+      "frequency": 40,
+      "score": 30.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Com apple TVRemoteUIService WakeAppleTVIntent, Com apple TVRemoteUIService LaunchApplicationIntent, Com apple TVRemoteUIService LaunchRemoteIntent, Com apple TVRemoteUIService WakeAppleTVIntent, Com apple TVRemoteUIService LaunchApplicationIntent, Com apple TVRemoteUIService LaunchRemoteIntent (with control flow)"
+    },
+    {
+      "id": "snip_035",
+      "structural_key": "detect.link.runworkflow.comment.url",
+      "canonical_dsl": "ACTION detect.link\nELSE\nACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"1CD6BFAB-C028-463D-A58D-9B10B08667E6\", \"workflowName\": \"Grab YouTube playlist ID\", \"isSelf\": false} WFWorkflowName=\"Grab YouTube playlist ID\"\nACTION comment WFCommentActionText=\"If you don\u2019t want the Grab YouTube playlist ID shortcut installed, delete the Run Shortcut action above and the URL action below.\n\nHowever, the shortcut won\u2019t work with links from videos inside playlists (like https://www.youtube.com/watch?v=VIDEOID&list=PLAYLIST) anymore.\"\nACTION url WFURLActionURL=`https://www.youtube.com/playlist?list={@prev}`",
+      "action_count": 4,
+      "frequency": 20,
+      "score": 30.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Detect link, Run shortcut, Comment, Create URL (with control flow)"
+    },
+    {
+      "id": "snip_036",
+      "structural_key": "comment.comment.openapp",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Opens System Preferences on the Mac or Settings on iOS.\"\nACTION comment WFCommentActionText=\"Use this shortcut as a universal quick-access to the default settings app depending on which platform you\u2019re running the shortcut from.\n\nWorks well as an example of the built-in Device Details function added to the If action in iOS 15, which allows for cross-platform shortcuts to be built without adding \u201cGet Device Details\u201d to every single shortcut.\"\nIF ...\n  ACTION openapp WFAppIdentifier=\"com.apple.systempreferences\" WFSelectedApp={\"BundleIdentifier\": \"com.apple.systempreferences\", \"Name\": \"System Preferences\", \"TeamIdentifier\": \"0000000000\"}\nELSE",
+      "action_count": 3,
+      "frequency": 29,
+      "score": 29.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Comment, Open app (with control flow)"
+    },
+    {
+      "id": "snip_037",
+      "structural_key": "ask.text.split",
+      "canonical_dsl": "ACTION ask WFAskActionDefaultAnswer=`{@Clipboard}` WFAskActionPrompt=\"What text?\"\nENDIF\nACTION text.split text=@Input",
+      "action_count": 2,
+      "frequency": 18,
+      "score": 27.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Ask for input, Text split (with control flow)"
+    },
+    {
+      "id": "snip_038",
+      "structural_key": "comment.comment.url",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Opens Settings to General > Keyboard > Hardware Keyboard for iPads with the Magic Keyboard attached.\"\nACTION comment WFCommentActionText=\"Use this shortcut to change your Magic Keyboard settings, whether it\u2019s the primary Keyboard Brightness function or turning off Auto-Capitalization, Auto-Correction, or the \u201c.\u201d shortcut for double spacing.\"\nACTION url WFURLActionURL=\"prefs:root=General&path=Keyboard/Hardware%20Keyboard\"",
+      "action_count": 3,
+      "frequency": 40,
+      "score": 26.6667,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Comment, Comment, Create URL"
+    },
+    {
+      "id": "snip_039",
+      "structural_key": "choosefromlist.getvariable",
+      "canonical_dsl": "ACTION choosefromlist WFChooseFromListActionPrompt=\"What do you want to do?\"\nELSE\nACTION getvariable WFVariable=@filter_files",
+      "action_count": 2,
+      "frequency": 17,
+      "score": 25.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Choose from list, Get variable (with control flow)"
+    },
+    {
+      "id": "snip_040",
+      "structural_key": "count.choosefromlist.getvariable",
+      "canonical_dsl": "ACTION count Input=@conditional\nIF ...\n  ACTION choosefromlist WFChooseFromListActionPrompt=\"What do you want to do?\"\nELSE\n  ACTION getvariable WFVariable=@filter_files",
+      "action_count": 3,
+      "frequency": 17,
+      "score": 25.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Count items, Choose from list, Get variable (with control flow)"
+    },
+    {
+      "id": "snip_041",
+      "structural_key": "gettext.text.combine",
+      "canonical_dsl": "ACTION gettext WFTextActionText=`> {$__v1}`\nENDFOREACH\nACTION text.combine text=@repeat_each",
+      "action_count": 2,
+      "frequency": 17,
+      "score": 25.5,
+      "domain_tags": [
+        "text_processing"
+      ],
+      "description": "Get text, Text combine (with control flow)"
+    },
+    {
+      "id": "snip_042",
+      "structural_key": "exit.url",
+      "canonical_dsl": "ACTION exit\nELSE\nACTION url WFURLActionURL=\"prefs:root=DISPLAY\"",
+      "action_count": 2,
+      "frequency": 17,
+      "score": 25.5,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Exit shortcut, Create URL (with control flow)"
+    },
+    {
+      "id": "snip_043",
+      "structural_key": "comment.openin.exit",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Opens into Settings > Display on iOS and System Settings > Displays on macOS so you can arrange your Mac/iPad displays accordingly.\"\nIF ...\n  ACTION openin WFOpenInAskWhenRun=false\n  ACTION exit\nELSE",
+      "action_count": 3,
+      "frequency": 17,
+      "score": 25.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Openin, Exit shortcut (with control flow)"
+    },
+    {
+      "id": "snip_044",
+      "structural_key": "exit.url.openurl",
+      "canonical_dsl": "ACTION exit\nELSE\nACTION url WFURLActionURL=\"prefs:root=DISPLAY\"\nACTION openurl\nENDIF",
+      "action_count": 3,
+      "frequency": 17,
+      "score": 25.5,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Exit shortcut, Create URL, Open URL (with control flow)"
+    },
+    {
+      "id": "snip_045",
+      "structural_key": "comment.gettext",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Gets an app shared from input or the clipboard, then adds it to a Reminders list using its App Store details.\"\nACTION gettext WFTextActionText=\"App Store wish list\"\nSET $__v1 = @prev",
+      "action_count": 2,
+      "frequency": 25,
+      "score": 25.0,
+      "domain_tags": [
+        "text_processing"
+      ],
+      "description": "Comment, Get text"
+    },
+    {
+      "id": "snip_046",
+      "structural_key": "com.apple.TVRemoteUIService.WakeAppleTVIntent.com.apple.TVRemoteUIService.LaunchApplicationIntent.com.apple.TVRemoteUIService.LaunchRemoteIntent.com.apple.TVRemoteUIService.WakeAppleTVIntent",
+      "canonical_dsl": "ACTION com.apple.TVRemoteUIService.WakeAppleTVIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"}\nACTION com.apple.TVRemoteUIService.LaunchApplicationIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"} application={\"displayString\": \"Settings\", \"pronunciationHint\": \"Settings\", \"identifier\": \"com.apple.TVSettings\"} ShowWhenRun=false\nACTION com.apple.TVRemoteUIService.LaunchRemoteIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"}\nCASE ...\nACTION com.apple.TVRemoteUIService.WakeAppleTVIntent device={\"displayString\": \"Family Room TV\", \"pronunciationHint\": \"Family Room TV\", \"identifier\": \"ebbd24874a17\"}",
+      "action_count": 4,
+      "frequency": 22,
+      "score": 24.75,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Com apple TVRemoteUIService WakeAppleTVIntent, Com apple TVRemoteUIService LaunchApplicationIntent, Com apple TVRemoteUIService LaunchRemoteIntent, Com apple TVRemoteUIService WakeAppleTVIntent (with control flow)"
+    },
+    {
+      "id": "snip_047",
+      "structural_key": "openin.exit.url",
+      "canonical_dsl": "IF ...\n  ACTION openin WFOpenInAskWhenRun=false\n  ACTION exit\nELSE\n  ACTION url WFURLActionURL=\"prefs:root=DISPLAY\"",
+      "action_count": 3,
+      "frequency": 16,
+      "score": 24.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Openin, Exit shortcut, Create URL (with control flow)"
+    },
+    {
+      "id": "snip_048",
+      "structural_key": "detect.link.detect.link.runworkflow.comment.url",
+      "canonical_dsl": "ENDIF\nSET $__v1 = @conditional\nACTION detect.link\nIF ...\n  IF ...\n    ACTION detect.link\n  ELSE\n    ACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"1CD6BFAB-C028-463D-A58D-9B10B08667E6\", \"workflowName\": \"Grab YouTube playlist ID\", \"isSelf\": false} WFWorkflowName=\"Grab YouTube playlist ID\"\n    ACTION comment WFCommentActionText=\"If you don\u2019t want the Grab YouTube playlist ID shortcut installed, delete the Run Shortcut action above and the URL action below.\n\nHowever, the shortcut won\u2019t work with links from videos inside playlists (like https://www.youtube.com/watch?v=VIDEOID&list=PLAYLIST) anymore.\"\n    ACTION url WFURLActionURL=`https://www.youtube.com/playlist?list={@prev}`",
+      "action_count": 5,
+      "frequency": 20,
+      "score": 24.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Detect link, Detect link, Run shortcut, Comment, Create URL (with control flow)"
+    },
+    {
+      "id": "snip_049",
+      "structural_key": "comment.runapplescript.runsshscript",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Use this shortcut to quickly access you WiFi, Bluetooth, Display, Keyboard Brightness, Sound, Music, Focus, and Screen Mirroring controls inside the new(ish) Control Center on the Mac.\n\nThis works well for keeping those individual items off the main Menu Bar and rememembering to trigger those from Control Center more often by quickly popping up the menu \u2013 I just don\u2019t think to click on it most of the time due to muscle memory.\"\nIF ...\n  ACTION runapplescript Script=\"on run {input, parameters}\r\ttell application \"System Events\"\n    tell process \"Control Center\"\n        tell menu bar item \"control center\" of menu bar 1\n            click\n        end tell\n    end tell\nend tell\r\treturn input\rend run\"\nELSE\n  ACTION runsshscript WFSSHScript=\"caffeinate -u -t 2\n\nosascript -e 'tell application \"System Events\"\n    tell process \"Control Center\"\n        tell menu bar item \"control center\" of menu bar 1\n            click\n        end tell\n    end tell\nend tell'\" WFSSHPassword=\"\" WFSSHHost=\"\" WFSSHUser=\"\"",
+      "action_count": 3,
+      "frequency": 15,
+      "score": 22.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Runapplescript, Runsshscript (with control flow)"
+    },
+    {
+      "id": "snip_050",
+      "structural_key": "gettext.runworkflow",
+      "canonical_dsl": "SET $__v1 = @prev\nACTION gettext WFTextActionText=`{@prev}on Twitter: \\n\\n> \"{$__v1}\"`\nELSE\nIF ...\n  ACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"9C2E99ED-5885-4A81-85FB-A663094E9DF8\", \"workflowName\": \"Scrape YouTube link\", \"isSelf\": false} WFWorkflowName=\"Scrape YouTube link\"",
+      "action_count": 2,
+      "frequency": 15,
+      "score": 22.5,
+      "domain_tags": [
+        "text_processing"
+      ],
+      "description": "Get text, Run shortcut (with control flow)"
+    },
+    {
+      "id": "snip_051",
+      "structural_key": "gettext.showresult",
+      "canonical_dsl": "ENDFOREACH\nACTION gettext WFTextActionText=`Here's the forecast for today:\\n\\n{@repeat_each}`\nACTION showresult Text=`{@prev}`",
+      "action_count": 2,
+      "frequency": 15,
+      "score": 22.5,
+      "domain_tags": [
+        "text_processing",
+        "user_feedback"
+      ],
+      "description": "Get text, Show result (with control flow)"
+    },
+    {
+      "id": "snip_052",
+      "structural_key": "comment.openin.exit.url.openurl",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Opens into Settings > Display on iOS and System Settings > Displays on macOS so you can arrange your Mac/iPad displays accordingly.\"\nIF ...\n  ACTION openin WFOpenInAskWhenRun=false\n  ACTION exit\nELSE\n  ACTION url WFURLActionURL=\"prefs:root=DISPLAY\"\n  ACTION openurl",
+      "action_count": 5,
+      "frequency": 15,
+      "score": 22.5,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Comment, Openin, Exit shortcut, Create URL, Open URL (with control flow)"
+    },
+    {
+      "id": "snip_053",
+      "structural_key": "showwebpage.openurl",
+      "canonical_dsl": "ACTION showwebpage WFURL=`{@prev}`\nELSE\nACTION openurl",
+      "action_count": 2,
+      "frequency": 15,
+      "score": 22.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Showwebpage, Open URL (with control flow)"
+    },
+    {
+      "id": "snip_054",
+      "structural_key": "openapp.gettext.runsshscript",
+      "canonical_dsl": "IF ...\n  ACTION openapp WFSelectedApp={\"BundleIdentifier\": \"com.elgato.StreamDeck\", \"Name\": \"Elgato Stream Deck\", \"TeamIdentifier\": \"Y93VXCB8Q5\"} WFAppIdentifier=\"com.elgato.StreamDeck\"\nELSE\n  ACTION gettext WFTextActionText=\"Stream Deck\"\n  ACTION runsshscript WFSSHScript=`caffeinate -u -t 2\\n\\nosascript -e 'tell application \"{@prev}\" to activate\\ntell application \"System Events\" \\ndelay 1\\nkey code 123\\nend tell'`",
+      "action_count": 3,
+      "frequency": 14,
+      "score": 21.0,
+      "domain_tags": [
+        "text_processing"
+      ],
+      "description": "Open app, Get text, Runsshscript (with control flow)"
+    },
+    {
+      "id": "snip_055",
+      "structural_key": "comment.url.filter.apps",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Opens the \u201cEdit Profiles\u201d page which lets you select between your profiles and change the details.\"\nACTION url WFURLActionURL=\"https://www.disneyplus.com/edit-profiles\"\nSET $__v1 = @prev\nIF ...\n  ACTION filter.apps WFContentItemFilter={\"Value\": {\"WFActionParameterFilterPrefix\": 1, \"WFContentPredicateBoundedDate\": false, \"WFActionParameterFilterTemplates\": [{\"Operator\": 4, \"Values\": {\"Unit\": 4, \"String\": \"Disney+\"}, \"Removable\": true, \"Property\": \"Name\"}]}, \"WFSerializationType\": \"WFContentPredicateTableTemplate\"}",
+      "action_count": 3,
+      "frequency": 14,
+      "score": 21.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Comment, Create URL, Filter apps (with control flow)"
+    },
+    {
+      "id": "snip_056",
+      "structural_key": "url.filter.apps",
+      "canonical_dsl": "ACTION url WFURLActionURL=\"https://www.disneyplus.com/edit-profiles\"\nSET $__v1 = @prev\nIF ...\n  ACTION filter.apps WFContentItemFilter={\"Value\": {\"WFActionParameterFilterPrefix\": 1, \"WFContentPredicateBoundedDate\": false, \"WFActionParameterFilterTemplates\": [{\"Operator\": 4, \"Values\": {\"Unit\": 4, \"String\": \"Disney+\"}, \"Removable\": true, \"Property\": \"Name\"}]}, \"WFSerializationType\": \"WFContentPredicateTableTemplate\"}\n  IF ...",
+      "action_count": 2,
+      "frequency": 14,
+      "score": 21.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Create URL, Filter apps (with control flow)"
+    },
+    {
+      "id": "snip_057",
+      "structural_key": "url.filter.apps.comment.runworkflow",
+      "canonical_dsl": "ACTION url WFURLActionURL=\"https://www.disneyplus.com/edit-profiles\"\nSET $__v1 = @prev\nIF ...\n  ACTION filter.apps WFContentItemFilter={\"Value\": {\"WFActionParameterFilterPrefix\": 1, \"WFContentPredicateBoundedDate\": false, \"WFActionParameterFilterTemplates\": [{\"Operator\": 4, \"Values\": {\"Unit\": 4, \"String\": \"Disney+\"}, \"Removable\": true, \"Property\": \"Name\"}]}, \"WFSerializationType\": \"WFContentPredicateTableTemplate\"}\n  IF ...\n    ACTION comment WFCommentActionText=\"If the web app for Disney+ is installed, run the shortcut \u201cOpen in Disney+ app\u201d to redirect the URL using AppleScript.\"\n    ACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"2AB917BD-A532-48EA-927C-DC4F8DE598C8\", \"workflowName\": \"Open in Disney+ web app\", \"isSelf\": false} WFWorkflowName=\"Open in Disney+ web app\"",
+      "action_count": 4,
+      "frequency": 14,
+      "score": 21.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Create URL, Filter apps, Comment, Run shortcut (with control flow)"
+    },
+    {
+      "id": "snip_058",
+      "structural_key": "url.filter.apps.comment.runworkflow.openurl",
+      "canonical_dsl": "ACTION url WFURLActionURL=\"https://www.disneyplus.com/edit-profiles\"\nSET $__v1 = @prev\nIF ...\n  ACTION filter.apps WFContentItemFilter={\"Value\": {\"WFActionParameterFilterPrefix\": 1, \"WFContentPredicateBoundedDate\": false, \"WFActionParameterFilterTemplates\": [{\"Operator\": 4, \"Values\": {\"Unit\": 4, \"String\": \"Disney+\"}, \"Removable\": true, \"Property\": \"Name\"}]}, \"WFSerializationType\": \"WFContentPredicateTableTemplate\"}\n  IF ...\n    ACTION comment WFCommentActionText=\"If the web app for Disney+ is installed, run the shortcut \u201cOpen in Disney+ app\u201d to redirect the URL using AppleScript.\"\n    ACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"2AB917BD-A532-48EA-927C-DC4F8DE598C8\", \"workflowName\": \"Open in Disney+ web app\", \"isSelf\": false} WFWorkflowName=\"Open in Disney+ web app\"\n  ELSE\n    ACTION openurl\n  ENDIF",
+      "action_count": 5,
+      "frequency": 14,
+      "score": 21.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Create URL, Filter apps, Comment, Run shortcut, Open URL (with control flow)"
+    },
+    {
+      "id": "snip_059",
+      "structural_key": "nothing.getvariable",
+      "canonical_dsl": "ACTION nothing\nELSE\nACTION getvariable WFVariable=$__v1",
+      "action_count": 2,
+      "frequency": 14,
+      "score": 21.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Nothing, Get variable (with control flow)"
+    },
+    {
+      "id": "snip_060",
+      "structural_key": "homeaccessory.exit",
+      "canonical_dsl": "ELSE\nACTION homeaccessory WFHomeTriggerActionSets={\"WFHFTriggerActionSetsBuilderParameterStateActionSets\": [{\"HMActionSetSerializedDictionaryProtocol\": \"ProtoBuf\", \"HMActionSetSerializedData\": \"<binary:1151bytes>\", \"HMActionSetSerializedDictionaryVersion\": \"1.0\"}], \"WFHFTriggerActionSetsBuilderParameterStateHome\": \"A21E2F4C-F149-4C30-B1CA-6935E385D8D0\"}\nACTION exit",
+      "action_count": 2,
+      "frequency": 14,
+      "score": 21.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Homeaccessory, Exit shortcut (with control flow)"
+    },
+    {
+      "id": "snip_061",
+      "structural_key": "getvalueforkey.choosefromlist.getvalueforkey",
+      "canonical_dsl": "ACTION getvalueforkey WFGetDictionaryValueType=\"All Keys\"\nACTION choosefromlist WFChooseFromListActionPrompt=\"Which one?\"\nACTION getvalueforkey WFDictionaryKey=`{@prev}`",
+      "action_count": 3,
+      "frequency": 30,
+      "score": 20.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Getvalueforkey, Choose from list, Getvalueforkey"
+    },
+    {
+      "id": "snip_062",
+      "structural_key": "list.choosefromlist",
+      "canonical_dsl": "IF ...\n  ACTION list WFItems=[\"Artificial Intelligence\", \"File management\", \"Productivity\", \"Planning\", \"Business\", \"Shortcuts\", \"Videos\", \"Blogging\", \"Scraping\", \"Newsletter\", \"Podcasting\", \"Stream\", \"Controls\", \"Shortcuts Library\", \"Action Directory\", \"App Catalog\", \"Gear Gallery\"]\n  ACTION choosefromlist WFChooseFromListActionPrompt=\"Which folder?\"",
+      "action_count": 2,
+      "frequency": 13,
+      "score": 19.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Create list, Choose from list (with control flow)"
+    },
+    {
+      "id": "snip_063",
+      "structural_key": "getmyworkflows.choosefromlist",
+      "canonical_dsl": "ELSE\nACTION getmyworkflows Folder=@Ask\nENDIF\nENDIF\nACTION choosefromlist WFChooseFromListActionPrompt=\"Which shortcut do you want to run?\"",
+      "action_count": 2,
+      "frequency": 13,
+      "score": 19.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Get my shortcuts, Choose from list (with control flow)"
+    },
+    {
+      "id": "snip_064",
+      "structural_key": "text.replace.gettext",
+      "canonical_dsl": "ACTION text.replace WFReplaceTextReplace=\"tv\" WFReplaceTextFind=\"itunes\"\nSET $__v1 = @prev\nCASE ...\nACTION gettext WFTextActionText=\"Season\"\nSET $__v2 = @prev",
+      "action_count": 2,
+      "frequency": 13,
+      "score": 19.5,
+      "domain_tags": [
+        "text_processing"
+      ],
+      "description": "Text replace, Get text (with control flow)"
+    },
+    {
+      "id": "snip_065",
+      "structural_key": "openin.url.openurl",
+      "canonical_dsl": "ACTION openin WFOpenInAskWhenRun=false\nELSE\nACTION url WFURLActionURL=\"prefs:root=Privacy\"\nACTION openurl\nENDIF",
+      "action_count": 3,
+      "frequency": 13,
+      "score": 19.5,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Openin, Create URL, Open URL (with control flow)"
+    },
+    {
+      "id": "snip_066",
+      "structural_key": "comment.com.apple.TVRemoteUIService.WakeAppleTVIntent.com.apple.TVRemoteUIService.LaunchApplicationIntent",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Opens the Settings app on Apple TV where you can tweak your preferences.\"\nMENU ...\nCASE ...\n  ACTION com.apple.TVRemoteUIService.WakeAppleTVIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"}\n  ACTION com.apple.TVRemoteUIService.LaunchApplicationIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"} application={\"displayString\": \"Settings\", \"pronunciationHint\": \"Settings\", \"identifier\": \"com.apple.TVSettings\"} ShowWhenRun=false",
+      "action_count": 3,
+      "frequency": 13,
+      "score": 19.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Com apple TVRemoteUIService WakeAppleTVIntent, Com apple TVRemoteUIService LaunchApplicationIntent (with control flow)"
+    },
+    {
+      "id": "snip_067",
+      "structural_key": "ask.searchpodcasts",
+      "canonical_dsl": "ACTION ask WFAskActionPrompt=\"What\u2019s the podcast?\"\nENDIF\nACTION searchpodcasts WFSearchTerm=`{@conditional}` WFItemLimit=1",
+      "action_count": 2,
+      "frequency": 13,
+      "score": 19.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Ask for input, Searchpodcasts (with control flow)"
+    },
+    {
+      "id": "snip_068",
+      "structural_key": "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent.com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent",
+      "canonical_dsl": "CASE ...\nACTION com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent backgroundSound=\"BalancedNoise\"\nACTION com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent",
+      "action_count": 2,
+      "frequency": 13,
+      "score": 19.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Com apple AccessibilityUtilities AXSettingsShortcuts AXSetBackgroundSoundIntent, Com apple AccessibilityUtilities AXSettingsShortcuts AXToggleBackgroundSoundsIntent (with control flow)"
+    },
+    {
+      "id": "snip_069",
+      "structural_key": "getvalueforkey.choosefromlist.getvalueforkey.getvariable",
+      "canonical_dsl": "ACTION getvalueforkey WFGetDictionaryValueType=\"All Keys\"\nACTION choosefromlist WFChooseFromListActionPrompt=\"Which one?\"\nACTION getvalueforkey WFDictionaryKey=`{@prev}`\nELSE\nACTION getvariable WFVariable=$__v1",
+      "action_count": 4,
+      "frequency": 17,
+      "score": 19.125,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Getvalueforkey, Choose from list, Getvalueforkey, Get variable (with control flow)"
+    },
+    {
+      "id": "snip_070",
+      "structural_key": "com.apple.TVRemoteUIService.LaunchRemoteIntent.com.apple.TVRemoteUIService.WakeAppleTVIntent.com.apple.TVRemoteUIService.LaunchApplicationIntent.com.apple.TVRemoteUIService.LaunchRemoteIntent",
+      "canonical_dsl": "ACTION com.apple.TVRemoteUIService.LaunchRemoteIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"}\nCASE ...\nACTION com.apple.TVRemoteUIService.WakeAppleTVIntent device={\"displayString\": \"Family Room TV\", \"pronunciationHint\": \"Family Room TV\", \"identifier\": \"ebbd24874a17\"}\nACTION com.apple.TVRemoteUIService.LaunchApplicationIntent device={\"displayString\": \"Family Room TV\", \"pronunciationHint\": \"Family Room TV\", \"identifier\": \"ebbd24874a17\"} application={\"displayString\": \"Settings\", \"pronunciationHint\": \"Settings\", \"identifier\": \"com.apple.TVSettings\"} ShowWhenRun=false\nACTION com.apple.TVRemoteUIService.LaunchRemoteIntent device={\"displayString\": \"Family Room TV\", \"pronunciationHint\": \"Family Room TV\", \"identifier\": \"ebbd24874a17\"}",
+      "action_count": 4,
+      "frequency": 17,
+      "score": 19.125,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Com apple TVRemoteUIService LaunchRemoteIntent, Com apple TVRemoteUIService WakeAppleTVIntent, Com apple TVRemoteUIService LaunchApplicationIntent, Com apple TVRemoteUIService LaunchRemoteIntent (with control flow)"
+    },
+    {
+      "id": "snip_071",
+      "structural_key": "count.choosefromlist",
+      "canonical_dsl": "ACTION count Input=@conditional\nIF ...\n  ACTION choosefromlist WFChooseFromListActionPrompt=\"What do you want to do?\"",
+      "action_count": 2,
+      "frequency": 12,
+      "score": 18.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Count items, Choose from list (with control flow)"
+    },
+    {
+      "id": "snip_072",
+      "structural_key": "runworkflow.detect.dictionary",
+      "canonical_dsl": "IF ...\n  ACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"9FAB083E-7D4A-4DA4-B4EE-A74E50E6628D\", \"workflowName\": \"Grab Twitter dictionary\", \"isSelf\": false} WFWorkflowName=\"Grab Twitter dictionary\"\n  ACTION detect.dictionary",
+      "action_count": 2,
+      "frequency": 12,
+      "score": 18.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Run shortcut, Parse JSON dictionary (with control flow)"
+    },
+    {
+      "id": "snip_073",
+      "structural_key": "getvalueforkey.getvariable",
+      "canonical_dsl": "ACTION getvalueforkey WFDictionaryKey=`{@prev}`\nELSE\nACTION getvariable WFVariable=$__v1",
+      "action_count": 2,
+      "frequency": 12,
+      "score": 18.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Getvalueforkey, Get variable (with control flow)"
+    },
+    {
+      "id": "snip_074",
+      "structural_key": "format.date.gettext",
+      "canonical_dsl": "SET $__v1 = @prev\nACTION format.date WFDate=`{@date}` WFDateFormatStyle=\"ISO 8601\"\nACTION gettext WFTextActionText=`ChatGPT-4 answer from {@prev}`",
+      "action_count": 2,
+      "frequency": 18,
+      "score": 18.0,
+      "domain_tags": [
+        "text_processing"
+      ],
+      "description": "Format date, Get text"
+    },
+    {
+      "id": "snip_075",
+      "structural_key": "url.openurl.runshellscript",
+      "canonical_dsl": "ACTION url WFURLActionURL=\"https://reportaproblem.apple.com/\"\nIF ...\n  ACTION openurl\nELSE\n  ACTION runshellscript Input=@prev Script=`open -a TV {@prev}\\n`",
+      "action_count": 3,
+      "frequency": 12,
+      "score": 18.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Create URL, Open URL, Runshellscript (with control flow)"
+    },
+    {
+      "id": "snip_076",
+      "structural_key": "comment.rss.choosefromlist",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Extracts 10 stories from the RSS feed of Apple Developer news and lets you pick which one to open in a Safari web view to read quickly.\"\nACTION rss WFRSSItemQuantity=10 WFRSSFeedURL=\"http://developer.apple.com/news/rss/news.rss\"\nACTION choosefromlist WFChooseFromListActionPrompt=\"Which story do you want to read?\"",
+      "action_count": 3,
+      "frequency": 18,
+      "score": 18.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Rss, Choose from list"
+    },
+    {
+      "id": "snip_077",
+      "structural_key": "urlencode.url",
+      "canonical_dsl": "IF ...\n  ACTION urlencode\n  ACTION url WFURLActionURL=`barcelona://create?text={@prev}`",
+      "action_count": 2,
+      "frequency": 12,
+      "score": 18.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Urlencode, Create URL (with control flow)"
+    },
+    {
+      "id": "snip_078",
+      "structural_key": "com.apple.TVRemoteUIService.LaunchRemoteIntent.com.apple.TVRemoteUIService.WakeAppleTVIntent",
+      "canonical_dsl": "ACTION com.apple.TVRemoteUIService.LaunchRemoteIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"}\nCASE ...\nACTION com.apple.TVRemoteUIService.WakeAppleTVIntent device={\"displayString\": \"Family Room TV\", \"pronunciationHint\": \"Family Room TV\", \"identifier\": \"ebbd24874a17\"}",
+      "action_count": 2,
+      "frequency": 12,
+      "score": 18.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Com apple TVRemoteUIService LaunchRemoteIntent, Com apple TVRemoteUIService WakeAppleTVIntent (with control flow)"
+    },
+    {
+      "id": "snip_079",
+      "structural_key": "url.filter.apps.comment.runworkflow.openurl.openurl",
+      "canonical_dsl": "ACTION url WFURLActionURL=\"https://www.disneyplus.com/edit-profiles\"\nSET $__v1 = @prev\nIF ...\n  ACTION filter.apps WFContentItemFilter={\"Value\": {\"WFActionParameterFilterPrefix\": 1, \"WFContentPredicateBoundedDate\": false, \"WFActionParameterFilterTemplates\": [{\"Operator\": 4, \"Values\": {\"Unit\": 4, \"String\": \"Disney+\"}, \"Removable\": true, \"Property\": \"Name\"}]}, \"WFSerializationType\": \"WFContentPredicateTableTemplate\"}\n  IF ...\n    ACTION comment WFCommentActionText=\"If the web app for Disney+ is installed, run the shortcut \u201cOpen in Disney+ app\u201d to redirect the URL using AppleScript.\"\n    ACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"2AB917BD-A532-48EA-927C-DC4F8DE598C8\", \"workflowName\": \"Open in Disney+ web app\", \"isSelf\": false} WFWorkflowName=\"Open in Disney+ web app\"\n  ELSE\n    ACTION openurl\n  ENDIF\nELSE\n  ACTION openurl",
+      "action_count": 6,
+      "frequency": 14,
+      "score": 17.5,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Create URL, Filter apps, Comment, Run shortcut, Open URL, Open URL (with control flow)"
+    },
+    {
+      "id": "snip_080",
+      "structural_key": "detect.link.runworkflow",
+      "canonical_dsl": "ACTION detect.link\nIF ...\n  SET $__v1 = @prev\n  IF ...\n    ACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"9FAB083E-7D4A-4DA4-B4EE-A74E50E6628D\", \"workflowName\": \"Grab Twitter dictionary\", \"isSelf\": false} WFWorkflowName=\"Grab Twitter dictionary\"",
+      "action_count": 2,
+      "frequency": 11,
+      "score": 16.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Detect link, Run shortcut (with control flow)"
+    },
+    {
+      "id": "snip_081",
+      "structural_key": "setclipboard.url",
+      "canonical_dsl": "ELSE\nACTION setclipboard\nACTION url WFURLActionURL=\"https://threads.net\"",
+      "action_count": 2,
+      "frequency": 11,
+      "score": 16.5,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Copy to clipboard, Create URL (with control flow)"
+    },
+    {
+      "id": "snip_082",
+      "structural_key": "playpodcast.comment",
+      "canonical_dsl": "ACTION playpodcast WFPodcastShow={\"podcastUUID\": \"ADE330FF-507F-4A75-B537-85614E011815\", \"kind\": \"podcast\", \"collectionName\": \"Apple News Today\", \"feedUrl\": \"https://apple.news/podcast/apple_news_today\", \"collectionId\": \"1473872585\"}\nCASE ...\nACTION comment WFCommentActionText=\"Plays the Upgrade podcast from Relay.FM with Jason Snell and Myke Hurley.\"",
+      "action_count": 2,
+      "frequency": 11,
+      "score": 16.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Playpodcast, Comment (with control flow)"
+    },
+    {
+      "id": "snip_083",
+      "structural_key": "comment.getdevicedetails",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Shows the current Battery Level on wireless devices, as well as the connected/charging status when plugged in. For always-on devices, shows a simple prompt.\"\nACTION getdevicedetails\nIF ...",
+      "action_count": 2,
+      "frequency": 11,
+      "score": 16.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Getdevicedetails (with control flow)"
+    },
+    {
+      "id": "snip_084",
+      "structural_key": "date.ask",
+      "canonical_dsl": "ACTION date\nCASE ...\nACTION ask WFAskActionDefaultAnswerDateAndTime=`{@date}` WFInputType=\"Time\" WFAskActionPrompt=\"What time?\"",
+      "action_count": 2,
+      "frequency": 11,
+      "score": 16.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Date, Ask for input (with control flow)"
+    },
+    {
+      "id": "snip_085",
+      "structural_key": "comment.com.apple.TVRemoteUIService.WakeAppleTVIntent.com.apple.TVRemoteUIService.LaunchApplicationIntent.com.apple.TVRemoteUIService.LaunchRemoteIntent",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Opens the Settings app on Apple TV where you can tweak your preferences.\"\nMENU ...\nCASE ...\n  ACTION com.apple.TVRemoteUIService.WakeAppleTVIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"}\n  ACTION com.apple.TVRemoteUIService.LaunchApplicationIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"} application={\"displayString\": \"Settings\", \"pronunciationHint\": \"Settings\", \"identifier\": \"com.apple.TVSettings\"} ShowWhenRun=false\n  ACTION com.apple.TVRemoteUIService.LaunchRemoteIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"}\nCASE ...",
+      "action_count": 4,
+      "frequency": 11,
+      "score": 16.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Com apple TVRemoteUIService WakeAppleTVIntent, Com apple TVRemoteUIService LaunchApplicationIntent, Com apple TVRemoteUIService LaunchRemoteIntent (with control flow)"
+    },
+    {
+      "id": "snip_086",
+      "structural_key": "getvalueforkey.choosefromlist",
+      "canonical_dsl": "IF ...\n  ACTION getvalueforkey WFGetDictionaryValueType=\"All Keys\"\n  ACTION choosefromlist WFChooseFromListActionPrompt=\"Which group?\"",
+      "action_count": 2,
+      "frequency": 11,
+      "score": 16.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Getvalueforkey, Choose from list (with control flow)"
+    },
+    {
+      "id": "snip_087",
+      "structural_key": "comment.list.choosefromlist",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Presents a list of common tasks, then adds select options to the Chores list in Reminders.\"\nACTION list WFItems=[\"Dust\", \"Vacuum\", \"Sweep\", \"Mop\", \"Clean the bathrooms\", \"Empty the garbages\"]\nACTION choosefromlist WFChooseFromListActionPrompt=\"What needs to be done?\" WFChooseFromListActionSelectMultiple=true WFChooseFromListActionSelectAll=true",
+      "action_count": 3,
+      "frequency": 16,
+      "score": 16.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Create list, Choose from list"
+    },
+    {
+      "id": "snip_088",
+      "structural_key": "comment.openapp.openapp",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Use this shortcut as a universal quick-access to the default settings app depending on which platform you\u2019re running the shortcut from.\n\nWorks well as an example of the built-in Device Details function added to the If action in iOS 15, which allows for cross-platform shortcuts to be built without adding \u201cGet Device Details\u201d to every single shortcut.\"\nIF ...\n  ACTION openapp WFAppIdentifier=\"com.apple.systempreferences\" WFSelectedApp={\"BundleIdentifier\": \"com.apple.systempreferences\", \"Name\": \"System Preferences\", \"TeamIdentifier\": \"0000000000\"}\nELSE\n  ACTION openapp",
+      "action_count": 3,
+      "frequency": 16,
+      "score": 16.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Open app, Open app (with control flow)"
+    },
+    {
+      "id": "snip_089",
+      "structural_key": "comment.url.filter.apps.comment",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Opens the \u201cEdit Profiles\u201d page which lets you select between your profiles and change the details.\"\nACTION url WFURLActionURL=\"https://www.disneyplus.com/edit-profiles\"\nSET $__v1 = @prev\nIF ...\n  ACTION filter.apps WFContentItemFilter={\"Value\": {\"WFActionParameterFilterPrefix\": 1, \"WFContentPredicateBoundedDate\": false, \"WFActionParameterFilterTemplates\": [{\"Operator\": 4, \"Values\": {\"Unit\": 4, \"String\": \"Disney+\"}, \"Removable\": true, \"Property\": \"Name\"}]}, \"WFSerializationType\": \"WFContentPredicateTableTemplate\"}\n  IF ...\n    ACTION comment WFCommentActionText=\"If the web app for Disney+ is installed, run the shortcut \u201cOpen in Disney+ app\u201d to redirect the URL using AppleScript.\"",
+      "action_count": 4,
+      "frequency": 14,
+      "score": 15.75,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Comment, Create URL, Filter apps, Comment (with control flow)"
+    },
+    {
+      "id": "snip_090",
+      "structural_key": "comment.runworkflow.openurl.openurl",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"If the web app for Disney+ is installed, run the shortcut \u201cOpen in Disney+ app\u201d to redirect the URL using AppleScript.\"\nACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"2AB917BD-A532-48EA-927C-DC4F8DE598C8\", \"workflowName\": \"Open in Disney+ web app\", \"isSelf\": false} WFWorkflowName=\"Open in Disney+ web app\"\nELSE\nACTION openurl\nENDIF\nELSE\nACTION openurl",
+      "action_count": 4,
+      "frequency": 14,
+      "score": 15.75,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Run shortcut, Open URL, Open URL (with control flow)"
+    },
+    {
+      "id": "snip_091",
+      "structural_key": "comment.comment.runapplescript",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Uses an AppleScript command to directly activate Control Center on the Mac.\"\nACTION comment WFCommentActionText=\"Use this shortcut to quickly access you WiFi, Bluetooth, Display, Keyboard Brightness, Sound, Music, Focus, and Screen Mirroring controls inside the new(ish) Control Center on the Mac.\n\nThis works well for keeping those individual items off the main Menu Bar and rememembering to trigger those from Control Center more often by quickly popping up the menu \u2013 I just don\u2019t think to click on it most of the time due to muscle memory.\"\nIF ...\n  ACTION runapplescript Script=\"on run {input, parameters}\r\ttell application \"System Events\"\n    tell process \"Control Center\"\n        tell menu bar item \"control center\" of menu bar 1\n            click\n        end tell\n    end tell\nend tell\r\treturn input\rend run\"\nELSE",
+      "action_count": 3,
+      "frequency": 15,
+      "score": 15.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Comment, Runapplescript (with control flow)"
+    },
+    {
+      "id": "snip_092",
+      "structural_key": "dictionary.choosefromlist",
+      "canonical_dsl": "CASE ...\nACTION dictionary WFItems={\"Value\": {\"WFDictionaryFieldValueItems\": {\"Video\": \"Red\", \"Blog post\": \"Orange\", \"Research\": \"Yellow\", \"Newsletter\": \"Teal\", \"Website\": \"Green\", \"Planning\": \"Dark Blue\", \"Stream\": \"Pink\", \"Finances\": \"Brown\"}}, \"WFSerializationType\": \"WFDictionaryFieldValue\"}\nACTION choosefromlist WFChooseFromListActionPrompt=\"What type of project?\"",
+      "action_count": 2,
+      "frequency": 10,
+      "score": 15.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Dictionary, Choose from list (with control flow)"
+    },
+    {
+      "id": "snip_093",
+      "structural_key": "runworkflow.detect.dictionary.gettext",
+      "canonical_dsl": "ACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"9C2E99ED-5885-4A81-85FB-A663094E9DF8\", \"workflowName\": \"Scrape YouTube link\", \"isSelf\": false} WFWorkflowName=\"Scrape YouTube link\"\nACTION detect.dictionary\nACTION gettext WFTextActionText=`{@prev}on YouTube: \"{@prev}\"`",
+      "action_count": 3,
+      "frequency": 15,
+      "score": 15.0,
+      "domain_tags": [
+        "text_processing"
+      ],
+      "description": "Run shortcut, Parse JSON dictionary, Get text"
+    },
+    {
+      "id": "snip_094",
+      "structural_key": "rss.choosefromlist.properties.articles.text.replace",
+      "canonical_dsl": "CASE ...\nACTION rss WFRSSItemQuantity=25 WFRSSFeedURL=\"ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topMovies/xml\"\nACTION choosefromlist WFChooseFromListActionPrompt=\"Which movie?\"\nACTION properties.articles WFContentItemPropertyName=\"URL\"\nACTION text.replace WFReplaceTextReplace=\"tv\" WFReplaceTextFind=\"itunes\"",
+      "action_count": 4,
+      "frequency": 10,
+      "score": 15.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Rss, Choose from list, Properties articles, Text replace (with control flow)"
+    },
+    {
+      "id": "snip_095",
+      "structural_key": "detect.link.openurl",
+      "canonical_dsl": "ENDIF\nACTION detect.link\nSET $__v1 = @choosefrommenu\nIF ...\n  ACTION openurl",
+      "action_count": 2,
+      "frequency": 10,
+      "score": 15.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Detect link, Open URL (with control flow)"
+    },
+    {
+      "id": "snip_096",
+      "structural_key": "url.setclipboard",
+      "canonical_dsl": "ACTION url WFURLActionURL=`https://twitter.com/messages/compose?recipient_id={@prev}`\nACTION setclipboard\nENDMENU",
+      "action_count": 2,
+      "frequency": 10,
+      "score": 15.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Create URL, Copy to clipboard (with control flow)"
+    },
+    {
+      "id": "snip_097",
+      "structural_key": "ask.url",
+      "canonical_dsl": "IF ...\n  ACTION ask WFAskActionPrompt=\"What\u2019s your Letterboxd username?\"\n  ACTION url WFURLActionURL=`https://letterboxd.com/{@prev}`",
+      "action_count": 2,
+      "frequency": 10,
+      "score": 15.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Ask for input, Create URL (with control flow)"
+    },
+    {
+      "id": "snip_098",
+      "structural_key": "openapp.runapplescript",
+      "canonical_dsl": "IF ...\n  ACTION openapp WFAppIdentifier=\"com.pratikkumar.airserver-mac\" WFSelectedApp={\"BundleIdentifier\": \"com.pratikkumar.airserver-mac\", \"Name\": \"AirServer\", \"TeamIdentifier\": \"6C755KS5W3\"}\n  ACTION runapplescript Script=\"on run {input, parameters}\r\ttell application \"System Events\"\r\t\tkey code 43 using {command down}\r\tend tell\r\treturn input\rend run\"",
+      "action_count": 2,
+      "frequency": 10,
+      "score": 15.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Open app, Runapplescript (with control flow)"
+    },
+    {
+      "id": "snip_099",
+      "structural_key": "getitemtype.getvalueforkey",
+      "canonical_dsl": "ACTION getitemtype\nIF ...\n  ACTION getvalueforkey WFGetDictionaryValueType=\"All Keys\"",
+      "action_count": 2,
+      "frequency": 10,
+      "score": 15.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Getitemtype, Getvalueforkey (with control flow)"
+    },
+    {
+      "id": "snip_100",
+      "structural_key": "runworkflow.comment.url",
+      "canonical_dsl": "ACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"1CD6BFAB-C028-463D-A58D-9B10B08667E6\", \"workflowName\": \"Grab YouTube playlist ID\", \"isSelf\": false} WFWorkflowName=\"Grab YouTube playlist ID\"\nACTION comment WFCommentActionText=\"If you don\u2019t want the Grab YouTube playlist ID shortcut installed, delete the Run Shortcut action above and the URL action below.\n\nHowever, the shortcut won\u2019t work with links from videos inside playlists (like https://www.youtube.com/watch?v=VIDEOID&list=PLAYLIST) anymore.\"\nACTION url WFURLActionURL=`https://www.youtube.com/playlist?list={@prev}`",
+      "action_count": 3,
+      "frequency": 15,
+      "score": 15.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Run shortcut, Comment, Create URL"
+    },
+    {
+      "id": "snip_101",
+      "structural_key": "url.detect.link",
+      "canonical_dsl": "ACTION url WFURLActionURL=`https://www.youtube.com/playlist?list={$__v1}`\nENDIF\nACTION detect.link",
+      "action_count": 2,
+      "frequency": 10,
+      "score": 15.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Create URL, Detect link (with control flow)"
+    },
+    {
+      "id": "snip_102",
+      "structural_key": "com.apple.TVRemoteUIService.WakeAppleTVIntent.com.apple.TVRemoteUIService.LaunchScreenSaverIntent",
+      "canonical_dsl": "CASE ...\nACTION com.apple.TVRemoteUIService.WakeAppleTVIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"}\nACTION com.apple.TVRemoteUIService.LaunchScreenSaverIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"}",
+      "action_count": 2,
+      "frequency": 10,
+      "score": 15.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Com apple TVRemoteUIService WakeAppleTVIntent, Com apple TVRemoteUIService LaunchScreenSaverIntent (with control flow)"
+    },
+    {
+      "id": "snip_103",
+      "structural_key": "comment.comment.playpodcast",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Starts the latest episode of the Apple News Today podcast.\"\nACTION comment WFCommentActionText=\"This shortcut makes it easy to kick of Apple News Today, the show provided by two journalists to cover important or interesting stories also found in the Apple News app.\n\nI\u2019m a big fan of the hosts, it\u2019s helpful for keeping up with major stories in the news, and it\u2019s short enough that I can listen to it while making breakfast in the morning.\"\nACTION playpodcast WFPodcastShow={\"podcastUUID\": \"ADE330FF-507F-4A75-B537-85614E011815\", \"kind\": \"podcast\", \"collectionName\": \"Apple News Today\", \"feedUrl\": \"https://apple.news/podcast/apple_news_today\", \"collectionId\": \"1473872585\"}",
+      "action_count": 3,
+      "frequency": 22,
+      "score": 14.6667,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Comment, Playpodcast"
+    },
+    {
+      "id": "snip_104",
+      "structural_key": "runworkflow.openurl.openurl",
+      "canonical_dsl": "ACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"2AB917BD-A532-48EA-927C-DC4F8DE598C8\", \"workflowName\": \"Open in Disney+ web app\", \"isSelf\": false} WFWorkflowName=\"Open in Disney+ web app\"\nELSE\nACTION openurl\nENDIF\nELSE\nACTION openurl\nENDIF",
+      "action_count": 3,
+      "frequency": 14,
+      "score": 14.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Run shortcut, Open URL, Open URL (with control flow)"
+    },
+    {
+      "id": "snip_105",
+      "structural_key": "text.split.gettext",
+      "canonical_dsl": "ACTION text.split text=@prev\nFOREACH @prev\n  ACTION gettext WFTextActionText=`> {$__v1}`",
+      "action_count": 2,
+      "frequency": 9,
+      "score": 13.5,
+      "domain_tags": [
+        "text_processing"
+      ],
+      "description": "Text split, Get text (with control flow)"
+    },
+    {
+      "id": "snip_106",
+      "structural_key": "getarticle.properties.articles",
+      "canonical_dsl": "ACTION getarticle WFWebPage=`{$__v1}`\nIF ...\n  ACTION properties.articles WFContentItemPropertyName=\"Title\"",
+      "action_count": 2,
+      "frequency": 9,
+      "score": 13.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Getarticle, Properties articles (with control flow)"
+    },
+    {
+      "id": "snip_107",
+      "structural_key": "gettext.setclipboard",
+      "canonical_dsl": "ACTION gettext WFTextActionText=\"* \"\nENDFOREACH\nACTION setclipboard",
+      "action_count": 2,
+      "frequency": 9,
+      "score": 13.5,
+      "domain_tags": [
+        "text_processing"
+      ],
+      "description": "Get text, Copy to clipboard (with control flow)"
+    },
+    {
+      "id": "snip_108",
+      "structural_key": "choosefromlist.ask",
+      "canonical_dsl": "ACTION choosefromlist WFChooseFromListActionPrompt=\"Which shortcuts do you want to use?\"\nFOREACH @prev\n  ACTION ask WFAskActionDefaultAnswer=`{$__v1}` WFAllowsMultilineText=false WFAskActionPrompt=`What do you want the custom title to be for \u201c{$__v1}\u201d?`",
+      "action_count": 2,
+      "frequency": 9,
+      "score": 13.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Choose from list, Ask for input (with control flow)"
+    },
+    {
+      "id": "snip_109",
+      "structural_key": "selectphoto.file.select",
+      "canonical_dsl": "ACTION selectphoto WFPhotoPickerTypes=[\"Images\", \"Live Photos\", \"Videos\"]\nCASE ...\nACTION file.select WFGetFolderContents=true",
+      "action_count": 2,
+      "frequency": 9,
+      "score": 13.5,
+      "domain_tags": [
+        "file_operations"
+      ],
+      "description": "Select photo, File select (with control flow)"
+    },
+    {
+      "id": "snip_110",
+      "structural_key": "filter.photos.choosefromlist",
+      "canonical_dsl": "ACTION filter.photos WFContentItemLimitEnabled=true WFContentItemSortProperty=\"Time Taken\" WFContentItemSortOrder=\"Latest First\" WFContentItemLimitNumber=@prev WFContentItemFilter={\"Value\": {\"WFActionParameterFilterPrefix\": 1, \"WFContentPredicateBoundedDate\": false, \"WFActionParameterFilterTemplates\": [{\"Operator\": 4, \"Values\": {\"Unit\": 4, \"Enumeration\": {\"Value\": \"Wallpapers\", \"WFSerializationType\": \"WFStringSubstitutableState\"}}, \"Removable\": true, \"Property\": \"Album\"}, {\"Operator\": 4, \"Values\": {\"Unit\": 4}, \"Removable\": true, \"Property\": \"Album\"}]}, \"WFSerializationType\": \"WFContentPredicateTableTemplate\"}\nENDMENU\nACTION choosefromlist WFChooseFromListActionPrompt=\"Which photo?\"",
+      "action_count": 2,
+      "frequency": 9,
+      "score": 13.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Filter photos, Choose from list (with control flow)"
+    },
+    {
+      "id": "snip_111",
+      "structural_key": "gettext.nothing",
+      "canonical_dsl": "ACTION gettext WFTextActionText=`{@prev}on {$__v1}`\nELSE\nACTION nothing",
+      "action_count": 2,
+      "frequency": 9,
+      "score": 13.5,
+      "domain_tags": [
+        "text_processing"
+      ],
+      "description": "Get text, Nothing (with control flow)"
+    },
+    {
+      "id": "snip_112",
+      "structural_key": "nothing.gettext",
+      "canonical_dsl": "ACTION nothing\nELSE\nACTION gettext WFTextActionText=`{$__v1}\u2013 {$__v1}`",
+      "action_count": 2,
+      "frequency": 9,
+      "score": 13.5,
+      "domain_tags": [
+        "text_processing"
+      ],
+      "description": "Nothing, Get text (with control flow)"
+    },
+    {
+      "id": "snip_113",
+      "structural_key": "makegif.savetocameraroll.previewdocument",
+      "canonical_dsl": "CASE ...\nACTION makegif WFMakeGIFActionManualSizeHeight=\"200\" WFMakeGIFActionAutoSize=true\nENDMENU\nACTION savetocameraroll\nACTION previewdocument",
+      "action_count": 3,
+      "frequency": 9,
+      "score": 13.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Makegif, Savetocameraroll, Previewdocument (with control flow)"
+    },
+    {
+      "id": "snip_114",
+      "structural_key": "ask.health.quantity.log",
+      "canonical_dsl": "CASE ...\nACTION ask WFAskActionDefaultAnswerDateAndTime=`{@date}` WFInputType=\"Time\" WFAskActionPrompt=\"What time?\"\nENDMENU\nSET $__v1 = @choosefrommenu\nACTION health.quantity.log WFQuantitySampleDate=`{$__v1}` WFQuantitySampleAdditionalQuantity=QTY(0, \"mg\") WFQuantitySampleQuantity=QTY($__v2, \"mg\") WFQuantitySampleType=\"Caffeine\"",
+      "action_count": 2,
+      "frequency": 9,
+      "score": 13.5,
+      "domain_tags": [
+        "health"
+      ],
+      "description": "Ask for input, Health quantity log (with control flow)"
+    },
+    {
+      "id": "snip_115",
+      "structural_key": "comment.dictionary.choosefromlist.getvalueforkey",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Update the action below with the titles and identifiers for your Lists. To group your lists, navigate further down and update the Dictionary actions there with your list info.\"\nACTION dictionary WFItems={\"Value\": {\"WFDictionaryFieldValueItems\": {\"Home\": \"timeline\", \"Apple\": \"1144714688279670784\", \"Creators\": \"1144718145690562560\", \"Work lists\": \"\", \"Personal lists\": \"\", \"(Create new List)\": \"\"}}, \"WFSerializationType\": \"WFDictionaryFieldValue\"}\nACTION choosefromlist WFChooseFromListActionPrompt=\"Which list do you want to open?\"\nACTION getvalueforkey WFDictionaryKey=`{@prev}`\nIF ...",
+      "action_count": 4,
+      "frequency": 9,
+      "score": 13.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Dictionary, Choose from list, Getvalueforkey (with control flow)"
+    },
+    {
+      "id": "snip_116",
+      "structural_key": "text.replace.gettext.showresult.ask",
+      "canonical_dsl": "ACTION text.replace WFReplaceTextReplace=`{@Second_Line}` WFReplaceTextFind=\"when you tweet\"\nCASE ...\nACTION gettext WFTextActionText=\"\u2606\u3002 \u2605\u3002 \u2606  \u2605\n \u3002\u2606 \u3002\u2606\u3002\u2606 \n\u2605\u3002\uff3c\uff5c\uff0f\u3002\u2605   \n   SUPERFAVE\n\u2605\u3002\uff0f\uff5c\uff3c\u3002\u2605 \n \u3002 \u2606\u3002\u2606\u3002\u2606 \n\u2606\u3002 \u2605\u3002 \u2606  \u2605\"\nACTION showresult Text=`Here's what you are making:\\n\\n{@prev}`\nACTION ask WFAskActionDefaultAnswer=\"SUPERFAVE\" WFAskActionPrompt=\"What goes in the center?\"",
+      "action_count": 4,
+      "frequency": 9,
+      "score": 13.5,
+      "domain_tags": [
+        "text_processing",
+        "user_feedback"
+      ],
+      "description": "Text replace, Get text, Show result, Ask for input (with control flow)"
+    },
+    {
+      "id": "snip_117",
+      "structural_key": "comment.com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent.com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Toggles background sounds and sets it to Balanced Noise.\"\nACTION com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXSetBackgroundSoundIntent backgroundSound=\"BalancedNoise\"\nACTION com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleBackgroundSoundsIntent setting=\"backgroundSounds\" operation=\"toggle\"",
+      "action_count": 3,
+      "frequency": 13,
+      "score": 13.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Com apple AccessibilityUtilities AXSettingsShortcuts AXSetBackgroundSoundIntent, Com apple AccessibilityUtilities AXSettingsShortcuts AXToggleBackgroundSoundsIntent"
+    },
+    {
+      "id": "snip_118",
+      "structural_key": "comment.ask.urlencode",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Asks you to enter the text of your post, then URL encodes the reult and passes it to Threads\u2019 URL scheme for creating posts. Designed for iOS and iPadOS only.\"\nACTION ask WFAskActionPrompt=\"What should your post say?\"\nACTION urlencode",
+      "action_count": 3,
+      "frequency": 13,
+      "score": 13.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Ask for input, Urlencode"
+    },
+    {
+      "id": "snip_119",
+      "structural_key": "ask.urlencode.url",
+      "canonical_dsl": "ACTION ask WFAskActionPrompt=\"What should your post say?\"\nACTION urlencode\nACTION url WFURLActionURL=`barcelona://create?text={@prev}`",
+      "action_count": 3,
+      "frequency": 13,
+      "score": 13.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Ask for input, Urlencode, Create URL"
+    },
+    {
+      "id": "snip_120",
+      "structural_key": "dictionary.choosefromlist.getvalueforkey",
+      "canonical_dsl": "ACTION dictionary WFItems={\"Value\": {\"WFDictionaryFieldValueItems\": {\"Home\": \"timeline\", \"Apple\": \"1144714688279670784\", \"Creators\": \"1144718145690562560\", \"Work lists\": \"\", \"Personal lists\": \"\", \"(Create new List)\": \"\"}}, \"WFSerializationType\": \"WFDictionaryFieldValue\"}\nACTION choosefromlist WFChooseFromListActionPrompt=\"Which list do you want to open?\"\nACTION getvalueforkey WFDictionaryKey=`{@prev}`",
+      "action_count": 3,
+      "frequency": 13,
+      "score": 13.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Dictionary, Choose from list, Getvalueforkey"
+    },
+    {
+      "id": "snip_121",
+      "structural_key": "detect.text.showresult.exit",
+      "canonical_dsl": "ACTION detect.text\nACTION showresult Text=`Your URL '{@prev}' is not a Threads link! {$__v1}`\nACTION exit",
+      "action_count": 3,
+      "frequency": 13,
+      "score": 13.0,
+      "domain_tags": [
+        "user_feedback"
+      ],
+      "description": "Detect text, Show result, Exit shortcut"
+    },
+    {
+      "id": "snip_122",
+      "structural_key": "openapp.showwebpage.openapp.showwebpage",
+      "canonical_dsl": "IF ...\n  ACTION openapp WFAppIdentifier=\"com.mint.internal\" WFSelectedApp={\"BundleIdentifier\": \"com.mint.internal\", \"Name\": \"Mint\", \"TeamIdentifier\": \"FPR5C96X44\"}\nELSE\n  ACTION showwebpage WFURL=\"mint.com\"\nENDIF\nCASE ...\nIF ...\n  ACTION openapp\nELSE\n  ACTION showwebpage WFURL=\"usbank.com\"",
+      "action_count": 4,
+      "frequency": 17,
+      "score": 12.75,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Open app, Showwebpage, Open app, Showwebpage (with control flow)"
+    },
+    {
+      "id": "snip_123",
+      "structural_key": "detect.dictionary.getvalueforkey.choosefromlist.getvalueforkey.getvariable.detect.link",
+      "canonical_dsl": "ENDMENU\nIF ...\n  ACTION detect.dictionary\n  ACTION getvalueforkey WFGetDictionaryValueType=\"All Keys\"\n  ACTION choosefromlist WFChooseFromListActionPrompt=\"Which one?\"\n  ACTION getvalueforkey WFDictionaryKey=`{@prev}`\nELSE\n  ACTION getvariable WFVariable=$__v1\nENDIF\nACTION detect.link",
+      "action_count": 6,
+      "frequency": 10,
+      "score": 12.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Parse JSON dictionary, Getvalueforkey, Choose from list, Getvalueforkey, Get variable, Detect link (with control flow)"
+    },
+    {
+      "id": "snip_124",
+      "structural_key": "getvariable.detect.link.detect.link.runworkflow.comment.url",
+      "canonical_dsl": "ELSE\nACTION getvariable WFVariable=$__v1\nENDIF\nSET $__v2 = @conditional\nACTION detect.link\nIF ...\n  IF ...\n    ACTION detect.link\n  ELSE\n    ACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"1CD6BFAB-C028-463D-A58D-9B10B08667E6\", \"workflowName\": \"Grab YouTube playlist ID\", \"isSelf\": false} WFWorkflowName=\"Grab YouTube playlist ID\"\n    ACTION comment WFCommentActionText=\"If you don\u2019t want the Grab YouTube playlist ID shortcut installed, delete the Run Shortcut action above and the URL action below.\n\nHowever, the shortcut won\u2019t work with links from videos inside playlists (like https://www.youtube.com/watch?v=VIDEOID&list=PLAYLIST) anymore.\"\n    ACTION url WFURLActionURL=`https://www.youtube.com/playlist?list={@prev}`",
+      "action_count": 6,
+      "frequency": 10,
+      "score": 12.5,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Get variable, Detect link, Detect link, Run shortcut, Comment, Create URL (with control flow)"
+    },
+    {
+      "id": "snip_125",
+      "structural_key": "comment.comment.runapplescript.runsshscript",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Uses an AppleScript command to directly activate Control Center on the Mac.\"\nACTION comment WFCommentActionText=\"Use this shortcut to quickly access you WiFi, Bluetooth, Display, Keyboard Brightness, Sound, Music, Focus, and Screen Mirroring controls inside the new(ish) Control Center on the Mac.\n\nThis works well for keeping those individual items off the main Menu Bar and rememembering to trigger those from Control Center more often by quickly popping up the menu \u2013 I just don\u2019t think to click on it most of the time due to muscle memory.\"\nIF ...\n  ACTION runapplescript Script=\"on run {input, parameters}\r\ttell application \"System Events\"\n    tell process \"Control Center\"\n        tell menu bar item \"control center\" of menu bar 1\n            click\n        end tell\n    end tell\nend tell\r\treturn input\rend run\"\nELSE\n  ACTION runsshscript WFSSHScript=\"caffeinate -u -t 2\n\nosascript -e 'tell application \"System Events\"\n    tell process \"Control Center\"\n        tell menu bar item \"control center\" of menu bar 1\n            click\n        end tell\n    end tell\nend tell'\" WFSSHPassword=\"\" WFSSHHost=\"\" WFSSHUser=\"\"\nENDIF",
+      "action_count": 4,
+      "frequency": 11,
+      "score": 12.375,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Comment, Runapplescript, Runsshscript (with control flow)"
+    },
+    {
+      "id": "snip_126",
+      "structural_key": "com.apple.TVRemoteUIService.LaunchApplicationIntent.com.apple.TVRemoteUIService.LaunchRemoteIntent.com.apple.TVRemoteUIService.WakeAppleTVIntent.com.apple.TVRemoteUIService.LaunchApplicationIntent",
+      "canonical_dsl": "ACTION com.apple.TVRemoteUIService.LaunchApplicationIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"} application={\"displayString\": \"Settings\", \"pronunciationHint\": \"Settings\", \"identifier\": \"com.apple.TVSettings\"} ShowWhenRun=false\nACTION com.apple.TVRemoteUIService.LaunchRemoteIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"}\nCASE ...\nACTION com.apple.TVRemoteUIService.WakeAppleTVIntent device={\"displayString\": \"Family Room TV\", \"pronunciationHint\": \"Family Room TV\", \"identifier\": \"ebbd24874a17\"}\nACTION com.apple.TVRemoteUIService.LaunchApplicationIntent device={\"displayString\": \"Family Room TV\", \"pronunciationHint\": \"Family Room TV\", \"identifier\": \"ebbd24874a17\"} application={\"displayString\": \"Settings\", \"pronunciationHint\": \"Settings\", \"identifier\": \"com.apple.TVSettings\"} ShowWhenRun=false",
+      "action_count": 4,
+      "frequency": 11,
+      "score": 12.375,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Com apple TVRemoteUIService LaunchApplicationIntent, Com apple TVRemoteUIService LaunchRemoteIntent, Com apple TVRemoteUIService WakeAppleTVIntent, Com apple TVRemoteUIService LaunchApplicationIntent (with control flow)"
+    },
+    {
+      "id": "snip_127",
+      "structural_key": "comment.ask.ask",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Use this if you\u2019re trying to update information about various contacts but you don\u2019t want to type it into every field manually \u2013 Cardhop will process it for you using just their identifiable information.\"\nACTION ask WFAskActionPrompt=\"What\u2019s the info you want to add?\"\nACTION ask WFAskActionPrompt=\"Who do you want to add it to?\"",
+      "action_count": 3,
+      "frequency": 18,
+      "score": 12.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Ask for input, Ask for input"
+    },
+    {
+      "id": "snip_128",
+      "structural_key": "getwebpagecontents.getitemname",
+      "canonical_dsl": "ELSE\nACTION getwebpagecontents\nACTION getitemname",
+      "action_count": 2,
+      "frequency": 8,
+      "score": 12.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Getwebpagecontents, Getitemname (with control flow)"
+    },
+    {
+      "id": "snip_129",
+      "structural_key": "alert.exit",
+      "canonical_dsl": "IF ...\n  ACTION alert WFAlertActionMessage=\"You may be rate limited \u2013 wait a minute and try again.\" WFAlertActionTitle=\"403 Forbidden\" WFAlertActionCancelButtonShown=false\n  ACTION exit",
+      "action_count": 2,
+      "frequency": 8,
+      "score": 12.0,
+      "domain_tags": [
+        "user_feedback"
+      ],
+      "description": "Show alert, Exit shortcut (with control flow)"
+    },
+    {
+      "id": "snip_130",
+      "structural_key": "getclipboard.ask",
+      "canonical_dsl": "ACTION getclipboard\nENDIF\nACTION ask WFAskActionPrompt=\"What do you want to add?\" WFAskActionDefaultAnswer=`{@conditional}`",
+      "action_count": 2,
+      "frequency": 8,
+      "score": 12.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Get clipboard, Ask for input (with control flow)"
+    },
+    {
+      "id": "snip_131",
+      "structural_key": "rss.choosefromlist",
+      "canonical_dsl": "CASE ...\nACTION rss WFRSSItemQuantity=25 WFRSSFeedURL=\"ax.itunes.apple.com/WebObjects/MZStoreServices.woa/ws/RSS/topMovies/xml\"\nACTION choosefromlist WFChooseFromListActionPrompt=\"Which movie?\"",
+      "action_count": 2,
+      "frequency": 8,
+      "score": 12.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Rss, Choose from list (with control flow)"
+    },
+    {
+      "id": "snip_132",
+      "structural_key": "detect.dictionary.getvalueforkey",
+      "canonical_dsl": "IF ...\n  ACTION detect.dictionary\n  ACTION getvalueforkey WFGetDictionaryValueType=\"All Keys\"",
+      "action_count": 2,
+      "frequency": 8,
+      "score": 12.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Parse JSON dictionary, Getvalueforkey (with control flow)"
+    },
+    {
+      "id": "snip_133",
+      "structural_key": "comment.url.openurl.runshellscript",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Opens the \u201cReport A Problem\u201d page on Apple\u2019s website where you can see your list of purchases.\"\nACTION url WFURLActionURL=\"https://reportaproblem.apple.com/\"\nIF ...\n  ACTION openurl\nELSE\n  ACTION runshellscript Input=@prev Script=`open -a TV {@prev}\\n`\nENDIF",
+      "action_count": 4,
+      "frequency": 8,
+      "score": 12.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Comment, Create URL, Open URL, Runshellscript (with control flow)"
+    },
+    {
+      "id": "snip_134",
+      "structural_key": "dictionary.getvalueforkey",
+      "canonical_dsl": "ACTION dictionary WFItems={\"Value\": {\"WFDictionaryFieldValueItems\": {\"Techmeme\": \"http://www.techmeme.com/firehose.xml\"}}, \"WFSerializationType\": \"WFDictionaryFieldValue\"}\nACTION getvalueforkey WFGetDictionaryValueType=\"All Keys\"\nFOREACH @prev",
+      "action_count": 2,
+      "frequency": 8,
+      "score": 12.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Dictionary, Getvalueforkey (with control flow)"
+    },
+    {
+      "id": "snip_135",
+      "structural_key": "ask.format.date",
+      "canonical_dsl": "CASE ...\nACTION ask WFAskActionDefaultAnswerDate=`{@date}` WFInputType=\"Date\" WFAskActionPrompt=\"What date?\"\nACTION format.date WFDateFormatStyle=\"Custom\" WFDateFormat=\"yyyy/MM/dd\" WFDate=`{@prev}`",
+      "action_count": 2,
+      "frequency": 8,
+      "score": 12.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Ask for input, Format date (with control flow)"
+    },
+    {
+      "id": "snip_136",
+      "structural_key": "ask.urlencode",
+      "canonical_dsl": "ACTION ask WFAskActionPrompt=\"What do you want to say?\"\nSET $__v1 = @prev\nACTION urlencode",
+      "action_count": 2,
+      "frequency": 12,
+      "score": 12.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Ask for input, Urlencode"
+    },
+    {
+      "id": "snip_137",
+      "structural_key": "comment.file.openin",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Opens the Privacy tab in Settings so you can open Analytics & Improvements > Analytics data. On macOS, opens the Library to Diagnostic Reports in your Logs.\"\nIF ...\n  ACTION file WFFile={\"fileLocation\": {\"relativeSubpath\": \"/Library/Logs/DiagnosticReports\", \"WFFileLocationType\": \"Absolute\"}, \"filename\": \"DiagnosticReports\", \"displayName\": \"DiagnosticReports\"}\n  ACTION openin WFOpenInAskWhenRun=false\nELSE",
+      "action_count": 3,
+      "frequency": 8,
+      "score": 12.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, File, Openin (with control flow)"
+    },
+    {
+      "id": "snip_138",
+      "structural_key": "number.gettext",
+      "canonical_dsl": "ACTION number WFNumberActionNumber=41\nCASE ...\nACTION gettext WFTextActionText=\"-1\"",
+      "action_count": 2,
+      "frequency": 8,
+      "score": 12.0,
+      "domain_tags": [
+        "text_processing"
+      ],
+      "description": "Create number, Get text (with control flow)"
+    },
+    {
+      "id": "snip_139",
+      "structural_key": "url.openurl.number.delay.runworkflow",
+      "canonical_dsl": "ACTION url WFURLActionURL=\"disneyplus.com\"\nACTION openurl\nACTION number WFNumberActionNumber=\"0.25\"\nACTION delay WFDelayTime=@prev\nACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"E0DDF629-5FDC-4647-B533-0EAA9262B669\", \"workflowName\": \"Toggle full screen\", \"isSelf\": false} WFWorkflowName=\"Toggle full screen\"",
+      "action_count": 5,
+      "frequency": 12,
+      "score": 12.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Create URL, Open URL, Create number, Delay, Run shortcut"
+    },
+    {
+      "id": "snip_140",
+      "structural_key": "com.apple.TVRemoteUIService.WakeAppleTVIntent.com.apple.TVRemoteUIService.LaunchApplicationIntent.com.apple.TVRemoteUIService.LaunchRemoteIntent.url.openurl.number.delay.runworkflow",
+      "canonical_dsl": "ACTION com.apple.TVRemoteUIService.WakeAppleTVIntent device={\"displayString\": \"Family Room TV\", \"pronunciationHint\": \"Family Room TV\", \"identifier\": \"ebbd24874a17\"}\nACTION com.apple.TVRemoteUIService.LaunchApplicationIntent application={\"displayString\": \"Disney+\", \"pronunciationHint\": \"Disney+\", \"identifier\": \"com.disney.disneyplus\"} device={\"displayString\": \"Family Room TV\", \"pronunciationHint\": \"Family Room TV\", \"identifier\": \"ebbd24874a17\"}\nACTION com.apple.TVRemoteUIService.LaunchRemoteIntent device={\"displayString\": \"Family Room TV\", \"pronunciationHint\": \"Family Room TV\", \"identifier\": \"ebbd24874a17\"}\nENDMENU\nELSE\nACTION url WFURLActionURL=\"disneyplus.com\"\nACTION openurl\nACTION number WFNumberActionNumber=\"0.25\"\nACTION delay WFDelayTime=@prev\nACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"E0DDF629-5FDC-4647-B533-0EAA9262B669\", \"workflowName\": \"Toggle full screen\", \"isSelf\": false} WFWorkflowName=\"Toggle full screen\"",
+      "action_count": 8,
+      "frequency": 8,
+      "score": 12.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Com apple TVRemoteUIService WakeAppleTVIntent, Com apple TVRemoteUIService LaunchApplicationIntent, Com apple TVRemoteUIService LaunchRemoteIntent, Create URL, Open URL, Create number, Delay, Run shortcut (with control flow)"
+    },
+    {
+      "id": "snip_141",
+      "structural_key": "com.apple.mobilemail.OpenMailboxEntityAction.runapplescript",
+      "canonical_dsl": "ACTION com.apple.mobilemail.OpenMailboxEntityAction target={\"title\": {\"key\": \"All Drafts\"}, \"identifier\": \"favoriteitem://unifiedmailbox/Collection-1-5\"}\nELSE\nACTION runapplescript Script=\"on run {input, parameters}\r\ttell application \"Mail\" to activate\r\ttell application \"System Events\"\r\t\tkeystroke 4 using {command down}\r\tend tell\r\treturn input\rend run\"",
+      "action_count": 2,
+      "frequency": 8,
+      "score": 12.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Com apple mobilemail OpenMailboxEntityAction, Runapplescript (with control flow)"
+    },
+    {
+      "id": "snip_142",
+      "structural_key": "com.apple.mobileslideshow.OpenCollectionIntent.runapplescript",
+      "canonical_dsl": "ACTION com.apple.mobileslideshow.OpenCollectionIntent target={\"title\": {\"key\": \"Favorites\"}, \"identifier\": \"D8703294-0897-4718-8AB8-BA22535F06E8\", \"subtitle\": {\"key\": \"Favorites\"}, \"image\": {\"uri\": \"intents-remote-image-proxy:?proxyIdentifier=09C2C04D-D192-27FD-0AD1-14C9E2049A60.png&storageServiceIdentifier=com.apple.Intents.INImageServiceConnection\", \"type\": \"URL\", \"storageServiceIdentifier\": \"com.apple.Intents.INImageServiceConnection\"}}\nELSE\nACTION runapplescript Script=\"on run {input, parameters}\r\ttell application \"Photos\" to activate\r\ttell application \"System Events\"\r\t\tkeystroke \"7\" using {control down}\r\tend tell\r\treturn input\rend run\"",
+      "action_count": 2,
+      "frequency": 8,
+      "score": 12.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Com apple mobileslideshow OpenCollectionIntent, Runapplescript (with control flow)"
+    },
+    {
+      "id": "snip_143",
+      "structural_key": "gettext.url",
+      "canonical_dsl": "ACTION gettext WFTextActionText=\"25a98576ce89805f8077ee4a3a3a1ffa\"\nSET $__v1 = @prev\nACTION url WFURLActionURL=`https://www.notion.so/{$__v2}/Teamspace-Home-{$__v1}`",
+      "action_count": 2,
+      "frequency": 12,
+      "score": 12.0,
+      "domain_tags": [
+        "networking",
+        "text_processing"
+      ],
+      "description": "Get text, Create URL"
+    },
+    {
+      "id": "snip_144",
+      "structural_key": "getvalueforkey.url",
+      "canonical_dsl": "ACTION getvalueforkey WFDictionaryKey=`{@prev}`\nSET $__v1 = @prev\nACTION url WFURLActionURL=`https://gemini.google.com/gem/{$__v1}`",
+      "action_count": 2,
+      "frequency": 12,
+      "score": 12.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Getvalueforkey, Create URL"
+    },
+    {
+      "id": "snip_145",
+      "structural_key": "choosefromlist.getvalueforkey.url.openurl",
+      "canonical_dsl": "ACTION choosefromlist WFChooseFromListActionPrompt=\"Which gem?\"\nACTION getvalueforkey WFDictionaryKey=`{@prev}`\nSET $__v1 = @prev\nACTION url WFURLActionURL=`https://gemini.google.com/gem/{$__v1}`\nACTION openurl",
+      "action_count": 4,
+      "frequency": 12,
+      "score": 12.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Choose from list, Getvalueforkey, Create URL, Open URL"
+    },
+    {
+      "id": "snip_146",
+      "structural_key": "choosefromlist.getvalueforkey.getvariable.getvariable.detect.link",
+      "canonical_dsl": "ACTION choosefromlist WFChooseFromListActionPrompt=\"Which section?\"\nACTION getvalueforkey WFDictionaryKey=`{@prev}`\nELSE\nACTION getvariable WFVariable=@getvalueforkey\nENDIF\nELSE\nACTION getvariable WFVariable=$__v1\nENDIF\nSET $__v2 = @conditional\nACTION detect.link",
+      "action_count": 5,
+      "frequency": 10,
+      "score": 12.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Choose from list, Getvalueforkey, Get variable, Get variable, Detect link (with control flow)"
+    },
+    {
+      "id": "snip_147",
+      "structural_key": "getvariable.detect.link.detect.link.runworkflow.comment",
+      "canonical_dsl": "ACTION getvariable WFVariable=$__v1\nENDIF\nSET $__v2 = @conditional\nACTION detect.link\nIF ...\n  IF ...\n    ACTION detect.link\n  ELSE\n    ACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"1CD6BFAB-C028-463D-A58D-9B10B08667E6\", \"workflowName\": \"Grab YouTube playlist ID\", \"isSelf\": false} WFWorkflowName=\"Grab YouTube playlist ID\"\n    ACTION comment WFCommentActionText=\"If you don\u2019t want the Grab YouTube playlist ID shortcut installed, delete the Run Shortcut action above and the URL action below.\n\nHowever, the shortcut won\u2019t work with links from videos inside playlists (like https://www.youtube.com/watch?v=VIDEOID&list=PLAYLIST) anymore.\"",
+      "action_count": 5,
+      "frequency": 10,
+      "score": 12.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Get variable, Detect link, Detect link, Run shortcut, Comment (with control flow)"
+    },
+    {
+      "id": "snip_148",
+      "structural_key": "detect.link.runworkflow.comment.url.url",
+      "canonical_dsl": "IF ...\n  IF ...\n    ACTION detect.link\n  ELSE\n    ACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"1CD6BFAB-C028-463D-A58D-9B10B08667E6\", \"workflowName\": \"Grab YouTube playlist ID\", \"isSelf\": false} WFWorkflowName=\"Grab YouTube playlist ID\"\n    ACTION comment WFCommentActionText=\"If you don\u2019t want the Grab YouTube playlist ID shortcut installed, delete the Run Shortcut action above and the URL action below.\n\nHowever, the shortcut won\u2019t work with links from videos inside playlists (like https://www.youtube.com/watch?v=VIDEOID&list=PLAYLIST) anymore.\"\n    ACTION url WFURLActionURL=`https://www.youtube.com/playlist?list={@prev}`\n  ENDIF\nELSE\n  ACTION url WFURLActionURL=`https://www.youtube.com/playlist?list={$__v1}`",
+      "action_count": 5,
+      "frequency": 10,
+      "score": 12.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Detect link, Run shortcut, Comment, Create URL, Create URL (with control flow)"
+    },
+    {
+      "id": "snip_149",
+      "structural_key": "gettext.showresult.ask.text.replace",
+      "canonical_dsl": "CASE ...\nACTION gettext WFTextActionText=\"\u253b\u2533|\n\u2533\u253b|\n\u253b\u2533|\n\u2533\u253b|\n\u253b\u2533|\n\u2533\u253b|\n\u253b\u2533|\n\u2533\u253b|\n\u253b\u2533|\n\u2533\u253b|\n\u253b\u2533|\n\u2533\u253b|\n\u253b\u2533|\n\u2533\u253b|\n\u253b\u2533|\n\u2533\u253b|\n\u253b\u2533|\n\u2533\u253b| __\n\u253b\u2533| \u2022.\u2022) wall\n\u2533\u253b|\u2282\uff89 \n\u253b\u2533|\"\nACTION showresult Text=`Here's what you are making:\\n\\n{@prev}`\nACTION ask WFAskActionPrompt=\"What should the person be poking their head out to say?\"\nACTION text.replace WFReplaceTextReplace=`{@prev}` WFReplaceTextFind=\"wall\"",
+      "action_count": 4,
+      "frequency": 8,
+      "score": 12.0,
+      "domain_tags": [
+        "text_processing",
+        "user_feedback"
+      ],
+      "description": "Get text, Show result, Ask for input, Text replace (with control flow)"
+    },
+    {
+      "id": "snip_150",
+      "structural_key": "delay.runapplescript",
+      "canonical_dsl": "ACTION delay\nACTION runapplescript Input=@url Script=\"on run {input, parameters}\r\ttell application \"System Events\"\r\t\tkeystroke \"f\"\r\tend tell\r\treturn input\rend run\"\nENDIF",
+      "action_count": 2,
+      "frequency": 8,
+      "score": 12.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Delay, Runapplescript (with control flow)"
+    },
+    {
+      "id": "snip_151",
+      "structural_key": "url.url.url.openurl",
+      "canonical_dsl": "ACTION url WFURLActionURL=\"https://www.regmovies.com/theatres/regal-fox-tower-0633\"\nCASE ...\nACTION url WFURLActionURL=\"https://www.regmovies.com/theatres/regal-pioneer-place-0656\"\nCASE ...\nACTION url WFURLActionURL=\"https://www.regmovies.com/theatres/regal-cascade-0845\"\nENDMENU\nACTION openurl",
+      "action_count": 4,
+      "frequency": 15,
+      "score": 11.25,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Create URL, Create URL, Create URL, Open URL (with control flow)"
+    },
+    {
+      "id": "snip_152",
+      "structural_key": "getitemtype.getvalueforkey.choosefromlist.getvalueforkey",
+      "canonical_dsl": "ACTION getitemtype\nIF ...\n  ACTION getvalueforkey WFGetDictionaryValueType=\"All Keys\"\n  ACTION choosefromlist WFChooseFromListActionPrompt=\"Which group?\"\n  ACTION getvalueforkey WFDictionaryKey=`{@prev}`",
+      "action_count": 4,
+      "frequency": 10,
+      "score": 11.25,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Getitemtype, Getvalueforkey, Choose from list, Getvalueforkey (with control flow)"
+    },
+    {
+      "id": "snip_153",
+      "structural_key": "getvalueforkey.choosefromlist.getvalueforkey.getitemtype",
+      "canonical_dsl": "IF ...\n  ACTION getvalueforkey WFGetDictionaryValueType=\"All Keys\"\n  ACTION choosefromlist WFChooseFromListActionPrompt=\"Which group?\"\n  ACTION getvalueforkey WFDictionaryKey=`{@prev}`\n  ACTION getitemtype",
+      "action_count": 4,
+      "frequency": 10,
+      "score": 11.25,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Getvalueforkey, Choose from list, Getvalueforkey, Getitemtype (with control flow)"
+    },
+    {
+      "id": "snip_154",
+      "structural_key": "runworkflow.comment.url.url",
+      "canonical_dsl": "ELSE\nACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"1CD6BFAB-C028-463D-A58D-9B10B08667E6\", \"workflowName\": \"Grab YouTube playlist ID\", \"isSelf\": false} WFWorkflowName=\"Grab YouTube playlist ID\"\nACTION comment WFCommentActionText=\"If you don\u2019t want the Grab YouTube playlist ID shortcut installed, delete the Run Shortcut action above and the URL action below.\n\nHowever, the shortcut won\u2019t work with links from videos inside playlists (like https://www.youtube.com/watch?v=VIDEOID&list=PLAYLIST) anymore.\"\nACTION url WFURLActionURL=`https://www.youtube.com/playlist?list={@prev}`\nENDIF\nELSE\nACTION url WFURLActionURL=`https://www.youtube.com/playlist?list={$__v1}`",
+      "action_count": 4,
+      "frequency": 10,
+      "score": 11.25,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Run shortcut, Comment, Create URL, Create URL (with control flow)"
+    },
+    {
+      "id": "snip_155",
+      "structural_key": "getvalueforkey.choosefromlist.getvalueforkey.getitemtype.getvalueforkey.choosefromlist.getvalueforkey.getvariable",
+      "canonical_dsl": "ACTION getvalueforkey WFGetDictionaryValueType=\"All Keys\"\nACTION choosefromlist WFChooseFromListActionPrompt=\"Which group?\"\nACTION getvalueforkey WFDictionaryKey=`{@prev}`\nACTION getitemtype\nIF ...\n  ACTION getvalueforkey WFGetDictionaryValueType=\"All Keys\"\n  ACTION choosefromlist WFChooseFromListActionPrompt=\"Which section?\"\n  ACTION getvalueforkey WFDictionaryKey=`{@prev}`\nELSE\n  ACTION getvariable WFVariable=@getvalueforkey",
+      "action_count": 8,
+      "frequency": 15,
+      "score": 11.25,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Getvalueforkey, Choose from list, Getvalueforkey, Getitemtype, Getvalueforkey, Choose from list, Getvalueforkey, Get variable (with control flow)"
+    },
+    {
+      "id": "snip_156",
+      "structural_key": "selectcontacts.properties.contacts.properties.contacts.gettext.ask.sendmessage",
+      "canonical_dsl": "SET $__v1 = @prev\nACTION selectcontacts\nACTION properties.contacts WFContentItemPropertyName=\"Nickname\"\nIF ...\n  ACTION properties.contacts WFContentItemPropertyName=\"First Name\"\nENDIF\nSET $__v2 = @conditional\nACTION gettext WFTextActionText=`Hey {$__v2}, thank you for the {$__v1}`\nACTION ask WFAskActionDefaultAnswer=`{@prev}` WFAskActionPrompt=`What do you want your message to {@selectcontacts}to say?`\nACTION sendmessage WFSendMessageContent=`{@prev}` WFSendMessageActionRecipients=@selectcontacts",
+      "action_count": 6,
+      "frequency": 9,
+      "score": 11.25,
+      "domain_tags": [
+        "messaging",
+        "text_processing"
+      ],
+      "description": "Selectcontacts, Get contact property, Get contact property, Get text, Ask for input, Send message (with control flow)"
+    },
+    {
+      "id": "snip_157",
+      "structural_key": "urlencode.url.openurl",
+      "canonical_dsl": "ACTION urlencode\nACTION url WFURLActionURL=`barcelona://create?text={@prev}`\nACTION openurl",
+      "action_count": 3,
+      "frequency": 11,
+      "score": 11.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Urlencode, Create URL, Open URL"
+    },
+    {
+      "id": "snip_158",
+      "structural_key": "gettext.showresult.ask",
+      "canonical_dsl": "ACTION gettext WFTextActionText=\"|\uffe3\uffe3\uffe3\uffe3\uffe3\uffe3\uffe3\uffe3\uffe3\uffe3\uffe3|\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 Be sweet \n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 when you tweet\n|\uff3f\uff3f\uff3f\uff3f\uff3f\uff3f\uff3f\uff3f\uff3f\uff3f\uff3f| \n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \\ (\u2022\u25e1\u2022) / \n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 \\\u00a0\u00a0\u00a0\u00a0\u00a0 / \n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 ---\n\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0\u00a0 |\u00a0\u00a0 |\"\nACTION showresult Text=`Here's what you are making:\\n\\n{@prev}`\nACTION ask WFAskActionPrompt=\"First line? (Two words best)\"",
+      "action_count": 3,
+      "frequency": 11,
+      "score": 11.0,
+      "domain_tags": [
+        "text_processing",
+        "user_feedback"
+      ],
+      "description": "Get text, Show result, Ask for input"
+    },
+    {
+      "id": "snip_159",
+      "structural_key": "getclipboard.detect.link",
+      "canonical_dsl": "ACTION getclipboard\nELSE\nACTION detect.link",
+      "action_count": 2,
+      "frequency": 7,
+      "score": 10.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Get clipboard, Detect link (with control flow)"
+    },
+    {
+      "id": "snip_160",
+      "structural_key": "comment.detect.link",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Use this shortcut to insert links into Things in a custom format so that you have the URL in the notes as well as relevant information from the author/title, plus a custom title so you know how to act on the link when the time comes.\n\nThis shortcut employs a default method for extracting information from articles, plus looks at the webpage content if not article is found.\n\nThis shortcut also utilizes multiple custom scraping shortcuts to extract details from Twitter, YouTube, Reddit, and Mastodon URLs when found \u2014 these subroutines are available for members only: https://matthewcassinelli.com/membership\n\nThe final task in Things is tagged with Research, Less Than 15 Minutes, Medium Energy, and iPhone, Pad, & Mac, then placed in the Inbox.\"\nACTION detect.link\nIF ...",
+      "action_count": 2,
+      "frequency": 7,
+      "score": 10.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Detect link (with control flow)"
+    },
+    {
+      "id": "snip_161",
+      "structural_key": "ask.searchitunes",
+      "canonical_dsl": "CASE ...\nACTION ask WFAskActionPrompt=\"Enter your search:\" WFAllowsMultilineText=false\nACTION searchitunes WFAttribute=\"All\" WFSearchTerm=`{@prev}` WFMediaType=\"Movies\" WFEntity=\"Movies\"",
+      "action_count": 2,
+      "frequency": 7,
+      "score": 10.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Ask for input, Searchitunes (with control flow)"
+    },
+    {
+      "id": "snip_162",
+      "structural_key": "choosefromlist.getvalueforkey.getvariable",
+      "canonical_dsl": "ACTION choosefromlist WFChooseFromListActionPrompt=\"Which one?\"\nACTION getvalueforkey WFDictionaryKey=`{@prev}`\nELSE\nACTION getvariable WFVariable=$__v1\nENDIF",
+      "action_count": 3,
+      "frequency": 7,
+      "score": 10.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Choose from list, Getvalueforkey, Get variable (with control flow)"
+    },
+    {
+      "id": "snip_163",
+      "structural_key": "url.openurl.openapp",
+      "canonical_dsl": "IF ...\n  ACTION url WFURLActionURL=\"gmail.com\"\n  ACTION openurl\nELSE\n  ACTION openapp",
+      "action_count": 3,
+      "frequency": 7,
+      "score": 10.5,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Create URL, Open URL, Open app (with control flow)"
+    },
+    {
+      "id": "snip_164",
+      "structural_key": "comment.com.apple.iWork.Keynote.TSADocumentCreateIntent",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Presents a menu of Basic themes from Keynote to create \u2013 choose from Basic White, Basic Black, Classic White, White, and Black.\"\nMENU ...\nCASE ...\n  ACTION com.apple.iWork.Keynote.TSADocumentCreateIntent templateItem={\"displayString\": \"Basic White\", \"identifier\": \"Application/21_BasicWhite/Wide\"}\nCASE ...",
+      "action_count": 2,
+      "frequency": 7,
+      "score": 10.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Com apple iWork Keynote TSADocumentCreateIntent (with control flow)"
+    },
+    {
+      "id": "snip_165",
+      "structural_key": "openapp.gettext",
+      "canonical_dsl": "ACTION openapp WFSelectedApp={\"BundleIdentifier\": \"com.elgato.StreamDeck\", \"Name\": \"Elgato Stream Deck\", \"TeamIdentifier\": \"Y93VXCB8Q5\"} WFAppIdentifier=\"com.elgato.StreamDeck\"\nELSE\nACTION gettext WFTextActionText=\"Stream Deck\"",
+      "action_count": 2,
+      "frequency": 7,
+      "score": 10.5,
+      "domain_tags": [
+        "text_processing"
+      ],
+      "description": "Open app, Get text (with control flow)"
+    },
+    {
+      "id": "snip_166",
+      "structural_key": "comment.openapp.gettext",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Opens the Stream Deck app to let you customize the icons. When run from iOS, uses Remote Login to open the app on your Mac.\"\nIF ...\n  ACTION openapp WFSelectedApp={\"BundleIdentifier\": \"com.elgato.StreamDeck\", \"Name\": \"Elgato Stream Deck\", \"TeamIdentifier\": \"Y93VXCB8Q5\"} WFAppIdentifier=\"com.elgato.StreamDeck\"\nELSE\n  ACTION gettext WFTextActionText=\"Stream Deck\"",
+      "action_count": 3,
+      "frequency": 7,
+      "score": 10.5,
+      "domain_tags": [
+        "text_processing"
+      ],
+      "description": "Comment, Open app, Get text (with control flow)"
+    },
+    {
+      "id": "snip_167",
+      "structural_key": "comment.openapp.gettext.runsshscript",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Opens the Stream Deck app to let you customize the icons. When run from iOS, uses Remote Login to open the app on your Mac.\"\nIF ...\n  ACTION openapp WFSelectedApp={\"BundleIdentifier\": \"com.elgato.StreamDeck\", \"Name\": \"Elgato Stream Deck\", \"TeamIdentifier\": \"Y93VXCB8Q5\"} WFAppIdentifier=\"com.elgato.StreamDeck\"\nELSE\n  ACTION gettext WFTextActionText=\"Stream Deck\"\n  ACTION runsshscript WFSSHScript=`caffeinate -u -t 2\\n\\nosascript -e 'tell application \"{@prev}\" to activate\\ntell application \"System Events\" \\ndelay 1\\nkey code 123\\nend tell'`\nENDIF",
+      "action_count": 4,
+      "frequency": 7,
+      "score": 10.5,
+      "domain_tags": [
+        "text_processing"
+      ],
+      "description": "Comment, Open app, Get text, Runsshscript (with control flow)"
+    },
+    {
+      "id": "snip_168",
+      "structural_key": "comment.playpodcast",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"This shortcut makes it easy to kick of Apple News Today, the show provided by two journalists to cover important or interesting stories also found in the Apple News app.\n\nI\u2019m a big fan of the hosts, it\u2019s helpful for keeping up with major stories in the news, and it\u2019s short enough that I can listen to it while making breakfast in the morning.\"\nACTION playpodcast WFPodcastShow={\"podcastUUID\": \"ADE330FF-507F-4A75-B537-85614E011815\", \"kind\": \"podcast\", \"collectionName\": \"Apple News Today\", \"feedUrl\": \"https://apple.news/podcast/apple_news_today\", \"collectionId\": \"1473872585\"}\nCASE ...",
+      "action_count": 2,
+      "frequency": 7,
+      "score": 10.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Playpodcast (with control flow)"
+    },
+    {
+      "id": "snip_169",
+      "structural_key": "openin.url",
+      "canonical_dsl": "ACTION openin WFOpenInAskWhenRun=false\nELSE\nACTION url WFURLActionURL=\"prefs:root=Privacy\"",
+      "action_count": 2,
+      "frequency": 7,
+      "score": 10.5,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Openin, Create URL (with control flow)"
+    },
+    {
+      "id": "snip_170",
+      "structural_key": "comment.com.apple.TVRemoteUIService.WakeAppleTVIntent",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Opens the Disney app on Apple TV or website if run from Mac.\"\nIF ...\n  MENU ...\n  CASE ...\n    ACTION com.apple.TVRemoteUIService.WakeAppleTVIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"}",
+      "action_count": 2,
+      "frequency": 7,
+      "score": 10.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Com apple TVRemoteUIService WakeAppleTVIntent (with control flow)"
+    },
+    {
+      "id": "snip_171",
+      "structural_key": "url.showwebpage.openurl",
+      "canonical_dsl": "ACTION url WFURLActionURL=`{@prev}/conversations`\nIF ...\n  ACTION showwebpage WFURL=`{@prev}`\nELSE\n  ACTION openurl",
+      "action_count": 3,
+      "frequency": 7,
+      "score": 10.5,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Create URL, Showwebpage, Open URL (with control flow)"
+    },
+    {
+      "id": "snip_172",
+      "structural_key": "dictionary.getvalueforkey.choosefromlist.getvalueforkey",
+      "canonical_dsl": "ACTION dictionary WFItems={\"Value\": {\"WFDictionaryFieldValueItems\": {\"CUSTOM_GEM_TITLE\": \"INSERT_ID_HERE\", \"Brainstormer\": \"brainstormer\", \"Coding Partner\": \"coding-partner\", \"Learning Coach\": \"learning-coach\", \"Writing Editor\": \"writing-editor\"}}, \"WFSerializationType\": \"WFDictionaryFieldValue\"}\nACTION getvalueforkey WFGetDictionaryValueType=\"All Keys\"\nACTION choosefromlist WFChooseFromListActionPrompt=\"Which gem?\"\nACTION getvalueforkey WFDictionaryKey=`{@prev}`\nSET $__v1 = @prev",
+      "action_count": 4,
+      "frequency": 14,
+      "score": 10.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Dictionary, Getvalueforkey, Choose from list, Getvalueforkey"
+    },
+    {
+      "id": "snip_173",
+      "structural_key": "runworkflow.comment",
+      "canonical_dsl": "ELSE\nACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"1CD6BFAB-C028-463D-A58D-9B10B08667E6\", \"workflowName\": \"Grab YouTube playlist ID\", \"isSelf\": false} WFWorkflowName=\"Grab YouTube playlist ID\"\nACTION comment WFCommentActionText=\"If you don\u2019t want the Grab YouTube playlist ID shortcut installed, delete the Run Shortcut action above and the URL action below.\n\nHowever, the shortcut won\u2019t work with links from videos inside playlists (like https://www.youtube.com/watch?v=VIDEOID&list=PLAYLIST) anymore.\"",
+      "action_count": 2,
+      "frequency": 7,
+      "score": 10.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Run shortcut, Comment (with control flow)"
+    },
+    {
+      "id": "snip_174",
+      "structural_key": "getarticle.properties.articles.nothing.showresult.exit",
+      "canonical_dsl": "IF ...\n  IF ...\n    ACTION getarticle WFWebPage=`{@detect_link}`\n    ACTION properties.articles WFContentItemPropertyName=\"Excerpt\"\n  ELSE\n    ACTION nothing\n  ENDIF\nELSE\n  ACTION showresult Text=\"No URL found!\"\n  ACTION exit",
+      "action_count": 5,
+      "frequency": 7,
+      "score": 10.5,
+      "domain_tags": [
+        "user_feedback"
+      ],
+      "description": "Getarticle, Properties articles, Nothing, Show result, Exit shortcut (with control flow)"
+    },
+    {
+      "id": "snip_175",
+      "structural_key": "properties.images.image.resize",
+      "canonical_dsl": "ACTION properties.images WFContentItemPropertyName=\"Height\"\nFOREACH @prev\n  ACTION image.resize WFImageResizeHeight=@prev WFImageResizeWidth=\"\" WFImage=$__v1",
+      "action_count": 2,
+      "frequency": 7,
+      "score": 10.5,
+      "domain_tags": [
+        "media"
+      ],
+      "description": "Properties images, Resize image (with control flow)"
+    },
+    {
+      "id": "snip_176",
+      "structural_key": "gettext.com.apple.mobilenotes.SharingExtension",
+      "canonical_dsl": "CASE ...\nACTION gettext WFTextActionText=`Quote from {$__v1}\\n\\n`\nACTION com.apple.mobilenotes.SharingExtension folder={\"title\": {\"key\": \"Quotes\"}, \"identifier\": \"x-coredata://5D503472-5C97-4424-B39B-F0B54ADCAF08/ICFolder/p31339?accountIdentifier=C6AB60CB-868C-41F9-A88D-9B7B71E0BB77\"} ShowWhenRun=false WFCreateNoteInput=`{@prev}` WFNoteGroup={\"Identifier\": \"x-coredata://5D503472-5C97-4424-B39B-F0B54ADCAF08/ICFolder/p31339?accountIdentifier=C6AB60CB-868C-41F9-A88D-9B7B71E0BB77\", \"DisplayString\": \"Quotes\"} OpenWhenRun=false",
+      "action_count": 2,
+      "frequency": 7,
+      "score": 10.5,
+      "domain_tags": [
+        "text_processing"
+      ],
+      "description": "Get text, Com apple mobilenotes SharingExtension (with control flow)"
+    },
+    {
+      "id": "snip_177",
+      "structural_key": "ai.perplexity.mac.NewProQueryIntent.runsshscript",
+      "canonical_dsl": "ACTION ai.perplexity.mac.NewProQueryIntent\nELSE\nACTION runsshscript WFSSHScript=\"osascript -e 'tell application \"Shortcuts\" \nrun shortcut \"Voice Mode in Perplexity\"\nend tell'\"",
+      "action_count": 2,
+      "frequency": 7,
+      "score": 10.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Ai perplexity mac NewProQueryIntent, Runsshscript (with control flow)"
+    },
+    {
+      "id": "snip_178",
+      "structural_key": "comment.homeaccessory",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Sets the Hue lamps on the side tables in my bedroom on/off.\"\nIF ...\n  ACTION homeaccessory WFHomeTriggerActionSets={\"WFHFTriggerActionSetsBuilderParameterStateActionSets\": [{\"HMActionSetSerializedDictionaryProtocol\": \"ProtoBuf\", \"HMActionSetSerializedData\": \"<binary:649bytes>\", \"HMActionSetSerializedDictionaryVersion\": \"1.0\"}], \"WFHFTriggerActionSetsBuilderParameterStateHome\": \"A21E2F4C-F149-4C30-B1CA-6935E385D8D0\"}",
+      "action_count": 2,
+      "frequency": 7,
+      "score": 10.5,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Homeaccessory (with control flow)"
+    },
+    {
+      "id": "snip_179",
+      "structural_key": "detect.dictionary.getvalueforkey.choosefromlist.getvalueforkey",
+      "canonical_dsl": "IF ...\n  ACTION detect.dictionary\n  ACTION getvalueforkey WFGetDictionaryValueType=\"All Keys\"\n  ACTION choosefromlist WFChooseFromListActionPrompt=\"Which one?\"\n  ACTION getvalueforkey WFDictionaryKey=`{@prev}`",
+      "action_count": 4,
+      "frequency": 9,
+      "score": 10.125,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Parse JSON dictionary, Getvalueforkey, Choose from list, Getvalueforkey (with control flow)"
+    },
+    {
+      "id": "snip_180",
+      "structural_key": "ask.gettext",
+      "canonical_dsl": "ACTION ask\nACTION gettext WFTextActionText=\"Apple Watch\niPhone\niPad\nMac\"\nSET $__v1 = @prev",
+      "action_count": 2,
+      "frequency": 10,
+      "score": 10.0,
+      "domain_tags": [
+        "text_processing"
+      ],
+      "description": "Ask for input, Get text"
+    },
+    {
+      "id": "snip_181",
+      "structural_key": "comment.comment.useractivity.open",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Opens Halide in Auto Mode for a quick photo shooting experience.\"\nACTION comment WFCommentActionText=\"Use this shortcut to take photos right away with Halide using Auto Mode so you don\u2019t have to focus on the controls.\"\nACTION useractivity.open AppBundleIdentifier=\"com.chromanoir.Zeit\" UserActivityData=\"<binary:1511bytes>\" UserActivityDescriptor={\"TeamIdentifier\": \"92BR85VG4R\", \"BundleIdentifier\": \"com.chromanoir.Zeit\", \"Name\": \"Halide\", \"UserActivityType\": \"com.chromanoir.halide.take-photo\"}",
+      "action_count": 3,
+      "frequency": 15,
+      "score": 10.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Comment, Useractivity open"
+    },
+    {
+      "id": "snip_182",
+      "structural_key": "getvariable.getvariable.detect.link",
+      "canonical_dsl": "ACTION getvariable WFVariable=@getvalueforkey\nENDIF\nELSE\nACTION getvariable WFVariable=$__v1\nENDIF\nSET $__v2 = @conditional\nACTION detect.link",
+      "action_count": 3,
+      "frequency": 10,
+      "score": 10.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Get variable, Get variable, Detect link (with control flow)"
+    },
+    {
+      "id": "snip_183",
+      "structural_key": "getvariable.detect.link.detect.link",
+      "canonical_dsl": "ACTION getvariable WFVariable=$__v1\nENDIF\nSET $__v2 = @conditional\nACTION detect.link\nIF ...\n  IF ...\n    ACTION detect.link",
+      "action_count": 3,
+      "frequency": 10,
+      "score": 10.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Get variable, Detect link, Detect link (with control flow)"
+    },
+    {
+      "id": "snip_184",
+      "structural_key": "getitemtype.getvalueforkey.choosefromlist.getvalueforkey.getvariable.getvariable",
+      "canonical_dsl": "ACTION getitemtype\nIF ...\n  ACTION getvalueforkey WFGetDictionaryValueType=\"All Keys\"\n  ACTION choosefromlist WFChooseFromListActionPrompt=\"Which section?\"\n  ACTION getvalueforkey WFDictionaryKey=`{@prev}`\nELSE\n  ACTION getvariable WFVariable=@getvalueforkey\nENDIF\nELSE\nACTION getvariable WFVariable=$__v1",
+      "action_count": 6,
+      "frequency": 10,
+      "score": 10.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Getitemtype, Getvalueforkey, Choose from list, Getvalueforkey, Get variable, Get variable (with control flow)"
+    },
+    {
+      "id": "snip_185",
+      "structural_key": "detect.link.runworkflow.comment.url.url.detect.link",
+      "canonical_dsl": "ACTION detect.link\nELSE\nACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"1CD6BFAB-C028-463D-A58D-9B10B08667E6\", \"workflowName\": \"Grab YouTube playlist ID\", \"isSelf\": false} WFWorkflowName=\"Grab YouTube playlist ID\"\nACTION comment WFCommentActionText=\"If you don\u2019t want the Grab YouTube playlist ID shortcut installed, delete the Run Shortcut action above and the URL action below.\n\nHowever, the shortcut won\u2019t work with links from videos inside playlists (like https://www.youtube.com/watch?v=VIDEOID&list=PLAYLIST) anymore.\"\nACTION url WFURLActionURL=`https://www.youtube.com/playlist?list={@prev}`\nENDIF\nELSE\nACTION url WFURLActionURL=`https://www.youtube.com/playlist?list={$__v1}`\nENDIF\nACTION detect.link",
+      "action_count": 6,
+      "frequency": 10,
+      "score": 10.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Detect link, Run shortcut, Comment, Create URL, Create URL, Detect link (with control flow)"
+    },
+    {
+      "id": "snip_186",
+      "structural_key": "getvalueforkey.choosefromlist.getvalueforkey.getvariable.getvariable.detect.link",
+      "canonical_dsl": "IF ...\n  ACTION getvalueforkey WFGetDictionaryValueType=\"All Keys\"\n  ACTION choosefromlist WFChooseFromListActionPrompt=\"Which section?\"\n  ACTION getvalueforkey WFDictionaryKey=`{@prev}`\nELSE\n  ACTION getvariable WFVariable=@getvalueforkey\nENDIF\nELSE\nACTION getvariable WFVariable=$__v1\nENDIF\nSET $__v2 = @conditional\nACTION detect.link",
+      "action_count": 6,
+      "frequency": 10,
+      "score": 10.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Getvalueforkey, Choose from list, Getvalueforkey, Get variable, Get variable, Detect link (with control flow)"
+    },
+    {
+      "id": "snip_187",
+      "structural_key": "detect.link.detect.link.runworkflow.comment.url.url",
+      "canonical_dsl": "SET $__v1 = @conditional\nACTION detect.link\nIF ...\n  IF ...\n    ACTION detect.link\n  ELSE\n    ACTION runworkflow WFWorkflow={\"workflowIdentifier\": \"1CD6BFAB-C028-463D-A58D-9B10B08667E6\", \"workflowName\": \"Grab YouTube playlist ID\", \"isSelf\": false} WFWorkflowName=\"Grab YouTube playlist ID\"\n    ACTION comment WFCommentActionText=\"If you don\u2019t want the Grab YouTube playlist ID shortcut installed, delete the Run Shortcut action above and the URL action below.\n\nHowever, the shortcut won\u2019t work with links from videos inside playlists (like https://www.youtube.com/watch?v=VIDEOID&list=PLAYLIST) anymore.\"\n    ACTION url WFURLActionURL=`https://www.youtube.com/playlist?list={@prev}`\n  ENDIF\nELSE\n  ACTION url WFURLActionURL=`https://www.youtube.com/playlist?list={$__v1}`",
+      "action_count": 6,
+      "frequency": 10,
+      "score": 10.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Detect link, Detect link, Run shortcut, Comment, Create URL, Create URL (with control flow)"
+    },
+    {
+      "id": "snip_188",
+      "structural_key": "com.apple.TVRemoteUIService.WakeAppleTVIntent.com.apple.TVRemoteUIService.LaunchApplicationIntent.com.apple.TVRemoteUIService.LaunchRemoteIntent.com.apple.TVRemoteUIService.WakeAppleTVIntent.com.apple.TVRemoteUIService.LaunchApplicationIntent",
+      "canonical_dsl": "CASE ...\nACTION com.apple.TVRemoteUIService.WakeAppleTVIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"}\nACTION com.apple.TVRemoteUIService.LaunchApplicationIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"} application={\"displayString\": \"Settings\", \"pronunciationHint\": \"Settings\", \"identifier\": \"com.apple.TVSettings\"} ShowWhenRun=false\nACTION com.apple.TVRemoteUIService.LaunchRemoteIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"}\nCASE ...\nACTION com.apple.TVRemoteUIService.WakeAppleTVIntent device={\"displayString\": \"Family Room TV\", \"pronunciationHint\": \"Family Room TV\", \"identifier\": \"ebbd24874a17\"}\nACTION com.apple.TVRemoteUIService.LaunchApplicationIntent device={\"displayString\": \"Family Room TV\", \"pronunciationHint\": \"Family Room TV\", \"identifier\": \"ebbd24874a17\"} application={\"displayString\": \"Settings\", \"pronunciationHint\": \"Settings\", \"identifier\": \"com.apple.TVSettings\"} ShowWhenRun=false",
+      "action_count": 5,
+      "frequency": 11,
+      "score": 9.9,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Com apple TVRemoteUIService WakeAppleTVIntent, Com apple TVRemoteUIService LaunchApplicationIntent, Com apple TVRemoteUIService LaunchRemoteIntent, Com apple TVRemoteUIService WakeAppleTVIntent, Com apple TVRemoteUIService LaunchApplicationIntent (with control flow)"
+    },
+    {
+      "id": "snip_189",
+      "structural_key": "com.apple.TVRemoteUIService.LaunchApplicationIntent.com.apple.TVRemoteUIService.LaunchRemoteIntent.com.apple.TVRemoteUIService.WakeAppleTVIntent.com.apple.TVRemoteUIService.LaunchApplicationIntent.com.apple.TVRemoteUIService.LaunchRemoteIntent",
+      "canonical_dsl": "ACTION com.apple.TVRemoteUIService.LaunchApplicationIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"} application={\"displayString\": \"Settings\", \"pronunciationHint\": \"Settings\", \"identifier\": \"com.apple.TVSettings\"} ShowWhenRun=false\nACTION com.apple.TVRemoteUIService.LaunchRemoteIntent device={\"displayString\": \"Living Room TV\", \"pronunciationHint\": \"Living Room TV\", \"identifier\": \"af50d3fa05e6\"}\nCASE ...\nACTION com.apple.TVRemoteUIService.WakeAppleTVIntent device={\"displayString\": \"Family Room TV\", \"pronunciationHint\": \"Family Room TV\", \"identifier\": \"ebbd24874a17\"}\nACTION com.apple.TVRemoteUIService.LaunchApplicationIntent device={\"displayString\": \"Family Room TV\", \"pronunciationHint\": \"Family Room TV\", \"identifier\": \"ebbd24874a17\"} application={\"displayString\": \"Settings\", \"pronunciationHint\": \"Settings\", \"identifier\": \"com.apple.TVSettings\"} ShowWhenRun=false\nACTION com.apple.TVRemoteUIService.LaunchRemoteIntent device={\"displayString\": \"Family Room TV\", \"pronunciationHint\": \"Family Room TV\", \"identifier\": \"ebbd24874a17\"}\nENDMENU",
+      "action_count": 5,
+      "frequency": 11,
+      "score": 9.9,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Com apple TVRemoteUIService LaunchApplicationIntent, Com apple TVRemoteUIService LaunchRemoteIntent, Com apple TVRemoteUIService WakeAppleTVIntent, Com apple TVRemoteUIService LaunchApplicationIntent, Com apple TVRemoteUIService LaunchRemoteIntent (with control flow)"
+    },
+    {
+      "id": "snip_190",
+      "structural_key": "com.apple.shortcuts.OpenNavigationDestinationAction.com.apple.shortcuts.OpenWorkflowAction.runworkflow",
+      "canonical_dsl": "CASE ...\nACTION com.apple.shortcuts.OpenNavigationDestinationAction target=@conditional\nACTION com.apple.shortcuts.OpenWorkflowAction target=@conditional\nCASE ...\nACTION runworkflow WFWorkflow=@conditional WFWorkflowName=@conditional",
+      "action_count": 3,
+      "frequency": 6,
+      "score": 9.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Com apple shortcuts OpenNavigationDestinationAction, Com apple shortcuts OpenWorkflowAction, Run shortcut (with control flow)"
+    },
+    {
+      "id": "snip_191",
+      "structural_key": "comment.com.apple.iWork.Numbers.TSADocumentCreateIntent",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Adds a template from the Basic category in Numbers, including blank, dark mode, table and chart, pivot table, charting basics, checklist, checklist total, and categories.\"\nMENU ...\nCASE ...\n  ACTION com.apple.iWork.Numbers.TSADocumentCreateIntent templateItem={\"displayString\": \"Blank\", \"identifier\": \"Application/Blank/Traditional\"}\nCASE ...",
+      "action_count": 2,
+      "frequency": 6,
+      "score": 9.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Com apple iWork Numbers TSADocumentCreateIntent (with control flow)"
+    },
+    {
+      "id": "snip_192",
+      "structural_key": "properties.articles.getwebpagecontents.getitemname",
+      "canonical_dsl": "IF ...\n  ACTION properties.articles WFContentItemPropertyName=\"Title\"\nELSE\n  ACTION getwebpagecontents\n  ACTION getitemname",
+      "action_count": 3,
+      "frequency": 6,
+      "score": 9.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Properties articles, Getwebpagecontents, Getitemname (with control flow)"
+    },
+    {
+      "id": "snip_193",
+      "structural_key": "getarticle.properties.articles.getwebpagecontents.getitemname",
+      "canonical_dsl": "ELSE\nACTION getarticle WFWebPage=`{$__v1}`\nIF ...\n  ACTION properties.articles WFContentItemPropertyName=\"Title\"\nELSE\n  ACTION getwebpagecontents\n  ACTION getitemname",
+      "action_count": 4,
+      "frequency": 6,
+      "score": 9.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Getarticle, Properties articles, Getwebpagecontents, Getitemname (with control flow)"
+    },
+    {
+      "id": "snip_194",
+      "structural_key": "comment.ask.text.split",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Takes text, splits it by new lines, and adds an asterisk and a space before each for pasting as a list in Markdown-compatible apps.\"\nIF ...\n  ACTION ask WFAskActionDefaultAnswer=`{@Clipboard}` WFAskActionPrompt=\"What text?\"\nENDIF\nACTION text.split text=@Input",
+      "action_count": 3,
+      "frequency": 6,
+      "score": 9.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Ask for input, Text split (with control flow)"
+    },
+    {
+      "id": "snip_195",
+      "structural_key": "getvariable.text.split",
+      "canonical_dsl": "ACTION getvariable WFVariable=@input\nENDIF\nACTION text.split text=@conditional",
+      "action_count": 2,
+      "frequency": 6,
+      "score": 9.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Get variable, Text split (with control flow)"
+    },
+    {
+      "id": "snip_196",
+      "structural_key": "count.math",
+      "canonical_dsl": "ACTION count Input=@prev\nREPEAT ...\n  ACTION math WFMathOperand=\"1\"",
+      "action_count": 2,
+      "frequency": 6,
+      "score": 9.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Count items, Math (with control flow)"
+    },
+    {
+      "id": "snip_197",
+      "structural_key": "url.openurl.delay",
+      "canonical_dsl": "ACTION url WFURLActionURL=`{$__v1}?upnext=true`\nACTION openurl\nACTION delay WFDelayTime=2",
+      "action_count": 3,
+      "frequency": 9,
+      "score": 9.0,
+      "domain_tags": [
+        "networking"
+      ],
+      "description": "Create URL, Open URL, Delay"
+    },
+    {
+      "id": "snip_198",
+      "structural_key": "getitemname.detect.link.url.addnewreminder",
+      "canonical_dsl": "ACTION getitemname GetWebPageTitle=true\nSET $__v1 = @prev\nACTION detect.link\nACTION url WFURLActionURL=`{@prev}?upnext=true`\nACTION addnewreminder WFCalendarItemCalendar=\"Entertainment\" WFFlag=true WFCalendarDescriptor={\"Identifier\": \"<x-apple-reminderkit://REMCDList/14B8A917-0673-4F04-B816-A918C3798CB4>\", \"Title\": \"Entertainment\", \"IsAllCalendar\": false} WFCalendarItemTitle=`{$__v1}` WFURL=`{@prev}`",
+      "action_count": 4,
+      "frequency": 9,
+      "score": 9.0,
+      "domain_tags": [
+        "networking",
+        "scheduling"
+      ],
+      "description": "Getitemname, Detect link, Create URL, Add reminder"
+    },
+    {
+      "id": "snip_199",
+      "structural_key": "ask.filter.notes.detect.text.comment.text.replace",
+      "canonical_dsl": "CASE ...\nACTION ask WFAskActionPrompt=\"Add the titles for media you want to work with:\"\nCASE ...\nACTION filter.notes WFContentItemSortProperty=\"Last Modified Date\" WFContentItemSortOrder=\"Latest First\" WFContentItemLimitNumber=1 WFContentItemLimitEnabled=true WFContentItemFilter={\"Value\": {\"WFContentPredicateBoundedDate\": false, \"WFActionParameterFilterPrefix\": 1, \"WFActionParameterFilterTemplates\": [{\"Operator\": 99, \"Values\": {\"Unit\": 4, \"String\": \"Watchlist\"}, \"Removable\": true, \"Property\": \"Name\"}]}, \"WFSerializationType\": \"WFContentPredicateTableTemplate\"}\nACTION detect.text\nACTION comment WFCommentActionText=\"Use regular expression to remove bullets and tabs.\n\nWhen Notes brings in bulleted lists, it creates a list item with a tab after the bullet, and then the following items are nested with a tab before the bullet.\"\nACTION text.replace WFReplaceTextRegularExpression=true WFReplaceTextFind=\"\t?\u25e6\t\"",
+      "action_count": 5,
+      "frequency": 6,
+      "score": 9.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Ask for input, Filter notes, Detect text, Comment, Text replace (with control flow)"
+    },
+    {
+      "id": "snip_200",
+      "structural_key": "comment.getclipboard",
+      "canonical_dsl": "ACTION comment WFCommentActionText=\"Clean out any unnecessary information and act on the location in the process as well.\"\nIF ...\n  ACTION getclipboard",
+      "action_count": 2,
+      "frequency": 6,
+      "score": 9.0,
+      "domain_tags": [
+        "general"
+      ],
+      "description": "Comment, Get clipboard (with control flow)"
+    }
+  ]
+}

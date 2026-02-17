@@ -1,0 +1,6558 @@
+{
+  "per_shortcut": {
+    "Google: API_Auth": {
+      "file": "Google__API_Auth.xml",
+      "total_actions": 176,
+      "unique_action_types": 33,
+      "action_counts": {
+        "is.workflow.actions.conditional": 43,
+        "is.workflow.actions.setvariable": 28,
+        "is.workflow.actions.gettext": 28,
+        "is.workflow.actions.comment": 22,
+        "is.workflow.actions.getvalueforkey": 5,
+        "is.workflow.actions.alert": 5,
+        "is.workflow.actions.count": 4,
+        "is.workflow.actions.documentpicker.save": 4,
+        "is.workflow.actions.dictionary": 3,
+        "is.workflow.actions.documentpicker.open": 3,
+        "is.workflow.actions.text.match": 2,
+        "is.workflow.actions.text.match.getgroup": 2,
+        "is.workflow.actions.getwifi": 2,
+        "is.workflow.actions.exit": 2,
+        "is.workflow.actions.format.date": 2,
+        "is.workflow.actions.openurl": 2,
+        "is.workflow.actions.output": 2,
+        "is.workflow.actions.ask": 2,
+        "is.workflow.actions.file": 1,
+        "is.workflow.actions.list": 1,
+        "is.workflow.actions.date": 1,
+        "is.workflow.actions.detect.date": 1,
+        "is.workflow.actions.gettimebetweendates": 1,
+        "is.workflow.actions.downloadurl": 1,
+        "is.workflow.actions.getitemtype": 1,
+        "is.workflow.actions.text.changecase": 1,
+        "is.workflow.actions.number": 1,
+        "is.workflow.actions.getitemfromlist": 1,
+        "is.workflow.actions.setitemname": 1,
+        "is.workflow.actions.choosefromlist": 1,
+        "is.workflow.actions.nothing": 1,
+        "is.workflow.actions.delay": 1,
+        "is.workflow.actions.runworkflow": 1
+      }
+    },
+    "Household: Inventory": {
+      "file": "Household__Inventory.xml",
+      "total_actions": 205,
+      "unique_action_types": 39,
+      "action_counts": {
+        "is.workflow.actions.choosefrommenu": 37,
+        "is.workflow.actions.conditional": 36,
+        "is.workflow.actions.setvariable": 18,
+        "is.workflow.actions.gettext": 17,
+        "is.workflow.actions.repeat.each": 10,
+        "dk.simonbs.DataJar.GetValueIntent": 8,
+        "is.workflow.actions.alert": 6,
+        "is.workflow.actions.appendvariable": 6,
+        "is.workflow.actions.ask": 6,
+        "is.workflow.actions.comment": 5,
+        "dk.simonbs.DataJar.SetValueIntent": 5,
+        "is.workflow.actions.dictionary": 4,
+        "is.workflow.actions.choosefromlist": 4,
+        "com.alexhay.ToolboxProForShortcuts.SortListIntent": 4,
+        "is.workflow.actions.runworkflow": 4,
+        "dk.simonbs.DataJar.DeleteValueIntent": 3,
+        "is.workflow.actions.math": 3,
+        "is.workflow.actions.url": 3,
+        "is.workflow.actions.documentpicker.open": 2,
+        "is.workflow.actions.count": 2,
+        "is.workflow.actions.getvalueforkey": 2,
+        "dk.simonbs.DataJar.GetKeysIntent": 2,
+        "is.workflow.actions.repeat.count": 2,
+        "is.workflow.actions.file.createfolder": 1,
+        "is.workflow.actions.setvalueforkey": 1,
+        "is.workflow.actions.documentpicker.save": 1,
+        "is.workflow.actions.detect.dictionary": 1,
+        "is.workflow.actions.number": 1,
+        "is.workflow.actions.list": 1,
+        "dk.simonbs.DataJar.CheckIfValueExistsIntent": 1,
+        "is.workflow.actions.dropbox.open": 1,
+        "is.workflow.actions.previewdocument": 1,
+        "is.workflow.actions.file.append": 1,
+        "is.workflow.actions.dropbox.savefile": 1,
+        "is.workflow.actions.getipaddress": 1,
+        "is.workflow.actions.downloadurl": 1,
+        "is.workflow.actions.getwebpagecontents": 1,
+        "is.workflow.actions.openurl": 1,
+        "is.workflow.actions.output": 1
+      }
+    },
+    "Nutrition_Installer": {
+      "file": "Nutrition_Installer.xml",
+      "total_actions": 188,
+      "unique_action_types": 29,
+      "action_counts": {
+        "is.workflow.actions.conditional": 50,
+        "is.workflow.actions.setvariable": 38,
+        "is.workflow.actions.gettext": 15,
+        "is.workflow.actions.choosefrommenu": 14,
+        "is.workflow.actions.detect.dictionary": 10,
+        "is.workflow.actions.text.replace": 9,
+        "is.workflow.actions.number": 6,
+        "is.workflow.actions.documentpicker.save": 5,
+        "is.workflow.actions.downloadurl": 4,
+        "is.workflow.actions.repeat.count": 4,
+        "is.workflow.actions.appendvariable": 4,
+        "is.workflow.actions.documentpicker.open": 3,
+        "is.workflow.actions.ask": 3,
+        "is.workflow.actions.dictionary": 2,
+        "is.workflow.actions.getvalueforkey": 2,
+        "is.workflow.actions.exit": 2,
+        "is.workflow.actions.setvalueforkey": 2,
+        "is.workflow.actions.getrichtextfrommarkdown": 2,
+        "is.workflow.actions.repeat.each": 2,
+        "com.apple.mobilenotes.SharingExtension": 2,
+        "is.workflow.actions.count": 1,
+        "is.workflow.actions.choosefromlist": 1,
+        "is.workflow.actions.file.select": 1,
+        "is.workflow.actions.alert": 1,
+        "is.workflow.actions.previewdocument": 1,
+        "is.workflow.actions.date": 1,
+        "is.workflow.actions.getdevicedetails": 1,
+        "is.workflow.actions.setclipboard": 1,
+        "is.workflow.actions.shownote": 1
+      }
+    },
+    "Pro_AI": {
+      "file": "Pro_AI.xml",
+      "total_actions": 829,
+      "unique_action_types": 60,
+      "action_counts": {
+        "is.workflow.actions.conditional": 287,
+        "is.workflow.actions.choosefrommenu": 100,
+        "is.workflow.actions.gettext": 92,
+        "is.workflow.actions.setvariable": 70,
+        "is.workflow.actions.runworkflow": 22,
+        "is.workflow.actions.documentpicker.save": 22,
+        "is.workflow.actions.alert": 19,
+        "is.workflow.actions.getvalueforkey": 19,
+        "is.workflow.actions.downloadurl": 15,
+        "is.workflow.actions.dictionary": 12,
+        "is.workflow.actions.ask": 11,
+        "is.workflow.actions.openurl": 9,
+        "is.workflow.actions.showresult": 9,
+        "is.workflow.actions.speaktext": 9,
+        "is.workflow.actions.url": 8,
+        "is.workflow.actions.exit": 8,
+        "is.workflow.actions.documentpicker.open": 8,
+        "is.workflow.actions.setitemname": 7,
+        "is.workflow.actions.vibrate": 7,
+        "is.workflow.actions.choosefromlist": 6,
+        "is.workflow.actions.repeat.count": 6,
+        "is.workflow.actions.dictatetext": 6,
+        "is.workflow.actions.appendvariable": 6,
+        "is.workflow.actions.count": 5,
+        "is.workflow.actions.detect.images": 5,
+        "is.workflow.actions.comment": 4,
+        "is.workflow.actions.text.changecase": 4,
+        "is.workflow.actions.savetocameraroll": 4,
+        "com.openai.chat.AskIntent": 4,
+        "is.workflow.actions.file.delete": 3,
+        "is.workflow.actions.notification": 3,
+        "is.workflow.actions.getdevicedetails": 2,
+        "is.workflow.actions.getwifi": 2,
+        "is.workflow.actions.previewdocument": 2,
+        "is.workflow.actions.file.createfolder": 2,
+        "is.workflow.actions.base64encode": 2,
+        "is.workflow.actions.waittoreturn": 2,
+        "is.workflow.actions.number": 2,
+        "is.workflow.actions.recordaudio": 2,
+        "is.workflow.actions.setclipboard": 2,
+        "is.workflow.actions.setvalueforkey": 2,
+        "is.workflow.actions.getcurrentlocation": 1,
+        "is.workflow.actions.weather.currentconditions": 1,
+        "is.workflow.actions.dnd.getfocus": 1,
+        "is.workflow.actions.getbatterylevel": 1,
+        "is.workflow.actions.getupcomingevents": 1,
+        "is.workflow.actions.filter.reminders": 1,
+        "is.workflow.actions.getitemfromlist": 1,
+        "is.workflow.actions.list": 1,
+        "is.workflow.actions.openin": 1,
+        "is.workflow.actions.file": 1,
+        "is.workflow.actions.getmyworkflows": 1,
+        "is.workflow.actions.output": 1,
+        "is.workflow.actions.text.match": 1,
+        "is.workflow.actions.text.split": 1,
+        "is.workflow.actions.file.select": 1,
+        "is.workflow.actions.delay": 1,
+        "is.workflow.actions.selectphoto": 1,
+        "is.workflow.actions.takephoto": 1,
+        "com.apple.ShortcutsActions.TranscribeAudioAction": 1
+      }
+    },
+    "Sleep_Widget": {
+      "file": "Sleep_Widget.xml",
+      "total_actions": 1253,
+      "unique_action_types": 67,
+      "action_counts": {
+        "is.workflow.actions.conditional": 419,
+        "is.workflow.actions.setvariable": 141,
+        "is.workflow.actions.comment": 113,
+        "is.workflow.actions.appendvariable": 53,
+        "is.workflow.actions.gettext": 50,
+        "is.workflow.actions.number": 41,
+        "is.workflow.actions.count": 33,
+        "is.workflow.actions.math": 31,
+        "is.workflow.actions.adjustdate": 24,
+        "is.workflow.actions.getitemfromlist": 21,
+        "is.workflow.actions.detect.number": 20,
+        "is.workflow.actions.gettimebetweendates": 20,
+        "is.workflow.actions.setitemname": 18,
+        "is.workflow.actions.text.split": 17,
+        "is.workflow.actions.repeat.count": 16,
+        "is.workflow.actions.text.replace": 16,
+        "is.workflow.actions.detect.date": 13,
+        "is.workflow.actions.alert": 13,
+        "com.brogrammers.charty.AddSeriesToChartIntent": 13,
+        "is.workflow.actions.repeat.each": 10,
+        "is.workflow.actions.statistics": 10,
+        "is.workflow.actions.dictionary": 9,
+        "com.brogrammers.charty.StyleLineSeriesIntent": 9,
+        "is.workflow.actions.output": 8,
+        "is.workflow.actions.choosefrommenu": 8,
+        "is.workflow.actions.base64encode": 8,
+        "is.workflow.actions.text.match": 7,
+        "is.workflow.actions.date": 7,
+        "is.workflow.actions.filter.health.quantity": 7,
+        "is.workflow.actions.runworkflow": 6,
+        "is.workflow.actions.nothing": 6,
+        "is.workflow.actions.exit": 6,
+        "is.workflow.actions.url": 6,
+        "com.brogrammers.charty.StyleScatterSeriesIntent": 6,
+        "is.workflow.actions.getitemtype": 4,
+        "is.workflow.actions.notification": 4,
+        "is.workflow.actions.getwebpagecontents": 4,
+        "is.workflow.actions.detect.text": 4,
+        "is.workflow.actions.round": 4,
+        "is.workflow.actions.delay": 3,
+        "is.workflow.actions.makezip": 3,
+        "com.brogrammers.charty.StyleAxisIntent": 3,
+        "is.workflow.actions.getrichtextfrommarkdown": 2,
+        "is.workflow.actions.gethtmlfromrichtext": 2,
+        "is.workflow.actions.getrichtextfromhtml": 2,
+        "is.workflow.actions.openapp": 2,
+        "is.workflow.actions.returntohomescreen": 2,
+        "com.brogrammers.charty.UpdateWidgetsIntent": 2,
+        "is.workflow.actions.number.random": 2,
+        "is.workflow.actions.getvalueforkey": 2,
+        "com.brogrammers.charty.ExportChartAsImageIntent": 2,
+        "is.workflow.actions.unzip": 2,
+        "com.brogrammers.charty.AddMovingAverageIntent": 2,
+        "is.workflow.actions.filter.files": 2,
+        "is.workflow.actions.getipaddress": 2,
+        "is.workflow.actions.detect.dictionary": 2,
+        "is.workflow.actions.getdevicedetails": 1,
+        "is.workflow.actions.choosefromlist": 1,
+        "is.workflow.actions.previewdocument": 1,
+        "is.workflow.actions.ask": 1,
+        "com.brogrammers.charty.GetInfoAllChartsIntent": 1,
+        "com.brogrammers.charty.NewChartIntent": 1,
+        "com.brogrammers.charty.StyleChartIntent": 1,
+        "is.workflow.actions.showwebpage": 1,
+        "is.workflow.actions.format.date": 1,
+        "is.workflow.actions.downloadurl": 1,
+        "is.workflow.actions.openurl": 1
+      }
+    }
+  },
+  "unique_actions": {
+    "com.alexhay.ToolboxProForShortcuts.SortListIntent": {
+      "total_occurrences": 4,
+      "sources": [
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "Show-list",
+        "UUID",
+        "list"
+      ],
+      "examples": [
+        {
+          "list": {
+            "Value": {
+              "VariableName": "inventoryTotal",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>",
+          "Show-list": true
+        },
+        {
+          "list": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>",
+          "Show-list": true
+        },
+        {
+          "list": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>",
+          "Show-list": true
+        }
+      ]
+    },
+    "com.apple.ShortcutsActions.TranscribeAudioAction": {
+      "total_occurrences": 1,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [
+        "AppIntentDescriptor",
+        "UUID",
+        "audioFile"
+      ],
+      "examples": [
+        {
+          "AppIntentDescriptor": {
+            "TeamIdentifier": "0000000000",
+            "BundleIdentifier": "com.apple.ShortcutsActions",
+            "AppIntentIdentifier": "TranscribeAudioAction",
+            "Name": "ShortcutsActions"
+          },
+          "audioFile": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Recorded Audio"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "com.apple.mobilenotes.SharingExtension": {
+      "total_occurrences": 2,
+      "sources": [
+        "Nutrition_Installer"
+      ],
+      "parameter_keys": [
+        "AppIntentDescriptor",
+        "OpenWhenRun",
+        "UUID",
+        "WFCreateNoteInput"
+      ],
+      "examples": [
+        {
+          "WFCreateNoteInput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Strings",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "installer.badmd.warning"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "AppIntentDescriptor": {
+            "TeamIdentifier": "0000000000",
+            "BundleIdentifier": "com.apple.mobilenotes",
+            "Name": "Notes",
+            "AppIntentIdentifier": "CreateNoteLinkAction"
+          },
+          "UUID": "<UUID>",
+          "OpenWhenRun": false
+        },
+        {
+          "WFCreateNoteInput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Rich Text from Markdown"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "AppIntentDescriptor": {
+            "TeamIdentifier": "0000000000",
+            "BundleIdentifier": "com.apple.mobilenotes",
+            "Name": "Notes",
+            "AppIntentIdentifier": "CreateNoteLinkAction"
+          },
+          "UUID": "<UUID>",
+          "OpenWhenRun": false
+        }
+      ]
+    },
+    "com.brogrammers.charty.AddMovingAverageIntent": {
+      "total_occurrences": 2,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "Show-series",
+        "Show-seriesLabels",
+        "UUID",
+        "chartId",
+        "lineStyle",
+        "lineWidth",
+        "movingAverageType",
+        "series",
+        "seriesLabels",
+        "windowSize"
+      ],
+      "examples": [
+        {
+          "series": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Series Label"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "movingAverageType": "simple",
+          "seriesLabels": "Energy SMA",
+          "Show-seriesLabels": true,
+          "UUID": "<UUID>",
+          "chartId": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "ChartID"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "Show-series": true,
+          "windowSize": "9",
+          "lineWidth": "2"
+        },
+        {
+          "series": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Series Label"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "movingAverageType": "simple",
+          "seriesLabels": "HeartAvg",
+          "Show-seriesLabels": true,
+          "lineStyle": "Dashed",
+          "UUID": "<UUID>",
+          "chartId": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "ChartID"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "Show-series": true,
+          "windowSize": "7",
+          "lineWidth": "3"
+        }
+      ]
+    },
+    "com.brogrammers.charty.AddSeriesToChartIntent": {
+      "total_occurrences": 13,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "chartId",
+        "label",
+        "lineVerticalAxis",
+        "lineXValues",
+        "lineYValues",
+        "scatterXValues",
+        "scatterYValues",
+        "type"
+      ],
+      "examples": [
+        {
+          "lineVerticalAxis": false,
+          "label": {
+            "Value": {
+              "string": "Sleep 0￼",
+              "attachmentsByRange": {
+                "{7, 1}": {
+                  "VariableName": "Repeat Index",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "lineYValues": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "SleepData",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>",
+          "chartId": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "ChartID"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "lineXValues": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "Type": "ActionOutput",
+                  "OutputName": "Files",
+                  "OutputUUID": "<UUID>",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFCoercionVariableAggrandizement",
+                      "CoercionItemClass": "WFDateContentItem"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "lineVerticalAxis": false,
+          "label": {
+            "Value": {
+              "string": "Awake 0￼",
+              "attachmentsByRange": {
+                "{7, 1}": {
+                  "VariableName": "Repeat Index",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "lineYValues": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "SleepData",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>",
+          "chartId": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "ChartID"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "lineXValues": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "Type": "ActionOutput",
+                  "OutputName": "Files",
+                  "OutputUUID": "<UUID>",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFCoercionVariableAggrandizement",
+                      "CoercionItemClass": "WFDateContentItem"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "lineYValues": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "RestingData",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "scatterXValues": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "Type": "ActionOutput",
+                  "OutputName": "Health Samples",
+                  "OutputUUID": "<UUID>",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFPropertyVariableAggrandizement",
+                      "PropertyName": "Start Date"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>",
+          "chartId": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "ChartID"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "scatterYValues": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "Type": "ActionOutput",
+                  "OutputName": "Health Samples",
+                  "OutputUUID": "<UUID>",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFPropertyVariableAggrandizement",
+                      "PropertyName": "Value"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "label": "Resting HR",
+          "type": "line",
+          "lineXValues": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "RestingDates",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        }
+      ]
+    },
+    "com.brogrammers.charty.ExportChartAsImageIntent": {
+      "total_occurrences": 2,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "chartId"
+      ],
+      "examples": [
+        {
+          "chartId": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "ChartID"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "chartId": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "ChartID"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "com.brogrammers.charty.GetInfoAllChartsIntent": {
+      "total_occurrences": 1,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "com.brogrammers.charty.NewChartIntent": {
+      "total_occurrences": 1,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "automaticId",
+        "id",
+        "replaceOthers",
+        "title"
+      ],
+      "examples": [
+        {
+          "id": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "ChartID"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "title": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "ChartTitle",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>",
+          "replaceOthers": true,
+          "automaticId": false
+        }
+      ]
+    },
+    "com.brogrammers.charty.StyleAxisIntent": {
+      "total_occurrences": 3,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "Show-labels",
+        "UUID",
+        "axis",
+        "chartId",
+        "customDateTimeFormat",
+        "dateFormat",
+        "granularity",
+        "granularityUnit",
+        "maximum",
+        "minimum",
+        "valueFormatter"
+      ],
+      "examples": [
+        {
+          "granularityUnit": "hours",
+          "maximum": {
+            "Value": {
+              "VariableName": "SleepEnd",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "valueFormatter": "date",
+          "granularity": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Calculation Result"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "dateFormat": "custom",
+          "UUID": "<UUID>",
+          "chartId": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "ChartID"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "customDateTimeFormat": "h:mm a",
+          "Show-labels": true,
+          "minimum": {
+            "Value": {
+              "VariableName": "SleepBegin",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "granularityUnit": "hours",
+          "maximum": {
+            "Value": {
+              "VariableName": "HeartSeriesMax",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "valueFormatter": "integer",
+          "granularity": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Calculation Result"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "dateFormat": "custom",
+          "UUID": "<UUID>",
+          "chartId": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "ChartID"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "customDateTimeFormat": "HH:mm",
+          "axis": "leftAxis",
+          "Show-labels": true,
+          "minimum": {
+            "Value": {
+              "VariableName": "HeartSeriesMin",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "granularityUnit": "hours",
+          "maximum": {
+            "Value": {
+              "VariableName": "Config",
+              "Type": "Variable",
+              "Aggrandizements": [
+                {
+                  "Type": "WFDictionaryValueVariableAggrandizement",
+                  "DictionaryKey": "SeriesMax"
+                }
+              ]
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "valueFormatter": "integer",
+          "granularity": {
+            "Value": {
+              "VariableName": "Config",
+              "Type": "Variable",
+              "Aggrandizements": [
+                {
+                  "Type": "WFDictionaryValueVariableAggrandizement",
+                  "DictionaryKey": "SeriesMax"
+                }
+              ]
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "dateFormat": "custom",
+          "UUID": "<UUID>",
+          "chartId": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "ChartID"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "customDateTimeFormat": "HH:mm",
+          "axis": "rightAxis",
+          "Show-labels": true,
+          "minimum": {
+            "Value": {
+              "VariableName": "Config",
+              "Type": "Variable",
+              "Aggrandizements": [
+                {
+                  "Type": "WFDictionaryValueVariableAggrandizement",
+                  "DictionaryKey": "SeriesMin"
+                }
+              ]
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "com.brogrammers.charty.StyleChartIntent": {
+      "total_occurrences": 1,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "chartId",
+        "legend",
+        "showBorder",
+        "showGrid"
+      ],
+      "examples": [
+        {
+          "showBorder": false,
+          "legend": "disabled",
+          "UUID": "<UUID>",
+          "chartId": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Chart Id"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "showGrid": false
+        }
+      ]
+    },
+    "com.brogrammers.charty.StyleLineSeriesIntent": {
+      "total_occurrences": 9,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "chartId",
+        "color",
+        "fillBelow",
+        "fillColor",
+        "label",
+        "lineStyle",
+        "lineWidth",
+        "showMarkers",
+        "smoothLine",
+        "verticalAxis"
+      ],
+      "examples": [
+        {
+          "showMarkers": false,
+          "color": {
+            "Value": {
+              "string": "CC￼",
+              "attachmentsByRange": {
+                "{2, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "SleepColor"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>",
+          "fillColor": {
+            "Value": {
+              "string": "CC￼",
+              "attachmentsByRange": {
+                "{2, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "SleepColor"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "chartId": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "ChartID"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "label": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Series Label"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "verticalAxis": false,
+          "fillBelow": true
+        },
+        {
+          "showMarkers": false,
+          "color": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "AwakeColor"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "fillBelow": true,
+          "UUID": "<UUID>",
+          "fillColor": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "AwakeColo"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "chartId": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "ChartID"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "label": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Series Label"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "verticalAxis": false,
+          "lineWidth": "1"
+        },
+        {
+          "showMarkers": false,
+          "color": {
+            "Value": {
+              "string": "33￼",
+              "attachmentsByRange": {
+                "{2, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "RestingColor"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "lineStyle": "Dashed",
+          "UUID": "<UUID>",
+          "chartId": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "ChartID"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "label": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Series Label"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "lineWidth": "4"
+        }
+      ]
+    },
+    "com.brogrammers.charty.StyleScatterSeriesIntent": {
+      "total_occurrences": 6,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "chartId",
+        "color",
+        "label",
+        "markerSize",
+        "markerStyle"
+      ],
+      "examples": [
+        {
+          "markerSize": "6",
+          "label": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Series Label"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "markerStyle": "Square",
+          "chartId": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "ChartID"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>",
+          "color": {
+            "Value": {
+              "string": "66￼",
+              "attachmentsByRange": {
+                "{2, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "RestlessColor"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "markerSize": "6",
+          "label": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Series Label"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "markerStyle": "Square",
+          "chartId": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "ChartID"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>",
+          "color": {
+            "Value": {
+              "string": "78￼",
+              "attachmentsByRange": {
+                "{2, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "DeepColor"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "markerSize": "6",
+          "label": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Series Label"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "markerStyle": "Square",
+          "chartId": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "ChartID"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>",
+          "color": {
+            "Value": {
+              "string": "78￼",
+              "attachmentsByRange": {
+                "{2, 1}": {
+                  "VariableName": "Config",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "RestfulColor"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        }
+      ]
+    },
+    "com.brogrammers.charty.UpdateWidgetsIntent": {
+      "total_occurrences": 2,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>"
+        },
+        {
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "com.openai.chat.AskIntent": {
+      "total_occurrences": 4,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [
+        "AppIntentDescriptor",
+        "ShowWhenRun",
+        "UUID",
+        "continuous",
+        "newChat",
+        "prompt"
+      ],
+      "examples": [
+        {
+          "newChat": false,
+          "AppIntentDescriptor": {
+            "TeamIdentifier": "2DC432GLL2",
+            "BundleIdentifier": "com.openai.chat",
+            "AppIntentIdentifier": "AskIntent",
+            "Name": "ChatGPT"
+          },
+          "UUID": "<UUID>",
+          "prompt": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Text"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "ShowWhenRun": false
+        },
+        {
+          "newChat": false,
+          "AppIntentDescriptor": {
+            "TeamIdentifier": "2DC432GLL2",
+            "BundleIdentifier": "com.openai.chat",
+            "AppIntentIdentifier": "AskIntent",
+            "Name": "ChatGPT"
+          },
+          "UUID": "<UUID>",
+          "prompt": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Text"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "ShowWhenRun": false
+        },
+        {
+          "newChat": false,
+          "AppIntentDescriptor": {
+            "TeamIdentifier": "2DC432GLL2",
+            "BundleIdentifier": "com.openai.chat",
+            "AppIntentIdentifier": "AskIntent",
+            "Name": "ChatGPT"
+          },
+          "UUID": "<UUID>",
+          "continuous": false,
+          "prompt": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "If Result"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "ShowWhenRun": false
+        }
+      ]
+    },
+    "dk.simonbs.DataJar.CheckIfValueExistsIntent": {
+      "total_occurrences": 1,
+      "sources": [
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "keyPath"
+      ],
+      "examples": [
+        {
+          "keyPath": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "location",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "dk.simonbs.DataJar.DeleteValueIntent": {
+      "total_occurrences": 3,
+      "sources": [
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "deleteStrategy",
+        "keyPath"
+      ],
+      "examples": [
+        {
+          "keyPath": {
+            "Value": {
+              "string": "￼.￼",
+              "attachmentsByRange": {
+                "{2, 1}": {
+                  "VariableName": "Repeat Item",
+                  "Type": "Variable"
+                },
+                "{0, 1}": {
+                  "VariableName": "location",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "deleteStrategy": "alwaysAllow"
+        },
+        {
+          "keyPath": {
+            "Value": {
+              "string": "￼.￼",
+              "attachmentsByRange": {
+                "{2, 1}": {
+                  "VariableName": "Repeat Item",
+                  "Type": "Variable"
+                },
+                "{0, 1}": {
+                  "VariableName": "location",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "keyPath": {
+            "Value": {
+              "string": "￼.",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "location",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        }
+      ]
+    },
+    "dk.simonbs.DataJar.GetKeysIntent": {
+      "total_occurrences": 2,
+      "sources": [
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "keyPath"
+      ],
+      "examples": [
+        {
+          "keyPath": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "location",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "keyPath": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "location",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "dk.simonbs.DataJar.GetValueIntent": {
+      "total_occurrences": 8,
+      "sources": [
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "keyPath"
+      ],
+      "examples": [
+        {
+          "keyPath": {
+            "Value": {
+              "string": "￼.￼",
+              "attachmentsByRange": {
+                "{2, 1}": {
+                  "VariableName": "Repeat Item",
+                  "Type": "Variable"
+                },
+                "{0, 1}": {
+                  "VariableName": "location",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "keyPath": {
+            "Value": {
+              "string": "￼.￼",
+              "attachmentsByRange": {
+                "{2, 1}": {
+                  "VariableName": "Repeat Item",
+                  "Type": "Variable"
+                },
+                "{0, 1}": {
+                  "VariableName": "location",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "keyPath": {
+            "Value": {
+              "string": "￼.￼",
+              "attachmentsByRange": {
+                "{2, 1}": {
+                  "VariableName": "Repeat Item",
+                  "Type": "Variable"
+                },
+                "{0, 1}": {
+                  "VariableName": "location",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "dk.simonbs.DataJar.SetValueIntent": {
+      "total_occurrences": 5,
+      "sources": [
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "keyPath",
+        "values"
+      ],
+      "examples": [
+        {
+          "keyPath": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "location",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "values": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "File"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "keyPath": {
+            "Value": {
+              "string": "￼.￼",
+              "attachmentsByRange": {
+                "{2, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Provided Input"
+                },
+                "{0, 1}": {
+                  "VariableName": "location",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "values": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Value"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "keyPath": {
+            "Value": {
+              "string": "￼.￼",
+              "attachmentsByRange": {
+                "{2, 1}": {
+                  "VariableName": "Repeat Item",
+                  "Type": "Variable"
+                },
+                "{0, 1}": {
+                  "VariableName": "location",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "values": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Provided Input"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.adjustdate": {
+      "total_occurrences": 24,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFAdjustOperation",
+        "WFDate",
+        "WFDuration"
+      ],
+      "examples": [
+        {
+          "WFDuration": {
+            "Value": {
+              "Unit": "days",
+              "Magnitude": "1"
+            },
+            "WFSerializationType": "WFQuantityFieldValue"
+          },
+          "UUID": "<UUID>",
+          "WFAdjustOperation": "Subtract",
+          "WFDate": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Date"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "WFDate": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Date"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFDuration": {
+            "Value": {
+              "Unit": "days",
+              "Magnitude": "1"
+            },
+            "WFSerializationType": "WFQuantityFieldValue"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFDuration": {
+            "Value": {
+              "Unit": "days",
+              "Magnitude": "1"
+            },
+            "WFSerializationType": "WFQuantityFieldValue"
+          },
+          "UUID": "<UUID>",
+          "WFAdjustOperation": "Subtract",
+          "WFDate": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "ReportDate",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.alert": {
+      "total_occurrences": 44,
+      "sources": [
+        "Sleep_Widget",
+        "Pro_AI",
+        "Household: Inventory",
+        "Google: API_Auth",
+        "Nutrition_Installer"
+      ],
+      "parameter_keys": [
+        "WFAlertActionCancelButtonShown",
+        "WFAlertActionMessage",
+        "WFAlertActionTitle"
+      ],
+      "examples": [
+        {
+          "WFAlertActionMessage": "Shortcut metadata is incomplete, so template processes cannot run.",
+          "WFAlertActionTitle": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Error",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFAlertActionCancelButtonShown": false
+        },
+        {
+          "WFAlertActionMessage": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "RoutineHub Error Prompt",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFAlertActionTitle": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Error",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFAlertActionCancelButtonShown": false
+        },
+        {
+          "WFAlertActionMessage": {
+            "Value": {
+              "string": "<string:447chars>",
+              "attachmentsByRange": {
+                "{39, 1}": {
+                  "VariableName": "API Description",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFAlertActionTitle": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Instructions Title"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.appendvariable": {
+      "total_occurrences": 69,
+      "sources": [
+        "Pro_AI",
+        "Sleep_Widget",
+        "Nutrition_Installer",
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput",
+        "WFVariableName"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "Repeat Item",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFVariableName": "Artikelliste",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFVariableName": "storage"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFVariableName": "inventoryTotal"
+        }
+      ]
+    },
+    "is.workflow.actions.ask": {
+      "total_occurrences": 23,
+      "sources": [
+        "Sleep_Widget",
+        "Pro_AI",
+        "Household: Inventory",
+        "Google: API_Auth",
+        "Nutrition_Installer"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFAllowsMultilineText",
+        "WFAskActionAllowsDecimalNumbers",
+        "WFAskActionAllowsNegativeNumbers",
+        "WFAskActionDefaultAnswer",
+        "WFAskActionDefaultAnswerNumber",
+        "WFAskActionPrompt",
+        "WFInputType"
+      ],
+      "examples": [
+        {
+          "CustomOutputName": "Wait Seconds",
+          "UUID": "<UUID>",
+          "WFInputType": "Number",
+          "WFAskActionPrompt": "So as not to obstruct your view, how many seconds would you like this shortcut to wait before prompting with the next steps?"
+        },
+        {
+          "WFAllowsMultilineText": false,
+          "CustomOutputName": "API Key",
+          "UUID": "<UUID>",
+          "WFAskActionPrompt": "Paste the API key:"
+        },
+        {
+          "UUID": "<UUID>",
+          "WFAskActionPrompt": {
+            "Value": {
+              "string": "￼ ￼ ￼?",
+              "attachmentsByRange": {
+                "{2, 1}": {
+                  "VariableName": "Repeat Item",
+                  "Type": "Variable"
+                },
+                "{4, 1}": {
+                  "Type": "ActionOutput",
+                  "OutputName": "Dictionary",
+                  "OutputUUID": "<UUID>",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "text12"
+                    }
+                  ]
+                },
+                "{0, 1}": {
+                  "Type": "ActionOutput",
+                  "OutputName": "Dictionary",
+                  "OutputUUID": "<UUID>",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "text11"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFAskActionDefaultAnswer": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Repeat Item",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.base64encode": {
+      "total_occurrences": 10,
+      "sources": [
+        "Pro_AI",
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFBase64LineBreakMode",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Provided Input"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Menu Result"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFBase64LineBreakMode": "None",
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.choosefromlist": {
+      "total_occurrences": 13,
+      "sources": [
+        "Sleep_Widget",
+        "Pro_AI",
+        "Household: Inventory",
+        "Google: API_Auth",
+        "Nutrition_Installer"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFChooseFromListActionPrompt",
+        "WFChooseFromListActionSelectMultiple",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "Type": "ActionOutput",
+              "OutputName": "Update Prompt",
+              "OutputUUID": "<UUID>",
+              "Aggrandizements": [
+                {
+                  "Type": "WFCoercionVariableAggrandizement",
+                  "CoercionItemClass": "WFContactContentItem"
+                }
+              ]
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFChooseFromListActionPrompt": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Update Prompt - Summary"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "List"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Sorted List"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>",
+          "WFChooseFromListActionSelectMultiple": true
+        }
+      ]
+    },
+    "is.workflow.actions.choosefrommenu": {
+      "total_occurrences": 159,
+      "sources": [
+        "Pro_AI",
+        "Sleep_Widget",
+        "Nutrition_Installer",
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "GroupingIdentifier",
+        "UUID",
+        "WFControlFlowMode",
+        "WFMenuItemTitle",
+        "WFMenuItems"
+      ],
+      "examples": [
+        {
+          "WFControlFlowMode": 0,
+          "WFMenuItems": [
+            "Deutsch",
+            "English"
+          ],
+          "GroupingIdentifier": "<UUID>"
+        },
+        {
+          "WFMenuItemTitle": "Deutsch",
+          "GroupingIdentifier": "<UUID>",
+          "WFControlFlowMode": 1
+        },
+        {
+          "WFMenuItemTitle": "English",
+          "GroupingIdentifier": "<UUID>",
+          "WFControlFlowMode": 1
+        }
+      ]
+    },
+    "is.workflow.actions.comment": {
+      "total_occurrences": 144,
+      "sources": [
+        "Household: Inventory",
+        "Sleep_Widget",
+        "Pro_AI",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "WFCommentActionText"
+      ],
+      "examples": [
+        {
+          "WFCommentActionText": "<string:1030chars>"
+        },
+        {
+          "WFCommentActionText": "MoE Template v40\n\nCheck https://routinehub.co/shortcut/23487 for the latest version."
+        },
+        {
+          "WFCommentActionText": "↓ MoE Template: Initialisation ↓"
+        }
+      ]
+    },
+    "is.workflow.actions.conditional": {
+      "total_occurrences": 835,
+      "sources": [
+        "Sleep_Widget",
+        "Pro_AI",
+        "Household: Inventory",
+        "Google: API_Auth",
+        "Nutrition_Installer"
+      ],
+      "parameter_keys": [
+        "GroupingIdentifier",
+        "UUID",
+        "WFCondition",
+        "WFControlFlowMode",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Type": "Variable",
+            "Variable": {
+              "Value": {
+                "Type": "DeviceDetails"
+              },
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          },
+          "WFControlFlowMode": 0,
+          "UUID": "<UUID>",
+          "GroupingIdentifier": "<UUID>",
+          "WFCondition": 100
+        },
+        {
+          "WFInput": {
+            "Type": "Variable",
+            "Variable": {
+              "Value": {
+                "Type": "DeviceDetails"
+              },
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          },
+          "WFControlFlowMode": 0,
+          "UUID": "<UUID>",
+          "GroupingIdentifier": "<UUID>",
+          "WFCondition": 100
+        },
+        {
+          "WFControlFlowMode": 2,
+          "GroupingIdentifier": "<UUID>",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.count": {
+      "total_occurrences": 45,
+      "sources": [
+        "Sleep_Widget",
+        "Pro_AI",
+        "Household: Inventory",
+        "Google: API_Auth",
+        "Nutrition_Installer"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "Input",
+        "UUID",
+        "WFCountType"
+      ],
+      "examples": [
+        {
+          "Input": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Last Update Check, Curr - File"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "CustomOutputName": "Last Update Check, Curr - File, Count",
+          "UUID": "<UUID>"
+        },
+        {
+          "UUID": "<UUID>",
+          "CustomOutputName": "Changes, # Characters",
+          "WFCountType": "Characters",
+          "Input": {
+            "Value": {
+              "VariableName": "Latest Shortcut, Changes",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "Input": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "API Key File, Pre - Contents"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "CustomOutputName": "API Key File, Pre - Count",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.date": {
+      "total_occurrences": 9,
+      "sources": [
+        "Sleep_Widget",
+        "Nutrition_Installer",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFDateActionDate",
+        "WFDateActionMode"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>"
+        },
+        {
+          "WFDateActionMode": "Specified Date",
+          "WFDateActionDate": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "UpdateRes",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "releaseTime"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.delay": {
+      "total_occurrences": 5,
+      "sources": [
+        "Sleep_Widget",
+        "Pro_AI",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "WFDelayTime"
+      ],
+      "examples": [
+        {
+          "WFDelayTime": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Wait Seconds"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "WFDelayTime": 2
+        },
+        {
+          "WFDelayTime": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Number"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.detect.date": {
+      "total_occurrences": 14,
+      "sources": [
+        "Sleep_Widget",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Last Update Check, Curr - File"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "CustomOutputName": "Last Update Check - Date And Time",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "Type": "ExtensionInput",
+              "Aggrandizements": [
+                {
+                  "Type": "WFCoercionVariableAggrandizement",
+                  "CoercionItemClass": "WFDictionaryContentItem"
+                },
+                {
+                  "Type": "WFDictionaryValueVariableAggrandizement",
+                  "DictionaryKey": "ReportDate"
+                }
+              ]
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "Config",
+              "Type": "Variable",
+              "Aggrandizements": [
+                {
+                  "Type": "WFDictionaryValueVariableAggrandizement",
+                  "DictionaryKey": "RandomBegin"
+                }
+              ]
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.detect.dictionary": {
+      "total_occurrences": 13,
+      "sources": [
+        "Sleep_Widget",
+        "Nutrition_Installer",
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Dictionary Value"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.detect.images": {
+      "total_occurrences": 5,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "URL"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "URL"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Contents of URL"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.detect.number": {
+      "total_occurrences": 20,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "Config",
+              "Type": "Variable",
+              "Aggrandizements": [
+                {
+                  "Type": "WFDictionaryValueVariableAggrandizement",
+                  "DictionaryKey": "PerfLog"
+                }
+              ]
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "Type": "ExtensionInput",
+              "Aggrandizements": [
+                {
+                  "Type": "WFCoercionVariableAggrandizement",
+                  "CoercionItemClass": "WFDictionaryContentItem"
+                },
+                {
+                  "Type": "WFDictionaryValueVariableAggrandizement",
+                  "DictionaryKey": "ShowReport"
+                }
+              ]
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "Type": "ExtensionInput",
+              "Aggrandizements": [
+                {
+                  "Type": "WFCoercionVariableAggrandizement",
+                  "CoercionItemClass": "WFDictionaryContentItem"
+                },
+                {
+                  "Type": "WFDictionaryValueVariableAggrandizement",
+                  "DictionaryKey": "Notifications"
+                }
+              ]
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.detect.text": {
+      "total_occurrences": 4,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Contents of Web Page"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Contents of Web Page"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Formatted Date"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.dictatetext": {
+      "total_occurrences": 6,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFDictateTextStopListening"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>"
+        },
+        {
+          "UUID": "<UUID>",
+          "WFDictateTextStopListening": {
+            "Value": {
+              "VariableName": "Voice-Chat config",
+              "Type": "Variable",
+              "Aggrandizements": [
+                {
+                  "Type": "WFCoercionVariableAggrandizement",
+                  "CoercionItemClass": "WFStringContentItem"
+                }
+              ]
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.dictionary": {
+      "total_occurrences": 30,
+      "sources": [
+        "Sleep_Widget",
+        "Pro_AI",
+        "Household: Inventory",
+        "Google: API_Auth",
+        "Nutrition_Installer"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFItems"
+      ],
+      "examples": [
+        {
+          "WFItems": {
+            "Value": {
+              "WFDictionaryFieldValueItems": [
+                {
+                  "WFKey": {
+                    "Value": {
+                      "string": "Name"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  },
+                  "WFItemType": 0,
+                  "WFValue": {
+                    "Value": {
+                      "string": "Google: API Auth"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  }
+                },
+                {
+                  "WFKey": {
+                    "Value": {
+                      "string": "Version"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  },
+                  "WFItemType": 0,
+                  "WFValue": {
+                    "Value": {
+                      "string": "1"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  }
+                },
+                {
+                  "WFKey": {
+                    "Value": {
+                      "string": "RH Link"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  },
+                  "WFItemType": 0,
+                  "WFValue": {
+                    "Value": {
+                      "string": "https://routinehub.co/shortcut/24926"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  }
+                },
+                {
+                  "WFKey": {
+                    "Value": {
+                      "string": "Author"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  },
+                  "WFItemType": 0,
+                  "WFValue": {
+                    "Value": {
+                      "string": "Ben Hooper (https://mythofechelon.co.uk/)"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  }
+                }
+              ]
+            },
+            "WFSerializationType": "WFDictionaryFieldValue"
+          },
+          "CustomOutputName": "Current Shortcut",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFItems": {
+            "Value": {
+              "WFDictionaryFieldValueItems": []
+            },
+            "WFSerializationType": "WFDictionaryFieldValue"
+          },
+          "CustomOutputName": "Required Software",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFItems": {
+            "Value": {
+              "WFDictionaryFieldValueItems": [
+                {
+                  "WFKey": {
+                    "Value": {
+                      "string": "￼",
+                      "attachmentsByRange": {
+                        "{0, 1}": {
+                          "OutputUUID": "<UUID>",
+                          "Type": "ActionOutput",
+                          "OutputName": "Update"
+                        }
+                      }
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  },
+                  "WFItemType": 0,
+                  "WFValue": {
+                    "Value": {
+                      "string": "<string:3844chars>"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  }
+                },
+                {
+                  "WFKey": {
+                    "Value": {
+                      "string": "￼",
+                      "attachmentsByRange": {
+                        "{0, 1}": {
+                          "OutputUUID": "<UUID>",
+                          "Type": "ActionOutput",
+                          "OutputName": "Skip"
+                        }
+                      }
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  },
+                  "WFItemType": 0,
+                  "WFValue": {
+                    "Value": {
+                      "string": "<string:3640chars>"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  }
+                },
+                {
+                  "WFKey": {
+                    "Value": {
+                      "string": "￼",
+                      "attachmentsByRange": {
+                        "{0, 1}": {
+                          "OutputUUID": "<UUID>",
+                          "Type": "ActionOutput",
+                          "OutputName": "Not Now"
+                        }
+                      }
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  },
+                  "WFItemType": 0,
+                  "WFValue": {
+                    "Value": {
+                      "string": "<string:3320chars>"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  }
+                }
+              ]
+            },
+            "WFSerializationType": "WFDictionaryFieldValue"
+          },
+          "CustomOutputName": "Update Icons",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.dnd.getfocus": {
+      "total_occurrences": 1,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [
+        "UUID"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.documentpicker.open": {
+      "total_occurrences": 16,
+      "sources": [
+        "Household: Inventory",
+        "Pro_AI",
+        "Nutrition_Installer",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFFile",
+        "WFFileErrorIfNotFound",
+        "WFGetFilePath",
+        "WFGetFolderContents",
+        "WFShowFilePicker"
+      ],
+      "examples": [
+        {
+          "WFGetFilePath": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Last Update Check - File Path"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFFileErrorIfNotFound": false,
+          "WFFile": {
+            "Value": {
+              "VariableName": "Top Folder Path",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>",
+          "CustomOutputName": "Last Update Check, Curr - File"
+        },
+        {
+          "WFFile": {
+            "Value": {
+              "VariableName": "Top Folder Path",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFShowFilePicker": false,
+          "WFGetFolderContents": true,
+          "UUID": "<UUID>",
+          "WFFileErrorIfNotFound": false,
+          "CustomOutputName": "Skipped Version",
+          "WFGetFilePath": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Skipped Version File Path"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "WFGetFilePath": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "API Key File Path"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFFileErrorIfNotFound": false,
+          "WFFile": {
+            "Value": {
+              "VariableName": "Top Folder Path",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "CustomOutputName": "API Key File, Pre - Contents",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.documentpicker.save": {
+      "total_occurrences": 32,
+      "sources": [
+        "Household: Inventory",
+        "Pro_AI",
+        "Nutrition_Installer",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFAskWhereToSave",
+        "WFFileDestinationPath",
+        "WFFolder",
+        "WFInput",
+        "WFSaveFileOverwrite"
+      ],
+      "examples": [
+        {
+          "WFFolder": {
+            "Value": {
+              "VariableName": "Top Folder Path",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Current Date And Time"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFAskWhereToSave": false,
+          "UUID": "<UUID>",
+          "WFSaveFileOverwrite": true,
+          "WFFileDestinationPath": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Last Update Check - File Path"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "WFFolder": {
+            "Value": {
+              "VariableName": "Top Folder Path",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFInput": {
+            "Value": {
+              "Type": "ActionOutput",
+              "OutputName": "Latest Shortcut - Response, Original",
+              "OutputUUID": "<UUID>",
+              "Aggrandizements": [
+                {
+                  "Type": "WFCoercionVariableAggrandizement",
+                  "CoercionItemClass": "WFDictionaryContentItem"
+                },
+                {
+                  "Type": "WFDictionaryValueVariableAggrandizement",
+                  "DictionaryKey": "Version"
+                }
+              ]
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFAskWhereToSave": false,
+          "WFSaveFileOverwrite": true,
+          "UUID": "<UUID>",
+          "WFFileDestinationPath": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Skipped Version File Path"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "WFFolder": {
+            "Value": {
+              "VariableName": "Top Folder Path",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Current Date And Time"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFAskWhereToSave": false,
+          "WFSaveFileOverwrite": true,
+          "UUID": "<UUID>",
+          "WFFileDestinationPath": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Last Update Check - File Path"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.downloadurl": {
+      "total_occurrences": 22,
+      "sources": [
+        "Sleep_Widget",
+        "Pro_AI",
+        "Household: Inventory",
+        "Google: API_Auth",
+        "Nutrition_Installer"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFURL"
+      ],
+      "examples": [
+        {
+          "WFURL": {
+            "Value": {
+              "string": "https://routinehub.co/api/v1/shortcuts/￼/versions/latest",
+              "attachmentsByRange": {
+                "{39, 1}": {
+                  "VariableName": "Current Shortcut RH ID",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "CustomOutputName": "Latest Shortcut - Response, Original",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFURL": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "URL"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "CustomOutputName": "result",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFURL": "https://iffy-pi.github.io/apple-shortcuts/public/nutrition/languages/language_options.json",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.dropbox.open": {
+      "total_occurrences": 1,
+      "sources": [
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFFileErrorIfNotFound",
+        "WFGetFilePath",
+        "WFShowFilePicker"
+      ],
+      "examples": [
+        {
+          "WFGetFilePath": {
+            "Value": {
+              "string": "/haushalt/￼.json",
+              "attachmentsByRange": {
+                "{10, 1}": {
+                  "VariableName": "location",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFFileErrorIfNotFound": false,
+          "WFShowFilePicker": false,
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.dropbox.savefile": {
+      "total_occurrences": 1,
+      "sources": [
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFAskWhereToSave",
+        "WFFileDestinationPath",
+        "WFInput",
+        "WFSaveFileOverwrite"
+      ],
+      "examples": [
+        {
+          "WFAskWhereToSave": false,
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Value"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFSaveFileOverwrite": true,
+          "UUID": "<UUID>",
+          "WFFileDestinationPath": {
+            "Value": {
+              "string": "/haushalt/￼.json",
+              "attachmentsByRange": {
+                "{10, 1}": {
+                  "VariableName": "location",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.exit": {
+      "total_occurrences": 18,
+      "sources": [
+        "Pro_AI",
+        "Sleep_Widget",
+        "Nutrition_Installer",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [],
+      "examples": [
+        {},
+        {},
+        {}
+      ]
+    },
+    "is.workflow.actions.file": {
+      "total_occurrences": 2,
+      "sources": [
+        "Pro_AI",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFFile"
+      ],
+      "examples": [
+        {
+          "WFFile": {
+            "fileLocation": {
+              "fileProviderDomainID": "com.apple.CloudDocs.iCloudDriveFileProvider/87701531-7D2F-4804-8FD2-10755602BD77",
+              "relativeSubpath": "com~apple~CloudDocs",
+              "WFFileLocationType": "iCloud"
+            },
+            "filename": "com~apple~CloudDocs",
+            "displayName": "iCloud Drive"
+          },
+          "CustomOutputName": "iCloud Drive",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFFile": {
+            "fileLocation": {
+              "relativeSubpath": "ProAIData",
+              "fileProviderDomainID": "com.apple.CloudDocs.MobileDocumentsFileProvider",
+              "WFFileLocationType": "Shortcuts",
+              "crossDeviceItemID": "docs.icloud.com:com.apple.CloudDocs/F75F29F2-3A60-4DFB-B21A-AA10C1A91C60/2941c2a964935033f73d81f67ec1988a2c2dda4f",
+              "appContainerBundleIdentifier": "com.apple.shortcuts"
+            },
+            "filename": "ProAIData",
+            "displayName": "ProAIData"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.file.append": {
+      "total_occurrences": 1,
+      "sources": [
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFAppendFileWriteMode",
+        "WFFilePath",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Chosen Item"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFAppendFileWriteMode": "Prepend",
+          "UUID": "<UUID>",
+          "WFFilePath": "household/shplst.txt"
+        }
+      ]
+    },
+    "is.workflow.actions.file.createfolder": {
+      "total_occurrences": 3,
+      "sources": [
+        "Pro_AI",
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFFilePath"
+      ],
+      "examples": [
+        {
+          "WFFilePath": "household",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFFilePath": "ProAIData",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFFilePath": "ProAIData",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.file.delete": {
+      "total_occurrences": 3,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFDeleteImmediatelyDelete",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "fileLocation": {
+              "relativeSubpath": "ProAIData/API.txt",
+              "fileProviderDomainID": "com.apple.CloudDocs.iCloudDriveFileProvider/B6A0D611-BAB0-4390-8D5E-C2F16B62FC0D",
+              "WFFileLocationType": "Shortcuts",
+              "crossDeviceItemID": "docs.icloud.com:com.apple.CloudDocs/A0A385D2-9B2E-4947-9F9C-F0BA1E10B862/877c2170d9eb684d7a3e2cf0660186af95bbeda8",
+              "appContainerBundleIdentifier": "com.apple.shortcuts"
+            },
+            "filename": "API.txt",
+            "displayName": "API"
+          },
+          "WFDeleteImmediatelyDelete": true
+        },
+        {
+          "WFInput": {
+            "fileLocation": {
+              "relativeSubpath": "ProAIData/voicechat.txt",
+              "fileProviderDomainID": "com.apple.CloudDocs.MobileDocumentsFileProvider",
+              "WFFileLocationType": "Shortcuts",
+              "crossDeviceItemID": "docs.icloud.com:com.apple.CloudDocs/722CB7A7-803A-4157-8666-10F2A6CA0792/894d650d8e5838b177a99546c2fa1880c3084046",
+              "appContainerBundleIdentifier": "com.apple.shortcuts"
+            },
+            "filename": "voicechat.txt",
+            "displayName": "voicechat"
+          },
+          "WFDeleteImmediatelyDelete": true,
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "File"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFDeleteImmediatelyDelete": true,
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.file.select": {
+      "total_occurrences": 2,
+      "sources": [
+        "Pro_AI",
+        "Nutrition_Installer"
+      ],
+      "parameter_keys": [
+        "SelectMultiple",
+        "UUID",
+        "WFPickingMode"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>",
+          "SelectMultiple": false,
+          "WFPickingMode": "Folders"
+        },
+        {
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.filter.files": {
+      "total_occurrences": 2,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFContentItemFilter",
+        "WFContentItemInputParameter",
+        "WFContentItemSortOrder",
+        "WFContentItemSortProperty"
+      ],
+      "examples": [
+        {
+          "WFContentItemInputParameter": {
+            "Value": {
+              "VariableName": "ReportSummary",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFContentItemSortProperty": "Name",
+          "WFContentItemSortOrder": "A to Z",
+          "UUID": "<UUID>",
+          "WFContentItemFilter": {
+            "Value": {
+              "WFActionParameterFilterPrefix": 1,
+              "WFContentPredicateBoundedDate": false,
+              "WFActionParameterFilterTemplates": [
+                {
+                  "Operator": 999,
+                  "Values": {
+                    "Unit": 4,
+                    "String": "sleep"
+                  },
+                  "Removable": true,
+                  "Property": "Name"
+                }
+              ]
+            },
+            "WFSerializationType": "WFContentPredicateTableTemplate"
+          }
+        },
+        {
+          "WFContentItemFilter": {
+            "Value": {
+              "WFActionParameterFilterPrefix": 1,
+              "WFContentPredicateBoundedDate": false,
+              "WFActionParameterFilterTemplates": [
+                {
+                  "Operator": 99,
+                  "Values": {
+                    "Unit": 4,
+                    "String": "nap"
+                  },
+                  "Removable": true,
+                  "Property": "Name"
+                }
+              ]
+            },
+            "WFSerializationType": "WFContentPredicateTableTemplate"
+          },
+          "WFContentItemInputParameter": {
+            "Value": {
+              "VariableName": "ReportSummary",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.filter.health.quantity": {
+      "total_occurrences": 7,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFContentItemFilter",
+        "WFContentItemInputParameter",
+        "WFContentItemLimitEnabled",
+        "WFContentItemLimitNumber",
+        "WFContentItemSortOrder",
+        "WFContentItemSortProperty",
+        "WFHKSampleFilteringFillMissing"
+      ],
+      "examples": [
+        {
+          "WFContentItemLimitEnabled": true,
+          "WFContentItemSortProperty": "Random",
+          "WFContentItemLimitNumber": 1,
+          "UUID": "<UUID>",
+          "WFContentItemFilter": {
+            "Value": {
+              "WFActionParameterFilterPrefix": 0,
+              "WFContentPredicateBoundedDate": false,
+              "WFActionParameterFilterTemplates": [
+                {
+                  "Property": "Type",
+                  "Operator": 4,
+                  "Values": {
+                    "Enumeration": {
+                      "Value": "Sleep",
+                      "WFSerializationType": "WFStringSubstitutableState"
+                    }
+                  },
+                  "Removable": false,
+                  "Bounded": true
+                },
+                {
+                  "Property": "Start Date",
+                  "Operator": 1003,
+                  "Values": {
+                    "AnotherDate": {
+                      "Value": {
+                        "OutputUUID": "<UUID>",
+                        "Type": "ActionOutput",
+                        "OutputName": "Adjusted Date"
+                      },
+                      "WFSerializationType": "WFTextTokenAttachment"
+                    },
+                    "Unit": 16,
+                    "Date": {
+                      "Value": {
+                        "OutputUUID": "<UUID>",
+                        "Type": "ActionOutput",
+                        "OutputName": "Dates"
+                      },
+                      "WFSerializationType": "WFTextTokenAttachment"
+                    },
+                    "Number": 7
+                  },
+                  "Removable": false,
+                  "Bounded": true
+                },
+                {
+                  "Operator": 4,
+                  "Values": {
+                    "Unit": 4,
+                    "String": "Asleep"
+                  },
+                  "Removable": true,
+                  "Property": "Value"
+                },
+                {
+                  "Operator": 4,
+                  "Values": {
+                    "Unit": 4,
+                    "String": "Core"
+                  },
+                  "Removable": true,
+                  "Property": "Value"
+                },
+                {
+                  "Operator": 4,
+                  "Values": {
+                    "Unit": 4,
+                    "String": "Deep"
+                  },
+                  "Removable": true,
+                  "Property": "Value"
+                }
+              ]
+            },
+            "WFSerializationType": "WFContentPredicateTableTemplate"
+          }
+        },
+        {
+          "WFContentItemSortProperty": "Start Date",
+          "WFContentItemSortOrder": "Oldest First",
+          "UUID": "<UUID>",
+          "WFContentItemFilter": {
+            "Value": {
+              "WFActionParameterFilterPrefix": 0,
+              "WFContentPredicateBoundedDate": false,
+              "WFActionParameterFilterTemplates": [
+                {
+                  "Property": "Type",
+                  "Operator": 4,
+                  "Values": {
+                    "Enumeration": {
+                      "Value": "Sleep",
+                      "WFSerializationType": "WFStringSubstitutableState"
+                    }
+                  },
+                  "Removable": false,
+                  "Bounded": true
+                },
+                {
+                  "Property": "Start Date",
+                  "Operator": 1003,
+                  "Values": {
+                    "AnotherDate": {
+                      "Value": {
+                        "VariableName": "NextDate",
+                        "Type": "Variable"
+                      },
+                      "WFSerializationType": "WFTextTokenAttachment"
+                    },
+                    "Unit": 16,
+                    "Date": {
+                      "Value": {
+                        "VariableName": "PreviousDate",
+                        "Type": "Variable"
+                      },
+                      "WFSerializationType": "WFTextTokenAttachment"
+                    },
+                    "Number": 7
+                  },
+                  "Removable": false,
+                  "Bounded": true
+                },
+                {
+                  "Operator": 4,
+                  "Values": {
+                    "Unit": 4,
+                    "String": "REM"
+                  },
+                  "Removable": true,
+                  "Property": "Value"
+                },
+                {
+                  "Operator": 4,
+                  "Values": {
+                    "Unit": 4,
+                    "String": "Core"
+                  },
+                  "Removable": true,
+                  "Property": "Value"
+                },
+                {
+                  "Operator": 4,
+                  "Values": {
+                    "Unit": 4,
+                    "String": "Deep"
+                  },
+                  "Removable": true,
+                  "Property": "Value"
+                }
+              ]
+            },
+            "WFSerializationType": "WFContentPredicateTableTemplate"
+          }
+        },
+        {
+          "WFContentItemSortProperty": "Start Date",
+          "WFContentItemSortOrder": "Oldest First",
+          "UUID": "<UUID>",
+          "WFContentItemFilter": {
+            "Value": {
+              "WFActionParameterFilterPrefix": 0,
+              "WFContentPredicateBoundedDate": false,
+              "WFActionParameterFilterTemplates": [
+                {
+                  "Property": "Type",
+                  "Operator": 4,
+                  "Values": {
+                    "Enumeration": {
+                      "Value": "Sleep",
+                      "WFSerializationType": "WFStringSubstitutableState"
+                    }
+                  },
+                  "Removable": false,
+                  "Bounded": true
+                },
+                {
+                  "Property": "Start Date",
+                  "Operator": 1003,
+                  "Values": {
+                    "AnotherDate": {
+                      "Value": {
+                        "VariableName": "NextDate",
+                        "Type": "Variable"
+                      },
+                      "WFSerializationType": "WFTextTokenAttachment"
+                    },
+                    "Unit": 16,
+                    "Date": {
+                      "Value": {
+                        "VariableName": "PreviousDate",
+                        "Type": "Variable"
+                      },
+                      "WFSerializationType": "WFTextTokenAttachment"
+                    },
+                    "Number": 7
+                  },
+                  "Removable": false,
+                  "Bounded": true
+                },
+                {
+                  "Operator": 4,
+                  "Values": {
+                    "Unit": 4,
+                    "String": "Asleep"
+                  },
+                  "Removable": true,
+                  "Property": "Value"
+                }
+              ]
+            },
+            "WFSerializationType": "WFContentPredicateTableTemplate"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.filter.reminders": {
+      "total_occurrences": 1,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFContentItemFilter",
+        "WFContentItemSortOrder",
+        "WFContentItemSortProperty"
+      ],
+      "examples": [
+        {
+          "WFContentItemSortProperty": "Creation Date",
+          "UUID": "<UUID>",
+          "WFContentItemSortOrder": "Latest First",
+          "WFContentItemFilter": {
+            "Value": {
+              "WFActionParameterFilterTemplates": [
+                {
+                  "Operator": 4,
+                  "Values": {},
+                  "Removable": true,
+                  "Property": "Is Completed"
+                }
+              ],
+              "WFActionParameterFilterPrefix": 1,
+              "WFContentPredicateBoundedDate": false
+            },
+            "WFSerializationType": "WFContentPredicateTableTemplate"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.format.date": {
+      "total_occurrences": 3,
+      "sources": [
+        "Sleep_Widget",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFDate",
+        "WFDateFormat",
+        "WFDateFormatStyle"
+      ],
+      "examples": [
+        {
+          "WFDateFormatStyle": "Custom",
+          "UUID": "<UUID>",
+          "CustomOutputName": "Current Date And Time",
+          "WFDateFormat": "yyyy/MM/dd HH:mm:ss",
+          "WFDate": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Date"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "WFDateFormatStyle": "Custom",
+          "UUID": "<UUID>",
+          "WFDateFormat": "yyyy/MM/dd",
+          "WFDate": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "Type": "ActionOutput",
+                  "OutputName": "Latest Shortcut - Response, Original",
+                  "OutputUUID": "<UUID>",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFCoercionVariableAggrandizement",
+                      "CoercionItemClass": "WFDictionaryContentItem"
+                    },
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "Release"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "WFDateFormatStyle": "Custom",
+          "UUID": "<UUID>",
+          "WFDateFormat": "dd",
+          "WFDate": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "ReportDate",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.getbatterylevel": {
+      "total_occurrences": 1,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [
+        "UUID"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.getcurrentlocation": {
+      "total_occurrences": 1,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [
+        "Accuracy",
+        "UUID"
+      ],
+      "examples": [
+        {
+          "Accuracy": "ThreeKilometers",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.getdevicedetails": {
+      "total_occurrences": 4,
+      "sources": [
+        "Pro_AI",
+        "Nutrition_Installer",
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFDeviceDetail"
+      ],
+      "examples": [
+        {
+          "WFDeviceDetail": "System Version",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFDeviceDetail": "Device Model",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFDeviceDetail": "Device Model",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.gethtmlfromrichtext": {
+      "total_occurrences": 2,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Rich Text from Markdown"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Rich Text from Markdown"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.getipaddress": {
+      "total_occurrences": 3,
+      "sources": [
+        "Sleep_Widget",
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFIPAddressSourceOption"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>"
+        },
+        {
+          "UUID": "<UUID>",
+          "WFIPAddressSourceOption": "Local"
+        },
+        {
+          "UUID": "<UUID>",
+          "WFIPAddressSourceOption": "Local"
+        }
+      ]
+    },
+    "is.workflow.actions.getitemfromlist": {
+      "total_occurrences": 23,
+      "sources": [
+        "Sleep_Widget",
+        "Pro_AI",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFInput",
+        "WFItemIndex",
+        "WFItemSpecifier"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "CustomOutputName": "Changes, Truncated",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Reminders"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Dates"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFItemIndex": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Random Number"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>",
+          "WFItemSpecifier": "Item At Index"
+        }
+      ]
+    },
+    "is.workflow.actions.getitemtype": {
+      "total_occurrences": 5,
+      "sources": [
+        "Sleep_Widget",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Latest Shortcut - Response, Original"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "CustomOutputName": "Latest Shortcut - Response, Type",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "Config",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.getmyworkflows": {
+      "total_occurrences": 1,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [
+        "UUID"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.getrichtextfromhtml": {
+      "total_occurrences": 2,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFHTML"
+      ],
+      "examples": [
+        {
+          "WFHTML": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFHTML": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.getrichtextfrommarkdown": {
+      "total_occurrences": 4,
+      "sources": [
+        "Nutrition_Installer",
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Updated Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.gettext": {
+      "total_occurrences": 202,
+      "sources": [
+        "Sleep_Widget",
+        "Pro_AI",
+        "Household: Inventory",
+        "Google: API_Auth",
+        "Nutrition_Installer"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFTextActionText"
+      ],
+      "examples": [
+        {
+          "CustomOutputName": "Re-Run Set-Up - Original",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFTextActionText": "Error:",
+          "CustomOutputName": "RoutineHub Error String",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFTextActionText": "Something went wrong with accessing RoutineHub.\n\nPerhaps your device is connected to a VPN? This can cause a CAPTCHA prompt.",
+          "CustomOutputName": "RoutineHub Error Prompt",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.gettimebetweendates": {
+      "total_occurrences": 21,
+      "sources": [
+        "Sleep_Widget",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFInput",
+        "WFTimeUntilFromDate"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Current Date And Time"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "CustomOutputName": "Minutes Since Last Update Check",
+          "WFTimeUntilFromDate": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "Type": "ActionOutput",
+                  "OutputName": "Last Update Check - Date And Time",
+                  "OutputUUID": "<UUID>",
+                  "Aggrandizements": [
+                    {
+                      "WFDateFormatStyle": "Custom",
+                      "Type": "WFDateFormatVariableAggrandizement",
+                      "WFDateFormat": "yyyy/MM/dd HH:mm:ss",
+                      "WFISO8601IncludeTime": false
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "AwakeItem",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFTimeUntilFromDate": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Repeat Item",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "AwakeItem",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFTimeUntilFromDate": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Repeat Item",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.getupcomingevents": {
+      "total_occurrences": 1,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [
+        "UUID"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.getvalueforkey": {
+      "total_occurrences": 30,
+      "sources": [
+        "Sleep_Widget",
+        "Pro_AI",
+        "Household: Inventory",
+        "Google: API_Auth",
+        "Nutrition_Installer"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFDictionaryKey",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "Current Shortcut",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "CustomOutputName": "Shortcut Name",
+          "UUID": "<UUID>",
+          "WFDictionaryKey": "Name"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "Current Shortcut",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "CustomOutputName": "Shortcut Version",
+          "UUID": "<UUID>",
+          "WFDictionaryKey": "Version"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "Current Shortcut",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "CustomOutputName": "Shortcut RoutineHub Link",
+          "UUID": "<UUID>",
+          "WFDictionaryKey": "RH Link"
+        }
+      ]
+    },
+    "is.workflow.actions.getwebpagecontents": {
+      "total_occurrences": 5,
+      "sources": [
+        "Sleep_Widget",
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "URL"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "URL"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "URL"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.getwifi": {
+      "total_occurrences": 4,
+      "sources": [
+        "Pro_AI",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFCellularDetail",
+        "WFNetworkDetailsNetwork",
+        "WFWiFiDetail"
+      ],
+      "examples": [
+        {
+          "WFWiFiDetail": "Wi-Fi Standard",
+          "CustomOutputName": "Wi-Fi",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFCellularDetail": "Number of Signal Bars",
+          "WFNetworkDetailsNetwork": "Cellular",
+          "CustomOutputName": "Cellular Signal",
+          "UUID": "<UUID>"
+        },
+        {
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.list": {
+      "total_occurrences": 3,
+      "sources": [
+        "Household: Inventory",
+        "Pro_AI",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFItems"
+      ],
+      "examples": [
+        {
+          "WFItems": [
+            {
+              "WFItemType": 0,
+              "WFValue": {
+                "Value": {
+                  "string": "￼",
+                  "attachmentsByRange": {
+                    "{0, 1}": {
+                      "VariableName": "Yes",
+                      "Type": "Variable"
+                    }
+                  }
+                },
+                "WFSerializationType": "WFTextTokenString"
+              }
+            },
+            {
+              "WFItemType": 0,
+              "WFValue": {
+                "Value": {
+                  "string": "￼",
+                  "attachmentsByRange": {
+                    "{0, 1}": {
+                      "VariableName": "No",
+                      "Type": "Variable"
+                    }
+                  }
+                },
+                "WFSerializationType": "WFTextTokenString"
+              }
+            }
+          ],
+          "CustomOutputName": "Yes No - List",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFItems": [
+            {
+              "WFItemType": 0,
+              "WFValue": {
+                "Value": {
+                  "string": "￼",
+                  "attachmentsByRange": {
+                    "{0, 1}": {
+                      "Type": "ActionOutput",
+                      "OutputName": "Dictionary",
+                      "OutputUUID": "<UUID>",
+                      "Aggrandizements": [
+                        {
+                          "Type": "WFDictionaryValueVariableAggrandizement",
+                          "DictionaryKey": "text1"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "WFSerializationType": "WFTextTokenString"
+              }
+            },
+            {
+              "WFItemType": 0,
+              "WFValue": {
+                "Value": {
+                  "string": "￼",
+                  "attachmentsByRange": {
+                    "{0, 1}": {
+                      "Type": "ActionOutput",
+                      "OutputName": "Dictionary",
+                      "OutputUUID": "<UUID>",
+                      "Aggrandizements": [
+                        {
+                          "Type": "WFDictionaryValueVariableAggrandizement",
+                          "DictionaryKey": "text2"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "WFSerializationType": "WFTextTokenString"
+              }
+            }
+          ],
+          "UUID": "<UUID>"
+        },
+        {
+          "WFItems": [
+            {
+              "WFItemType": 0,
+              "WFValue": {
+                "Value": {
+                  "string": "￼",
+                  "attachmentsByRange": {
+                    "{0, 1}": {
+                      "Type": "CurrentDate",
+                      "Aggrandizements": [
+                        {
+                          "WFDateFormatStyle": "Medium",
+                          "Type": "WFDateFormatVariableAggrandizement",
+                          "WFISO8601IncludeTime": false,
+                          "WFTimeFormatStyle": "Long"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "WFSerializationType": "WFTextTokenString"
+              }
+            },
+            "",
+            {
+              "WFItemType": 0,
+              "WFValue": {
+                "Value": {
+                  "string": "Battery: ￼%",
+                  "attachmentsByRange": {
+                    "{9, 1}": {
+                      "OutputUUID": "<UUID>",
+                      "Type": "ActionOutput",
+                      "OutputName": "Battery State"
+                    }
+                  }
+                },
+                "WFSerializationType": "WFTextTokenString"
+              }
+            },
+            {
+              "WFItemType": 0,
+              "WFValue": {
+                "Value": {
+                  "string": "Current Focus: ￼",
+                  "attachmentsByRange": {
+                    "{15, 1}": {
+                      "OutputUUID": "<UUID>",
+                      "Type": "ActionOutput",
+                      "OutputName": "Current Focus"
+                    }
+                  }
+                },
+                "WFSerializationType": "WFTextTokenString"
+              }
+            },
+            {
+              "WFItemType": 0,
+              "WFValue": {
+                "Value": {
+                  "string": "System Version: ￼ ￼ ￼",
+                  "attachmentsByRange": {
+                    "{16, 1}": {
+                      "Type": "DeviceDetails",
+                      "Aggrandizements": [
+                        {
+                          "Type": "WFPropertyVariableAggrandizement",
+                          "PropertyName": "OS"
+                        }
+                      ]
+                    },
+                    "{18, 1}": {
+                      "Type": "DeviceDetails",
+                      "Aggrandizements": [
+                        {
+                          "Type": "WFPropertyVariableAggrandizement",
+                          "PropertyName": "System Version"
+                        }
+                      ]
+                    },
+                    "{20, 1}": {
+                      "Type": "DeviceDetails",
+                      "Aggrandizements": [
+                        {
+                          "Type": "WFPropertyVariableAggrandizement",
+                          "PropertyName": "System Build Number"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "WFSerializationType": "WFTextTokenString"
+              }
+            }
+          ],
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.makezip": {
+      "total_occurrences": 3,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "SleepDates",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "AwakeDates",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "PerfList",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.math": {
+      "total_occurrences": 34,
+      "sources": [
+        "Sleep_Widget",
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput",
+        "WFMathOperand",
+        "WFMathOperation"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Value"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFMathOperation": "-",
+          "UUID": "<UUID>",
+          "WFMathOperand": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Provided Input"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Value"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFMathOperation": "-",
+          "UUID": "<UUID>",
+          "WFMathOperand": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Provided Input"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "amount",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFMathOperand": {
+            "Value": {
+              "VariableName": "storageAmount",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.nothing": {
+      "total_occurrences": 7,
+      "sources": [
+        "Sleep_Widget",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "UUID"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>"
+        },
+        {
+          "UUID": "<UUID>"
+        },
+        {}
+      ]
+    },
+    "is.workflow.actions.notification": {
+      "total_occurrences": 7,
+      "sources": [
+        "Pro_AI",
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput",
+        "WFNotificationActionBody",
+        "WFNotificationActionSound"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Saved Photo Media"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFNotificationActionBody": "The image have been saved to your photos!",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Saved Photo Media"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFNotificationActionBody": "The edited image has been saved to your photos!",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Images"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFNotificationActionBody": "The image have been saved to your photos!",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.number": {
+      "total_occurrences": 51,
+      "sources": [
+        "Sleep_Widget",
+        "Pro_AI",
+        "Household: Inventory",
+        "Google: API_Auth",
+        "Nutrition_Installer"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFNumberActionNumber"
+      ],
+      "examples": [
+        {
+          "WFNumberActionNumber": "325",
+          "CustomOutputName": "Changes, Max Characters",
+          "UUID": "<UUID>"
+        },
+        {
+          "UUID": "<UUID>",
+          "WFNumberActionNumber": "0"
+        },
+        {
+          "UUID": "<UUID>",
+          "WFNumberActionNumber": "1"
+        }
+      ]
+    },
+    "is.workflow.actions.number.random": {
+      "total_occurrences": 2,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFRandomNumberMaximum",
+        "WFRandomNumberMinimum"
+      ],
+      "examples": [
+        {
+          "WFRandomNumberMinimum": "1",
+          "WFRandomNumberMaximum": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Count"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFRandomNumberMinimum": "1",
+          "WFRandomNumberMaximum": "10",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.openapp": {
+      "total_occurrences": 2,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "WFAppIdentifier",
+        "WFSelectedApp"
+      ],
+      "examples": [
+        {
+          "WFAppIdentifier": "com.brogrammers.charty",
+          "WFSelectedApp": {
+            "BundleIdentifier": "com.brogrammers.charty",
+            "Name": "Charty",
+            "TeamIdentifier": "UKAZS68625"
+          }
+        },
+        {
+          "WFAppIdentifier": "com.brogrammers.charty",
+          "WFSelectedApp": {
+            "BundleIdentifier": "com.brogrammers.charty",
+            "Name": "Charty",
+            "TeamIdentifier": "UKAZS68625"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.openin": {
+      "total_occurrences": 1,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput",
+        "WFOpenInAppIdentifier",
+        "WFSelectedApp"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "fileLocation": {
+              "relativeSubpath": "ProAIData/TOS.txt",
+              "fileProviderDomainID": "com.apple.CloudDocs.MobileDocumentsFileProvider",
+              "WFFileLocationType": "Shortcuts",
+              "crossDeviceItemID": "docs.icloud.com:com.apple.CloudDocs/57FB3457-2D1E-4D6E-BE1B-9A050AB98E8C/10653a4088cd85a11e7cbe9758128ba6970ca011",
+              "appContainerBundleIdentifier": "com.apple.shortcuts"
+            },
+            "filename": "TOS.txt",
+            "displayName": "TOS"
+          },
+          "WFSelectedApp": {
+            "BundleIdentifier": "com.apple.DocumentsApp",
+            "Name": "Files",
+            "TeamIdentifier": "0000000000"
+          },
+          "UUID": "<UUID>",
+          "WFOpenInAppIdentifier": "com.apple.DocumentsApp"
+        }
+      ]
+    },
+    "is.workflow.actions.openurl": {
+      "total_occurrences": 13,
+      "sources": [
+        "Household: Inventory",
+        "Sleep_Widget",
+        "Pro_AI",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "Show-WFInput",
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "Show-WFInput": true,
+          "WFInput": {
+            "Value": {
+              "Type": "ActionOutput",
+              "OutputName": "Latest Shortcut - Response, Original",
+              "OutputUUID": "<UUID>",
+              "Aggrandizements": [
+                {
+                  "Type": "WFCoercionVariableAggrandizement",
+                  "CoercionItemClass": "WFDictionaryContentItem"
+                },
+                {
+                  "Type": "WFDictionaryValueVariableAggrandizement",
+                  "DictionaryKey": "URL"
+                }
+              ]
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "API URL",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "Show-WFInput": true,
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "URL"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "Show-WFInput": true
+        }
+      ]
+    },
+    "is.workflow.actions.output": {
+      "total_occurrences": 12,
+      "sources": [
+        "Household: Inventory",
+        "Sleep_Widget",
+        "Pro_AI",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFNoOutputSurfaceBehavior",
+        "WFOutput",
+        "WFResponse"
+      ],
+      "examples": [
+        {
+          "WFNoOutputSurfaceBehavior": "Do Nothing",
+          "WFOutput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "API Key"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>",
+          "WFResponse": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "API Key"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "WFNoOutputSurfaceBehavior": "Do Nothing",
+          "WFOutput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "API Key"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>",
+          "WFResponse": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "API Key"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "WFOutput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "URL"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.previewdocument": {
+      "total_occurrences": 5,
+      "sources": [
+        "Pro_AI",
+        "Sleep_Widget",
+        "Nutrition_Installer",
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Rich Text from Markdown"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Renamed Item"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.recordaudio": {
+      "total_occurrences": 2,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFRecordingCompression"
+      ],
+      "examples": [
+        {
+          "WFRecordingCompression": "Very High",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFRecordingCompression": "Very High",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.repeat.count": {
+      "total_occurrences": 28,
+      "sources": [
+        "Pro_AI",
+        "Sleep_Widget",
+        "Nutrition_Installer",
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "GroupingIdentifier",
+        "UUID",
+        "WFControlFlowMode",
+        "WFRepeatCount"
+      ],
+      "examples": [
+        {
+          "GroupingIdentifier": "<UUID>",
+          "WFControlFlowMode": 0
+        },
+        {
+          "UUID": "<UUID>",
+          "GroupingIdentifier": "<UUID>",
+          "WFControlFlowMode": 2
+        },
+        {
+          "WFRepeatCount": 10,
+          "GroupingIdentifier": "<UUID>",
+          "WFControlFlowMode": 0
+        }
+      ]
+    },
+    "is.workflow.actions.repeat.each": {
+      "total_occurrences": 22,
+      "sources": [
+        "Sleep_Widget",
+        "Nutrition_Installer",
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "GroupingIdentifier",
+        "UUID",
+        "WFControlFlowMode",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Keys"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "GroupingIdentifier": "<UUID>",
+          "WFControlFlowMode": 0
+        },
+        {
+          "UUID": "<UUID>",
+          "GroupingIdentifier": "<UUID>",
+          "WFControlFlowMode": 2
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Keys"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "GroupingIdentifier": "<UUID>",
+          "WFControlFlowMode": 0
+        }
+      ]
+    },
+    "is.workflow.actions.returntohomescreen": {
+      "total_occurrences": 2,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [],
+      "examples": [
+        {},
+        {}
+      ]
+    },
+    "is.workflow.actions.round": {
+      "total_occurrences": 4,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput",
+        "WFRoundMode"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Average"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Maximum"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Minimum"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.runworkflow": {
+      "total_occurrences": 33,
+      "sources": [
+        "Household: Inventory",
+        "Sleep_Widget",
+        "Pro_AI",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFInput",
+        "WFWorkflow",
+        "WFWorkflowName"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>",
+          "CustomOutputName": "API Key",
+          "WFWorkflowName": "OpenAI: API Auth v5",
+          "WFWorkflow": {
+            "workflowIdentifier": "<UUID>",
+            "workflowName": "OpenAI: API Auth v5",
+            "isSelf": true
+          }
+        },
+        {
+          "WFWorkflow": {
+            "workflowIdentifier": "<UUID>",
+            "isSelf": true,
+            "workflowName": "Gefrierschrank"
+          },
+          "WFWorkflowName": "Gefrierschrank",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFWorkflow": {
+            "workflowIdentifier": "<UUID>",
+            "isSelf": true,
+            "workflowName": "Gefrierschrank"
+          },
+          "WFWorkflowName": "Gefrierschrank",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.savetocameraroll": {
+      "total_occurrences": 4,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Images"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Images"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Images"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.selectphoto": {
+      "total_occurrences": 1,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [
+        "UUID"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.setclipboard": {
+      "total_occurrences": 3,
+      "sources": [
+        "Pro_AI",
+        "Nutrition_Installer"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Rich Text from Markdown"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "Responce",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "Responce",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.setitemname": {
+      "total_occurrences": 26,
+      "sources": [
+        "Sleep_Widget",
+        "Pro_AI",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFDontIncludeFileExtension",
+        "WFInput",
+        "WFName"
+      ],
+      "examples": [
+        {
+          "WFName": "updateprompt.vcf",
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Update Prompt - Options"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>",
+          "CustomOutputName": "Update Prompt"
+        },
+        {
+          "WFName": "page1.vcf",
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFDontIncludeFileExtension": true,
+          "UUID": "<UUID>"
+        },
+        {
+          "WFName": "Page2.vcf",
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFDontIncludeFileExtension": true,
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.setvalueforkey": {
+      "total_occurrences": 5,
+      "sources": [
+        "Pro_AI",
+        "Nutrition_Installer",
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFDictionary",
+        "WFDictionaryKey",
+        "WFDictionaryValue"
+      ],
+      "examples": [
+        {
+          "WFDictionaryKey": "user language",
+          "UUID": "<UUID>",
+          "WFDictionary": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Dictionary"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFDictionaryValue": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "language",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "WFDictionaryValue": "https://iffy-pi.github.io/apple-shortcuts/versioning/nutrition/testupdates.json",
+          "UUID": "<UUID>",
+          "WFDictionary": {
+            "Value": {
+              "VariableName": "UpdateInfo",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFDictionaryKey": "updateLink"
+        },
+        {
+          "WFDictionaryValue": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Number"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>",
+          "WFDictionary": {
+            "Value": {
+              "VariableName": "UpdateInfo",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFDictionaryKey": "version"
+        }
+      ]
+    },
+    "is.workflow.actions.setvariable": {
+      "total_occurrences": 295,
+      "sources": [
+        "Sleep_Widget",
+        "Pro_AI",
+        "Household: Inventory",
+        "Google: API_Auth",
+        "Nutrition_Installer"
+      ],
+      "parameter_keys": [
+        "WFInput",
+        "WFVariableName"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Current Shortcut"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFVariableName": "Current Shortcut"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Re-Run Set-Up - Original"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFVariableName": "Re-Run Set-Up?"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Shortcut Name"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFVariableName": "Current Shortcut Name"
+        }
+      ]
+    },
+    "is.workflow.actions.shownote": {
+      "total_occurrences": 1,
+      "sources": [
+        "Nutrition_Installer"
+      ],
+      "parameter_keys": [
+        "AppIntentDescriptor",
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "If Result"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "AppIntentDescriptor": {
+            "TeamIdentifier": "0000000000",
+            "BundleIdentifier": "com.apple.mobilenotes",
+            "Name": "Notes",
+            "AppIntentIdentifier": "OpenNoteLinkAction"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.showresult": {
+      "total_occurrences": 9,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [
+        "Text"
+      ],
+      "examples": [
+        {
+          "Text": {
+            "Value": {
+              "string": "A new version is available for ￼, please update the shortcut on your iPhone, iPad or MacBook.",
+              "attachmentsByRange": {
+                "{31, 1}": {
+                  "VariableName": "Name",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "Text": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Dictionary Value"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "Text": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Images"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.showwebpage": {
+      "total_occurrences": 1,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFURL"
+      ],
+      "examples": [
+        {
+          "WFURL": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "SleepReport",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.speaktext": {
+      "total_occurrences": 9,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [
+        "WFSpeakTextPitch",
+        "WFSpeakTextVoice",
+        "WFSpeakTextWait",
+        "WFText"
+      ],
+      "examples": [
+        {
+          "WFSpeakTextPitch": 0.9816292077302933,
+          "WFSpeakTextVoice": "com.apple.voice.compact.en-US.Samantha",
+          "WFSpeakTextWait": false,
+          "WFText": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Dictionary Value"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "WFSpeakTextPitch": 0.9816292077302933,
+          "WFSpeakTextVoice": "com.apple.voice.compact.en-US.Samantha",
+          "WFSpeakTextWait": false,
+          "WFText": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Dictionary Value"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "WFSpeakTextPitch": 0.9816292077302933,
+          "WFSpeakTextVoice": "com.apple.voice.compact.en-US.Samantha",
+          "WFSpeakTextWait": true,
+          "WFText": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Dictionary Value"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.statistics": {
+      "total_occurrences": 10,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "Input",
+        "UUID",
+        "WFStatisticsOperation"
+      ],
+      "examples": [
+        {
+          "Input": {
+            "Value": {
+              "VariableName": "HeartTrancheData",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "Input": {
+            "Value": {
+              "VariableName": "HeartTrancheData",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFStatisticsOperation": "Minimum",
+          "UUID": "<UUID>"
+        },
+        {
+          "Input": {
+            "Value": {
+              "VariableName": "HeartTrancheData",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFStatisticsOperation": "Maximum",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.takephoto": {
+      "total_occurrences": 1,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [
+        "UUID"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.text.changecase": {
+      "total_occurrences": 5,
+      "sources": [
+        "Pro_AI",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "Show-text",
+        "UUID",
+        "WFCaseType",
+        "text"
+      ],
+      "examples": [
+        {
+          "WFCaseType": "lowercase",
+          "UUID": "<UUID>",
+          "CustomOutputName": "Latest Shortcut - Response, Lowercase",
+          "text": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Latest Shortcut - Response, Original"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "Show-text": true,
+          "WFCaseType": "lowercase",
+          "UUID": "<UUID>",
+          "text": {
+            "Value": {
+              "VariableName": "First Request",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "UUID": "<UUID>",
+          "WFCaseType": "lowercase",
+          "text": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Provided Input"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.text.match": {
+      "total_occurrences": 10,
+      "sources": [
+        "Sleep_Widget",
+        "Pro_AI",
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFMatchTextCaseSensitive",
+        "WFMatchTextPattern",
+        "text"
+      ],
+      "examples": [
+        {
+          "CustomOutputName": "RH Link Matches",
+          "WFMatchTextCaseSensitive": false,
+          "WFMatchTextPattern": "https:\\/\\/routinehub.co\\/shortcut\\/(\\d+)",
+          "UUID": "<UUID>",
+          "text": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Current Shortcut RH Link",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "UUID": "<UUID>",
+          "WFMatchTextPattern": {
+            "Value": {
+              "string": "(?s)(.{0,￼}).*",
+              "attachmentsByRange": {
+                "{9, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Changes, Max Characters"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFMatchTextCaseSensitive": false,
+          "text": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Latest Shortcut, Changes",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "UUID": "<UUID>",
+          "WFMatchTextPattern": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Version",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFMatchTextCaseSensitive": false,
+          "text": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Dictionary Value"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.text.match.getgroup": {
+      "total_occurrences": 2,
+      "sources": [
+        "Google: API_Auth"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "matches"
+      ],
+      "examples": [
+        {
+          "matches": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "RH Link Matches"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "CustomOutputName": "RH ID",
+          "UUID": "<UUID>"
+        },
+        {
+          "matches": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Matches"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.text.replace": {
+      "total_occurrences": 25,
+      "sources": [
+        "Nutrition_Installer",
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput",
+        "WFReplaceTextFind",
+        "WFReplaceTextReplace"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Strings",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "installer.storage.exists"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFReplaceTextReplace": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "NewStorage",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>",
+          "WFReplaceTextFind": "$storage"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Strings",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "installer.docs.installmd"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFReplaceTextReplace": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "UpdateRes",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "name"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>",
+          "WFReplaceTextFind": "$name"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Strings",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "installer.docs.updatemd"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFReplaceTextReplace": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "UpdateRes",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "name"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>",
+          "WFReplaceTextFind": "$name"
+        }
+      ]
+    },
+    "is.workflow.actions.text.split": {
+      "total_occurrences": 18,
+      "sources": [
+        "Pro_AI",
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "Show-text",
+        "UUID",
+        "WFTextCustomSeparator",
+        "WFTextSeparator",
+        "text"
+      ],
+      "examples": [
+        {
+          "Show-text": true,
+          "WFTextCustomSeparator": "/r/n",
+          "UUID": "<UUID>",
+          "WFTextSeparator": "Custom",
+          "text": {
+            "Value": {
+              "Type": "ActionOutput",
+              "OutputName": "Contents of URL",
+              "OutputUUID": "<UUID>",
+              "Aggrandizements": [
+                {
+                  "Type": "WFCoercionVariableAggrandizement",
+                  "CoercionItemClass": "WFDictionaryContentItem"
+                },
+                {
+                  "Type": "WFDictionaryValueVariableAggrandizement",
+                  "DictionaryKey": "Notes"
+                }
+              ]
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "Show-text": true,
+          "WFTextCustomSeparator": "~~~",
+          "UUID": "<UUID>",
+          "WFTextSeparator": "Custom",
+          "text": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "Show-text": true,
+          "WFTextCustomSeparator": "|",
+          "UUID": "<UUID>",
+          "WFTextSeparator": "Custom",
+          "text": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Item from List"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.unzip": {
+      "total_occurrences": 2,
+      "sources": [
+        "Sleep_Widget"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFArchive"
+      ],
+      "examples": [
+        {
+          "WFArchive": {
+            "Value": {
+              "VariableName": "Repeat Item",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFArchive": {
+            "Value": {
+              "VariableName": "Repeat Item",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.url": {
+      "total_occurrences": 17,
+      "sources": [
+        "Sleep_Widget",
+        "Pro_AI",
+        "Household: Inventory"
+      ],
+      "parameter_keys": [
+        "Show-WFURLActionURL",
+        "UUID",
+        "WFURLActionURL"
+      ],
+      "examples": [
+        {
+          "Show-WFURLActionURL": true,
+          "WFURLActionURL": {
+            "Value": {
+              "string": "https://routinehub.co/api/v1/shortcuts/￼/versions/latest",
+              "attachmentsByRange": {
+                "{39, 1}": {
+                  "VariableName": "LocalData",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "ID"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "Show-WFURLActionURL": true,
+          "WFURLActionURL": {
+            "Value": {
+              "string": "data:text/html,￼",
+              "attachmentsByRange": {
+                "{15, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "CompareVersionsHTML"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "Show-WFURLActionURL": true,
+          "WFURLActionURL": {
+            "Value": {
+              "string": "https://routinehub.co/download/￼",
+              "attachmentsByRange": {
+                "{31, 1}": {
+                  "Type": "ActionOutput",
+                  "OutputName": "Remote",
+                  "OutputUUID": "<UUID>",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFCoercionVariableAggrandizement",
+                      "CoercionItemClass": "WFDictionaryContentItem"
+                    },
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "id"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.vibrate": {
+      "total_occurrences": 7,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [],
+      "examples": [
+        {},
+        {},
+        {}
+      ]
+    },
+    "is.workflow.actions.waittoreturn": {
+      "total_occurrences": 2,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [],
+      "examples": [
+        {},
+        {}
+      ]
+    },
+    "is.workflow.actions.weather.currentconditions": {
+      "total_occurrences": 1,
+      "sources": [
+        "Pro_AI"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFWeatherCustomLocation"
+      ],
+      "examples": [
+        {
+          "WFWeatherCustomLocation": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Current Location"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    }
+  }
+}

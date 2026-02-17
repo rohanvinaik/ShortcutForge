@@ -1,0 +1,13 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "Mode": 4,
+  "PARAM": 5,
+  "WFContactContentItemBirthday": 6,
+  "WFContactContentItemGroup": 7,
+  "WFContactContentItemNickname": 8,
+  "WFContactContentItemURLs": 9,
+  "WFContentItemPropertyName": 10
+}

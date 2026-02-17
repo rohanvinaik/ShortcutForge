@@ -1,0 +1,14 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "WFContentItemFilter": 5,
+  "WFContentItemInputParameter": 6,
+  "WFContentItemLimitEnabled": 7,
+  "WFContentItemLimitNumber": 8,
+  "WFContentItemSortEnabled": 9,
+  "WFContentItemSortOrder": 10,
+  "WFContentItemSortProperty": 11
+}

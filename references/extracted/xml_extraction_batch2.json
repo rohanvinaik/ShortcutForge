@@ -1,0 +1,4013 @@
+{
+  "unique_actions": {
+    "com.apple.AccessibilityUtilities.AXSettingsShortcuts.AXToggleAssistiveTouchIntent": {
+      "total_occurrences": 2,
+      "sources": [
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "state"
+      ],
+      "examples": [
+        {},
+        {
+          "state": 0
+        }
+      ]
+    },
+    "is.workflow.actions.addmusictoupnext": {
+      "total_occurrences": 1,
+      "sources": [
+        "The_Music_Controller"
+      ],
+      "parameter_keys": [
+        "WFMusic",
+        "WFWhenToPlay"
+      ],
+      "examples": [
+        {
+          "WFMusic": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Current Song"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFWhenToPlay": {
+            "Value": {
+              "Type": "Ask"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.airplanemode.set": {
+      "total_occurrences": 3,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "OnValue"
+      ],
+      "examples": [
+        {
+          "OnValue": 0
+        },
+        {},
+        {
+          "OnValue": 0
+        }
+      ]
+    },
+    "is.workflow.actions.alert": {
+      "total_occurrences": 32,
+      "sources": [
+        "Photos_ToolKit",
+        "iOS: ",
+        "IE: Image_Editor_",
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "The_Music_Controller"
+      ],
+      "parameter_keys": [
+        "WFAlertActionCancelButtonShown",
+        "WFAlertActionMessage"
+      ],
+      "examples": [
+        {
+          "WFAlertActionMessage": "Code Copied to Clipboard !",
+          "WFAlertActionCancelButtonShown": false
+        },
+        {
+          "WFAlertActionMessage": "Code Copied to Clipboard !",
+          "WFAlertActionCancelButtonShown": false
+        },
+        {
+          "WFAlertActionMessage": "Select any file. (Audio,Video, Document, etc.)",
+          "WFAlertActionCancelButtonShown": false
+        }
+      ]
+    },
+    "is.workflow.actions.ask": {
+      "total_occurrences": 24,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit",
+        "IE: Image_Editor_",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFAllowsMultilineText",
+        "WFAskActionAllowsDecimalNumbers",
+        "WFAskActionAllowsNegativeNumbers",
+        "WFAskActionPrompt",
+        "WFInputType"
+      ],
+      "examples": [
+        {
+          "WFAskActionPrompt": "Encoded Text",
+          "UUID": "<UUID>"
+        },
+        {
+          "UUID": "<UUID>",
+          "WFAllowsMultilineText": false,
+          "WFAskActionPrompt": "Insert any text or emoji"
+        },
+        {
+          "UUID": "<UUID>",
+          "WFAllowsMultilineText": true,
+          "WFAskActionPrompt": "Insert any text or emoji"
+        }
+      ]
+    },
+    "is.workflow.actions.avairyeditphoto": {
+      "total_occurrences": 3,
+      "sources": [
+        "Photos_ToolKit",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFDocument"
+      ],
+      "examples": [
+        {
+          "WFDocument": {
+            "Value": {
+              "VariableName": "PhotosMarkup",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFDocument": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "File"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFDocument": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Photos"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.base64encode": {
+      "total_occurrences": 8,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFBase64LineBreakMode",
+        "WFEncodeMode",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "If Result"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFEncodeMode": "Decode",
+          "CustomOutputName": "Decoded Image",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFBase64LineBreakMode": "None",
+          "WFInput": {
+            "Value": {
+              "Type": "ExtensionInput"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFBase64LineBreakMode": "None",
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "File"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.cellulardata.set": {
+      "total_occurrences": 1,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility"
+      ],
+      "parameter_keys": [],
+      "examples": [
+        {}
+      ]
+    },
+    "is.workflow.actions.choosefromlist": {
+      "total_occurrences": 8,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit",
+        "IE: Image_Editor_"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFChooseFromListActionPrompt",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "Type": "ActionOutput",
+              "OutputName": "Renamed Item",
+              "OutputUUID": "<UUID>",
+              "Aggrandizements": [
+                {
+                  "Type": "WFCoercionVariableAggrandizement",
+                  "CoercionItemClass": "WFContactContentItem"
+                }
+              ]
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFChooseFromListActionPrompt": {
+            "Value": {
+              "string": "🤷‍♂️Main Menu🤷‍♂️      Ver: ￼ ￼ ",
+              "attachmentsByRange": {
+                "{30, 1}": {
+                  "VariableName": "installedVersion",
+                  "Type": "Variable"
+                },
+                "{32, 1}": {
+                  "VariableName": "Emoji",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "Type": "ActionOutput",
+              "OutputName": "Renamed Item",
+              "OutputUUID": "<UUID>",
+              "Aggrandizements": [
+                {
+                  "Type": "WFCoercionVariableAggrandizement",
+                  "CoercionItemClass": "WFContactContentItem"
+                }
+              ]
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFChooseFromListActionPrompt": "Select icon to Copy Code",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "Type": "ActionOutput",
+              "OutputName": "Renamed Item",
+              "OutputUUID": "<UUID>",
+              "Aggrandizements": [
+                {
+                  "Type": "WFCoercionVariableAggrandizement",
+                  "CoercionItemClass": "WFContactContentItem"
+                }
+              ]
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFChooseFromListActionPrompt": "Save To?",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.choosefrommenu": {
+      "total_occurrences": 287,
+      "sources": [
+        "Photos_ToolKit",
+        "iOS: ",
+        "IE: Image_Editor_",
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "The_Music_Controller"
+      ],
+      "parameter_keys": [
+        "GroupingIdentifier",
+        "UUID",
+        "WFControlFlowMode",
+        "WFMenuItemTitle",
+        "WFMenuItems",
+        "WFMenuPrompt"
+      ],
+      "examples": [
+        {
+          "WFMenuPrompt": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Text"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFControlFlowMode": 0,
+          "WFMenuItems": [
+            "⬆️ Update now",
+            "⏱️ Later"
+          ],
+          "GroupingIdentifier": "<UUID>"
+        },
+        {
+          "WFControlFlowMode": 1,
+          "UUID": "<UUID>",
+          "GroupingIdentifier": "<UUID>",
+          "WFMenuItemTitle": "⬆️ Update now"
+        },
+        {
+          "WFControlFlowMode": 1,
+          "UUID": "<UUID>",
+          "GroupingIdentifier": "<UUID>",
+          "WFMenuItemTitle": "⏱️ Later"
+        }
+      ]
+    },
+    "is.workflow.actions.clearupnext": {
+      "total_occurrences": 1,
+      "sources": [
+        "The_Music_Controller"
+      ],
+      "parameter_keys": [],
+      "examples": [
+        {}
+      ]
+    },
+    "is.workflow.actions.comment": {
+      "total_occurrences": 7,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "WFCommentActionText"
+      ],
+      "examples": [
+        {
+          "WFCommentActionText": "Make sure Shortcut name is real.\nYou can find all my shortcuts from the below link. Author @mrgargsir\n( https://routinehub.co/user/mrgargsir )"
+        },
+        {
+          "WFCommentActionText": "Useful Variables"
+        },
+        {
+          "WFCommentActionText": "Update kit start"
+        }
+      ]
+    },
+    "is.workflow.actions.conditional": {
+      "total_occurrences": 168,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit",
+        "IE: Image_Editor_",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "GroupingIdentifier",
+        "UUID",
+        "WFCondition",
+        "WFControlFlowMode",
+        "WFInput",
+        "WFNumberValue"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Type": "Variable",
+            "Variable": {
+              "Value": {
+                "Type": "CurrentDate"
+              },
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          },
+          "WFControlFlowMode": 0,
+          "UUID": "<UUID>",
+          "GroupingIdentifier": "<UUID>",
+          "WFCondition": 100
+        },
+        {
+          "WFInput": {
+            "Type": "Variable",
+            "Variable": {
+              "Value": {
+                "Type": "CurrentDate"
+              },
+              "WFSerializationType": "WFTextTokenAttachment"
+            }
+          },
+          "WFControlFlowMode": 0,
+          "UUID": "<UUID>",
+          "GroupingIdentifier": "<UUID>",
+          "WFCondition": 100
+        },
+        {
+          "WFControlFlowMode": 2,
+          "GroupingIdentifier": "<UUID>",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.count": {
+      "total_occurrences": 3,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "Input",
+        "UUID"
+      ],
+      "examples": [
+        {
+          "Input": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Current IP Address"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "Input": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Current IP Address"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "Input": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "File"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.delay": {
+      "total_occurrences": 6,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "WFDelayTime"
+      ],
+      "examples": [
+        {
+          "WFDelayTime": 3
+        },
+        {
+          "WFDelayTime": 4
+        },
+        {
+          "WFDelayTime": 3
+        }
+      ]
+    },
+    "is.workflow.actions.detect.contacts": {
+      "total_occurrences": 1,
+      "sources": [
+        "Photos_ToolKit"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Renamed Item"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.detect.images": {
+      "total_occurrences": 3,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "Type": "ExtensionInput"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "If Result"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "If Result"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.detect.link": {
+      "total_occurrences": 2,
+      "sources": [
+        "IE: Image_Editor_"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "URL"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "URL"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.detect.text": {
+      "total_occurrences": 3,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "Type": "ExtensionInput"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "Type": "ExtensionInput"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "Type": "ExtensionInput"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.dictionary": {
+      "total_occurrences": 8,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit",
+        "IE: Image_Editor_"
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFItems"
+      ],
+      "examples": [
+        {
+          "WFItems": {
+            "Value": {
+              "WFDictionaryFieldValueItems": [
+                {
+                  "WFKey": {
+                    "Value": {
+                      "string": "Name"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  },
+                  "WFItemType": 0,
+                  "WFValue": {
+                    "Value": {
+                      "string": "Encoder and Decoder (Emoji, Photos, Audio, Video, Text) Full Utility"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  }
+                },
+                {
+                  "WFKey": {
+                    "Value": {
+                      "string": "Version"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  },
+                  "WFItemType": 0,
+                  "WFValue": {
+                    "Value": {
+                      "string": "26.01"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  }
+                },
+                {
+                  "WFKey": {
+                    "Value": {
+                      "string": "Rhubid"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  },
+                  "WFItemType": 3,
+                  "WFValue": {
+                    "Value": {
+                      "string": "21540"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  }
+                },
+                {
+                  "WFKey": {
+                    "Value": {
+                      "string": "Creator"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  },
+                  "WFItemType": 0,
+                  "WFValue": {
+                    "Value": {
+                      "string": "mrgargsir"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  }
+                },
+                {
+                  "WFKey": {
+                    "Value": {
+                      "string": "TemplateAuthor"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  },
+                  "WFItemType": 0,
+                  "WFValue": {
+                    "Value": {
+                      "string": "mrgargsir"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  }
+                }
+              ]
+            },
+            "WFSerializationType": "WFDictionaryFieldValue"
+          },
+          "CustomOutputName": " Dictionary",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFItems": {
+            "Value": {
+              "WFDictionaryFieldValueItems": [
+                {
+                  "WFKey": {
+                    "Value": {
+                      "string": "data"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  },
+                  "WFItemType": 1,
+                  "WFValue": {
+                    "Value": {
+                      "Value": {
+                        "WFDictionaryFieldValueItems": [
+                          {
+                            "WFKey": {
+                              "Value": {
+                                "string": "name"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            },
+                            "WFItemType": 0,
+                            "WFValue": {
+                              "Value": {
+                                "string": "Encode and Decode Full Utility"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            }
+                          },
+                          {
+                            "WFKey": {
+                              "Value": {
+                                "string": "version"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            },
+                            "WFItemType": 0,
+                            "WFValue": {
+                              "Value": {
+                                "string": "￼",
+                                "attachmentsByRange": {
+                                  "{0, 1}": {
+                                    "OutputUUID": "<UUID>",
+                                    "Type": "ActionOutput",
+                                    "OutputName": "Versioninstalled"
+                                  }
+                                }
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            }
+                          },
+                          {
+                            "WFKey": {
+                              "Value": {
+                                "string": "Editor"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            },
+                            "WFItemType": 0,
+                            "WFValue": {
+                              "Value": {
+                                "string": "mrgargsir"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            }
+                          }
+                        ]
+                      },
+                      "WFSerializationType": "WFDictionaryFieldValue"
+                    },
+                    "WFSerializationType": "WFDictionaryFieldValue"
+                  }
+                },
+                {
+                  "WFKey": {
+                    "Value": {
+                      "string": "icons"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  },
+                  "WFItemType": 1,
+                  "WFValue": {
+                    "Value": {
+                      "Value": {
+                        "WFDictionaryFieldValueItems": [
+                          {
+                            "WFKey": {
+                              "Value": {
+                                "string": "add"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            },
+                            "WFItemType": 0,
+                            "WFValue": {
+                              "Value": {
+                                "string": "<string:30732chars>"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            }
+                          },
+                          {
+                            "WFKey": {
+                              "Value": {
+                                "string": "saved"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            },
+                            "WFItemType": 0,
+                            "WFValue": {
+                              "Value": {
+                                "string": "<string:18596chars>"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            }
+                          },
+                          {
+                            "WFKey": {
+                              "Value": {
+                                "string": "clipboard"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            },
+                            "WFItemType": 0,
+                            "WFValue": {
+                              "Value": {
+                                "string": "<string:27736chars>"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            }
+                          },
+                          {
+                            "WFKey": {
+                              "Value": {
+                                "string": "cancel"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            },
+                            "WFItemType": 0,
+                            "WFValue": {
+                              "Value": {
+                                "string": "<string:30716chars>"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            }
+                          },
+                          {
+                            "WFKey": {
+                              "Value": {
+                                "string": "download"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            },
+                            "WFItemType": 0,
+                            "WFValue": {
+                              "Value": {
+                                "string": "<string:18712chars>"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            }
+                          }
+                        ]
+                      },
+                      "WFSerializationType": "WFDictionaryFieldValue"
+                    },
+                    "WFSerializationType": "WFDictionaryFieldValue"
+                  }
+                }
+              ]
+            },
+            "WFSerializationType": "WFDictionaryFieldValue"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFItems": {
+            "Value": {
+              "WFDictionaryFieldValueItems": [
+                {
+                  "WFKey": {
+                    "Value": {
+                      "string": "Name"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  },
+                  "WFItemType": 0,
+                  "WFValue": {
+                    "Value": {
+                      "string": "Photos ToolKit"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  }
+                },
+                {
+                  "WFKey": {
+                    "Value": {
+                      "string": "Version"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  },
+                  "WFItemType": 0,
+                  "WFValue": {
+                    "Value": {
+                      "string": "1.4"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  }
+                },
+                {
+                  "WFKey": {
+                    "Value": {
+                      "string": "Author"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  },
+                  "WFItemType": 0,
+                  "WFValue": {
+                    "Value": {
+                      "string": "yazan414"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  }
+                },
+                {
+                  "WFKey": {
+                    "Value": {
+                      "string": "Feedback"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  },
+                  "WFItemType": 0,
+                  "WFValue": {
+                    "Value": {
+                      "string": "arabtech414@yahoo.com"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  }
+                },
+                {
+                  "WFKey": {
+                    "Value": {
+                      "string": "Icons"
+                    },
+                    "WFSerializationType": "WFTextTokenString"
+                  },
+                  "WFItemType": 1,
+                  "WFValue": {
+                    "Value": {
+                      "Value": {
+                        "WFDictionaryFieldValueItems": [
+                          {
+                            "WFKey": {
+                              "Value": {
+                                "string": "resize"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            },
+                            "WFItemType": 0,
+                            "WFValue": {
+                              "Value": {
+                                "string": "<string:2452chars>"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            }
+                          },
+                          {
+                            "WFKey": {
+                              "Value": {
+                                "string": "convert"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            },
+                            "WFItemType": 0,
+                            "WFValue": {
+                              "Value": {
+                                "string": "<string:4568chars>"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            }
+                          },
+                          {
+                            "WFKey": {
+                              "Value": {
+                                "string": "rotate"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            },
+                            "WFItemType": 0,
+                            "WFValue": {
+                              "Value": {
+                                "string": "<string:5748chars>"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            }
+                          },
+                          {
+                            "WFKey": {
+                              "Value": {
+                                "string": "combine"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            },
+                            "WFItemType": 0,
+                            "WFValue": {
+                              "Value": {
+                                "string": "<string:2488chars>"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            }
+                          },
+                          {
+                            "WFKey": {
+                              "Value": {
+                                "string": "overlay"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            },
+                            "WFItemType": 0,
+                            "WFValue": {
+                              "Value": {
+                                "string": "<string:3436chars>"
+                              },
+                              "WFSerializationType": "WFTextTokenString"
+                            }
+                          }
+                        ]
+                      },
+                      "WFSerializationType": "WFDictionaryFieldValue"
+                    },
+                    "WFSerializationType": "WFDictionaryFieldValue"
+                  }
+                }
+              ]
+            },
+            "WFSerializationType": "WFDictionaryFieldValue"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.dnd.set": {
+      "total_occurrences": 2,
+      "sources": [
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "Enabled"
+      ],
+      "examples": [
+        {
+          "Enabled": 1
+        },
+        {}
+      ]
+    },
+    "is.workflow.actions.documentpicker.open": {
+      "total_occurrences": 4,
+      "sources": [
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFGetFilePath",
+        "WFShowFilePicker"
+      ],
+      "examples": [
+        {
+          "WFShowFilePicker": false,
+          "WFGetFilePath": "iOS++/FirstTime/",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFShowFilePicker": false,
+          "WFGetFilePath": "iOS++/Welcome/Welcome.html",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFShowFilePicker": false,
+          "WFGetFilePath": "iOS++/ToS/ToS.html",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.documentpicker.save": {
+      "total_occurrences": 10,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit",
+        "IE: Image_Editor_",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFAskWhereToSave",
+        "WFFileDestinationPath",
+        "WFInput",
+        "WFSaveFileOverwrite"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Decoded Image"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFAskWhereToSave": true,
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Converted Image"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Markup Result"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.downloadurl": {
+      "total_occurrences": 8,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit",
+        "IE: Image_Editor_",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "ShowHeaders",
+        "UUID",
+        "WFHTTPBodyType",
+        "WFHTTPMethod",
+        "WFJSONValues",
+        "WFRequestVariable",
+        "WFURL"
+      ],
+      "examples": [
+        {
+          "WFRequestVariable": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Dictionary"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFJSONValues": {
+            "Value": {
+              "WFDictionaryFieldValueItems": []
+            },
+            "WFSerializationType": "WFDictionaryFieldValue"
+          },
+          "UUID": "<UUID>",
+          "ShowHeaders": false,
+          "WFURL": {
+            "Value": {
+              "string": "https://routinehub.co/api/v1/shortcuts/￼/versions/latest",
+              "attachmentsByRange": {
+                "{39, 1}": {
+                  "VariableName": "Rhubid",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFHTTPMethod": "GET",
+          "WFHTTPBodyType": "JSON",
+          "CustomOutputName": "Response"
+        },
+        {
+          "WFURL": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "URL"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "CustomOutputName": "result",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFURL": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "URL"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.encodemedia": {
+      "total_occurrences": 2,
+      "sources": [
+        "IE: Image_Editor_"
+      ],
+      "parameter_keys": [
+        "Metadata",
+        "UUID",
+        "WFMedia",
+        "WFMediaAudioOnly",
+        "WFMetadataAlbum",
+        "WFMetadataArtist",
+        "WFMetadataGenre",
+        "WFMetadataTitle",
+        "WFMetadataYear"
+      ],
+      "examples": [
+        {
+          "WFMedia": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "File"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFMediaAudioOnly": true,
+          "WFMetadataArtist": "IE",
+          "Metadata": true,
+          "UUID": "<UUID>",
+          "WFMetadataTitle": "Saved Music File",
+          "WFMetadataAlbum": "Image Editor Saved File Gallery",
+          "WFMetadataGenre": "----",
+          "WFMetadataYear": "----"
+        },
+        {
+          "WFMedia": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Photos"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFMediaAudioOnly": true,
+          "WFMetadataArtist": "IE",
+          "Metadata": true,
+          "UUID": "<UUID>",
+          "WFMetadataTitle": "Saved Music File",
+          "WFMetadataAlbum": "Image Editor Saved File Gallery",
+          "WFMetadataGenre": "----",
+          "WFMetadataYear": "----"
+        }
+      ]
+    },
+    "is.workflow.actions.exit": {
+      "total_occurrences": 10,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "IE: Image_Editor_"
+      ],
+      "parameter_keys": [],
+      "examples": [
+        {},
+        {},
+        {}
+      ]
+    },
+    "is.workflow.actions.extracttextfromimage": {
+      "total_occurrences": 1,
+      "sources": [
+        "Photos_ToolKit"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFImage"
+      ],
+      "examples": [
+        {
+          "WFImage": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Photos"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.file.createfolder": {
+      "total_occurrences": 5,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFFilePath",
+        "WFFolder"
+      ],
+      "examples": [
+        {
+          "WFFilePath": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "VariableName": "Path",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFFolder": {
+            "fileLocation": {
+              "relativeSubpath": "",
+              "fileProviderDomainID": "com.apple.CloudDocs.iCloudDriveFileProvider/50660034-C2FC-4375-8955-1BFEB2F9B9A3",
+              "WFFileLocationType": "Shortcuts",
+              "crossDeviceItemID": "docs.icloud.com:iCloud.is.workflow.my.workflows/documents/41e9167c7d48275851f88d270baf1f336f05496a",
+              "appContainerBundleIdentifier": "com.apple.shortcuts"
+            },
+            "filename": "Documents",
+            "displayName": "Shortcuts"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFFilePath": "iOS++/"
+        },
+        {
+          "WFFilePath": "iOS++/FirstTime"
+        }
+      ]
+    },
+    "is.workflow.actions.file.delete": {
+      "total_occurrences": 1,
+      "sources": [
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "WFDeleteFileConfirmDeletion",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFDeleteFileConfirmDeletion": false,
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "File"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.file.select": {
+      "total_occurrences": 9,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit",
+        "IE: Image_Editor_"
+      ],
+      "parameter_keys": [
+        "SelectMultiple",
+        "UUID",
+        "WFGetFolderContents",
+        "WFShowFilePicker"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>",
+          "SelectMultiple": false
+        },
+        {
+          "WFGetFolderContents": true,
+          "UUID": "<UUID>"
+        },
+        {
+          "WFShowFilePicker": true,
+          "WFGetFolderContents": true,
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.flashlight": {
+      "total_occurrences": 1,
+      "sources": [
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "WFFlashlightSetting"
+      ],
+      "examples": [
+        {
+          "WFFlashlightSetting": "Toggle"
+        }
+      ]
+    },
+    "is.workflow.actions.generatebarcode": {
+      "total_occurrences": 1,
+      "sources": [
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFText"
+      ],
+      "examples": [
+        {
+          "WFText": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Text"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.getcurrentsong": {
+      "total_occurrences": 1,
+      "sources": [
+        "The_Music_Controller"
+      ],
+      "parameter_keys": [
+        "UUID"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.getdevicedetails": {
+      "total_occurrences": 3,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "IE: Image_Editor_"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFDeviceDetail"
+      ],
+      "examples": [
+        {
+          "WFDeviceDetail": "Device Is Locked",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFDeviceDetail": "Device Is Locked",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFDeviceDetail": "System Version",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.getipaddress": {
+      "total_occurrences": 2,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFIPAddressSourceOption"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>"
+        },
+        {
+          "UUID": "<UUID>",
+          "WFIPAddressSourceOption": "Local"
+        }
+      ]
+    },
+    "is.workflow.actions.getnameofemoji": {
+      "total_occurrences": 2,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "If Result"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": "0",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.gettext": {
+      "total_occurrences": 38,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit",
+        "IE: Image_Editor_",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFTextActionText"
+      ],
+      "examples": [
+        {
+          "WFTextActionText": {
+            "Value": {
+              "string": "/￼/￼",
+              "attachmentsByRange": {
+                "{1, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Creator"
+                },
+                "{3, 1}": {
+                  "VariableName": "self",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFTextActionText": {
+            "Value": {
+              "string": "UPDATE : AVAILABLE (Version : ￼)",
+              "attachmentsByRange": {
+                "{30, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Onlineversion"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "CustomOutputName": "Update available ",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFTextActionText": "⬆️",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.gettimebetweendates": {
+      "total_occurrences": 1,
+      "sources": [
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput",
+        "WFTimeUntilFromDate",
+        "WFTimeUntilUnit"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Provided Input"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFTimeUntilFromDate": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Provided Input"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>",
+          "WFTimeUntilUnit": {
+            "Value": {
+              "Type": "Ask"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.getvalueforkey": {
+      "total_occurrences": 7,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "CustomOutputName",
+        "UUID",
+        "WFDictionaryKey",
+        "WFGetDictionaryValueType",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "MainDictionary",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "CustomOutputName": "Creator",
+          "UUID": "<UUID>",
+          "WFDictionaryKey": "Creator"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Response"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "CustomOutputName": "Onlineversion",
+          "UUID": "<UUID>",
+          "WFDictionaryKey": "Version"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Dictionary"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "CustomOutputName": "icons",
+          "UUID": "<UUID>",
+          "WFDictionaryKey": "icons"
+        }
+      ]
+    },
+    "is.workflow.actions.getwebpagecontents": {
+      "total_occurrences": 1,
+      "sources": [
+        "Photos_ToolKit"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "URL"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.giphy": {
+      "total_occurrences": 1,
+      "sources": [
+        "IE: Image_Editor_"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFGiphyQuery",
+        "WFGiphySelectMultiple"
+      ],
+      "examples": [
+        {
+          "WFGiphyQuery": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "Type": "Ask"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFGiphySelectMultiple": true,
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.handoffplayback": {
+      "total_occurrences": 1,
+      "sources": [
+        "The_Music_Controller"
+      ],
+      "parameter_keys": [
+        "WFDestinationMediaRoute",
+        "WFSourceMediaRoute"
+      ],
+      "examples": [
+        {
+          "WFSourceMediaRoute": {
+            "Value": {
+              "Type": "Ask"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFDestinationMediaRoute": {
+            "Value": {
+              "Type": "Ask"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.image.combine": {
+      "total_occurrences": 4,
+      "sources": [
+        "Photos_ToolKit",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFImageCombineMode",
+        "WFImageCombineSpacing",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "PhotosCombine",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFImageCombineMode": "In a Grid",
+          "UUID": "<UUID>",
+          "WFImageCombineSpacing": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Provided Spacing"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "PhotosCombine",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFImageCombineMode": "Horizontally",
+          "UUID": "<UUID>",
+          "WFImageCombineSpacing": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Provided Spacing"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "PhotosCombine",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFImageCombineMode": "Vertically",
+          "UUID": "<UUID>",
+          "WFImageCombineSpacing": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Provided Spacing"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.image.convert": {
+      "total_occurrences": 15,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit",
+        "IE: Image_Editor_"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFImageCompressionQuality",
+        "WFImageFormat",
+        "WFImagePreserveMetadata",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFImageCompressionQuality": 1,
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Images"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>",
+          "WFImagePreserveMetadata": false,
+          "WFImageFormat": "PNG"
+        },
+        {
+          "WFImageCompressionQuality": 1,
+          "WFInput": {
+            "Value": {
+              "VariableName": "PhotosConvert",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>",
+          "WFImageFormat": "PDF"
+        },
+        {
+          "WFImageFormat": "PNG",
+          "WFImageCompressionQuality": 1,
+          "WFInput": {
+            "Value": {
+              "VariableName": "PhotosConvert",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.image.flip": {
+      "total_occurrences": 2,
+      "sources": [
+        "Photos_ToolKit"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFImageFlipDirection",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "PhotosFlip",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFImageFlipDirection": "Vertical",
+          "WFInput": {
+            "Value": {
+              "VariableName": "PhotosFlip",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.image.mask": {
+      "total_occurrences": 4,
+      "sources": [
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFCustomMaskImage",
+        "WFInput",
+        "WFMaskType"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Photos"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFMaskType": "Icon",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Photos"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Photos"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFMaskType": "Ellipse",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.image.removebackground": {
+      "total_occurrences": 1,
+      "sources": [
+        "Photos_ToolKit"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFCropToBounds",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "PhotosRemoveBG",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFCropToBounds": false,
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.image.resize": {
+      "total_occurrences": 5,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit",
+        "IE: Image_Editor_",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFImage",
+        "WFImageResizeHeight",
+        "WFImageResizeWidth"
+      ],
+      "examples": [
+        {
+          "WFImageResizeHeight": "93",
+          "WFImage": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Converted Image"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>",
+          "WFImageResizeWidth": "93"
+        },
+        {
+          "WFImageResizeHeight": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Provided Hight"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>",
+          "WFImageResizeWidth": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Provided Width"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFImage": {
+            "Value": {
+              "VariableName": "PhotosResize",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "WFImageResizeHeight": {
+            "Value": {
+              "Type": "Ask"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>",
+          "WFImageResizeWidth": {
+            "Value": {
+              "Type": "Ask"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFImage": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Photos"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.image.rotate": {
+      "total_occurrences": 1,
+      "sources": [
+        "Photos_ToolKit"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFImage",
+        "WFImageRotateAmount"
+      ],
+      "examples": [
+        {
+          "WFImage": {
+            "Value": {
+              "VariableName": "PhotosRotate",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFImageRotateAmount": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Provided Degrees"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.lowpowermode.set": {
+      "total_occurrences": 2,
+      "sources": [
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "OnValue"
+      ],
+      "examples": [
+        {},
+        {
+          "OnValue": 0
+        }
+      ]
+    },
+    "is.workflow.actions.makegif": {
+      "total_occurrences": 4,
+      "sources": [
+        "Photos_ToolKit",
+        "IE: Image_Editor_"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput",
+        "WFMakeGIFActionAutoSize",
+        "WFMakeGIFActionDelayTime",
+        "WFMakeGIFActionLoopEnabled",
+        "WFMakeGIFActionManualSizeHeight",
+        "WFMakeGIFActionManualSizeWidth"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "PhotosGIF",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFMakeGIFActionLoopEnabled": false,
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Photos"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFMakeGIFActionDelayTime": "1.0",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFMakeGIFActionManualSizeWidth": "700",
+          "WFMakeGIFActionAutoSize": true,
+          "WFMakeGIFActionManualSizeHeight": "700",
+          "UUID": "<UUID>",
+          "WFMakeGIFActionDelayTime": "1.0",
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Photos"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.makevideofromgif": {
+      "total_occurrences": 1,
+      "sources": [
+        "IE: Image_Editor_"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInputGIF"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>",
+          "WFInputGIF": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "GIF"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.math": {
+      "total_occurrences": 1,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput",
+        "WFMathOperand",
+        "WFMathOperation"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Onlineversion"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFMathOperation": "-",
+          "UUID": "<UUID>",
+          "WFMathOperand": {
+            "Value": {
+              "VariableName": "installedVersion",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.nothing": {
+      "total_occurrences": 2,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility"
+      ],
+      "parameter_keys": [
+        "UUID"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>"
+        },
+        {
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.notification": {
+      "total_occurrences": 27,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput",
+        "WFNotificationActionBody",
+        "WFNotificationActionSound",
+        "WFNotificationActionTitle"
+      ],
+      "examples": [
+        {
+          "WFNotificationActionTitle": "Update Check Error",
+          "WFNotificationActionBody": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Response"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFNotificationActionBody": {
+            "Value": {
+              "string": "Keep Phone Unlocked For  ￼ Menu, Wait Till End...",
+              "attachmentsByRange": {
+                "{25, 1}": {
+                  "VariableName": "Emoji",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>",
+          "WFNotificationActionSound": false,
+          "WFNotificationActionTitle": {
+            "Value": {
+              "string": "￼ ￼",
+              "attachmentsByRange": {
+                "{2, 1}": {
+                  "VariableName": "Emoji",
+                  "Type": "Variable"
+                },
+                "{0, 1}": {
+                  "VariableName": "Status",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "WFNotificationActionBody": {
+            "Value": {
+              "string": "Keep Phone Unlocked For  ￼ Menu, Wait Till End...",
+              "attachmentsByRange": {
+                "{25, 1}": {
+                  "VariableName": "Emoji",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>",
+          "WFNotificationActionSound": false,
+          "WFNotificationActionTitle": {
+            "Value": {
+              "string": "￼ ￼",
+              "attachmentsByRange": {
+                "{2, 1}": {
+                  "VariableName": "Emoji",
+                  "Type": "Variable"
+                },
+                "{0, 1}": {
+                  "VariableName": "Status",
+                  "Type": "Variable"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.number.random": {
+      "total_occurrences": 1,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFRandomNumberMaximum",
+        "WFRandomNumberMinimum"
+      ],
+      "examples": [
+        {
+          "WFRandomNumberMinimum": "1",
+          "WFRandomNumberMaximum": "3",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.openapp": {
+      "total_occurrences": 12,
+      "sources": [
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "WFAppIdentifier"
+      ],
+      "examples": [
+        {
+          "WFAppIdentifier": "com.apple.Preferences"
+        },
+        {
+          "WFAppIdentifier": "com.apple.Preferences"
+        },
+        {
+          "WFAppIdentifier": "com.apple.Preferences"
+        }
+      ]
+    },
+    "is.workflow.actions.openurl": {
+      "total_occurrences": 26,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "Show-WFInput",
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Updated Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Updated Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "Type": "ActionOutput",
+              "OutputName": "Response",
+              "OutputUUID": "<UUID>",
+              "Aggrandizements": [
+                {
+                  "Type": "WFCoercionVariableAggrandizement",
+                  "CoercionItemClass": "WFDictionaryContentItem"
+                },
+                {
+                  "Type": "WFDictionaryValueVariableAggrandizement",
+                  "DictionaryKey": "payload.download"
+                }
+              ]
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.output": {
+      "total_occurrences": 2,
+      "sources": [
+        "Photos_ToolKit"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFOutput"
+      ],
+      "examples": [
+        {
+          "WFOutput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Saved File"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFOutput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "URL"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.overlayimageonimage": {
+      "total_occurrences": 2,
+      "sources": [
+        "Photos_ToolKit",
+        "IE: Image_Editor_"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFImage",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFImage": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Second Photo"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Background"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFImage": {
+            "Value": {
+              "VariableName": "Image_2",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFInput": {
+            "Value": {
+              "VariableName": "Image_1",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.overlaytext": {
+      "total_occurrences": 1,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFImage",
+        "WFPercentageFontSize",
+        "WFPercentageTextBoxWidth",
+        "WFPercentageTextStrokeWidth",
+        "WFText",
+        "WFTextColor",
+        "WFTextOutlineEnabled",
+        "WFTextPosition",
+        "WFTextRotation"
+      ],
+      "examples": [
+        {
+          "WFTextPosition": "Center",
+          "WFTextColor": {
+            "blueComponent": 0.9929860234260559,
+            "WFColorRepresentationType": "WFColorRepresentationTypeCGColor",
+            "greenComponent": 0.37862303853034973,
+            "redComponent": 0.002887423848733306,
+            "alphaComponent": 1
+          },
+          "WFText": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "If Result"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>",
+          "WFTextOutlineEnabled": false,
+          "WFTextRotation": "0",
+          "WFPercentageTextBoxWidth": 1,
+          "WFPercentageTextStrokeWidth": 0.036616124212741866,
+          "WFPercentageFontSize": 0.6174242496490479,
+          "WFImage": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Base64 Encoded"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.pausemusic": {
+      "total_occurrences": 1,
+      "sources": [
+        "The_Music_Controller"
+      ],
+      "parameter_keys": [
+        "WFMediaRoute",
+        "WFPlayPauseBehavior"
+      ],
+      "examples": [
+        {
+          "WFPlayPauseBehavior": {
+            "Value": {
+              "Type": "Ask"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFMediaRoute": {
+            "Value": {
+              "Type": "Ask"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.playmusic": {
+      "total_occurrences": 1,
+      "sources": [
+        "The_Music_Controller"
+      ],
+      "parameter_keys": [
+        "WFMediaItems"
+      ],
+      "examples": [
+        {
+          "WFMediaItems": {
+            "Value": {
+              "Type": "Ask"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.previewdocument": {
+      "total_occurrences": 7,
+      "sources": [
+        "Photos_ToolKit",
+        "IE: Image_Editor_",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "WFInput",
+        "WFQuickLookActionFullScreen"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Renamed Item"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFQuickLookActionFullScreen": true
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "File"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "File"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.properties.contacts": {
+      "total_occurrences": 1,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFContentItemPropertyName",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Selected Item"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFContentItemPropertyName": "Name",
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.properties.images": {
+      "total_occurrences": 6,
+      "sources": [
+        "Photos_ToolKit"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFContentItemPropertyName",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "PhotosResize",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>",
+          "WFContentItemPropertyName": "Height"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "PhotosResize",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>",
+          "WFContentItemPropertyName": "Width"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "PhotosResize",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>",
+          "WFContentItemPropertyName": "File Size"
+        }
+      ]
+    },
+    "is.workflow.actions.properties.music": {
+      "total_occurrences": 1,
+      "sources": [
+        "The_Music_Controller"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Current Song"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.repeat.count": {
+      "total_occurrences": 12,
+      "sources": [
+        "Photos_ToolKit",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "GroupingIdentifier",
+        "UUID",
+        "WFControlFlowMode",
+        "WFRepeatCount"
+      ],
+      "examples": [
+        {
+          "WFControlFlowMode": 0,
+          "GroupingIdentifier": "<UUID>",
+          "WFRepeatCount": {
+            "Value": {
+              "Type": "Ask"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "UUID": "<UUID>",
+          "GroupingIdentifier": "<UUID>",
+          "WFControlFlowMode": 2
+        },
+        {
+          "GroupingIdentifier": "<UUID>",
+          "WFControlFlowMode": 0
+        }
+      ]
+    },
+    "is.workflow.actions.repeat.each": {
+      "total_occurrences": 4,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit"
+      ],
+      "parameter_keys": [
+        "GroupingIdentifier",
+        "UUID",
+        "WFControlFlowMode",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "Type": "ActionOutput",
+              "OutputName": "icons",
+              "OutputUUID": "<UUID>",
+              "Aggrandizements": [
+                {
+                  "Type": "WFCoercionVariableAggrandizement",
+                  "CoercionItemClass": "WFDictionaryContentItem"
+                },
+                {
+                  "Type": "WFPropertyVariableAggrandizement",
+                  "PropertyName": "Keys"
+                }
+              ]
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "GroupingIdentifier": "<UUID>",
+          "WFControlFlowMode": 0
+        },
+        {
+          "WFControlFlowMode": 2,
+          "GroupingIdentifier": "<UUID>",
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text from Image"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "GroupingIdentifier": "<UUID>",
+          "WFControlFlowMode": 0
+        }
+      ]
+    },
+    "is.workflow.actions.runsshscript": {
+      "total_occurrences": 1,
+      "sources": [
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput",
+        "WFSSHAuthenticationType",
+        "WFSSHHost",
+        "WFSSHPassword",
+        "WFSSHScript",
+        "WFSSHUser"
+      ],
+      "examples": [
+        {
+          "WFSSHPassword": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Provided Input"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFSSHScript": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Provided Input"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFSSHAuthenticationType": "Password",
+          "UUID": "<UUID>",
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Provided Input"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFSSHHost": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Provided Input"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFSSHUser": "root"
+        }
+      ]
+    },
+    "is.workflow.actions.runworkflow": {
+      "total_occurrences": 68,
+      "sources": [
+        "Photos_ToolKit",
+        "IE: Image_Editor_",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput",
+        "WFWorkflow",
+        "WFWorkflowName"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFWorkflow": {
+            "workflowIdentifier": "<UUID>",
+            "isSelf": true,
+            "workflowName": "Photos"
+          },
+          "UUID": "<UUID>",
+          "WFWorkflowName": "Photos"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Rotated Image"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFWorkflow": {
+            "workflowIdentifier": "<UUID>",
+            "isSelf": true,
+            "workflowName": "Photos"
+          },
+          "UUID": "<UUID>",
+          "WFWorkflowName": "Photos"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Menu Result"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFWorkflow": {
+            "workflowIdentifier": "<UUID>",
+            "isSelf": true,
+            "workflowName": "Photos"
+          },
+          "UUID": "<UUID>",
+          "WFWorkflowName": "Photos"
+        }
+      ]
+    },
+    "is.workflow.actions.savetocameraroll": {
+      "total_occurrences": 34,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit",
+        "IE: Image_Editor_",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Decoded Image"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Resized Image"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Menu Result"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.scanbarcode": {
+      "total_occurrences": 1,
+      "sources": [
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "UUID"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.searchappstore": {
+      "total_occurrences": 1,
+      "sources": [
+        "IE: Image_Editor_"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFEntity",
+        "WFItemLimit",
+        "WFSearchTerm"
+      ],
+      "examples": [
+        {
+          "WFItemLimit": 10,
+          "UUID": "<UUID>",
+          "WFSearchTerm": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "Type": "Ask"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFEntity": "iPhone"
+        }
+      ]
+    },
+    "is.workflow.actions.seek": {
+      "total_occurrences": 1,
+      "sources": [
+        "The_Music_Controller"
+      ],
+      "parameter_keys": [
+        "WFMediaRoute",
+        "WFSeekBehavior",
+        "WFTimeInterval"
+      ],
+      "examples": [
+        {
+          "WFTimeInterval": {
+            "Value": {
+              "Unit": "sec",
+              "Magnitude": {
+                "Type": "Ask"
+              }
+            },
+            "WFSerializationType": "WFQuantityFieldValue"
+          },
+          "WFSeekBehavior": {
+            "Value": {
+              "Type": "Ask"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFMediaRoute": {
+            "Value": {
+              "Type": "Ask"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.selectcontacts": {
+      "total_occurrences": 1,
+      "sources": [
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "UUID"
+      ],
+      "examples": [
+        {
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.selectphoto": {
+      "total_occurrences": 29,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit",
+        "IE: Image_Editor_",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFPhotoPickerTypes",
+        "WFSelectMultiplePhotos"
+      ],
+      "examples": [
+        {
+          "WFSelectMultiplePhotos": false,
+          "WFPhotoPickerTypes": [
+            "Images",
+            "Live Photos",
+            "Videos"
+          ],
+          "UUID": "<UUID>"
+        },
+        {
+          "UUID": "<UUID>",
+          "WFPhotoPickerTypes": [
+            "Images",
+            "Live Photos"
+          ],
+          "WFSelectMultiplePhotos": true
+        },
+        {
+          "UUID": "<UUID>",
+          "WFPhotoPickerTypes": [
+            "Images",
+            "Live Photos"
+          ],
+          "WFSelectMultiplePhotos": true
+        }
+      ]
+    },
+    "is.workflow.actions.sendemail": {
+      "total_occurrences": 2,
+      "sources": [
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "WFSendEmailActionInputAttachments",
+        "WFSendEmailActionSubject",
+        "WFSendEmailActionToRecipients"
+      ],
+      "examples": [
+        {
+          "WFSendEmailActionSubject": "Feedback",
+          "WFSendEmailActionInputAttachments": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Provided Input"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFSendEmailActionToRecipients": {
+            "Value": {
+              "WFContactFieldValues": [
+                {
+                  "EntryType": 2,
+                  "SerializedEntry": {
+                    "link.contentkit.emailaddress": "rick4soppa@gmail.com"
+                  }
+                }
+              ]
+            },
+            "WFSerializationType": "WFContactFieldValue"
+          }
+        },
+        {
+          "WFSendEmailActionSubject": "Bug",
+          "WFSendEmailActionInputAttachments": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Provided Input"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFSendEmailActionToRecipients": {
+            "Value": {
+              "WFContactFieldValues": [
+                {
+                  "EntryType": 2,
+                  "SerializedEntry": {
+                    "link.contentkit.emailaddress": "rick4soppa@gmail.com"
+                  }
+                }
+              ]
+            },
+            "WFSerializationType": "WFContactFieldValue"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.sendmessage": {
+      "total_occurrences": 1,
+      "sources": [
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "WFSendMessageActionRecipients",
+        "WFSendMessageContent"
+      ],
+      "examples": [
+        {
+          "WFSendMessageActionRecipients": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Contacts"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFSendMessageContent": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Contacts"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.setbrightness": {
+      "total_occurrences": 2,
+      "sources": [
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "WFBrightness"
+      ],
+      "examples": [
+        {
+          "WFBrightness": 0
+        },
+        {
+          "WFBrightness": 0.7545871734619141
+        }
+      ]
+    },
+    "is.workflow.actions.setclipboard": {
+      "total_occurrences": 8,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput",
+        "WFLocalOnly"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Dictionary Value"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Decoded Image"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "If Result"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.setitemname": {
+      "total_occurrences": 10,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit",
+        "IE: Image_Editor_",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput",
+        "WFName"
+      ],
+      "examples": [
+        {
+          "WFName": "menu.vcf",
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFName": "iconsmenu.vcf",
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "WFName": "m.vcf",
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Text"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.setplaybackdestination": {
+      "total_occurrences": 1,
+      "sources": [
+        "The_Music_Controller"
+      ],
+      "parameter_keys": [
+        "WFMediaRoute"
+      ],
+      "examples": [
+        {
+          "WFMediaRoute": {
+            "Value": {
+              "Type": "Ask"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.setvariable": {
+      "total_occurrences": 32,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit",
+        "IE: Image_Editor_",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "WFInput",
+        "WFVariableName"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": " Dictionary"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFVariableName": "MainDictionary"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "MainDictionary",
+              "Type": "Variable",
+              "Aggrandizements": [
+                {
+                  "Type": "WFDictionaryValueVariableAggrandizement",
+                  "DictionaryKey": "Name"
+                }
+              ]
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFVariableName": "self"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "MainDictionary",
+              "Type": "Variable",
+              "Aggrandizements": [
+                {
+                  "Type": "WFDictionaryValueVariableAggrandizement",
+                  "DictionaryKey": "Rhubid"
+                }
+              ]
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFVariableName": "Rhubid"
+        }
+      ]
+    },
+    "is.workflow.actions.setvolume": {
+      "total_occurrences": 2,
+      "sources": [
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "WFVolume"
+      ],
+      "examples": [
+        {
+          "WFVolume": 0
+        },
+        {}
+      ]
+    },
+    "is.workflow.actions.share": {
+      "total_occurrences": 3,
+      "sources": [
+        "IE: Image_Editor_"
+      ],
+      "parameter_keys": [
+        "WFInput"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Renamed Item"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Renamed Item"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "VariableName": "DownloadPage",
+              "Type": "Variable"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.showresult": {
+      "total_occurrences": 9,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility",
+        "Photos_ToolKit"
+      ],
+      "parameter_keys": [
+        "Text"
+      ],
+      "examples": [
+        {
+          "Text": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Decoded Image"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "Text": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Text"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        },
+        {
+          "Text": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Text"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.skipback": {
+      "total_occurrences": 1,
+      "sources": [
+        "The_Music_Controller"
+      ],
+      "parameter_keys": [
+        "WFMediaRoute",
+        "WFSkipBackBehavior"
+      ],
+      "examples": [
+        {
+          "WFSkipBackBehavior": {
+            "Value": {
+              "Type": "Ask"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFMediaRoute": {
+            "Value": {
+              "Type": "Ask"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.skipforward": {
+      "total_occurrences": 1,
+      "sources": [
+        "The_Music_Controller"
+      ],
+      "parameter_keys": [
+        "WFMediaRoute"
+      ],
+      "examples": [
+        {
+          "WFMediaRoute": {
+            "Value": {
+              "Type": "Ask"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.speaktext": {
+      "total_occurrences": 2,
+      "sources": [
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "WFSpeakTextLanguage",
+        "WFSpeakTextVoice",
+        "WFText"
+      ],
+      "examples": [
+        {
+          "WFSpeakTextVoice": "com.apple.ttsbundle.Samantha-compact",
+          "WFText": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Text"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFSpeakTextLanguage": "en-US"
+        },
+        {
+          "WFText": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "Text"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.takephoto": {
+      "total_occurrences": 2,
+      "sources": [
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFCameraCaptureDevice"
+      ],
+      "examples": [
+        {
+          "WFCameraCaptureDevice": "Front"
+        },
+        {
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.text.replace": {
+      "total_occurrences": 2,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput",
+        "WFReplaceTextCaseSensitive",
+        "WFReplaceTextFind",
+        "WFReplaceTextReplace"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "Type": "ActionOutput",
+                  "OutputName": "Response",
+                  "OutputUUID": "<UUID>",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFCoercionVariableAggrandizement",
+                      "CoercionItemClass": "WFDictionaryContentItem"
+                    },
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "URL"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFReplaceTextReplace": "Shortcuts:/",
+          "WFReplaceTextCaseSensitive": false,
+          "UUID": "<UUID>",
+          "WFReplaceTextFind": "https://www.icloud.com"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "string": "￼",
+              "attachmentsByRange": {
+                "{0, 1}": {
+                  "Type": "ActionOutput",
+                  "OutputName": "Response",
+                  "OutputUUID": "<UUID>",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFCoercionVariableAggrandizement",
+                      "CoercionItemClass": "WFDictionaryContentItem"
+                    },
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "URL"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "WFReplaceTextReplace": "Shortcuts:/",
+          "WFReplaceTextCaseSensitive": false,
+          "UUID": "<UUID>",
+          "WFReplaceTextFind": "https://www.icloud.com"
+        }
+      ]
+    },
+    "is.workflow.actions.url": {
+      "total_occurrences": 26,
+      "sources": [
+        "Photos_ToolKit",
+        "IE: Image_Editor_",
+        "iOS: "
+      ],
+      "parameter_keys": [
+        "Show-WFURLActionURL",
+        "UUID",
+        "WFURLActionURL"
+      ],
+      "examples": [
+        {
+          "Show-WFURLActionURL": true,
+          "WFURLActionURL": {
+            "Value": {
+              "string": "https://routinehub.co/api/v1/shortcuts/￼/versions/latest",
+              "attachmentsByRange": {
+                "{39, 1}": {
+                  "VariableName": "LocalData",
+                  "Type": "Variable",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "ID"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "Show-WFURLActionURL": true,
+          "WFURLActionURL": {
+            "Value": {
+              "string": "data:text/html,￼",
+              "attachmentsByRange": {
+                "{15, 1}": {
+                  "OutputUUID": "<UUID>",
+                  "Type": "ActionOutput",
+                  "OutputName": "CompareVersionsHTML"
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        },
+        {
+          "Show-WFURLActionURL": true,
+          "WFURLActionURL": {
+            "Value": {
+              "string": "https://routinehub.co/download/￼",
+              "attachmentsByRange": {
+                "{31, 1}": {
+                  "Type": "ActionOutput",
+                  "OutputName": "Remote",
+                  "OutputUUID": "<UUID>",
+                  "Aggrandizements": [
+                    {
+                      "Type": "WFCoercionVariableAggrandizement",
+                      "CoercionItemClass": "WFDictionaryContentItem"
+                    },
+                    {
+                      "Type": "WFDictionaryValueVariableAggrandizement",
+                      "DictionaryKey": "id"
+                    }
+                  ]
+                }
+              }
+            },
+            "WFSerializationType": "WFTextTokenString"
+          },
+          "UUID": "<UUID>"
+        }
+      ]
+    },
+    "is.workflow.actions.wallpaper.set": {
+      "total_occurrences": 2,
+      "sources": [
+        "IE: Image_Editor_"
+      ],
+      "parameter_keys": [
+        "UUID",
+        "WFInput",
+        "WFWallpaperLocation",
+        "WFWallpaperShowPreview"
+      ],
+      "examples": [
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "Photos"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFWallpaperLocation": {
+            "Value": {
+              "Type": "Ask"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFWallpaperShowPreview": true,
+          "UUID": "<UUID>"
+        },
+        {
+          "WFInput": {
+            "Value": {
+              "OutputUUID": "<UUID>",
+              "Type": "ActionOutput",
+              "OutputName": "File"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          },
+          "WFWallpaperLocation": {
+            "Value": {
+              "Type": "Ask"
+            },
+            "WFSerializationType": "WFTextTokenAttachment"
+          }
+        }
+      ]
+    },
+    "is.workflow.actions.wifi.set": {
+      "total_occurrences": 1,
+      "sources": [
+        "Encoder_and_Decoder: Emoji: Photos: Audio: Video: Text: Full_Utility"
+      ],
+      "parameter_keys": [],
+      "examples": [
+        {}
+      ]
+    }
+  }
+}

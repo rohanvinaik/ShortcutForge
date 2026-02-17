@@ -1,0 +1,11 @@
+{
+  "<PAD>": 0,
+  "<UNK>": 1,
+  "<BOS>": 2,
+  "<EOS>": 3,
+  "PARAM": 4,
+  "WFAskWhereToSave": 5,
+  "WFFileDestinationPath": 6,
+  "WFFolder": 7,
+  "WFSaveFileOverwrite": 8
+}
