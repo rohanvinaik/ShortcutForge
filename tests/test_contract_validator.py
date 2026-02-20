@@ -16,9 +16,9 @@ _SRC_DIR = _SCRIPT_DIR.parent / "src"
 if str(_SRC_DIR) not in sys.path:
     sys.path.insert(0, str(_SRC_DIR))
 
+from contract_validator import ContractReport, ContractValidator
 from dsl_linter import lint_dsl
 from dsl_parser import parse_dsl
-from contract_validator import ContractValidator, ContractReport
 
 
 def _parse(dsl: str):
@@ -39,11 +39,11 @@ class TestContractValidator(unittest.TestCase):
         dsl = (
             'SHORTCUT "Clean"\n'
             'ACTION gettext Text="hello"\n'
-            'SET $Msg = @prev\n'
-            'IF $Msg has_any_value\n'
-            '  ACTION alert WFAlertActionMessage=$Msg\n'
-            'ENDIF\n'
-            'ENDSHORTCUT\n'
+            "SET $Msg = @prev\n"
+            "IF $Msg has_any_value\n"
+            "  ACTION alert WFAlertActionMessage=$Msg\n"
+            "ENDIF\n"
+            "ENDSHORTCUT\n"
         )
         ir = _parse(dsl)
         report = self.validator.validate(ir)
@@ -55,14 +55,16 @@ class TestContractValidator(unittest.TestCase):
         """downloadurl without IF within 3 statements -> warning."""
         dsl = (
             'SHORTCUT "NoErrorCheck"\n'
-            'ACTION url WFURLActionURL=$MyURL\n'
-            'ACTION downloadurl\n'
+            "ACTION url WFURLActionURL=$MyURL\n"
+            "ACTION downloadurl\n"
             'ACTION alert WFAlertActionMessage="done"\n'
-            'ENDSHORTCUT\n'
+            "ENDSHORTCUT\n"
         )
         ir = _parse(dsl)
         report = self.validator.validate(ir)
-        rule_findings = [f for f in report.findings if f.rule_id == "api.missing_error_check"]
+        rule_findings = [
+            f for f in report.findings if f.rule_id == "api.missing_error_check"
+        ]
         self.assertTrue(len(rule_findings) >= 1)
         self.assertEqual(rule_findings[0].severity, "warning")
 
@@ -73,17 +75,19 @@ class TestContractValidator(unittest.TestCase):
         dsl = (
             'SHORTCUT "WithErrorCheck"\n'
             'SET $URL = "https://example.com"\n'
-            'ACTION url WFURLActionURL=$URL\n'
-            'ACTION downloadurl\n'
-            'SET $Response = @prev\n'
-            'IF $Response has_any_value\n'
+            "ACTION url WFURLActionURL=$URL\n"
+            "ACTION downloadurl\n"
+            "SET $Response = @prev\n"
+            "IF $Response has_any_value\n"
             '  ACTION alert WFAlertActionMessage="ok"\n'
-            'ENDIF\n'
-            'ENDSHORTCUT\n'
+            "ENDIF\n"
+            "ENDSHORTCUT\n"
         )
         ir = _parse(dsl)
         report = self.validator.validate(ir)
-        rule_findings = [f for f in report.findings if f.rule_id == "api.missing_error_check"]
+        rule_findings = [
+            f for f in report.findings if f.rule_id == "api.missing_error_check"
+        ]
         self.assertEqual(len(rule_findings), 0)
 
     # ── 4. api.missing_content_type ──────────────────────────────
@@ -93,16 +97,18 @@ class TestContractValidator(unittest.TestCase):
         dsl = (
             'SHORTCUT "NoContentType"\n'
             'SET $URL = "https://api.example.com"\n'
-            'ACTION url WFURLActionURL=$URL\n'
+            "ACTION url WFURLActionURL=$URL\n"
             'ACTION downloadurl WFHTTPMethod="POST" WFHTTPBodyType="JSON"\n'
-            'IF @prev has_any_value\n'
+            "IF @prev has_any_value\n"
             '  ACTION alert WFAlertActionMessage="ok"\n'
-            'ENDIF\n'
-            'ENDSHORTCUT\n'
+            "ENDIF\n"
+            "ENDSHORTCUT\n"
         )
         ir = _parse(dsl)
         report = self.validator.validate(ir)
-        rule_findings = [f for f in report.findings if f.rule_id == "api.missing_content_type"]
+        rule_findings = [
+            f for f in report.findings if f.rule_id == "api.missing_content_type"
+        ]
         self.assertTrue(len(rule_findings) >= 1)
         self.assertEqual(rule_findings[0].severity, "warning")
 
@@ -113,17 +119,19 @@ class TestContractValidator(unittest.TestCase):
         dsl = (
             'SHORTCUT "NoParse"\n'
             'SET $URL = "https://api.example.com"\n'
-            'ACTION url WFURLActionURL=$URL\n'
-            'ACTION downloadurl\n'
-            'SET $Data = @prev\n'
-            'IF $Data has_any_value\n'
+            "ACTION url WFURLActionURL=$URL\n"
+            "ACTION downloadurl\n"
+            "SET $Data = @prev\n"
+            "IF $Data has_any_value\n"
             '  ACTION alert WFAlertActionMessage="raw data"\n'
-            'ENDIF\n'
-            'ENDSHORTCUT\n'
+            "ENDIF\n"
+            "ENDSHORTCUT\n"
         )
         ir = _parse(dsl)
         report = self.validator.validate(ir)
-        rule_findings = [f for f in report.findings if f.rule_id == "api.json_parse_after_fetch"]
+        rule_findings = [
+            f for f in report.findings if f.rule_id == "api.json_parse_after_fetch"
+        ]
         self.assertTrue(len(rule_findings) >= 1)
         self.assertEqual(rule_findings[0].severity, "info")
 
@@ -134,14 +142,16 @@ class TestContractValidator(unittest.TestCase):
         dsl = (
             'SHORTCUT "HardcodedURL"\n'
             'ACTION downloadurl WFURLActionURL="https://api.example.com/data"\n'
-            'IF @prev has_any_value\n'
-            '  ACTION detect.dictionary\n'
-            'ENDIF\n'
-            'ENDSHORTCUT\n'
+            "IF @prev has_any_value\n"
+            "  ACTION detect.dictionary\n"
+            "ENDIF\n"
+            "ENDSHORTCUT\n"
         )
         ir = _parse(dsl)
         report = self.validator.validate(ir)
-        rule_findings = [f for f in report.findings if f.rule_id == "api.url_not_variable"]
+        rule_findings = [
+            f for f in report.findings if f.rule_id == "api.url_not_variable"
+        ]
         self.assertTrue(len(rule_findings) >= 1)
         self.assertEqual(rule_findings[0].severity, "info")
 
@@ -152,14 +162,16 @@ class TestContractValidator(unittest.TestCase):
         dsl = (
             'SHORTCUT "EmptyForeach"\n'
             'SET $Items = "a"\n'
-            'FOREACH $Items\n'
+            "FOREACH $Items\n"
             '  ACTION alert WFAlertActionMessage="item"\n'
-            'ENDFOREACH\n'
-            'ENDSHORTCUT\n'
+            "ENDFOREACH\n"
+            "ENDSHORTCUT\n"
         )
         ir = _parse(dsl)
         report = self.validator.validate(ir)
-        rule_findings = [f for f in report.findings if f.rule_id == "map.foreach_empty_body"]
+        rule_findings = [
+            f for f in report.findings if f.rule_id == "map.foreach_empty_body"
+        ]
         self.assertTrue(len(rule_findings) >= 1)
         self.assertEqual(rule_findings[0].severity, "warning")
 
@@ -171,11 +183,13 @@ class TestContractValidator(unittest.TestCase):
             'SHORTCUT "UnusedVar"\n'
             'SET $Unused = "hello"\n'
             'ACTION alert WFAlertActionMessage="bye"\n'
-            'ENDSHORTCUT\n'
+            "ENDSHORTCUT\n"
         )
         ir = _parse(dsl)
         report = self.validator.validate(ir)
-        rule_findings = [f for f in report.findings if f.rule_id == "map.set_never_used"]
+        rule_findings = [
+            f for f in report.findings if f.rule_id == "map.set_never_used"
+        ]
         self.assertTrue(len(rule_findings) >= 1)
         self.assertEqual(rule_findings[0].severity, "warning")
         self.assertIn("Unused", rule_findings[0].message)
@@ -187,12 +201,14 @@ class TestContractValidator(unittest.TestCase):
         dsl = (
             'SHORTCUT "UsedVar"\n'
             'SET $Msg = "hello"\n'
-            'ACTION alert WFAlertActionMessage=$Msg\n'
-            'ENDSHORTCUT\n'
+            "ACTION alert WFAlertActionMessage=$Msg\n"
+            "ENDSHORTCUT\n"
         )
         ir = _parse(dsl)
         report = self.validator.validate(ir)
-        rule_findings = [f for f in report.findings if f.rule_id == "map.set_never_used"]
+        rule_findings = [
+            f for f in report.findings if f.rule_id == "map.set_never_used"
+        ]
         self.assertEqual(len(rule_findings), 0)
 
     # ── 10. Internal var skipped ─────────────────────────────────
@@ -203,11 +219,13 @@ class TestContractValidator(unittest.TestCase):
             'SHORTCUT "InternalVar"\n'
             'SET $__internal = "temp"\n'
             'ACTION alert WFAlertActionMessage="hi"\n'
-            'ENDSHORTCUT\n'
+            "ENDSHORTCUT\n"
         )
         ir = _parse(dsl)
         report = self.validator.validate(ir)
-        rule_findings = [f for f in report.findings if f.rule_id == "map.set_never_used"]
+        rule_findings = [
+            f for f in report.findings if f.rule_id == "map.set_never_used"
+        ]
         # Should not have findings for __internal variables
         internal_findings = [f for f in rule_findings if "__internal" in f.message]
         self.assertEqual(len(internal_findings), 0)
@@ -218,15 +236,17 @@ class TestContractValidator(unittest.TestCase):
         """REPEAT 5000 -> warning."""
         dsl = (
             'SHORTCUT "BigRepeat"\n'
-            'REPEAT 5000\n'
+            "REPEAT 5000\n"
             '  ACTION alert WFAlertActionMessage="loop"\n'
             '  ACTION text Text="hi"\n'
-            'ENDREPEAT\n'
-            'ENDSHORTCUT\n'
+            "ENDREPEAT\n"
+            "ENDSHORTCUT\n"
         )
         ir = _parse(dsl)
         report = self.validator.validate(ir)
-        rule_findings = [f for f in report.findings if f.rule_id == "risk.infinite_repeat"]
+        rule_findings = [
+            f for f in report.findings if f.rule_id == "risk.infinite_repeat"
+        ]
         self.assertTrue(len(rule_findings) >= 1)
         self.assertEqual(rule_findings[0].severity, "warning")
 
@@ -236,15 +256,17 @@ class TestContractValidator(unittest.TestCase):
         """REPEAT 10 -> no infinite_repeat warning."""
         dsl = (
             'SHORTCUT "SmallRepeat"\n'
-            'REPEAT 10\n'
+            "REPEAT 10\n"
             '  ACTION alert WFAlertActionMessage="loop"\n'
             '  ACTION text Text="hi"\n'
-            'ENDREPEAT\n'
-            'ENDSHORTCUT\n'
+            "ENDREPEAT\n"
+            "ENDSHORTCUT\n"
         )
         ir = _parse(dsl)
         report = self.validator.validate(ir)
-        rule_findings = [f for f in report.findings if f.rule_id == "risk.infinite_repeat"]
+        rule_findings = [
+            f for f in report.findings if f.rule_id == "risk.infinite_repeat"
+        ]
         self.assertEqual(len(rule_findings), 0)
 
     # ── 13. risk.nested_network ──────────────────────────────────
@@ -254,15 +276,17 @@ class TestContractValidator(unittest.TestCase):
         dsl = (
             'SHORTCUT "NestedNet"\n'
             'SET $URLs = "items"\n'
-            'FOREACH $URLs\n'
-            '  ACTION downloadurl\n'
-            '  ACTION detect.dictionary\n'
-            'ENDFOREACH\n'
-            'ENDSHORTCUT\n'
+            "FOREACH $URLs\n"
+            "  ACTION downloadurl\n"
+            "  ACTION detect.dictionary\n"
+            "ENDFOREACH\n"
+            "ENDSHORTCUT\n"
         )
         ir = _parse(dsl)
         report = self.validator.validate(ir)
-        rule_findings = [f for f in report.findings if f.rule_id == "risk.nested_network"]
+        rule_findings = [
+            f for f in report.findings if f.rule_id == "risk.nested_network"
+        ]
         self.assertTrue(len(rule_findings) >= 1)
         self.assertEqual(rule_findings[0].severity, "warning")
 
@@ -279,12 +303,14 @@ class TestContractValidator(unittest.TestCase):
             '  ACTION alert WFAlertActionMessage="A2"\n'
             'CASE "Option B"\n'
             '  ACTION alert WFAlertActionMessage="B"\n'
-            'ENDMENU\n'
-            'ENDSHORTCUT\n'
+            "ENDMENU\n"
+            "ENDSHORTCUT\n"
         )
         ir = _parse(dsl)
         report = self.validator.validate(ir)
-        rule_findings = [f for f in report.findings if f.rule_id == "risk.menu_duplicate_labels"]
+        rule_findings = [
+            f for f in report.findings if f.rule_id == "risk.menu_duplicate_labels"
+        ]
         self.assertTrue(len(rule_findings) >= 1)
         self.assertEqual(rule_findings[0].severity, "error")
         self.assertIn("Option A", rule_findings[0].message)
@@ -302,12 +328,14 @@ class TestContractValidator(unittest.TestCase):
             '  ACTION alert WFAlertActionMessage="B"\n'
             'CASE "Option C"\n'
             '  ACTION alert WFAlertActionMessage="C"\n'
-            'ENDMENU\n'
-            'ENDSHORTCUT\n'
+            "ENDMENU\n"
+            "ENDSHORTCUT\n"
         )
         ir = _parse(dsl)
         report = self.validator.validate(ir)
-        rule_findings = [f for f in report.findings if f.rule_id == "risk.menu_duplicate_labels"]
+        rule_findings = [
+            f for f in report.findings if f.rule_id == "risk.menu_duplicate_labels"
+        ]
         self.assertEqual(len(rule_findings), 0)
 
     # ── 16. flow.use_before_set ──────────────────────────────────
@@ -316,13 +344,15 @@ class TestContractValidator(unittest.TestCase):
         """Reference $X before SET $X -> error."""
         dsl = (
             'SHORTCUT "UseBeforeSet"\n'
-            'ACTION alert WFAlertActionMessage=$Greeting\n'
+            "ACTION alert WFAlertActionMessage=$Greeting\n"
             'SET $Greeting = "hello"\n'
-            'ENDSHORTCUT\n'
+            "ENDSHORTCUT\n"
         )
         ir = _parse(dsl)
         report = self.validator.validate(ir)
-        rule_findings = [f for f in report.findings if f.rule_id == "flow.use_before_set"]
+        rule_findings = [
+            f for f in report.findings if f.rule_id == "flow.use_before_set"
+        ]
         self.assertTrue(len(rule_findings) >= 1)
         self.assertEqual(rule_findings[0].severity, "error")
         self.assertIn("Greeting", rule_findings[0].message)
@@ -333,17 +363,19 @@ class TestContractValidator(unittest.TestCase):
         """SET $X outside, SET $X inside FOREACH -> warning."""
         dsl = (
             'SHORTCUT "Shadow"\n'
-            'SET $Counter = 0\n'
+            "SET $Counter = 0\n"
             'SET $Items = "list"\n'
-            'FOREACH $Items\n'
-            '  SET $Counter = @prev\n'
-            'ENDFOREACH\n'
-            'ACTION alert WFAlertActionMessage=$Counter\n'
-            'ENDSHORTCUT\n'
+            "FOREACH $Items\n"
+            "  SET $Counter = @prev\n"
+            "ENDFOREACH\n"
+            "ACTION alert WFAlertActionMessage=$Counter\n"
+            "ENDSHORTCUT\n"
         )
         ir = _parse(dsl)
         report = self.validator.validate(ir)
-        rule_findings = [f for f in report.findings if f.rule_id == "flow.shadow_in_loop"]
+        rule_findings = [
+            f for f in report.findings if f.rule_id == "flow.shadow_in_loop"
+        ]
         self.assertTrue(len(rule_findings) >= 1)
         self.assertEqual(rule_findings[0].severity, "warning")
         self.assertIn("Counter", rule_findings[0].message)
@@ -355,13 +387,15 @@ class TestContractValidator(unittest.TestCase):
         dsl = (
             'SHORTCUT "DeadCode"\n'
             'ACTION alert WFAlertActionMessage="before"\n'
-            'ACTION exitshortcut\n'
+            "ACTION exitshortcut\n"
             'ACTION alert WFAlertActionMessage="unreachable"\n'
-            'ENDSHORTCUT\n'
+            "ENDSHORTCUT\n"
         )
         ir = _parse(dsl)
         report = self.validator.validate(ir)
-        rule_findings = [f for f in report.findings if f.rule_id == "flow.dead_code_after_exit"]
+        rule_findings = [
+            f for f in report.findings if f.rule_id == "flow.dead_code_after_exit"
+        ]
         self.assertTrue(len(rule_findings) >= 1)
         self.assertEqual(rule_findings[0].severity, "warning")
 
@@ -371,11 +405,11 @@ class TestContractValidator(unittest.TestCase):
         """Shortcut with multiple issues -> multiple findings."""
         dsl = (
             'SHORTCUT "MultiIssue"\n'
-            'ACTION alert WFAlertActionMessage=$Undefined\n'
+            "ACTION alert WFAlertActionMessage=$Undefined\n"
             'SET $Unused = "never used"\n'
             'ACTION downloadurl WFURLActionURL="https://example.com"\n'
             'ACTION alert WFAlertActionMessage="done"\n'
-            'ENDSHORTCUT\n'
+            "ENDSHORTCUT\n"
         )
         ir = _parse(dsl)
         report = self.validator.validate(ir)
@@ -394,10 +428,7 @@ class TestContractValidator(unittest.TestCase):
 
     def test_validator_doesnt_crash_on_empty(self):
         """Empty shortcut -> no crash, no findings."""
-        dsl = (
-            'SHORTCUT "Empty"\n'
-            'ENDSHORTCUT\n'
-        )
+        dsl = 'SHORTCUT "Empty"\nENDSHORTCUT\n'
         ir = _parse(dsl)
         report = self.validator.validate(ir)
         # Should not crash and should have no findings

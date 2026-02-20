@@ -45,9 +45,9 @@ _DEFAULT_OUTPUT = _PROJECT_ROOT / "training_data" / "labeled_train.jsonl"
 # ── Construct Detection ──────────────────────────────────────────────
 
 _CONSTRUCT_PATTERNS = {
-    "IF":      re.compile(r"^IF\b", re.MULTILINE),
-    "MENU":    re.compile(r"^MENU\b", re.MULTILINE),
-    "REPEAT":  re.compile(r"^REPEAT\b", re.MULTILINE),
+    "IF": re.compile(r"^IF\b", re.MULTILINE),
+    "MENU": re.compile(r"^MENU\b", re.MULTILINE),
+    "REPEAT": re.compile(r"^REPEAT\b", re.MULTILINE),
     "FOREACH": re.compile(r"^FOREACH\b", re.MULTILINE),
 }
 
@@ -65,6 +65,7 @@ def _count_actions(dsl: str) -> int:
 
 
 # ── Labeler ──────────────────────────────────────────────────────────
+
 
 class TrainingDataLabeler:
     """Labels training examples with domain, complexity, and structural metadata."""
@@ -160,6 +161,7 @@ class TrainingDataLabeler:
 
 # ── Statistics ───────────────────────────────────────────────────────
 
+
 def print_stats(labeled: list[dict]) -> None:
     """Print label distribution statistics."""
     total = len(labeled)
@@ -168,7 +170,7 @@ def print_stats(labeled: list[dict]) -> None:
 
     # Domain distribution
     domain_counts = Counter(ex["labels"]["domain"] for ex in labeled)
-    print(f"\nDomain Distribution:")
+    print("\nDomain Distribution:")
     for domain, count in domain_counts.most_common():
         pct = count / total * 100
         bar = "#" * int(pct / 2)
@@ -176,7 +178,7 @@ def print_stats(labeled: list[dict]) -> None:
 
     # Complexity distribution
     complexity_counts = Counter(ex["labels"]["complexity"] for ex in labeled)
-    print(f"\nComplexity Distribution:")
+    print("\nComplexity Distribution:")
     for comp, count in sorted(complexity_counts.items(), key=lambda x: -x[1]):
         pct = count / total * 100
         bar = "#" * int(pct / 2)
@@ -187,7 +189,7 @@ def print_stats(labeled: list[dict]) -> None:
     for ex in labeled:
         for ct in ex["labels"]["construct_types"]:
             construct_counts[ct] += 1
-    print(f"\nConstruct Usage:")
+    print("\nConstruct Usage:")
     for construct, count in construct_counts.most_common():
         pct = count / total * 100
         print(f"  {construct:20s} {count:5d} ({pct:5.1f}%)")
@@ -195,14 +197,14 @@ def print_stats(labeled: list[dict]) -> None:
     # Action count stats
     action_counts = sorted(ex["labels"]["action_count"] for ex in labeled)
     n = len(action_counts)
-    print(f"\nAction Count Stats:")
+    print("\nAction Count Stats:")
     print(f"  Median: {action_counts[n // 2]}")
     print(f"  P90:    {action_counts[int(n * 0.9)]}")
     print(f"  P95:    {action_counts[int(n * 0.95)]}")
     print(f"  Max:    {action_counts[-1]}")
 
     # Domain x Complexity cross-tab
-    print(f"\nDomain x Complexity:")
+    print("\nDomain x Complexity:")
     print(f"  {'':20s} {'simple':>8s} {'medium':>8s} {'complex':>8s} {'v_complex':>8s}")
     for domain in domain_counts.most_common():
         d = domain[0]
@@ -210,16 +212,25 @@ def print_stats(labeled: list[dict]) -> None:
         for ex in labeled:
             if ex["labels"]["domain"] == d:
                 row[ex["labels"]["complexity"]] += 1
-        print(f"  {d:20s} {row['simple']:>8d} {row['medium']:>8d} {row['complex']:>8d} {row['very_complex']:>8d}")
+        print(
+            f"  {d:20s} {row['simple']:>8d} {row['medium']:>8d} {row['complex']:>8d} {row['very_complex']:>8d}"
+        )
 
 
 # ── CLI ──────────────────────────────────────────────────────────────
 
+
 def main():
     parser = argparse.ArgumentParser(description="Label ShortcutDSL training data")
-    parser.add_argument("--input", type=Path, default=_DEFAULT_INPUT, help="Input JSONL path")
-    parser.add_argument("--output", type=Path, default=_DEFAULT_OUTPUT, help="Output JSONL path")
-    parser.add_argument("--stats", action="store_true", help="Print stats only (skip writing)")
+    parser.add_argument(
+        "--input", type=Path, default=_DEFAULT_INPUT, help="Input JSONL path"
+    )
+    parser.add_argument(
+        "--output", type=Path, default=_DEFAULT_OUTPUT, help="Output JSONL path"
+    )
+    parser.add_argument(
+        "--stats", action="store_true", help="Print stats only (skip writing)"
+    )
     args = parser.parse_args()
 
     labeler = TrainingDataLabeler()

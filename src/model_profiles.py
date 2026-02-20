@@ -14,7 +14,6 @@ Usage:
 
 from __future__ import annotations
 
-import os
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -29,6 +28,7 @@ _DEFAULT_CONFIG = _PROJECT_ROOT / "configs" / "model_profiles.yaml"
 @dataclass
 class ModelProfile:
     """A model runtime policy profile."""
+
     name: str
     model_path: str
     adapter_path: str | None
@@ -54,6 +54,7 @@ class ModelProfile:
 @dataclass
 class PromotionGate:
     """A single promotion gate threshold."""
+
     metric: str
     direction: str  # "min" or "max"
     threshold: float
@@ -72,6 +73,7 @@ class PromotionGate:
 @dataclass
 class ProfileConfig:
     """Complete parsed configuration."""
+
     profiles: dict[str, ModelProfile]
     default_profile: str
     promotion_gates: list[PromotionGate]
@@ -126,9 +128,17 @@ def load_profiles(config_path: str | Path | None = None) -> ProfileConfig:
     gates: list[PromotionGate] = []
     for metric, spec in raw.get("promotion_gates", {}).items():
         if "min" in spec:
-            gates.append(PromotionGate(metric=metric, direction="min", threshold=float(spec["min"])))
+            gates.append(
+                PromotionGate(
+                    metric=metric, direction="min", threshold=float(spec["min"])
+                )
+            )
         elif "max" in spec:
-            gates.append(PromotionGate(metric=metric, direction="max", threshold=float(spec["max"])))
+            gates.append(
+                PromotionGate(
+                    metric=metric, direction="max", threshold=float(spec["max"])
+                )
+            )
 
     return ProfileConfig(
         profiles=profiles,
@@ -183,23 +193,27 @@ def check_promotion(
     for gate in gates:
         value = metrics.get(gate.metric)
         if value is None:
-            gate_results.append({
-                "gate": str(gate),
-                "metric": gate.metric,
-                "value": None,
-                "passed": False,
-                "reason": f"Metric '{gate.metric}' not found in results",
-            })
+            gate_results.append(
+                {
+                    "gate": str(gate),
+                    "metric": gate.metric,
+                    "value": None,
+                    "passed": False,
+                    "reason": f"Metric '{gate.metric}' not found in results",
+                }
+            )
             all_passed = False
         else:
             passed = gate.passes(value)
-            gate_results.append({
-                "gate": str(gate),
-                "metric": gate.metric,
-                "value": value,
-                "threshold": gate.threshold,
-                "passed": passed,
-            })
+            gate_results.append(
+                {
+                    "gate": str(gate),
+                    "metric": gate.metric,
+                    "value": value,
+                    "threshold": gate.threshold,
+                    "passed": passed,
+                }
+            )
             if not passed:
                 all_passed = False
 
@@ -220,17 +234,19 @@ def list_profiles(config_path: str | Path | None = None) -> list[dict[str, Any]]
     config = load_profiles(config_path)
     result = []
     for name, p in config.profiles.items():
-        result.append({
-            "name": name,
-            "model_path": p.model_path,
-            "adapter_path": p.adapter_path,
-            "chat_template": p.chat_template,
-            "validator_mode": p.validator_mode,
-            "max_retries": p.max_retries,
-            "fallback_order": p.fallback_order,
-            "timeout_s": p.timeout_s,
-            "is_default": name == config.default_profile,
-        })
+        result.append(
+            {
+                "name": name,
+                "model_path": p.model_path,
+                "adapter_path": p.adapter_path,
+                "chat_template": p.chat_template,
+                "validator_mode": p.validator_mode,
+                "max_retries": p.max_retries,
+                "fallback_order": p.fallback_order,
+                "timeout_s": p.timeout_s,
+                "is_default": name == config.default_profile,
+            }
+        )
     return result
 
 

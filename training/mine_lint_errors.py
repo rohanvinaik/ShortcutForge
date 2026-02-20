@@ -34,7 +34,7 @@ import json
 import os
 import sys
 from collections import Counter, defaultdict
-from dataclasses import dataclass, field, asdict
+from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any
 
@@ -51,21 +51,24 @@ sys.path.insert(0, str(_SRC_DIR))
 # Data structures
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class MiningDiscovery:
     """A single discovery from lint error mining."""
-    kind: str                    # "action", "condition", "structure", "handle"
-    original: str                # What the model generated
-    replacement: str | None      # What the linter fixed it to (if applicable)
-    frequency: int               # How many times this appeared
-    avg_confidence: float        # Average linter confidence for this repair
+
+    kind: str  # "action", "condition", "structure", "handle"
+    original: str  # What the model generated
+    replacement: str | None  # What the linter fixed it to (if applicable)
+    frequency: int  # How many times this appeared
+    avg_confidence: float  # Average linter confidence for this repair
     examples: list[str] = field(default_factory=list)  # Sample prompt contexts
-    proposed_action: str = ""    # What to do: "add_alias", "add_pattern", etc.
+    proposed_action: str = ""  # What to do: "add_alias", "add_pattern", etc.
 
 
 @dataclass
 class MiningReport:
     """Complete report from an error mining pass."""
+
     action_hallucinations: list[MiningDiscovery]
     structural_patterns: list[MiningDiscovery]
     condition_gaps: list[MiningDiscovery]
@@ -79,6 +82,7 @@ class MiningReport:
 # ---------------------------------------------------------------------------
 # Data loading
 # ---------------------------------------------------------------------------
+
 
 def load_lint_data(
     eval_results_path: str | None = None,
@@ -102,13 +106,15 @@ def load_lint_data(
         for r in results:
             lint_changes = r.get("lint_changes", [])
             if lint_changes:
-                examples.append({
-                    "lint_changes": lint_changes,
-                    "prompt": r.get("description", ""),
-                    "parsed": r.get("parsed", False),
-                    "shortcut_id": r.get("shortcut_id", ""),
-                    "source": "eval",
-                })
+                examples.append(
+                    {
+                        "lint_changes": lint_changes,
+                        "prompt": r.get("description", ""),
+                        "parsed": r.get("parsed", False),
+                        "shortcut_id": r.get("shortcut_id", ""),
+                        "source": "eval",
+                    }
+                )
 
     # Load from distillation log
     if distillation_log_path and os.path.exists(distillation_log_path):
@@ -121,13 +127,15 @@ def load_lint_data(
 
                 lint_changes = entry.get("lint_changes", [])
                 if lint_changes:
-                    examples.append({
-                        "lint_changes": lint_changes,
-                        "prompt": entry.get("prompt", ""),
-                        "parsed": entry.get("parsed", False),
-                        "shortcut_id": entry.get("shortcut_id", ""),
-                        "source": "distillation",
-                    })
+                    examples.append(
+                        {
+                            "lint_changes": lint_changes,
+                            "prompt": entry.get("prompt", ""),
+                            "parsed": entry.get("parsed", False),
+                            "shortcut_id": entry.get("shortcut_id", ""),
+                            "source": "distillation",
+                        }
+                    )
 
     return examples
 
@@ -136,6 +144,7 @@ def _get_existing_aliases() -> set[str]:
     """Load existing HALLUCINATION_ALIASES keys from dsl_linter.py."""
     try:
         from dsl_linter import HALLUCINATION_ALIASES
+
         return set(HALLUCINATION_ALIASES.keys())
     except (ImportError, AttributeError):
         # Fallback: try to parse the file directly
@@ -164,6 +173,7 @@ def _get_existing_aliases() -> set[str]:
 # ---------------------------------------------------------------------------
 # Mining functions
 # ---------------------------------------------------------------------------
+
 
 def mine_action_hallucinations(
     examples: list[dict],
@@ -210,15 +220,17 @@ def mine_action_hallucinations(
         confs = pair_confidences[(original, replacement)]
         avg_conf = sum(confs) / len(confs) if confs else 1.0
 
-        discoveries.append(MiningDiscovery(
-            kind="action",
-            original=original,
-            replacement=replacement,
-            frequency=count,
-            avg_confidence=round(avg_conf, 3),
-            examples=pair_prompts[(original, replacement)],
-            proposed_action=f'add_alias: "{original}": "{replacement}"',
-        ))
+        discoveries.append(
+            MiningDiscovery(
+                kind="action",
+                original=original,
+                replacement=replacement,
+                frequency=count,
+                avg_confidence=round(avg_conf, 3),
+                examples=pair_prompts[(original, replacement)],
+                proposed_action=f'add_alias: "{original}": "{replacement}"',
+            )
+        )
 
     return discoveries
 
@@ -254,15 +266,17 @@ def mine_structural_patterns(
         confs = pattern_confs[pattern]
         avg_conf = sum(confs) / len(confs) if confs else 1.0
 
-        discoveries.append(MiningDiscovery(
-            kind="structure",
-            original=pattern,
-            replacement=None,
-            frequency=count,
-            avg_confidence=round(avg_conf, 3),
-            examples=pattern_prompts[pattern],
-            proposed_action=f"investigate_pattern: {pattern}",
-        ))
+        discoveries.append(
+            MiningDiscovery(
+                kind="structure",
+                original=pattern,
+                replacement=None,
+                frequency=count,
+                avg_confidence=round(avg_conf, 3),
+                examples=pattern_prompts[pattern],
+                proposed_action=f"investigate_pattern: {pattern}",
+            )
+        )
 
     return discoveries
 
@@ -329,15 +343,17 @@ def mine_condition_gaps(
         if cond_replacements[original]:
             best_replacement = cond_replacements[original].most_common(1)[0][0]
 
-        discoveries.append(MiningDiscovery(
-            kind="condition",
-            original=original,
-            replacement=best_replacement,
-            frequency=count,
-            avg_confidence=0.9,
-            examples=cond_prompts[original],
-            proposed_action=f'add_condition: "{original}" → "{best_replacement}"',
-        ))
+        discoveries.append(
+            MiningDiscovery(
+                kind="condition",
+                original=original,
+                replacement=best_replacement,
+                frequency=count,
+                avg_confidence=0.9,
+                examples=cond_prompts[original],
+                proposed_action=f'add_condition: "{original}" → "{best_replacement}"',
+            )
+        )
 
     return discoveries
 
@@ -373,15 +389,17 @@ def mine_handle_patterns(
         if count < min_frequency:
             continue
 
-        discoveries.append(MiningDiscovery(
-            kind="handle",
-            original=original,
-            replacement=handle_replacements.get(original),
-            frequency=count,
-            avg_confidence=0.95,
-            examples=handle_prompts[original],
-            proposed_action=f'add_handle_rule: "{original}" → "{handle_replacements.get(original, "?")}"',
-        ))
+        discoveries.append(
+            MiningDiscovery(
+                kind="handle",
+                original=original,
+                replacement=handle_replacements.get(original),
+                frequency=count,
+                avg_confidence=0.95,
+                examples=handle_prompts[original],
+                proposed_action=f'add_handle_rule: "{original}" → "{handle_replacements.get(original, "?")}"',
+            )
+        )
 
     return discoveries
 
@@ -389,6 +407,7 @@ def mine_handle_patterns(
 # ---------------------------------------------------------------------------
 # Reporting
 # ---------------------------------------------------------------------------
+
 
 def generate_mining_report(
     examples: list[dict],
@@ -414,10 +433,10 @@ def generate_mining_report(
     handle_discoveries = mine_handle_patterns(examples, min_frequency)
 
     total_unique = (
-        len(action_discoveries) +
-        len(structural_discoveries) +
-        len(condition_discoveries) +
-        len(handle_discoveries)
+        len(action_discoveries)
+        + len(structural_discoveries)
+        + len(condition_discoveries)
+        + len(handle_discoveries)
     )
 
     return MiningReport(
@@ -459,12 +478,14 @@ def generate_linter_patch(report: MiningReport) -> dict:
             }
 
     for d in report.structural_patterns:
-        patch["structural_patterns"].append({
-            "pattern": d.original,
-            "frequency": d.frequency,
-            "avg_confidence": d.avg_confidence,
-            "action": d.proposed_action,
-        })
+        patch["structural_patterns"].append(
+            {
+                "pattern": d.original,
+                "frequency": d.frequency,
+                "avg_confidence": d.avg_confidence,
+                "action": d.proposed_action,
+            }
+        )
 
     for d in report.condition_gaps:
         if d.replacement:
@@ -485,36 +506,54 @@ def generate_linter_patch(report: MiningReport) -> dict:
 
 def print_report(report: MiningReport) -> None:
     """Print human-readable summary."""
-    print(f"\n  {'='*50}", flush=True)
-    print(f"  SASHIMI MODE: Lint Error Mining Report", flush=True)
-    print(f"  {'='*50}", flush=True)
-    print(f"  Total lint changes analyzed: {report.total_lint_changes_analyzed}", flush=True)
+    print(f"\n  {'=' * 50}", flush=True)
+    print("  SASHIMI MODE: Lint Error Mining Report", flush=True)
+    print(f"  {'=' * 50}", flush=True)
+    print(
+        f"  Total lint changes analyzed: {report.total_lint_changes_analyzed}",
+        flush=True,
+    )
     print(f"  Dominant error kind: {report.dominant_error_kind}", flush=True)
     print(f"  Error distribution: {report.error_kind_distribution}", flush=True)
     print(f"  Unique discoveries: {report.total_unique_discoveries}", flush=True)
 
     if report.action_hallucinations:
-        print(f"\n  NEW HALLUCINATION ALIASES ({len(report.action_hallucinations)}):", flush=True)
+        print(
+            f"\n  NEW HALLUCINATION ALIASES ({len(report.action_hallucinations)}):",
+            flush=True,
+        )
         for d in report.action_hallucinations[:10]:
-            print(f"    \"{d.original}\" → \"{d.replacement}\" (×{d.frequency}, conf={d.avg_confidence})", flush=True)
+            print(
+                f'    "{d.original}" → "{d.replacement}" (×{d.frequency}, conf={d.avg_confidence})',
+                flush=True,
+            )
 
     if report.structural_patterns:
-        print(f"\n  STRUCTURAL PATTERNS ({len(report.structural_patterns)}):", flush=True)
+        print(
+            f"\n  STRUCTURAL PATTERNS ({len(report.structural_patterns)}):", flush=True
+        )
         for d in report.structural_patterns[:10]:
             print(f"    {d.original} (×{d.frequency})", flush=True)
 
     if report.condition_gaps:
         print(f"\n  CONDITION GAPS ({len(report.condition_gaps)}):", flush=True)
         for d in report.condition_gaps[:10]:
-            print(f"    \"{d.original}\" → \"{d.replacement}\" (×{d.frequency})", flush=True)
+            print(
+                f'    "{d.original}" → "{d.replacement}" (×{d.frequency})', flush=True
+            )
 
     if report.handle_patterns:
         print(f"\n  HANDLE PATTERNS ({len(report.handle_patterns)}):", flush=True)
         for d in report.handle_patterns[:10]:
-            print(f"    \"{d.original}\" → \"{d.replacement}\" (×{d.frequency})", flush=True)
+            print(
+                f'    "{d.original}" → "{d.replacement}" (×{d.frequency})', flush=True
+            )
 
     if report.total_unique_discoveries == 0:
-        print(f"\n  No new discoveries (linter already covers observed errors).", flush=True)
+        print(
+            "\n  No new discoveries (linter already covers observed errors).",
+            flush=True,
+        )
 
     print(flush=True)
 
@@ -522,6 +561,7 @@ def print_report(report: MiningReport) -> None:
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -549,14 +589,15 @@ def main():
         help="Directory for output files (default: training_data/)",
     )
     parser.add_argument(
-        "-v", "--verbose",
+        "-v",
+        "--verbose",
         action="store_true",
         help="Verbose output",
     )
 
     args = parser.parse_args()
 
-    print(f"\n  ShortcutForge: Sashimi Mode — Lint Error Mining\n", flush=True)
+    print("\n  ShortcutForge: Sashimi Mode — Lint Error Mining\n", flush=True)
 
     # Load data
     examples = load_lint_data(
@@ -565,7 +606,9 @@ def main():
     )
 
     if not examples:
-        print("  No lint data found. Run eval with --log-distillation first.", flush=True)
+        print(
+            "  No lint data found. Run eval with --log-distillation first.", flush=True
+        )
         sys.exit(0)
 
     print(f"  Loaded {len(examples)} examples with lint changes", flush=True)

@@ -40,27 +40,28 @@ __version__ = "2.4"
 import json
 import re
 from dataclasses import dataclass, field
-from difflib import get_close_matches, SequenceMatcher
+from difflib import SequenceMatcher, get_close_matches
 from pathlib import Path
 from typing import Optional
 
-from macro_expander import MacroExpander, MacroExpansion
-
+from macro_expander import MacroExpander
 
 # ── Constants ────────────────────────────────────────────────────────
 
-VALID_CONDITIONS = frozenset({
-    "has_any_value",
-    "does_not_have_any_value",
-    "equals_number",
-    "is_greater_than",
-    "is_less_than",
-    "equals_string",
-    "not_equal_string",
-    "contains",
-    "does_not_contain",
-    "is_before",
-})
+VALID_CONDITIONS = frozenset(
+    {
+        "has_any_value",
+        "does_not_have_any_value",
+        "equals_number",
+        "is_greater_than",
+        "is_less_than",
+        "equals_string",
+        "not_equal_string",
+        "contains",
+        "does_not_contain",
+        "is_before",
+    }
+)
 
 # Common hallucination → correct condition mappings
 CONDITION_ALIASES = {
@@ -105,9 +106,9 @@ CONDITION_ALIASES = {
     "has": "contains",
     "does_not_include": "does_not_contain",
     # Date
-    "is_after": "is_before",   # semantically different, but grammatically valid
+    "is_after": "is_before",  # semantically different, but grammatically valid
     "before": "is_before",
-    "after": "is_before",      # same note as above
+    "after": "is_before",  # same note as above
     # Numeric equality (map to equals_number)
     "equals_num": "equals_number",
     "is_equal_number": "equals_number",
@@ -115,16 +116,30 @@ CONDITION_ALIASES = {
 }
 
 # DSL structural keywords — used to detect line boundaries
-_STRUCTURAL_KEYWORDS = frozenset({
-    "SHORTCUT", "ACTION", "SET", "IF", "ELSE", "ENDIF",
-    "MENU", "CASE", "ENDMENU", "REPEAT", "ENDREPEAT",
-    "FOREACH", "ENDFOREACH", "ENDSHORTCUT",
-})
+_STRUCTURAL_KEYWORDS = frozenset(
+    {
+        "SHORTCUT",
+        "ACTION",
+        "SET",
+        "IF",
+        "ELSE",
+        "ENDIF",
+        "MENU",
+        "CASE",
+        "ENDMENU",
+        "REPEAT",
+        "ENDREPEAT",
+        "FOREACH",
+        "ENDFOREACH",
+        "ENDSHORTCUT",
+    }
+)
 
 
 @dataclass
 class LintChange:
     """A single repair made by the linter."""
+
     line: int
     kind: str  # "action", "alias_warning", "condition", "structure", "interpolation", "handle", "trailing_newline"
     original: str
@@ -136,6 +151,7 @@ class LintChange:
 @dataclass
 class LintResult:
     """Result of linting: fixed text + list of changes made."""
+
     text: str
     changes: list[LintChange] = field(default_factory=list)
 
@@ -145,6 +161,7 @@ class LintResult:
 
 
 # ── Action Name Resolution ──────────────────────────────────────────
+
 
 class ActionResolver:
     """Resolves action names using the validator's catalog + fuzzy matching.
@@ -252,12 +269,12 @@ class ActionResolver:
         "createtimer": "timer.start",
         "is.workflow.actions.starttimer": "is.workflow.actions.timer.start",
         # Stopwatch (model hallucinates short names; real action is system intent)
-        "startstopwatch": "startstopwatch",   # maps to CM → com.apple.mobiletimer.StartStopwatchIntent
-        "stopstopwatch": "stopstopwatch",     # maps to CM
-        "stopwatch": "startstopwatch",        # generic → start
+        "startstopwatch": "startstopwatch",  # maps to CM → com.apple.mobiletimer.StartStopwatchIntent
+        "stopstopwatch": "stopstopwatch",  # maps to CM
+        "stopwatch": "startstopwatch",  # generic → start
         "launchstopwatch": "startstopwatch",
         # Alarm (model hallucinates short names; real action is system intent)
-        "alarm": "createalarm",               # maps to CM → MTCreateAlarmIntent
+        "alarm": "createalarm",  # maps to CM → MTCreateAlarmIntent
         "setalarm": "createalarm",
         "newalarm": "createalarm",
         "addalarm": "createalarm",
@@ -401,7 +418,7 @@ class ActionResolver:
         "sms": "sendmessage",
         "imessage": "sendmessage",
         # ── Music / Playback ───────────────────────────────────────
-        "playmusic": "pausemusic",       # pausemusic = play/pause toggle
+        "playmusic": "pausemusic",  # pausemusic = play/pause toggle
         "playpause": "pausemusic",
         "toggleplayback": "pausemusic",
         "playsong": "pausemusic",
@@ -453,7 +470,7 @@ class ActionResolver:
         for a in self._actions:
             self._all_names.add(a)
             if a.startswith("is.workflow.actions."):
-                self._all_names.add(a[len("is.workflow.actions."):])
+                self._all_names.add(a[len("is.workflow.actions.") :])
         for k in self._canonical_map:
             self._all_names.add(k)
 
@@ -499,7 +516,9 @@ class ActionResolver:
             return True, reason
         return False, ""
 
-    def find_closest(self, name: str, cutoff: float = 0.6) -> tuple[Optional[str], bool, str]:
+    def find_closest(
+        self, name: str, cutoff: float = 0.6
+    ) -> tuple[Optional[str], bool, str]:
         """Find the closest valid action name using multi-strategy matching.
 
         Strategies (in order):
@@ -519,7 +538,11 @@ class ActionResolver:
             return name, False, ""
         # Strategy 0: Canonical/alias lookup (returns the *target*, not the alias)
         if name in self._canonical_map:
-            return self._canonical_map[name], True, f"hallucination alias: {name} is a known synonym for {self._canonical_map[name]}"
+            return (
+                self._canonical_map[name],
+                True,
+                f"hallucination alias: {name} is a known synonym for {self._canonical_map[name]}",
+            )
         if f"is.workflow.actions.{name}" in self._actions:
             return name, False, ""
 
@@ -533,7 +556,11 @@ class ActionResolver:
             best = self._namespace_fuzzy(name, cutoff)
             if best:
                 suffix_sim = _suffix_similarity(name, best)
-                return best, False, f"fuzzy match ({_similarity(name, best):.2f} similarity, suffix-sim {suffix_sim:.2f})"
+                return (
+                    best,
+                    False,
+                    f"fuzzy match ({_similarity(name, best):.2f} similarity, suffix-sim {suffix_sim:.2f})",
+                )
 
         # Strategy 2: Global fuzzy in the matching tier
         if name.count(".") > 2:
@@ -544,14 +571,24 @@ class ActionResolver:
         matches = get_close_matches(name, candidates, n=1, cutoff=cutoff)
         if matches:
             suffix_sim = _suffix_similarity(name, matches[0])
-            return matches[0], False, f"fuzzy match ({_similarity(name, matches[0]):.2f} similarity, suffix-sim {suffix_sim:.2f})"
+            return (
+                matches[0],
+                False,
+                f"fuzzy match ({_similarity(name, matches[0]):.2f} similarity, suffix-sim {suffix_sim:.2f})",
+            )
 
         # Strategy 3: Cross-tier fallback
-        fallback = self._long_names if candidates is self._short_names else self._short_names
+        fallback = (
+            self._long_names if candidates is self._short_names else self._short_names
+        )
         matches = get_close_matches(name, fallback, n=1, cutoff=cutoff)
         if matches:
             suffix_sim = _suffix_similarity(name, matches[0])
-            return matches[0], False, f"fuzzy match ({_similarity(name, matches[0]):.2f} similarity, suffix-sim {suffix_sim:.2f})"
+            return (
+                matches[0],
+                False,
+                f"fuzzy match ({_similarity(name, matches[0]):.2f} similarity, suffix-sim {suffix_sim:.2f})",
+            )
 
         return None, False, ""
 
@@ -583,7 +620,9 @@ class ActionResolver:
                 for ns_key, ns_candidates in self._namespace_index.items():
                     if ns_key.startswith("com.") and ns_key.count(".") == 1:
                         if _similarity(vendor, ns_key) > 0.7:
-                            matches = get_close_matches(name, ns_candidates, n=1, cutoff=cutoff - 0.05)
+                            matches = get_close_matches(
+                                name, ns_candidates, n=1, cutoff=cutoff - 0.05
+                            )
                             if matches:
                                 return matches[0]
 
@@ -594,9 +633,7 @@ class ActionResolver:
 
 # Regex patterns
 _ACTION_LINE_RE = re.compile(r"^(\s*ACTION\s+)(\S+)(.*)", re.MULTILINE)
-_IF_LINE_RE = re.compile(
-    r"^(\s*(?:ELSE\s+)?IF\s+\S+\s+)(\S+)(.*)", re.MULTILINE
-)
+_IF_LINE_RE = re.compile(r"^(\s*(?:ELSE\s+)?IF\s+\S+\s+)(\S+)(.*)", re.MULTILINE)
 
 # Handle/var property access: @prev.Name, $var.contents, @input.property
 # Only match known DSL handle references (not URLs or other @-prefixed patterns)
@@ -621,6 +658,7 @@ def _similarity(a: str, b: str) -> float:
 
 # ── Text-level repairs ──────────────────────────────────────────────
 
+
 def _fix_multiline_interpolation(text: str, changes: list[LintChange]) -> str:
     """Collapse literal newlines inside backtick-delimited interpolated strings.
 
@@ -638,20 +676,21 @@ def _fix_multiline_interpolation(text: str, changes: list[LintChange]) -> str:
     in_backtick = False
 
     while i < len(text):
-        if text[i] == '`' and (i == 0 or text[i-1] != '\\'):
+        if text[i] == "`" and (i == 0 or text[i - 1] != "\\"):
             if not in_backtick:
                 in_backtick = True
-                result.append('`')
+                result.append("`")
             else:
                 in_backtick = False
-                result.append('`')
+                result.append("`")
             i += 1
-        elif in_backtick and text[i] == '\n':
+        elif in_backtick and text[i] == "\n":
             # Check if the next non-whitespace after this newline looks like
             # a structural keyword — if so, the interpolation is broken
-            rest = text[i+1:].lstrip()
+            rest = text[i + 1 :].lstrip()
             looks_structural = any(
-                rest.startswith(kw) and (len(rest) == len(kw) or not rest[len(kw)].isalpha())
+                rest.startswith(kw)
+                and (len(rest) == len(kw) or not rest[len(kw)].isalpha())
                 for kw in _STRUCTURAL_KEYWORDS
                 if len(rest) >= len(kw)
             )
@@ -659,29 +698,33 @@ def _fix_multiline_interpolation(text: str, changes: list[LintChange]) -> str:
             if looks_structural:
                 # This newline breaks out of interpolation into structure.
                 # Close the backtick here, let the structural content parse normally.
-                result.append('`')
-                result.append('\n')
+                result.append("`")
+                result.append("\n")
                 in_backtick = False
-                line_num = text[:i].count('\n') + 1
-                changes.append(LintChange(
-                    line=line_num,
-                    kind="interpolation",
-                    original="<newline breaking interpolation>",
-                    replacement="<closed backtick>",
-                    confidence=0.85,
-                ))
+                line_num = text[:i].count("\n") + 1
+                changes.append(
+                    LintChange(
+                        line=line_num,
+                        kind="interpolation",
+                        original="<newline breaking interpolation>",
+                        replacement="<closed backtick>",
+                        confidence=0.85,
+                    )
+                )
             else:
                 # Newline inside interpolation that doesn't break structure —
                 # replace with escaped newline to keep it in one logical line
-                result.append('\\n')
-                line_num = text[:i].count('\n') + 1
-                changes.append(LintChange(
-                    line=line_num,
-                    kind="interpolation",
-                    original="<literal newline in interpolation>",
-                    replacement="\\\\n",
-                    confidence=0.9,
-                ))
+                result.append("\\n")
+                line_num = text[:i].count("\n") + 1
+                changes.append(
+                    LintChange(
+                        line=line_num,
+                        kind="interpolation",
+                        original="<literal newline in interpolation>",
+                        replacement="\\\\n",
+                        confidence=0.9,
+                    )
+                )
             i += 1
         else:
             result.append(text[i])
@@ -689,17 +732,19 @@ def _fix_multiline_interpolation(text: str, changes: list[LintChange]) -> str:
 
     # If we ended inside a backtick, close it
     if in_backtick:
-        result.append('`')
-        line_num = text.count('\n') + 1
-        changes.append(LintChange(
-            line=line_num,
-            kind="interpolation",
-            original="<unclosed backtick>",
-            replacement="<auto-closed>",
-            confidence=0.8,
-        ))
+        result.append("`")
+        line_num = text.count("\n") + 1
+        changes.append(
+            LintChange(
+                line=line_num,
+                kind="interpolation",
+                original="<unclosed backtick>",
+                replacement="<auto-closed>",
+                confidence=0.8,
+            )
+        )
 
-    return ''.join(result)
+    return "".join(result)
 
 
 def _fix_handle_property_access(text: str, changes: list[LintChange]) -> str:
@@ -711,6 +756,7 @@ def _fix_handle_property_access(text: str, changes: list[LintChange]) -> str:
     We must be careful not to touch dotted identifiers in ACTION names or
     param values in quoted strings/JSON.
     """
+
     def _strip_handle_prop(match: re.Match) -> str:
         handle = match.group(1)
         prop = match.group(2)
@@ -719,19 +765,21 @@ def _fix_handle_property_access(text: str, changes: list[LintChange]) -> str:
         # but the regex only matches outside quotes (approximately).
         # The handle_ref grammar allows: @prev, @item, @index, @input, @date, @IDENT
         # If handle is one of these and prop follows, strip it.
-        line_num = text[:match.start()].count("\n") + 1
-        changes.append(LintChange(
-            line=line_num,
-            kind="handle",
-            original=f"{handle}.{prop}",
-            replacement=handle,
-            confidence=0.85,
-        ))
+        line_num = text[: match.start()].count("\n") + 1
+        changes.append(
+            LintChange(
+                line=line_num,
+                kind="handle",
+                original=f"{handle}.{prop}",
+                replacement=handle,
+                confidence=0.85,
+            )
+        )
         return handle
 
     # Only strip property access when the handle/var appears outside quotes
     # We do a simplified approach: process each line, skip content in quotes
-    lines = text.split('\n')
+    lines = text.split("\n")
     fixed_lines = []
     for line in lines:
         # Don't modify lines that are pure quoted strings or inside JSON
@@ -744,25 +792,28 @@ def _fix_handle_property_access(text: str, changes: list[LintChange]) -> str:
         )
         fixed_lines.append(fixed_line)
 
-    return '\n'.join(fixed_lines)
+    return "\n".join(fixed_lines)
 
 
 def _strip_var_prop(match: re.Match, text: str, changes: list[LintChange]) -> str:
     """Strip property suffix from $var.property."""
     var = match.group(1)
     prop = match.group(2)
-    line_num = text[:match.start()].count("\n") + 1
-    changes.append(LintChange(
-        line=line_num,
-        kind="handle",
-        original=f"{var}.{prop}",
-        replacement=var,
-        confidence=0.85,
-    ))
+    line_num = text[: match.start()].count("\n") + 1
+    changes.append(
+        LintChange(
+            line=line_num,
+            kind="handle",
+            original=f"{var}.{prop}",
+            replacement=var,
+            confidence=0.85,
+        )
+    )
     return var
 
 
 # ── Line-level repairs ──────────────────────────────────────────────
+
 
 def _suffix_similarity(a: str, b: str) -> float:
     """Compute similarity between the differing suffixes of two dotted names.
@@ -841,15 +892,17 @@ def _fix_action_names(text: str, changes: list[LintChange]) -> str:
                 confidence = _similarity(action_name, closest)
                 change_reason = reason
 
-            line_num = text[:match.start()].count("\n") + 1
-            changes.append(LintChange(
-                line=line_num,
-                kind=kind,
-                original=action_name,
-                replacement=closest,
-                confidence=confidence,
-                reason=change_reason,
-            ))
+            line_num = text[: match.start()].count("\n") + 1
+            changes.append(
+                LintChange(
+                    line=line_num,
+                    kind=kind,
+                    original=action_name,
+                    replacement=closest,
+                    confidence=confidence,
+                    reason=change_reason,
+                )
+            )
             return f"{prefix}{closest}{rest}"
 
         return match.group(0)
@@ -871,28 +924,32 @@ def _fix_conditions(text: str, changes: list[LintChange]) -> str:
         # Check known aliases first
         if condition in CONDITION_ALIASES:
             replacement = CONDITION_ALIASES[condition]
-            line_num = text[:match.start()].count("\n") + 1
-            changes.append(LintChange(
-                line=line_num,
-                kind="condition",
-                original=condition,
-                replacement=replacement,
-                confidence=0.95,
-            ))
+            line_num = text[: match.start()].count("\n") + 1
+            changes.append(
+                LintChange(
+                    line=line_num,
+                    kind="condition",
+                    original=condition,
+                    replacement=replacement,
+                    confidence=0.95,
+                )
+            )
             return f"{prefix}{replacement}{rest}"
 
         # Fuzzy match against valid conditions
         matches = get_close_matches(condition, VALID_CONDITIONS, n=1, cutoff=0.6)
         if matches:
             replacement = matches[0]
-            line_num = text[:match.start()].count("\n") + 1
-            changes.append(LintChange(
-                line=line_num,
-                kind="condition",
-                original=condition,
-                replacement=replacement,
-                confidence=_similarity(condition, replacement),
-            ))
+            line_num = text[: match.start()].count("\n") + 1
+            changes.append(
+                LintChange(
+                    line=line_num,
+                    kind="condition",
+                    original=condition,
+                    replacement=replacement,
+                    confidence=_similarity(condition, replacement),
+                )
+            )
             return f"{prefix}{replacement}{rest}"
 
         return match.group(0)
@@ -982,14 +1039,16 @@ def _fix_action_as_keyword(text: str, changes: list[LintChange]) -> str:
         else:
             new_line = keyword
 
-        changes.append(LintChange(
-            line=i + 1,
-            kind="structure",
-            original=stripped[:60],
-            replacement=new_line,
-            confidence=0.9,
-            reason=f"ACTION used as DSL keyword: {action_name} → {keyword}",
-        ))
+        changes.append(
+            LintChange(
+                line=i + 1,
+                kind="structure",
+                original=stripped[:60],
+                replacement=new_line,
+                confidence=0.9,
+                reason=f"ACTION used as DSL keyword: {action_name} → {keyword}",
+            )
+        )
         fixed.append(new_line)
 
     return "\n".join(fixed)
@@ -1003,13 +1062,15 @@ def _fix_incomplete_actions(text: str, changes: list[LintChange]) -> str:
         stripped = line.strip()
         # ACTION followed by nothing or just whitespace
         if stripped == "ACTION" or stripped == "ACTION ":
-            changes.append(LintChange(
-                line=i + 1,
-                kind="structure",
-                original=stripped,
-                replacement="<removed>",
-                confidence=0.9,
-            ))
+            changes.append(
+                LintChange(
+                    line=i + 1,
+                    kind="structure",
+                    original=stripped,
+                    replacement="<removed>",
+                    confidence=0.9,
+                )
+            )
             continue
         fixed_lines.append(line)
     return "\n".join(fixed_lines)
@@ -1023,7 +1084,7 @@ def _fix_truncated_lines(text: str, changes: list[LintChange]) -> str:
     (truncated identifier). If the last line doesn't end with a recognized
     terminal pattern, remove it.
     """
-    lines = text.rstrip('\n').split('\n')
+    lines = text.rstrip("\n").split("\n")
     if not lines:
         return text
 
@@ -1036,7 +1097,7 @@ def _fix_truncated_lines(text: str, changes: list[LintChange]) -> str:
     # Check for obviously truncated lines: ends mid-identifier, mid-string, etc.
     # A valid DSL line ends with: quoted string, number, bool, `, ), ], }, IDENT, @IDENT, $IDENT,
     # or is a structural keyword (ENDIF, ENDMENU, etc.)
-    structural_keywords = {'ENDIF', 'ENDMENU', 'ENDFOREACH', 'ENDREPEAT', 'ELSE'}
+    structural_keywords = {"ENDIF", "ENDMENU", "ENDFOREACH", "ENDREPEAT", "ELSE"}
 
     if last_line in structural_keywords:
         return text
@@ -1044,28 +1105,56 @@ def _fix_truncated_lines(text: str, changes: list[LintChange]) -> str:
     # Check: does the last line look like it was cut off mid-way?
     # Heuristic: if it ends with an incomplete dotted identifier (no = or value after)
     # and has no parameter, it might be truncated
-    if (last_line.startswith("ACTION ") and
-            "=" not in last_line and
-            last_line.count(" ") == 1):
+    if (
+        last_line.startswith("ACTION ")
+        and "=" not in last_line
+        and last_line.count(" ") == 1
+    ):
         # ACTION with just a partial name and no params — possibly truncated
         # Check if the action name looks incomplete (doesn't resolve)
         action_candidate = last_line.split()[-1]
         resolver = _get_resolver()
         closest_trunc, _, _ = resolver.find_closest(action_candidate, cutoff=0.7)
         if not resolver.is_valid(action_candidate) and not closest_trunc:
-            changes.append(LintChange(
-                line=len(lines),
-                kind="structure",
-                original=last_line[:60],
-                replacement="<removed truncated line>",
-                confidence=0.7,
-            ))
+            changes.append(
+                LintChange(
+                    line=len(lines),
+                    kind="structure",
+                    original=last_line[:60],
+                    replacement="<removed truncated line>",
+                    confidence=0.7,
+                )
+            )
             lines = lines[:-1]
 
-    return '\n'.join(lines) + ('\n' if text.endswith('\n') else '')
+    return "\n".join(lines) + ("\n" if text.endswith("\n") else "")
 
 
 # ── Structural repairs ──────────────────────────────────────────────
+
+
+_BLOCK_OPENERS: dict[str, str] = {
+    "IF": "IF",
+    "MENU": "MENU",
+    "FOREACH": "FOREACH",
+    "REPEAT": "REPEAT",
+}
+
+_BLOCK_CLOSERS: dict[str, str] = {
+    "ENDIF": "IF",
+    "ENDMENU": "MENU",
+    "ENDFOREACH": "FOREACH",
+    "ENDREPEAT": "REPEAT",
+}
+
+
+def _pop_block(stack: list[str], block_type: str) -> None:
+    """Pop the most recent occurrence of block_type from the stack."""
+    for j in range(len(stack) - 1, -1, -1):
+        if stack[j] == block_type:
+            stack.pop(j)
+            return
+
 
 def _fix_structure(text: str, changes: list[LintChange]) -> str:
     """Fix structural issues: unclosed blocks, truncated output.
@@ -1074,57 +1163,31 @@ def _fix_structure(text: str, changes: list[LintChange]) -> str:
     (from innermost to outermost) at the end of the DSL.
     """
     lines = text.split("\n")
-
-    # Track open blocks with a stack for proper nesting order
-    block_stack: list[str] = []  # stack of block types: "IF", "MENU", "FOREACH", "REPEAT"
+    block_stack: list[str] = []
 
     for line in lines:
         stripped = line.strip()
-        if stripped.startswith("IF "):
-            block_stack.append("IF")
-        elif stripped == "ELSE" or stripped.startswith("ELSE IF "):
-            pass  # ELSE doesn't open a new block
-        elif stripped == "ENDIF":
-            # Pop the most recent IF
-            for j in range(len(block_stack) - 1, -1, -1):
-                if block_stack[j] == "IF":
-                    block_stack.pop(j)
-                    break
-        elif stripped.startswith("MENU ") or stripped == "MENU":
-            block_stack.append("MENU")
-        elif stripped == "ENDMENU":
-            for j in range(len(block_stack) - 1, -1, -1):
-                if block_stack[j] == "MENU":
-                    block_stack.pop(j)
-                    break
-        elif stripped.startswith("FOREACH"):
-            block_stack.append("FOREACH")
-        elif stripped == "ENDFOREACH":
-            for j in range(len(block_stack) - 1, -1, -1):
-                if block_stack[j] == "FOREACH":
-                    block_stack.pop(j)
-                    break
-        elif stripped.startswith("REPEAT"):
-            block_stack.append("REPEAT")
-        elif stripped == "ENDREPEAT":
-            for j in range(len(block_stack) - 1, -1, -1):
-                if block_stack[j] == "REPEAT":
-                    block_stack.pop(j)
-                    break
+        keyword = stripped.split()[0] if stripped.split() else ""
 
-    # Close any unclosed blocks (pop from stack = innermost first)
+        if keyword in _BLOCK_OPENERS:
+            block_stack.append(_BLOCK_OPENERS[keyword])
+        elif keyword in _BLOCK_CLOSERS:
+            _pop_block(block_stack, _BLOCK_CLOSERS[keyword])
+
     if block_stack:
         closers = []
         for block_type in reversed(block_stack):
             closer = f"END{block_type}"
             closers.append(closer)
-            changes.append(LintChange(
-                line=len(lines),
-                kind="structure",
-                original="<truncated>",
-                replacement=closer,
-                confidence=0.8,
-            ))
+            changes.append(
+                LintChange(
+                    line=len(lines),
+                    kind="structure",
+                    original="<truncated>",
+                    replacement=closer,
+                    confidence=0.8,
+                )
+            )
         text = text.rstrip("\n") + "\n" + "\n".join(closers) + "\n"
 
     return text
@@ -1156,13 +1219,15 @@ def _fix_orphan_else(text: str, changes: list[LintChange]) -> str:
                 fixed_lines.append(line)
             else:
                 # Orphan ELSE — remove it
-                changes.append(LintChange(
-                    line=i + 1,
-                    kind="structure",
-                    original=stripped[:40],
-                    replacement="<removed orphan ELSE>",
-                    confidence=0.8,
-                ))
+                changes.append(
+                    LintChange(
+                        line=i + 1,
+                        kind="structure",
+                        original=stripped[:40],
+                        replacement="<removed orphan ELSE>",
+                        confidence=0.8,
+                    )
+                )
                 # Also remove any content until the next structural keyword or ENDIF
                 continue
         else:
@@ -1172,6 +1237,7 @@ def _fix_orphan_else(text: str, changes: list[LintChange]) -> str:
 
 
 # ── Final repairs ───────────────────────────────────────────────────
+
 
 def _fix_endshortcut(text: str, changes: list[LintChange]) -> str:
     """Handle ENDSHORTCUT: truncate ramble after it, or append if missing.
@@ -1191,9 +1257,9 @@ def _fix_endshortcut(text: str, changes: list[LintChange]) -> str:
 
         # Update quote/backtick state (simple heuristic: count unescaped delimiters)
         for ch_idx, ch in enumerate(stripped):
-            if ch == '"' and (ch_idx == 0 or stripped[ch_idx - 1] != '\\'):
+            if ch == '"' and (ch_idx == 0 or stripped[ch_idx - 1] != "\\"):
                 in_quoted = not in_quoted
-            elif ch == '`' and (ch_idx == 0 or stripped[ch_idx - 1] != '\\'):
+            elif ch == "`" and (ch_idx == 0 or stripped[ch_idx - 1] != "\\"):
                 in_backtick = not in_backtick
 
         # Only line-start ENDSHORTCUT outside strings is structural
@@ -1203,26 +1269,30 @@ def _fix_endshortcut(text: str, changes: list[LintChange]) -> str:
 
     if endshortcut_idx is not None:
         # Truncate everything after ENDSHORTCUT
-        remaining = [l for l in lines[endshortcut_idx + 1:] if l.strip()]
+        remaining = [ln for ln in lines[endshortcut_idx + 1 :] if ln.strip()]
         if remaining:
-            changes.append(LintChange(
-                line=endshortcut_idx + 2,
-                kind="structure",
-                original=f"<{len(remaining)} lines after ENDSHORTCUT>",
-                replacement="<truncated>",
-                confidence=0.95,
-            ))
-        text = "\n".join(lines[:endshortcut_idx + 1]) + "\n"
+            changes.append(
+                LintChange(
+                    line=endshortcut_idx + 2,
+                    kind="structure",
+                    original=f"<{len(remaining)} lines after ENDSHORTCUT>",
+                    replacement="<truncated>",
+                    confidence=0.95,
+                )
+            )
+        text = "\n".join(lines[: endshortcut_idx + 1]) + "\n"
     else:
         # ENDSHORTCUT absent — auto-append
         text = text.rstrip("\n") + "\nENDSHORTCUT\n"
-        changes.append(LintChange(
-            line=text.count("\n"),
-            kind="structure",
-            original="<missing>",
-            replacement="ENDSHORTCUT",
-            confidence=1.0,
-        ))
+        changes.append(
+            LintChange(
+                line=text.count("\n"),
+                kind="structure",
+                original="<missing>",
+                replacement="ENDSHORTCUT",
+                confidence=1.0,
+            )
+        )
 
     return text
 
@@ -1230,13 +1300,15 @@ def _fix_endshortcut(text: str, changes: list[LintChange]) -> str:
 def _fix_trailing_newline(text: str, changes: list[LintChange]) -> str:
     """Ensure text ends with a newline (grammar requires it)."""
     if not text.endswith("\n"):
-        changes.append(LintChange(
-            line=text.count("\n") + 1,
-            kind="trailing_newline",
-            original="<no newline>",
-            replacement="\\n",
-            confidence=1.0,
-        ))
+        changes.append(
+            LintChange(
+                line=text.count("\n") + 1,
+                kind="trailing_newline",
+                original="<no newline>",
+                replacement="\\n",
+                confidence=1.0,
+            )
+        )
         text += "\n"
     return text
 
@@ -1252,13 +1324,15 @@ def _strip_markdown_fences(text: str, changes: list[LintChange]) -> str:
     if m:
         inner = m.group(1).strip()
         if inner.startswith("SHORTCUT"):
-            changes.append(LintChange(
-                line=1,
-                kind="structure",
-                original="```...```",
-                replacement="<unwrapped>",
-                confidence=1.0,
-            ))
+            changes.append(
+                LintChange(
+                    line=1,
+                    kind="structure",
+                    original="```...```",
+                    replacement="<unwrapped>",
+                    confidence=1.0,
+                )
+            )
             return inner
     return text
 
@@ -1272,15 +1346,19 @@ def _strip_preamble(text: str, changes: list[LintChange]) -> str:
     if not text.startswith("SHORTCUT"):
         m = re.search(r'(SHORTCUT\s+".*)', text, re.DOTALL)
         if m:
-            preamble = text[:m.start()].strip()
+            preamble = text[: m.start()].strip()
             if preamble:
-                changes.append(LintChange(
-                    line=1,
-                    kind="structure",
-                    original=preamble[:40] + "..." if len(preamble) > 40 else preamble,
-                    replacement="<stripped preamble>",
-                    confidence=0.9,
-                ))
+                changes.append(
+                    LintChange(
+                        line=1,
+                        kind="structure",
+                        original=preamble[:40] + "..."
+                        if len(preamble) > 40
+                        else preamble,
+                        replacement="<stripped preamble>",
+                        confidence=0.9,
+                    )
+                )
             text = m.group(1)
     return text
 
@@ -1307,19 +1385,26 @@ def _expand_macros(text: str, changes: list[LintChange]) -> str:
     expanded, expansions = expander.expand(text)
 
     for exp in expansions:
-        changes.append(LintChange(
-            line=exp.line,
-            kind="macro_expansion",
-            original=exp.original[:60] + "..." if len(exp.original) > 60 else exp.original,
-            replacement=exp.expanded[:60] + "..." if len(exp.expanded) > 60 else exp.expanded,
-            confidence=1.0,
-            reason=f"Expanded macro: {exp.macro_name} ({exp.param_values})",
-        ))
+        changes.append(
+            LintChange(
+                line=exp.line,
+                kind="macro_expansion",
+                original=exp.original[:60] + "..."
+                if len(exp.original) > 60
+                else exp.original,
+                replacement=exp.expanded[:60] + "..."
+                if len(exp.expanded) > 60
+                else exp.expanded,
+                confidence=1.0,
+                reason=f"Expanded macro: {exp.macro_name} ({exp.param_values})",
+            )
+        )
 
     return expanded
 
 
 # ── Main Entry Point ─────────────────────────────────────────────────
+
 
 def lint_dsl(text: str) -> LintResult:
     """Lint and repair raw DSL text from LLM output.

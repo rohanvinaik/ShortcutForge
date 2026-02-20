@@ -28,8 +28,10 @@ class TestTernaryQuantize(unittest.TestCase):
         except NotImplementedError:
             self.skipTest("ternary_quantize not yet implemented")
         unique = set(q.unique().tolist())
-        self.assertTrue(unique.issubset({-1.0, 0.0, 1.0}),
-                       f"Expected only {{-1, 0, 1}}, got {unique}")
+        self.assertTrue(
+            unique.issubset({-1.0, 0.0, 1.0}),
+            f"Expected only {{-1, 0, 1}}, got {unique}",
+        )
 
     def test_ste_backward_finite(self):
         """STE backward through quantization must produce finite gradients."""
@@ -40,10 +42,8 @@ class TestTernaryQuantize(unittest.TestCase):
             self.skipTest("ternary_quantize not yet implemented")
         loss = q.sum()
         loss.backward()
-        self.assertFalse(torch.isnan(w.grad).any(),
-                        "STE gradient contains NaN")
-        self.assertFalse(torch.isinf(w.grad).any(),
-                        "STE gradient contains Inf")
+        self.assertFalse(torch.isnan(w.grad).any(), "STE gradient contains NaN")
+        self.assertFalse(torch.isinf(w.grad).any(), "STE gradient contains Inf")
 
     def test_quantize_deterministic(self):
         """Same input should produce same output."""

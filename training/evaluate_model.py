@@ -47,14 +47,13 @@ _SRC_DIR = _SCRIPT_DIR.parent / "src"
 if str(_SRC_DIR) not in sys.path:
     sys.path.insert(0, str(_SRC_DIR))
 
-from dsl_parser import parse_dsl
-from dsl_linter import lint_dsl
-from dsl_validator import validate_ir
-from dsl_bridge import compile_ir
-from token_budget import estimate_budget, detect_overflow, next_budget, TokenBudget
-from inference import generate_with_timeout, GenerationMeta, DEFAULT_TIMEOUT_S
 import dsl_linter as _linter_module
-
+from dsl_bridge import compile_ir
+from dsl_linter import lint_dsl
+from dsl_parser import parse_dsl
+from dsl_validator import validate_ir
+from inference import DEFAULT_TIMEOUT_S, generate_with_timeout
+from token_budget import TokenBudget, detect_overflow, estimate_budget, next_budget
 
 # ============================================================
 # DSL extraction (mirrors orchestrator._extract_dsl)
@@ -83,6 +82,7 @@ def _extract_dsl(text: str) -> str:
 # ============================================================
 # Failure category classifier
 # ============================================================
+
 
 def _classify_failure(result: dict) -> str | None:
     """Classify a failed result into a failure category.
@@ -122,7 +122,9 @@ def _classify_failure(result: dict) -> str | None:
     return None
 
 
-def _format_eval_prompt(system_msg: str, description: str, chat_template: str = "llama3") -> str:
+def _format_eval_prompt(
+    system_msg: str, description: str, chat_template: str = "llama3"
+) -> str:
     """Format evaluation prompt using the specified chat template.
 
     Args:
@@ -195,7 +197,7 @@ def evaluate(
     if adapter_path:
         load_kwargs["adapter_path"] = adapter_path
     model, tokenizer = mlx_lm.load(model_path, **load_kwargs)
-    print(f"  Model loaded.", flush=True)
+    print("  Model loaded.", flush=True)
 
     # Load eval examples — stream-skip to avoid loading unneeded data
     eval_examples = []
@@ -209,9 +211,12 @@ def evaluate(
 
     budget_mode = "fixed" if (fixed_budget or max_tokens) else "dynamic"
     effective_fixed = fixed_budget or max_tokens or None
-    print(f"  Evaluating {len(eval_examples)} examples (budget={budget_mode}"
-          f"{f', fixed={effective_fixed}' if effective_fixed else ''}"
-          f", timeout={timeout_s}s)", flush=True)
+    print(
+        f"  Evaluating {len(eval_examples)} examples (budget={budget_mode}"
+        f"{f', fixed={effective_fixed}' if effective_fixed else ''}"
+        f", timeout={timeout_s}s)",
+        flush=True,
+    )
     print(flush=True)
 
     # Stats
@@ -252,7 +257,9 @@ def evaluate(
 
         # Generate with timeout
         raw, gen_meta = generate_with_timeout(
-            model, tokenizer, prompt=prompt,
+            model,
+            tokenizer,
+            prompt=prompt,
             max_tokens=effective_max_tokens,
             timeout_s=timeout_s,
         )
@@ -277,7 +284,9 @@ def evaluate(
                     overflow_retried = True
 
                     raw, gen_meta = generate_with_timeout(
-                        model, tokenizer, prompt=prompt,
+                        model,
+                        tokenizer,
+                        prompt=prompt,
                         max_tokens=effective_max_tokens,
                         timeout_s=timeout_s,
                     )
@@ -287,7 +296,10 @@ def evaluate(
                         timeout_count += 1
 
                     if verbose:
-                        print(f"    ↳ Budget escalation: {old_budget}→{effective_max_tokens}", flush=True)
+                        print(
+                            f"    ↳ Budget escalation: {old_budget}→{effective_max_tokens}",
+                            flush=True,
+                        )
 
         # Extract DSL
         dsl_text = _extract_dsl(raw)
@@ -302,11 +314,20 @@ def evaluate(
         dsl_text = lint_result.text
         lint_repairs = len(lint_result.changes)
 
-        lint_changes_list = [
-            {"kind": c.kind, "original": c.original, "replacement": c.replacement,
-             "confidence": c.confidence, "reason": c.reason}
-            for c in lint_result.changes
-        ] if lint_repairs > 0 else []
+        lint_changes_list = (
+            [
+                {
+                    "kind": c.kind,
+                    "original": c.original,
+                    "replacement": c.replacement,
+                    "confidence": c.confidence,
+                    "reason": c.reason,
+                }
+                for c in lint_result.changes
+            ]
+            if lint_repairs > 0
+            else []
+        )
 
         result = {
             "shortcut_id": shortcut_id,
@@ -316,7 +337,7 @@ def evaluate(
             "validated": False,  # backward compat: strict result
             "validated_strict": False,
             "validated_permissive": False,
-            "compiled": False,   # backward compat: strict result
+            "compiled": False,  # backward compat: strict result
             "compiled_strict": False,
             "compiled_permissive": False,
             "runtime_unverified": False,
@@ -336,9 +357,9 @@ def evaluate(
 
         # Distillation v2: classify scenario/domain/architecture
         try:
-            from scenario_profiles import select_scenario
-            from domain_profile import select_domain_profile
             from architecture_reasoner import analyze_architecture
+            from domain_profile import select_domain_profile
+            from scenario_profiles import select_scenario
 
             scenario = select_scenario(description)
             domain = select_domain_profile(description)
@@ -368,10 +389,17 @@ def evaluate(
             if verbose:
                 status = "PARSE_FAIL"
                 lint_note = f" [lint:{lint_repairs}]" if lint_repairs > 0 else ""
-                cat = f" [{result['failure_category']}]" if result["failure_category"] else ""
+                cat = (
+                    f" [{result['failure_category']}]"
+                    if result["failure_category"]
+                    else ""
+                )
                 budget_note = f" [budget:{budget.complexity}={effective_max_tokens}]"
                 timeout_note = " [TIMEOUT]" if was_timed_out else ""
-                print(f"  [{i+1}/{total}] {status}{cat}{lint_note}{budget_note}{timeout_note} ({gen_time:.1f}s) {description[:55]}", flush=True)
+                print(
+                    f"  [{i + 1}/{total}] {status}{cat}{lint_note}{budget_note}{timeout_note} ({gen_time:.1f}s) {description[:55]}",
+                    flush=True,
+                )
             continue
 
         # Validate — strict mode
@@ -393,7 +421,11 @@ def evaluate(
                 result["validated_permissive"] = True
                 validate_permissive_pass += 1
                 # Record compiler risk warnings
-                risk_warns = [w for w in validation_permissive.warnings if w.category == "compiler_risk"]
+                risk_warns = [
+                    w
+                    for w in validation_permissive.warnings
+                    if w.category == "compiler_risk"
+                ]
                 if risk_warns:
                     result["compiler_risk_warnings"] = [w.message for w in risk_warns]
             else:
@@ -446,15 +478,22 @@ def evaluate(
             else:
                 status = "VALID_FAIL"
             lint_note = f" [lint:{lint_repairs}]" if lint_repairs > 0 else ""
-            cat = f" [{result['failure_category']}]" if result["failure_category"] else ""
+            cat = (
+                f" [{result['failure_category']}]" if result["failure_category"] else ""
+            )
             budget_note = f" [{budget.complexity}={effective_max_tokens}]"
             timeout_note = " [TIMEOUT]" if was_timed_out else ""
             early_note = " [EARLY]" if gen_meta.early_stopped else ""
-            print(f"  [{i+1}/{total}] {status}{cat}{lint_note}{budget_note}{timeout_note}{early_note} ({gen_time:.1f}s) {description[:50]}", flush=True)
+            print(
+                f"  [{i + 1}/{total}] {status}{cat}{lint_note}{budget_note}{timeout_note}{early_note} ({gen_time:.1f}s) {description[:50]}",
+                flush=True,
+            )
 
     # Summary
     avg_time = sum(generation_times) / len(generation_times) if generation_times else 0
-    p50 = sorted(generation_times)[len(generation_times)//2] if generation_times else 0
+    p50 = (
+        sorted(generation_times)[len(generation_times) // 2] if generation_times else 0
+    )
     max_time = max(generation_times) if generation_times else 0
 
     # Count lint stats
@@ -489,20 +528,30 @@ def evaluate(
         "validate_rate": round(validate_strict_pass / total * 100, 1) if total else 0,
         # Dual metrics
         "validate_strict_pass": validate_strict_pass,
-        "validate_strict_rate": round(validate_strict_pass / total * 100, 1) if total else 0,
+        "validate_strict_rate": round(validate_strict_pass / total * 100, 1)
+        if total
+        else 0,
         "validate_permissive_pass": validate_permissive_pass,
-        "validate_permissive_rate": round(validate_permissive_pass / total * 100, 1) if total else 0,
+        "validate_permissive_rate": round(validate_permissive_pass / total * 100, 1)
+        if total
+        else 0,
         # Backward compat: "compile_pass" = strict
         "compile_pass": compile_strict_pass,
         "compile_rate": round(compile_strict_pass / total * 100, 1) if total else 0,
         # Dual compile metrics
         "compile_strict_pass": compile_strict_pass,
-        "compile_strict_rate": round(compile_strict_pass / total * 100, 1) if total else 0,
+        "compile_strict_rate": round(compile_strict_pass / total * 100, 1)
+        if total
+        else 0,
         "compile_permissive_pass": compile_permissive_pass,
-        "compile_permissive_rate": round(compile_permissive_pass / total * 100, 1) if total else 0,
+        "compile_permissive_rate": round(compile_permissive_pass / total * 100, 1)
+        if total
+        else 0,
         # Runtime unverified KPI
         "runtime_unverified_compile_pass": runtime_unverified,
-        "runtime_unverified_compile_rate": round(runtime_unverified / total * 100, 1) if total else 0,
+        "runtime_unverified_compile_rate": round(runtime_unverified / total * 100, 1)
+        if total
+        else 0,
         "fallback_count": fallback_count,
         "fallback_rate": round(fallback_count / total * 100, 1) if total else 0,
         "failure_categories": failure_categories,
@@ -538,13 +587,17 @@ def evaluate(
 # Distillation data logging
 # ============================================================
 
+
 def _get_git_hash() -> str:
     """Best-effort git rev-parse HEAD."""
     import subprocess
+
     try:
         result = subprocess.run(
             ["git", "rev-parse", "HEAD"],
-            capture_output=True, text=True, timeout=5,
+            capture_output=True,
+            text=True,
+            timeout=5,
             cwd=str(_SCRIPT_DIR),
         )
         return result.stdout.strip()[:12] if result.returncode == 0 else "unknown"
@@ -622,21 +675,27 @@ def _write_distillation_log(
                 # Distillation v2 metadata
                 "scenario_profile": r.get("scenario_profile", "default"),
                 "domain_profile": r.get("domain_profile", "general"),
-                "architecture_decision": r.get("architecture_decision", "shortcut_only"),
+                "architecture_decision": r.get(
+                    "architecture_decision", "shortcut_only"
+                ),
                 "creativity_score": r.get("creativity_score"),
             }
             f.write(json.dumps(entry) + "\n")
             written += 1
 
-    print(f"\n  Distillation log: {written} entries written to {output_path}", flush=True)
+    print(
+        f"\n  Distillation log: {written} entries written to {output_path}", flush=True
+    )
 
     # Count hard-negative training pairs
     hard_negatives = sum(
-        1 for r in results
-        if r.get("parsed", False) and r.get("lint_repairs", 0) > 0
+        1 for r in results if r.get("parsed", False) and r.get("lint_repairs", 0) > 0
     )
     if hard_negatives:
-        print(f"  Hard-negative pairs (linter-repaired + parsed): {hard_negatives}", flush=True)
+        print(
+            f"  Hard-negative pairs (linter-repaired + parsed): {hard_negatives}",
+            flush=True,
+        )
 
 
 def _print_stratified(results: list[dict], group_key: str, label: str) -> None:
@@ -648,11 +707,17 @@ def _print_stratified(results: list[dict], group_key: str, label: str) -> None:
         group = r.get(group_key, "unknown")
         groups[group].append(r)
 
-    print(f"\n  {'='*50}", flush=True)
+    print(f"\n  {'=' * 50}", flush=True)
     print(f"  STRATIFIED BY {label.upper()}", flush=True)
-    print(f"  {'='*50}", flush=True)
-    print(f"  {'Group':20s} {'N':>5s} {'Parse':>7s} {'Val-S':>7s} {'Val-P':>7s} {'Comp-S':>7s} {'Comp-P':>7s}", flush=True)
-    print(f"  {'-'*20} {'-'*5} {'-'*7} {'-'*7} {'-'*7} {'-'*7} {'-'*7}", flush=True)
+    print(f"  {'=' * 50}", flush=True)
+    print(
+        f"  {'Group':20s} {'N':>5s} {'Parse':>7s} {'Val-S':>7s} {'Val-P':>7s} {'Comp-S':>7s} {'Comp-P':>7s}",
+        flush=True,
+    )
+    print(
+        f"  {'-' * 20} {'-' * 5} {'-' * 7} {'-' * 7} {'-' * 7} {'-' * 7} {'-' * 7}",
+        flush=True,
+    )
 
     for group_name in sorted(groups.keys()):
         items = groups[group_name]
@@ -666,13 +731,19 @@ def _print_stratified(results: list[dict], group_key: str, label: str) -> None:
         comp_p = sum(1 for r in items if r.get("compiled_permissive", False))
 
         def pct(x: int) -> str:
-            return f"{x/n*100:5.1f}%"
+            return f"{x / n * 100:5.1f}%"
 
-        print(f"  {group_name:20s} {n:5d} {pct(parse):>7s} {pct(val_s):>7s} {pct(val_p):>7s} {pct(comp_s):>7s} {pct(comp_p):>7s}", flush=True)
+        print(
+            f"  {group_name:20s} {n:5d} {pct(parse):>7s} {pct(val_s):>7s} {pct(val_p):>7s} {pct(comp_s):>7s} {pct(comp_p):>7s}",
+            flush=True,
+        )
 
     # Totals
     n_total = len(results)
-    print(f"  {'-'*20} {'-'*5} {'-'*7} {'-'*7} {'-'*7} {'-'*7} {'-'*7}", flush=True)
+    print(
+        f"  {'-' * 20} {'-' * 5} {'-' * 7} {'-' * 7} {'-' * 7} {'-' * 7} {'-' * 7}",
+        flush=True,
+    )
     t_parse = sum(1 for r in results if r.get("parsed", False))
     t_val_s = sum(1 for r in results if r.get("validated_strict", False))
     t_val_p = sum(1 for r in results if r.get("validated_permissive", False))
@@ -680,9 +751,12 @@ def _print_stratified(results: list[dict], group_key: str, label: str) -> None:
     t_comp_p = sum(1 for r in results if r.get("compiled_permissive", False))
 
     def pct_t(x: int) -> str:
-        return f"{x/n_total*100:5.1f}%"
+        return f"{x / n_total * 100:5.1f}%"
 
-    print(f"  {'TOTAL':20s} {n_total:5d} {pct_t(t_parse):>7s} {pct_t(t_val_s):>7s} {pct_t(t_val_p):>7s} {pct_t(t_comp_s):>7s} {pct_t(t_comp_p):>7s}", flush=True)
+    print(
+        f"  {'TOTAL':20s} {n_total:5d} {pct_t(t_parse):>7s} {pct_t(t_val_s):>7s} {pct_t(t_val_p):>7s} {pct_t(t_comp_s):>7s} {pct_t(t_comp_p):>7s}",
+        flush=True,
+    )
 
 
 def main():
@@ -744,7 +818,8 @@ def main():
         help="Disable overflow-triggered budget retry",
     )
     parser.add_argument(
-        "-v", "--verbose",
+        "-v",
+        "--verbose",
         action="store_true",
         help="Show per-example results",
     )
@@ -788,9 +863,13 @@ def main():
     args = parser.parse_args()
 
     project_root = Path(__file__).resolve().parent.parent
-    eval_file = args.eval_file if os.path.isabs(args.eval_file) else str(project_root / args.eval_file)
+    eval_file = (
+        args.eval_file
+        if os.path.isabs(args.eval_file)
+        else str(project_root / args.eval_file)
+    )
 
-    print(f"\nShortcutForge: Evaluating model\n", flush=True)
+    print("\nShortcutForge: Evaluating model\n", flush=True)
 
     stats = evaluate(
         model_path=args.model_path,
@@ -809,19 +888,46 @@ def main():
         chat_template=args.chat_template,
     )
 
-    print(f"\n  {'='*50}", flush=True)
-    print(f"  EVALUATION RESULTS (with linter)", flush=True)
-    print(f"  {'='*50}", flush=True)
+    print(f"\n  {'=' * 50}", flush=True)
+    print("  EVALUATION RESULTS (with linter)", flush=True)
+    print(f"  {'=' * 50}", flush=True)
     print(f"  Total examples:    {stats['total']}", flush=True)
-    print(f"  Budget mode:       {stats['budget_mode']} (timeout={stats['timeout_s']}s)", flush=True)
-    print(f"  Lint repairs:      {stats['lint_repairs_total']} repairs across {stats['examples_linted']} examples", flush=True)
-    print(f"  Parse pass:        {stats['parse_pass']}/{stats['total']} ({stats['parse_rate']}%)", flush=True)
-    print(f"  Validate (strict): {stats['validate_strict_pass']}/{stats['total']} ({stats['validate_strict_rate']}%)", flush=True)
-    print(f"  Validate (perm):   {stats['validate_permissive_pass']}/{stats['total']} ({stats['validate_permissive_rate']}%)", flush=True)
-    print(f"  Compile (strict):  {stats['compile_strict_pass']}/{stats['total']} ({stats['compile_strict_rate']}%)", flush=True)
-    print(f"  Compile (perm):    {stats['compile_permissive_pass']}/{stats['total']} ({stats['compile_permissive_rate']}%)", flush=True)
-    print(f"    runtime_unverif: {stats['runtime_unverified_compile_pass']}/{stats['total']} ({stats['runtime_unverified_compile_rate']}%)", flush=True)
-    print(f"    fallback_rate:   {stats['fallback_count']}/{stats['total']} ({stats['fallback_rate']}%)", flush=True)
+    print(
+        f"  Budget mode:       {stats['budget_mode']} (timeout={stats['timeout_s']}s)",
+        flush=True,
+    )
+    print(
+        f"  Lint repairs:      {stats['lint_repairs_total']} repairs across {stats['examples_linted']} examples",
+        flush=True,
+    )
+    print(
+        f"  Parse pass:        {stats['parse_pass']}/{stats['total']} ({stats['parse_rate']}%)",
+        flush=True,
+    )
+    print(
+        f"  Validate (strict): {stats['validate_strict_pass']}/{stats['total']} ({stats['validate_strict_rate']}%)",
+        flush=True,
+    )
+    print(
+        f"  Validate (perm):   {stats['validate_permissive_pass']}/{stats['total']} ({stats['validate_permissive_rate']}%)",
+        flush=True,
+    )
+    print(
+        f"  Compile (strict):  {stats['compile_strict_pass']}/{stats['total']} ({stats['compile_strict_rate']}%)",
+        flush=True,
+    )
+    print(
+        f"  Compile (perm):    {stats['compile_permissive_pass']}/{stats['total']} ({stats['compile_permissive_rate']}%)",
+        flush=True,
+    )
+    print(
+        f"    runtime_unverif: {stats['runtime_unverified_compile_pass']}/{stats['total']} ({stats['runtime_unverified_compile_rate']}%)",
+        flush=True,
+    )
+    print(
+        f"    fallback_rate:   {stats['fallback_count']}/{stats['total']} ({stats['fallback_rate']}%)",
+        flush=True,
+    )
     print(f"  Avg gen time:      {stats['avg_time_s']}s", flush=True)
     print(f"  P50 gen time:      {stats['p50_time_s']}s", flush=True)
     print(f"  Max gen time:      {stats['max_time_s']}s", flush=True)
@@ -835,18 +941,18 @@ def main():
     # Budget distribution
     bd = stats.get("budget_distribution", {})
     if bd and stats["budget_mode"] == "dynamic":
-        print(f"\n  Budget distribution:", flush=True)
+        print("\n  Budget distribution:", flush=True)
         for tier, count in sorted(bd.items()):
             print(f"    {tier}: {count}", flush=True)
 
     # Failure category breakdown
     fc = stats.get("failure_categories", {})
     if fc:
-        print(f"\n  Failure categories:", flush=True)
+        print("\n  Failure categories:", flush=True)
         for cat, count in sorted(fc.items()):
             print(f"    {cat}: {count}", flush=True)
 
-    print(f"  {'='*50}", flush=True)
+    print(f"  {'=' * 50}", flush=True)
 
     # Save results
     output_path = os.path.join(os.path.dirname(eval_file), "eval_results.json")
@@ -884,15 +990,21 @@ def main():
                 "compile_strict_rate": stats["compile_strict_rate"],
                 "compile_permissive_pass": stats["compile_permissive_pass"],
                 "compile_permissive_rate": stats["compile_permissive_rate"],
-                "runtime_unverified_compile_pass": stats["runtime_unverified_compile_pass"],
-                "runtime_unverified_compile_rate": stats["runtime_unverified_compile_rate"],
+                "runtime_unverified_compile_pass": stats[
+                    "runtime_unverified_compile_pass"
+                ],
+                "runtime_unverified_compile_rate": stats[
+                    "runtime_unverified_compile_rate"
+                ],
                 "fallback_count": stats["fallback_count"],
                 "fallback_rate": stats["fallback_rate"],
             },
             "failure_categories": fc,
             "budget_distribution": bd,
         }
-        snapshot_path = os.path.join(os.path.dirname(eval_file), "baseline_snapshot.json")
+        snapshot_path = os.path.join(
+            os.path.dirname(eval_file), "baseline_snapshot.json"
+        )
         with open(snapshot_path, "w") as f:
             json.dump(snapshot, f, indent=2)
         print(f"  Baseline snapshot saved to: {snapshot_path}", flush=True)

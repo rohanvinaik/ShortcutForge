@@ -62,11 +62,13 @@ def check_regression(
     results_eval_file = results.get("eval_file", "")
 
     if baseline_n and results_n and baseline_n != results_n:
-        print(f"  ⚠ WARNING: Eval set size mismatch — baseline has {baseline_n} examples, results have {results_n}.")
+        print(
+            f"  ⚠ WARNING: Eval set size mismatch — baseline has {baseline_n} examples, results have {results_n}."
+        )
         print(f"    Baseline eval: {baseline_eval_file}")
         print(f"    Results eval:  {results_eval_file or '(not recorded)'}")
-        print(f"    Regression check may not be meaningful with different eval sets.")
-        print(f"    Re-run the frozen eval to get a valid comparison.\n")
+        print("    Regression check may not be meaningful with different eval sets.")
+        print("    Re-run the frozen eval to get a valid comparison.\n")
 
     # --- Metric comparisons ---
     # Map from results field names to baseline metric names
@@ -101,7 +103,7 @@ def check_regression(
     current_categories = results.get("failure_categories", {})
 
     if verbose:
-        print(f"\n  Failure categories:")
+        print("\n  Failure categories:")
 
     all_cats = set(list(baseline_categories.keys()) + list(current_categories.keys()))
     for cat in sorted(all_cats):
@@ -111,7 +113,9 @@ def check_regression(
         if verbose:
             delta = current_count - baseline_count
             arrow = "↑" if delta > 0 else "↓" if delta < 0 else "="
-            print(f"    {cat}: {current_count} (baseline: {baseline_count}) {arrow} {delta:+d}")
+            print(
+                f"    {cat}: {current_count} (baseline: {baseline_count}) {arrow} {delta:+d}"
+            )
 
         if current_count > baseline_count + category_tolerance:
             regressions.append(
@@ -124,9 +128,11 @@ def check_regression(
 
     if baseline_scenarios or current_scenarios:
         if verbose:
-            print(f"\n  Scenario scores:")
+            print("\n  Scenario scores:")
 
-        all_scenarios = set(list(baseline_scenarios.keys()) + list(current_scenarios.keys()))
+        all_scenarios = set(
+            list(baseline_scenarios.keys()) + list(current_scenarios.keys())
+        )
         for scenario in sorted(all_scenarios):
             baseline_score = baseline_scenarios.get(scenario, 0.0)
             current_score = current_scenarios.get(scenario, 0.0)
@@ -134,9 +140,13 @@ def check_regression(
             if verbose:
                 delta = current_score - baseline_score
                 arrow = "↑" if delta > 0 else "↓" if delta < 0 else "="
-                print(f"    {scenario}: {current_score:.2f} (baseline: {baseline_score:.2f}) {arrow} {delta:+.2f}")
+                print(
+                    f"    {scenario}: {current_score:.2f} (baseline: {baseline_score:.2f}) {arrow} {delta:+.2f}"
+                )
 
-            if current_score < baseline_score - 0.05:  # 5% tolerance for scenario scores
+            if (
+                current_score < baseline_score - 0.05
+            ):  # 5% tolerance for scenario scores
                 regressions.append(
                     f"Scenario '{scenario}': {current_score:.2f} < baseline {baseline_score:.2f} (regression of {baseline_score - current_score:.2f})"
                 )
@@ -159,7 +169,7 @@ def check_regression(
         print(f"\n  RESULT: FAIL ({len(regressions)} regression(s))")
         return False
     else:
-        print(f"  RESULT: PASS (no regressions)")
+        print("  RESULT: PASS (no regressions)")
         return True
 
 
@@ -190,14 +200,15 @@ def main():
         help="Max allowed increase per failure category (default: 1)",
     )
     parser.add_argument(
-        "-v", "--verbose",
+        "-v",
+        "--verbose",
         action="store_true",
         help="Show detailed comparison",
     )
 
     args = parser.parse_args()
 
-    print(f"\nShortcutForge: Regression Check\n")
+    print("\nShortcutForge: Regression Check\n")
     print(f"  Baseline: {args.baseline}")
     print(f"  Results:  {args.results}")
     print()

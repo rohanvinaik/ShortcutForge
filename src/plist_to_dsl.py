@@ -20,11 +20,10 @@ The reverse compiler handles:
 from __future__ import annotations
 
 import json
-import os
 import plistlib
 import re
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 CATALOG_PATH = BASE_DIR / "references" / "action_catalog.json"
@@ -34,17 +33,17 @@ SKIP_PARAMS = {
     "UUID",
     "GroupingIdentifier",
     "WFControlFlowMode",
-    "WFMenuItems",        # Derived from CASE labels
-    "WFMenuItemTitle",    # Emitted by CASE
+    "WFMenuItems",  # Derived from CASE labels
+    "WFMenuItemTitle",  # Emitted by CASE
     "WFMenuItemAttributedTitle",  # Rich text version
-    "WFMenuPrompt",       # Emitted by MENU
-    "WFCondition",        # Emitted by IF condition
-    "WFInput",            # Handled separately for control flow
-    "AppIntentDescriptor", # Pass through as JSON
-    "WFEnumeration",       # Captured in IF condition compare
-    "WFLinkEnumeration",   # Captured in IF condition compare
-    "WFNumberValue",       # Captured in IF condition compare
-    "WFConditionalActionString", # Captured in IF condition compare
+    "WFMenuPrompt",  # Emitted by MENU
+    "WFCondition",  # Emitted by IF condition
+    "WFInput",  # Handled separately for control flow
+    "AppIntentDescriptor",  # Pass through as JSON
+    "WFEnumeration",  # Captured in IF condition compare
+    "WFLinkEnumeration",  # Captured in IF condition compare
+    "WFNumberValue",  # Captured in IF condition compare
+    "WFConditionalActionString",  # Captured in IF condition compare
 }
 
 # Prefix-based skip (e.g., Show-* are UI visibility flags, not functional)
@@ -90,15 +89,36 @@ def _short_name(identifier: str) -> str:
         return rmap[identifier]
     # Strip common prefix
     if identifier.startswith("is.workflow.actions."):
-        return identifier[len("is.workflow.actions."):]
+        return identifier[len("is.workflow.actions.") :]
     return identifier
+
+
+def _format_ref_type(value: dict, output_uuids: dict, var_tracker: dict) -> str | None:
+    """Resolve a plist reference dict to a DSL ref string, or None if not a ref type."""
+    ref_type = value.get("Type", "")
+    if ref_type == "ActionOutput":
+        return _format_action_output_ref(value, output_uuids)
+    if ref_type == "Variable":
+        return _format_variable_ref(value, var_tracker)
+    if ref_type == "ExtensionInput":
+        return "@input"
+    if ref_type == "CurrentDate":
+        return "@date"
+    if ref_type in ("DeviceDetails", "Ask", "Clipboard", "AskEachTime"):
+        return f"@{_sanitize_ident(ref_type)}"
+    return None
 
 
 def _escape_string(s: Any) -> str:
     """Escape a string for DSL output. Handles non-string values gracefully."""
     if not isinstance(s, str):
         s = str(s)
-    return s.replace("\\", "\\\\").replace('"', '\\"').replace("\n", "\\n").replace("\t", "\\t")
+    return (
+        s.replace("\\", "\\\\")
+        .replace('"', '\\"')
+        .replace("\n", "\\n")
+        .replace("\t", "\\t")
+    )
 
 
 def _format_value(value: Any, output_uuids: dict[str, str], var_tracker: dict) -> str:
@@ -133,62 +153,42 @@ def _format_dict_value(value: dict, output_uuids: dict, var_tracker: dict) -> st
     """Format a dict value, detecting special types."""
     if not isinstance(value, dict):
         return f'"{_escape_string(str(value))}"'
-    ser_type = value.get("WFSerializationType", "")
 
-    if ser_type == "WFTextTokenAttachment":
-        return _format_attachment(value, output_uuids, var_tracker)
-    elif ser_type == "WFTextTokenString":
-        return _format_token_string(value, output_uuids, var_tracker)
-    elif ser_type == "WFQuantityFieldValue":
-        return _format_quantity(value, output_uuids, var_tracker)
-    else:
-        # Generic dict — format as dict literal
-        # But skip if it's a reference dict (Type: ActionOutput, Variable, etc.)
-        ref_type = value.get("Type", "")
-        if ref_type == "ActionOutput":
-            return _format_action_output_ref(value, output_uuids)
-        elif ref_type == "Variable":
-            return _format_variable_ref(value, var_tracker)
-        elif ref_type == "ExtensionInput":
-            return "@input"
-        elif ref_type == "CurrentDate":
-            return "@date"
-        elif ref_type in ("DeviceDetails", "Ask", "Clipboard", "AskEachTime"):
-            # Special reference types — emit as named handle
-            return f"@{_sanitize_ident(ref_type)}"
-        else:
-            # Plain dict — emit as dict literal
-            entries = []
-            for k, v in value.items():
-                try:
-                    formatted = _format_value(v, output_uuids, var_tracker)
-                    entries.append(f'"{_escape_string(str(k))}": {formatted}')
-                except Exception:
-                    entries.append(f'"{_escape_string(str(k))}": "<complex>"')
-            return "{" + ", ".join(entries) + "}"
+    ser_dispatch = {
+        "WFTextTokenAttachment": _format_attachment,
+        "WFTextTokenString": _format_token_string,
+        "WFQuantityFieldValue": _format_quantity,
+    }
+    ser_type = value.get("WFSerializationType", "")
+    handler = ser_dispatch.get(ser_type)
+    if handler is not None:
+        return handler(value, output_uuids, var_tracker)
+
+    # Check if it's a reference dict
+    ref_str = _format_ref_type(value, output_uuids, var_tracker)
+    if ref_str is not None:
+        return ref_str
+
+    # Plain dict — emit as dict literal
+    entries = []
+    for k, v in value.items():
+        try:
+            formatted = _format_value(v, output_uuids, var_tracker)
+            entries.append(f'"{_escape_string(str(k))}": {formatted}')
+        except Exception:
+            entries.append(f'"{_escape_string(str(k))}": "<complex>"')
+    return "{" + ", ".join(entries) + "}"
 
 
 def _format_attachment(value: dict, output_uuids: dict, var_tracker: dict) -> str:
     """Format a WFTextTokenAttachment value."""
     inner = value.get("Value", {})
     if not isinstance(inner, dict):
-        # Value is a raw string or other primitive
         return f'"{_escape_string(str(inner))}"'
-    ref_type = inner.get("Type", "")
-
-    if ref_type == "ActionOutput":
-        return _format_action_output_ref(inner, output_uuids)
-    elif ref_type == "Variable":
-        return _format_variable_ref(inner, var_tracker)
-    elif ref_type == "ExtensionInput":
-        return "@input"
-    elif ref_type == "CurrentDate":
-        return "@date"
-    elif ref_type in ("DeviceDetails", "Ask", "Clipboard", "AskEachTime"):
-        return f"@{_sanitize_ident(ref_type)}"
-    else:
-        # Unknown attachment type — try to format as dict
-        return _format_dict_value(inner, output_uuids, var_tracker)
+    ref_str = _format_ref_type(inner, output_uuids, var_tracker)
+    if ref_str is not None:
+        return ref_str
+    return _format_dict_value(inner, output_uuids, var_tracker)
 
 
 def _format_token_string(value: dict, output_uuids: dict, var_tracker: dict) -> str:
@@ -213,58 +213,51 @@ def _format_token_string(value: dict, output_uuids: dict, var_tracker: dict) -> 
             positions[pos] = att
 
     # Build interpolated string
-    parts = []
+    parts = _build_interp_parts(raw_string, positions, output_uuids, var_tracker)
+    return _assemble_interp_string(parts)
+
+
+def _resolve_attachment_ref(att: dict, output_uuids: dict, var_tracker: dict) -> str:
+    """Resolve a single token-string attachment to a DSL ref string."""
+    ref_str = _format_ref_type(att, output_uuids, var_tracker)
+    if ref_str is not None:
+        return ref_str
+    var_name = att.get("VariableName", "")
+    if var_name:
+        return f"${var_name.replace(' ', '_')}"
+    return "@prev"
+
+
+def _build_interp_parts(
+    raw_string: str, positions: dict, output_uuids: dict, var_tracker: dict
+) -> list[str]:
+    """Build list of text and {ref} parts from a token string."""
+    parts: list[str] = []
     for char_idx, ch in enumerate(raw_string):
         if ch == "\ufffc" and char_idx in positions:
-            att = positions[char_idx]
-            ref_type = att.get("Type", "")
-            if ref_type == "ActionOutput":
-                ref_str = _format_action_output_ref(att, output_uuids)
-            elif ref_type == "Variable":
-                ref_str = _format_variable_ref(att, var_tracker)
-            elif ref_type == "ExtensionInput":
-                ref_str = "@input"
-            elif ref_type == "CurrentDate":
-                ref_str = "@date"
-            elif ref_type in ("DeviceDetails", "Ask", "Clipboard", "AskEachTime"):
-                ref_str = f"@{_sanitize_ident(ref_type)}"
-            else:
-                var_name = att.get("VariableName", "")
-                if var_name:
-                    ref_str = f"${var_name.replace(' ', '_')}"
-                else:
-                    ref_str = "@prev"
+            ref_str = _resolve_attachment_ref(positions[char_idx], output_uuids, var_tracker)
             parts.append("{" + ref_str + "}")
+        elif parts and not parts[-1].startswith("{"):
+            parts[-1] += ch
         else:
-            if parts and not parts[-1].startswith("{"):
-                parts[-1] += ch
-            else:
-                parts.append(ch)
+            parts.append(ch)
+    return parts
 
-    # Check if any text parts contain backticks or literal curly braces
-    # that would conflict with interpolation syntax.
-    # If so, fall back to a plain quoted string with the refs inlined as text.
-    has_conflicting_chars = False
-    for part in parts:
-        if not part.startswith("{") and ("`" in part or "{" in part or "}" in part):
-            has_conflicting_chars = True
-            break
 
-    if has_conflicting_chars:
-        # Fall back to plain quoted string — flatten refs to text
-        flat = []
-        for part in parts:
-            if part.startswith("{") and part.endswith("}"):
-                # Variable ref — emit the name as text placeholder
-                flat.append(part[1:-1])  # strip braces, keep $var or @handle
-            else:
-                flat.append(part)
+def _assemble_interp_string(parts: list[str]) -> str:
+    """Assemble parts into a backtick-interpolated or quoted string."""
+    has_conflict = any(
+        not p.startswith("{") and ("`" in p or "{" in p or "}" in p) for p in parts
+    )
+    if has_conflict:
+        flat = [p[1:-1] if (p.startswith("{") and p.endswith("}")) else p for p in parts]
         return f'"{_escape_string("".join(flat))}"'
-
     return "`" + "".join(parts) + "`"
 
 
-def _format_quantity(value: dict, output_uuids: dict | None = None, var_tracker: dict | None = None) -> str:
+def _format_quantity(
+    value: dict, output_uuids: dict | None = None, var_tracker: dict | None = None
+) -> str:
     """Format a WFQuantityFieldValue as QTY(magnitude, "unit")."""
     inner = value.get("Value", {})
     magnitude = inner.get("Magnitude", 0)
@@ -272,15 +265,9 @@ def _format_quantity(value: dict, output_uuids: dict | None = None, var_tracker:
 
     # Magnitude may be a dict (ActionOutput reference, Variable, etc.)
     if isinstance(magnitude, dict):
-        ref_type = magnitude.get("Type", "")
-        if ref_type == "ActionOutput" and output_uuids:
-            mag_str = _format_action_output_ref(magnitude, output_uuids)
-        elif ref_type == "Variable" and var_tracker:
-            mag_str = _format_variable_ref(magnitude, var_tracker)
-        elif ref_type == "ExtensionInput":
-            mag_str = "@input"
-        elif ref_type == "CurrentDate":
-            mag_str = "@date"
+        ref_str = _format_ref_type(magnitude, output_uuids or {}, var_tracker or {})
+        if ref_str is not None:
+            mag_str = ref_str
         elif output_uuids:
             mag_str = _format_value(magnitude, output_uuids, var_tracker or {})
         else:
@@ -335,7 +322,12 @@ def _format_list_value(value: list, output_uuids: dict, var_tracker: dict) -> st
         return _format_wf_items_as_dict(value, output_uuids, var_tracker)
 
     # Check if it's a WFItems list (with WFItemType and WFValue)
-    if value and isinstance(value[0], dict) and "WFValue" in value[0] and "WFKey" not in value[0]:
+    if (
+        value
+        and isinstance(value[0], dict)
+        and "WFValue" in value[0]
+        and "WFKey" not in value[0]
+    ):
         items = []
         for item in value:
             if not isinstance(item, dict):
@@ -344,7 +336,13 @@ def _format_list_value(value: list, output_uuids: dict, var_tracker: dict) -> st
                 continue
             wf_val = item.get("WFValue", {})
             if isinstance(wf_val, dict) and "Value" in wf_val:
-                items.append(_format_value(wf_val.get("Value", {}).get("string", ""), output_uuids, var_tracker))
+                items.append(
+                    _format_value(
+                        wf_val.get("Value", {}).get("string", ""),
+                        output_uuids,
+                        var_tracker,
+                    )
+                )
             else:
                 items.append(_format_value(wf_val, output_uuids, var_tracker))
         return "[" + ", ".join(items) + "]"
@@ -364,7 +362,11 @@ def _format_wf_items_as_dict(items: list, output_uuids: dict, var_tracker: dict)
         # Extract key string
         if isinstance(key_val, dict):
             key_inner = key_val.get("Value", {})
-            key_str = key_inner.get("string", "") if isinstance(key_inner, dict) else str(key_inner)
+            key_str = (
+                key_inner.get("string", "")
+                if isinstance(key_inner, dict)
+                else str(key_inner)
+            )
         else:
             key_str = str(key_val)
 
@@ -388,6 +390,7 @@ def _sanitize_ident(name: str) -> str:
 # ============================================================
 # Main Reverse Compiler
 # ============================================================
+
 
 def plist_to_dsl(plist_data: dict) -> str:
     """Convert a plist dict to DSL text.
@@ -415,7 +418,9 @@ def plist_to_dsl(plist_data: dict) -> str:
 
     # Parse into a tree of blocks
     lines = [f'SHORTCUT "{_escape_string(name)}"']
-    _emit_actions(actions, 0, len(actions), lines, output_uuids, var_tracker, prev_uuid=None)
+    _emit_actions(
+        actions, 0, len(actions), lines, output_uuids, var_tracker, prev_uuid=None
+    )
     lines.append("ENDSHORTCUT")
 
     return "\n".join(lines) + "\n"
@@ -463,30 +468,74 @@ def _emit_actions(
         # Update @prev tracking
         if prev_uuid:
             for uid, info in output_uuids.items():
-                info["is_prev"] = (uid == prev_uuid)
+                info["is_prev"] = uid == prev_uuid
 
         if ident == CF_CONDITIONAL and mode == 0:
             # IF block — find matching ENDIF
-            i = _emit_if_block(actions, i, end, lines, output_uuids, var_tracker, group_id, params, prev_uuid)
+            i = _emit_if_block(
+                actions,
+                i,
+                end,
+                lines,
+                output_uuids,
+                var_tracker,
+                group_id,
+                params,
+                prev_uuid,
+            )
         elif ident == CF_MENU and mode == 0:
             # MENU block
-            i = _emit_menu_block(actions, i, end, lines, output_uuids, var_tracker, group_id, params, prev_uuid)
+            i = _emit_menu_block(
+                actions,
+                i,
+                end,
+                lines,
+                output_uuids,
+                var_tracker,
+                group_id,
+                params,
+                prev_uuid,
+            )
         elif ident == CF_REPEAT_COUNT and mode == 0:
             # REPEAT block
-            i = _emit_repeat_block(actions, i, end, lines, output_uuids, var_tracker, group_id, params, prev_uuid)
+            i = _emit_repeat_block(
+                actions,
+                i,
+                end,
+                lines,
+                output_uuids,
+                var_tracker,
+                group_id,
+                params,
+                prev_uuid,
+            )
         elif ident == CF_REPEAT_EACH and mode == 0:
             # FOREACH block
-            i = _emit_foreach_block(actions, i, end, lines, output_uuids, var_tracker, group_id, params, prev_uuid)
+            i = _emit_foreach_block(
+                actions,
+                i,
+                end,
+                lines,
+                output_uuids,
+                var_tracker,
+                group_id,
+                params,
+                prev_uuid,
+            )
         elif ident in CONTROL_FLOW_IDS and mode in (1, 2):
             # Skip — these are handled by their parent block
             i += 1
         else:
             # Regular action
-            prev_uuid = _emit_regular_action(action, ident, params, lines, output_uuids, var_tracker)
+            prev_uuid = _emit_regular_action(
+                action, ident, params, lines, output_uuids, var_tracker
+            )
             i += 1
 
 
-def _find_group_end(actions: list, start: int, end: int, group_id: str, _ident: str = "") -> int:
+def _find_group_end(
+    actions: list, start: int, end: int, group_id: str, _ident: str = ""
+) -> int:
     """Find the index of the end marker (mode=2) for a given GroupingIdentifier."""
     depth = 0
     for i in range(start, end):
@@ -505,14 +554,18 @@ def _find_group_end(actions: list, start: int, end: int, group_id: str, _ident: 
     return end  # Not found — return end
 
 
-def _find_else_marker(actions: list, start: int, end_idx: int, group_id: str) -> int | None:
+def _find_else_marker(
+    actions: list, start: int, end_idx: int, group_id: str
+) -> int | None:
     """Find the ELSE marker (mode=1) for an IF block within the given range."""
     for i in range(start, end_idx):
         action = actions[i]
         params = action.get("WFWorkflowActionParameters", {})
-        if (params.get("GroupingIdentifier") == group_id and
-                params.get("WFControlFlowMode") == 1 and
-                action.get("WFWorkflowActionIdentifier") == CF_CONDITIONAL):
+        if (
+            params.get("GroupingIdentifier") == group_id
+            and params.get("WFControlFlowMode") == 1
+            and action.get("WFWorkflowActionIdentifier") == CF_CONDITIONAL
+        ):
             return i
     return None
 
@@ -556,13 +609,19 @@ def _emit_if_block(
 
     if else_idx is not None:
         # Then body
-        _emit_actions(actions, start + 1, else_idx, lines, output_uuids, var_tracker, prev_uuid)
+        _emit_actions(
+            actions, start + 1, else_idx, lines, output_uuids, var_tracker, prev_uuid
+        )
         lines.append("ELSE")
         # Else body
-        _emit_actions(actions, else_idx + 1, end_idx, lines, output_uuids, var_tracker, prev_uuid)
+        _emit_actions(
+            actions, else_idx + 1, end_idx, lines, output_uuids, var_tracker, prev_uuid
+        )
     else:
         # No else
-        _emit_actions(actions, start + 1, end_idx, lines, output_uuids, var_tracker, prev_uuid)
+        _emit_actions(
+            actions, start + 1, end_idx, lines, output_uuids, var_tracker, prev_uuid
+        )
 
     lines.append("ENDIF")
     return end_idx + 1
@@ -580,16 +639,18 @@ def _emit_menu_block(
         prompt_str = f'"{_escape_string(raw_prompt)}"'
     end_idx = _find_group_end(actions, start, end, group_id, CF_MENU)
 
-    lines.append(f'MENU {prompt_str}')
+    lines.append(f"MENU {prompt_str}")
 
     # Find all CASE markers (mode=1)
     case_indices = []
     for i in range(start + 1, end_idx):
         action = actions[i]
         a_params = action.get("WFWorkflowActionParameters", {})
-        if (a_params.get("GroupingIdentifier") == group_id and
-                a_params.get("WFControlFlowMode") == 1 and
-                action.get("WFWorkflowActionIdentifier") == CF_MENU):
+        if (
+            a_params.get("GroupingIdentifier") == group_id
+            and a_params.get("WFControlFlowMode") == 1
+            and action.get("WFWorkflowActionIdentifier") == CF_MENU
+        ):
             title = a_params.get("WFMenuItemTitle", "")
             if not title:
                 # Try attributed title
@@ -604,7 +665,15 @@ def _emit_menu_block(
     for ci, (case_start, title) in enumerate(case_indices):
         case_end = case_indices[ci + 1][0] if ci + 1 < len(case_indices) else end_idx
         lines.append(f'CASE "{_escape_string(title)}"')
-        _emit_actions(actions, case_start + 1, case_end, lines, output_uuids, var_tracker, prev_uuid)
+        _emit_actions(
+            actions,
+            case_start + 1,
+            case_end,
+            lines,
+            output_uuids,
+            var_tracker,
+            prev_uuid,
+        )
 
     lines.append("ENDMENU")
     return end_idx + 1
@@ -620,7 +689,9 @@ def _emit_repeat_block(
     end_idx = _find_group_end(actions, start, end, group_id, CF_REPEAT_COUNT)
 
     lines.append(f"REPEAT {count_str}")
-    _emit_actions(actions, start + 1, end_idx, lines, output_uuids, var_tracker, prev_uuid)
+    _emit_actions(
+        actions, start + 1, end_idx, lines, output_uuids, var_tracker, prev_uuid
+    )
     lines.append("ENDREPEAT")
     return end_idx + 1
 
@@ -635,7 +706,9 @@ def _emit_foreach_block(
     end_idx = _find_group_end(actions, start, end, group_id, CF_REPEAT_EACH)
 
     lines.append(f"FOREACH {input_ref}")
-    _emit_actions(actions, start + 1, end_idx, lines, output_uuids, var_tracker, prev_uuid)
+    _emit_actions(
+        actions, start + 1, end_idx, lines, output_uuids, var_tracker, prev_uuid
+    )
     lines.append("ENDFOREACH")
     return end_idx + 1
 
@@ -686,7 +759,9 @@ def _emit_regular_action(
     return uuid
 
 
-def _format_conditional_input(wf_input: dict, output_uuids: dict, var_tracker: dict) -> str:
+def _format_conditional_input(
+    wf_input: dict, output_uuids: dict, var_tracker: dict
+) -> str:
     """Format the WFInput of a conditional (has extra Variable wrapping)."""
     # WFInput for conditionals: {Type: Variable, Variable: {Value: {...}, WFSerializationType: ...}}
     if isinstance(wf_input, dict):
@@ -728,6 +803,7 @@ def _condition_name(cond_int: int) -> str:
 # ============================================================
 # File-level API
 # ============================================================
+
 
 def shortcut_file_to_dsl(filepath: str) -> str:
     """Convert a .shortcut file to DSL text.

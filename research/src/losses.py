@@ -83,9 +83,12 @@ class CompositeLoss(nn.Module):
         precision_repair = torch.exp(-self.log_sigma_repair)
 
         L_total = (
-            precision_ce * L_ce + self.log_sigma_ce
-            + precision_margin * L_margin + self.log_sigma_margin
-            + precision_repair * L_repair + self.log_sigma_repair
+            precision_ce * L_ce
+            + self.log_sigma_ce
+            + precision_margin * L_margin
+            + self.log_sigma_margin
+            + precision_repair * L_repair
+            + self.log_sigma_repair
         )
 
         return {

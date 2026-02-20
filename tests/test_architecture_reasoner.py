@@ -14,7 +14,6 @@ Run: python3 scripts/test_architecture_reasoner.py
 """
 
 import sys
-import os
 from pathlib import Path
 
 # Ensure scripts/ is importable
@@ -24,12 +23,11 @@ if str(_SRC_DIR) not in sys.path:
     sys.path.insert(0, str(_SRC_DIR))
 
 from architecture_reasoner import (
-    ArchitectureReasoner,
     ArchitectureDecision,
+    ArchitectureReasoner,
     BlueprintDoc,
     analyze_architecture,
 )
-
 
 # -- Test Harness ----------------------------------------------------------
 
@@ -53,6 +51,7 @@ def run_test(name: str, fn):
 
 # -- Shortcut-only decisions -----------------------------------------------
 
+
 def test_shortcut_only_simple():
     """Simple prompt with no hybrid signals -> shortcut_only."""
     reasoner = ArchitectureReasoner()
@@ -60,6 +59,7 @@ def test_shortcut_only_simple():
     assert decision.strategy == "shortcut_only", (
         f"Expected shortcut_only, got {decision.strategy}"
     )
+
 
 run_test("shortcut_only_simple", test_shortcut_only_simple)
 
@@ -72,10 +72,12 @@ def test_shortcut_only_device():
         f"Expected shortcut_only, got {decision.strategy}"
     )
 
+
 run_test("shortcut_only_device", test_shortcut_only_device)
 
 
 # -- Hybrid (shortcut_plus_blueprint) decisions ----------------------------
+
 
 def test_hybrid_server():
     """Prompt mentioning server/deploy -> shortcut_plus_blueprint."""
@@ -84,6 +86,7 @@ def test_hybrid_server():
     assert decision.strategy == "shortcut_plus_blueprint", (
         f"Expected shortcut_plus_blueprint, got {decision.strategy}"
     )
+
 
 run_test("hybrid_server", test_hybrid_server)
 
@@ -96,16 +99,20 @@ def test_hybrid_database():
         f"Expected shortcut_plus_blueprint, got {decision.strategy}"
     )
 
+
 run_test("hybrid_database", test_hybrid_database)
 
 
 def test_hybrid_webhook():
     """Prompt mentioning webhook/callback -> shortcut_plus_blueprint."""
     reasoner = ArchitectureReasoner()
-    decision = reasoner.analyze("Set up a webhook endpoint with a callback url to receive from external services")
+    decision = reasoner.analyze(
+        "Set up a webhook endpoint with a callback url to receive from external services"
+    )
     assert decision.strategy == "shortcut_plus_blueprint", (
         f"Expected shortcut_plus_blueprint, got {decision.strategy}"
     )
+
 
 run_test("hybrid_webhook", test_hybrid_webhook)
 
@@ -113,9 +120,7 @@ run_test("hybrid_webhook", test_hybrid_webhook)
 def test_hybrid_multi_signal():
     """Multiple hybrid categories -> shortcut_plus_blueprint with high confidence."""
     reasoner = ArchitectureReasoner()
-    decision = reasoner.analyze(
-        "Deploy a backend server with database and webhook"
-    )
+    decision = reasoner.analyze("Deploy a backend server with database and webhook")
     assert decision.strategy == "shortcut_plus_blueprint", (
         f"Expected shortcut_plus_blueprint, got {decision.strategy}"
     )
@@ -123,10 +128,12 @@ def test_hybrid_multi_signal():
         f"Expected confidence >= 0.8 for multi-signal, got {decision.confidence}"
     )
 
+
 run_test("hybrid_multi_signal", test_hybrid_multi_signal)
 
 
 # -- Blueprint generation --------------------------------------------------
+
 
 def test_blueprint_generation():
     """Hybrid decision -> generate_blueprint returns BlueprintDoc with components."""
@@ -140,6 +147,7 @@ def test_blueprint_generation():
     assert len(bp.components) > 0, "Blueprint should have at least one component"
     assert bp.title, "Blueprint should have a title"
 
+
 run_test("blueprint_generation", test_blueprint_generation)
 
 
@@ -152,10 +160,12 @@ def test_blueprint_none_for_shortcut_only():
     bp = reasoner.generate_blueprint(decision, "Set a timer for 5 minutes")
     assert bp is None, f"Expected None for shortcut_only blueprint, got {bp}"
 
+
 run_test("blueprint_none_for_shortcut_only", test_blueprint_none_for_shortcut_only)
 
 
 # -- Convenience function --------------------------------------------------
+
 
 def test_convenience_function():
     """analyze_architecture() convenience function works."""
@@ -165,10 +175,12 @@ def test_convenience_function():
     )
     assert decision.strategy == "shortcut_only"
 
+
 run_test("convenience_function", test_convenience_function)
 
 
 # -- Property tests --------------------------------------------------------
+
 
 def test_is_hybrid_property():
     """is_hybrid property returns correct values for both strategies."""
@@ -186,6 +198,7 @@ def test_is_hybrid_property():
     assert hybrid.is_hybrid is True, (
         "is_hybrid should be True for shortcut_plus_blueprint"
     )
+
 
 run_test("is_hybrid_property", test_is_hybrid_property)
 

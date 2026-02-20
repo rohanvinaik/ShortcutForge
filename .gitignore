@@ -59,8 +59,8 @@ output/
 # Downloaded corpus (14MB, 1,772 files — fetch separately)
 downloaded/
 
-# Claude Code session state
-.claude/continuity/
+# Claude Code local settings
+.claude/
 
 # Environment and secrets
 .env

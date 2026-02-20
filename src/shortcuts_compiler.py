@@ -27,13 +27,12 @@ Usage:
         s.add(actions.make("comment", WFCommentActionText="Chose B"))
 """
 
-import uuid
+import os
 import plistlib
 import subprocess
-import os
-from typing import Any, Optional, Union
+import uuid
 from contextlib import contextmanager
-
+from typing import Any, Optional, Union
 
 # =============================================================================
 # CONSTANTS
@@ -48,19 +47,19 @@ from contextlib import contextmanager
 #   1002: date comparison (compare_value → WFDate)
 CONDITION_MAP = {
     # Numeric comparisons — use WFNumberValue
-    "equals_number": 0,             # is (number)
-    "is_greater_than": 2,           # is greater than
-    "is_less_than": 3,              # is less than
+    "equals_number": 0,  # is (number)
+    "is_greater_than": 2,  # is greater than
+    "is_less_than": 3,  # is less than
     # String comparisons — use WFConditionalActionString
-    "equals_string": 4,             # is (string)
-    "not_equal_string": 5,          # is not (string)
-    "contains": 99,                 # contains
-    "does_not_contain": 999,        # does not contain
+    "equals_string": 4,  # is (string)
+    "not_equal_string": 5,  # is not (string)
+    "contains": 99,  # contains
+    "does_not_contain": 999,  # does not contain
     # Existence checks — no compare_value
-    "has_any_value": 100,           # has any value
-    "does_not_have_any_value": 101, # does not have any value
+    "has_any_value": 100,  # has any value
+    "does_not_have_any_value": 101,  # does not have any value
     # Date comparison — use WFDate
-    "is_before": 1002,              # is before (date)
+    "is_before": 1002,  # is before (date)
     # Aliases
     "==": 0,
     "!=": 5,
@@ -73,16 +72,16 @@ CONDITION_MAP = {
 # Which comparison parameter to use for each condition code.
 # This is a COMPILER RULE derived from real shortcut data — not a guess.
 _CONDITION_PARAM = {
-    0: "WFNumberValue",              # equals_number
-    2: "WFNumberValue",              # is_greater_than
-    3: "WFNumberValue",              # is_less_than
+    0: "WFNumberValue",  # equals_number
+    2: "WFNumberValue",  # is_greater_than
+    3: "WFNumberValue",  # is_less_than
     4: "WFConditionalActionString",  # equals_string
     5: "WFConditionalActionString",  # not_equal_string
-    99: "WFConditionalActionString", # contains
-    999: "WFConditionalActionString",# does_not_contain
-    100: None,                       # has_any_value (no comparison)
-    101: None,                       # does_not_have_any_value (no comparison)
-    1002: "WFDate",                  # is_before
+    99: "WFConditionalActionString",  # contains
+    999: "WFConditionalActionString",  # does_not_contain
+    100: None,  # has_any_value (no comparison)
+    101: None,  # does_not_have_any_value (no comparison)
+    1002: "WFDate",  # is_before
 }
 
 
@@ -166,6 +165,7 @@ WORKFLOW_TYPES = {
 # VARIABLE REFERENCE BUILDERS
 # =============================================================================
 
+
 def _gen_uuid() -> str:
     """Generate an uppercase UUID string."""
     return str(uuid.uuid4()).upper()
@@ -201,6 +201,7 @@ def ref_current_date() -> dict:
 # =============================================================================
 # WRAPPING HELPERS
 # =============================================================================
+
 
 def wrap_token_attachment(reference: dict) -> dict:
     """
@@ -296,6 +297,7 @@ def wrap_quantity_field(magnitude: Union[dict, float, int], unit: str) -> dict:
 # ACTION HANDLE — returned by Shortcut.add() for wiring
 # =============================================================================
 
+
 class ActionHandle:
     """
     Returned when an action is added to a shortcut.
@@ -327,6 +329,7 @@ class ActionHandle:
 # =============================================================================
 # SHORTCUT CLASS — the main entry point
 # =============================================================================
+
 
 class Shortcut:
     """
@@ -445,7 +448,9 @@ class Shortcut:
         elif isinstance(input_ref, dict):
             wf_input = wrap_conditional_input(input_ref)
         else:
-            raise TypeError(f"input_ref must be ActionHandle, dict, or str, got {type(input_ref)}")
+            raise TypeError(
+                f"input_ref must be ActionHandle, dict, or str, got {type(input_ref)}"
+            )
 
         # If-start action
         if_params = {
@@ -504,7 +509,7 @@ class Shortcut:
         elif isinstance(input_ref, dict):
             wf_input = wrap_conditional_input(input_ref)
         else:
-            raise TypeError(f"input_ref must be ActionHandle, dict, or str")
+            raise TypeError("input_ref must be ActionHandle, dict, or str")
 
         if_params = {
             "GroupingIdentifier": group_id,
@@ -576,6 +581,7 @@ class Shortcut:
         # Build case callables
         case_dict = {}
         for option in options:
+
             def _make_case(opt_title):
                 def _case():
                     case_action = {
@@ -587,7 +593,9 @@ class Shortcut:
                         },
                     }
                     self._action_stack[-1].append(case_action)
+
                 return _case
+
             case_dict[option] = _make_case(option)
 
         yield case_dict
@@ -661,7 +669,7 @@ class Shortcut:
         elif isinstance(input_ref, dict):
             wf_input = wrap_token_attachment(input_ref)
         else:
-            raise TypeError(f"input_ref must be ActionHandle, dict, or str")
+            raise TypeError("input_ref must be ActionHandle, dict, or str")
 
         repeat_start = {
             "WFWorkflowActionIdentifier": "is.workflow.actions.repeat.each",
@@ -779,7 +787,7 @@ class Shortcut:
         warnings = self.validate()
         if any("will crash" in w.lower() for w in warnings):
             raise ValueError(
-                f"Shortcut has structural errors that will crash on import:\n"
+                "Shortcut has structural errors that will crash on import:\n"
                 + "\n".join(f"  - {w}" for w in warnings)
             )
 
@@ -847,14 +855,14 @@ class Shortcut:
         elif on_macos:
             # Signing failed but we're on macOS — give signing instructions
             result["method"] = "unsigned_needs_signing"
-            signed_name = abs_unsigned.replace('.shortcut', '_signed.shortcut')
+            signed_name = abs_unsigned.replace(".shortcut", "_signed.shortcut")
             result["instructions"] = (
                 f"Shortcut saved (unsigned): {abs_unsigned}\n"
                 f"⚠️  Signing is REQUIRED for import. Unsigned files cannot be imported.\n"
                 f"Sign it with:\n"
-                f"  shortcuts sign -m anyone -i \"{abs_unsigned}\" -o \"{signed_name}\"\n"
+                f'  shortcuts sign -m anyone -i "{abs_unsigned}" -o "{signed_name}"\n'
                 f"Then double-click the signed file or run:\n"
-                f"  shortcuts import \"{signed_name}\""
+                f'  shortcuts import "{signed_name}"'
             )
         else:
             result["method"] = "unsigned_manual"
@@ -903,12 +911,16 @@ class Shortcut:
         # === Check 1: Unclosed / orphan blocks ===
         unclosed = set(group_starts.keys()) - set(group_ends.keys())
         if unclosed:
-            warnings.append(f"Unclosed control flow blocks ({len(unclosed)} groups). "
-                          f"This will crash on import.")
+            warnings.append(
+                f"Unclosed control flow blocks ({len(unclosed)} groups). "
+                f"This will crash on import."
+            )
 
         unopened = set(group_ends.keys()) - set(group_starts.keys())
         if unopened:
-            warnings.append(f"End blocks without matching start ({len(unopened)} groups).")
+            warnings.append(
+                f"End blocks without matching start ({len(unopened)} groups)."
+            )
 
         # === Check 2: Mode 0 must precede Mode 2 ===
         for gid in group_starts:
@@ -922,7 +934,7 @@ class Shortcut:
         # === Check 3: Mode 1 markers within their group's range ===
         for gid, mid_indices in group_middles.items():
             if gid not in group_starts:
-                warnings.append(f"Mode 1 marker for group without a start block.")
+                warnings.append("Mode 1 marker for group without a start block.")
                 continue
             start_idx = group_starts[gid]
             end_idx = group_ends.get(gid)
@@ -960,7 +972,7 @@ class Shortcut:
         block_ranges.sort()
 
         for i_idx, (s1, e1, _g1) in enumerate(block_ranges):
-            for s2, e2, _g2 in block_ranges[i_idx + 1:]:
+            for s2, e2, _g2 in block_ranges[i_idx + 1 :]:
                 if s1 < s2 < e1 < e2:
                     warnings.append(
                         f"Interleaved control flow: blocks at "
@@ -975,14 +987,16 @@ class Shortcut:
             if uid:
                 uuids.append(uid)
         if len(uuids) != len(set(uuids)):
-            warnings.append("Duplicate UUIDs detected. This will cause variable wiring failures.")
+            warnings.append(
+                "Duplicate UUIDs detected. This will cause variable wiring failures."
+            )
 
         return warnings
 
 
 def _unsigned_import_instructions(filepath: str) -> str:
     """Generate comprehensive import instructions for an unsigned shortcut."""
-    signed_path = filepath.replace('.shortcut', '_signed.shortcut')
+    signed_path = filepath.replace(".shortcut", "_signed.shortcut")
     return f"""Unsigned shortcut saved to: {filepath}
 
 ⚠️  SIGNING IS REQUIRED — unsigned .shortcut files cannot be imported on macOS or iOS.
@@ -1028,7 +1042,10 @@ OPTION B — One-time signing server setup (for repeated use):
 # STANDALONE SIGNING UTILITIES
 # =============================================================================
 
-def sign_shortcut(input_path: str, output_path: Optional[str] = None, mode: str = "anyone") -> str:
+
+def sign_shortcut(
+    input_path: str, output_path: Optional[str] = None, mode: str = "anyone"
+) -> str:
     """
     Standalone function to sign any .shortcut file.
     Works outside the Shortcut class — useful for signing pre-existing files.
@@ -1065,7 +1082,9 @@ def sign_shortcut(input_path: str, output_path: Optional[str] = None, mode: str 
         )
 
 
-def batch_sign(input_dir: str, output_dir: Optional[str] = None, mode: str = "anyone") -> list[dict]:
+def batch_sign(
+    input_dir: str, output_dir: Optional[str] = None, mode: str = "anyone"
+) -> list[dict]:
     """
     Sign all .shortcut files in a directory.
 
@@ -1088,7 +1107,14 @@ def batch_sign(input_dir: str, output_dir: Optional[str] = None, mode: str = "an
             sign_shortcut(input_path, output_path, mode)
             results.append({"input": input_path, "output": output_path, "status": "ok"})
         except Exception as e:
-            results.append({"input": input_path, "output": None, "status": "error", "error": str(e)})
+            results.append(
+                {
+                    "input": input_path,
+                    "output": None,
+                    "status": "error",
+                    "error": str(e),
+                }
+            )
 
     return results
 
@@ -1113,6 +1139,7 @@ def import_shortcut(filepath: str) -> bool:
 def _is_macos() -> bool:
     """Check if we're running on macOS."""
     import platform
+
     return platform.system() == "Darwin"
 
 
@@ -1397,21 +1424,19 @@ def _wrap_params(identifier: str, params: dict) -> dict:
         if isinstance(value, ActionHandle):
             param_info = action_schema.get(key) if has_schema else None
             if param_info:
-                wrap_mode = param_info.get('handle_wrap')
-                if wrap_mode == 'attachment':
+                wrap_mode = param_info.get("handle_wrap")
+                if wrap_mode == "attachment":
                     wrapped[key] = wrap_token_attachment(value.ref())
-                elif wrap_mode == 'token_string':
+                elif wrap_mode == "token_string":
                     # Embed variable in a token string: "\ufffc" with attachment
                     wrapped[key] = {
                         "Value": {
                             "string": "\ufffc",
-                            "attachmentsByRange": {
-                                "{0, 1}": value.ref()
-                            },
+                            "attachmentsByRange": {"{0, 1}": value.ref()},
                         },
                         "WFSerializationType": "WFTextTokenString",
                     }
-                elif wrap_mode == 'variable_ref':
+                elif wrap_mode == "variable_ref":
                     wrapped[key] = wrap_conditional_input(value.ref())
                 else:
                     # handle_wrap is None or unrecognized — default to attachment.
@@ -1464,10 +1489,14 @@ class actions:
 
     # Parameters injected by the compiler (add(), control flow methods).
     # These are always valid and never come from user code via make().
-    _COMPILER_PARAMS = frozenset({
-        "UUID", "CustomOutputName",
-        "GroupingIdentifier", "WFControlFlowMode",
-    })
+    _COMPILER_PARAMS = frozenset(
+        {
+            "UUID",
+            "CustomOutputName",
+            "GroupingIdentifier",
+            "WFControlFlowMode",
+        }
+    )
 
     @staticmethod
     def make(name: str, _validate_params: bool = True, **params) -> dict:
@@ -1572,7 +1601,9 @@ class actions:
             if item_type == 1 and isinstance(val, dict):
                 # Recursive: nested dict → WFDictionaryFieldValueItems
                 val_field = {
-                    "Value": {"WFDictionaryFieldValueItems": actions.build_dict_items(val)},
+                    "Value": {
+                        "WFDictionaryFieldValueItems": actions.build_dict_items(val)
+                    },
                     "WFSerializationType": "WFDictionaryFieldValue",
                 }
             elif item_type == 6:
@@ -1588,7 +1619,10 @@ class actions:
 
             item = {
                 "WFItemType": item_type,
-                "WFKey": {"Value": {"string": str(key)}, "WFSerializationType": "WFTextTokenString"},
+                "WFKey": {
+                    "Value": {"string": str(key)},
+                    "WFSerializationType": "WFTextTokenString",
+                },
                 "WFValue": val_field,
             }
             items.append(item)
@@ -1604,7 +1638,13 @@ class actions:
             actions.make("list", WFItems=actions.build_list(["a", "b", "c"]))
         """
         return [
-            {"WFItemType": 0, "WFValue": {"Value": {"string": s}, "WFSerializationType": "WFTextTokenString"}}
+            {
+                "WFItemType": 0,
+                "WFValue": {
+                    "Value": {"string": s},
+                    "WFSerializationType": "WFTextTokenString",
+                },
+            }
             for s in items
         ]
 
@@ -1620,11 +1660,19 @@ class actions:
         """
         items = []
         for key, val in headers.items():
-            items.append({
-                "WFItemType": 0,
-                "WFKey": {"Value": {"string": key}, "WFSerializationType": "WFTextTokenString"},
-                "WFValue": {"Value": {"string": val}, "WFSerializationType": "WFTextTokenString"},
-            })
+            items.append(
+                {
+                    "WFItemType": 0,
+                    "WFKey": {
+                        "Value": {"string": key},
+                        "WFSerializationType": "WFTextTokenString",
+                    },
+                    "WFValue": {
+                        "Value": {"string": val},
+                        "WFSerializationType": "WFTextTokenString",
+                    },
+                }
+            )
         return {"Value": {"WFDictionaryFieldValueItems": items}}
 
     @staticmethod

@@ -21,34 +21,32 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Union
 
 from dsl_ir import (
-    ShortcutIR,
     ActionStatement,
-    SetVariable,
-    IfBlock,
-    MenuBlock,
-    MenuCase,
-    RepeatBlock,
-    ForeachBlock,
     Comment,
-    StringValue,
-    NumberValue,
-    BoolValue,
-    VarRef,
-    HandleRef,
-    InterpolatedString,
     DictLiteral,
-    ListLiteral,
-    QuantityLiteral,
+    ForeachBlock,
+    HandleRef,
     HeadersLiteral,
-    Statement,
+    IfBlock,
+    InterpolatedString,
     IRValue,
+    ListLiteral,
+    MenuBlock,
+    NumberValue,
+    QuantityLiteral,
+    RepeatBlock,
+    SetVariable,
+    ShortcutIR,
+    Statement,
+    StringValue,
+    VarRef,
 )
 
 try:
-    from contract_validator import ContractValidator, ContractReport
+    from contract_validator import ContractValidator
+
     _HAS_CONTRACT_VALIDATOR = True
 except ImportError:
     _HAS_CONTRACT_VALIDATOR = False
@@ -58,8 +56,10 @@ __version__ = "1.0"
 
 # ── Data Classes ─────────────────────────────────────────────────
 
+
 class Severity(str, Enum):
     """Severity levels for simulation findings."""
+
     ERROR = "error"
     WARNING = "warning"
     INFO = "info"
@@ -67,6 +67,7 @@ class Severity(str, Enum):
 
 class FindingCategory(str, Enum):
     """Categories for simulation findings."""
+
     VARIABLE_FLOW = "variable_flow"
     LOOP_BOUND = "loop_bound"
     MENU_COMPLETENESS = "menu_completeness"
@@ -79,6 +80,7 @@ class FindingCategory(str, Enum):
 @dataclass
 class SimulationFinding:
     """A single finding from static analysis."""
+
     severity: Severity
     category: FindingCategory
     message: str
@@ -88,12 +90,15 @@ class SimulationFinding:
     def __repr__(self) -> str:
         loc = f" (line {self.line_number})" if self.line_number else ""
         sug = f" → {self.suggestion}" if self.suggestion else ""
-        return f"[{self.severity.value}] {self.category.value}{loc}: {self.message}{sug}"
+        return (
+            f"[{self.severity.value}] {self.category.value}{loc}: {self.message}{sug}"
+        )
 
 
 @dataclass
 class SimulationReport:
     """Complete simulation report."""
+
     findings: list[SimulationFinding] = field(default_factory=list)
 
     @property
@@ -128,6 +133,7 @@ _EXIT_ACTIONS = frozenset({"exit", "nothing"})
 
 
 # ── Helpers ──────────────────────────────────────────────────────
+
 
 def _extract_var_refs(value: IRValue) -> set[str]:
     """Extract all variable names referenced in an IRValue."""
@@ -191,6 +197,7 @@ def _get_string_value(value: IRValue) -> str | None:
 
 # ── Analysis 1: Variable Flow ───────────────────────────────────
 
+
 def _analyze_variable_flow(ir: ShortcutIR, findings: list[SimulationFinding]) -> None:
     """Check variable set-before-use, branch coverage, loop scoping, unused vars.
 
@@ -220,16 +227,22 @@ def _analyze_variable_flow(ir: ShortcutIR, findings: list[SimulationFinding]) ->
             # Check uses first (before this stmt defines anything)
             used = _extract_all_var_refs_from_stmt(stmt)
             for var in used:
-                if var not in defined and var not in always_available and var not in newly_defined:
+                if (
+                    var not in defined
+                    and var not in always_available
+                    and var not in newly_defined
+                ):
                     # Use before def
                     line = getattr(stmt, "line_number", 0)
-                    findings.append(SimulationFinding(
-                        severity=Severity.WARNING,
-                        category=FindingCategory.VARIABLE_FLOW,
-                        message=f"Variable ${var} used before definition",
-                        line_number=line,
-                        suggestion=f"Add SET ${var} = ... before this point",
-                    ))
+                    findings.append(
+                        SimulationFinding(
+                            severity=Severity.WARNING,
+                            category=FindingCategory.VARIABLE_FLOW,
+                            message=f"Variable ${var} used before definition",
+                            line_number=line,
+                            suggestion=f"Add SET ${var} = ... before this point",
+                        )
+                    )
                 if var not in all_uses:
                     all_uses[var] = getattr(stmt, "line_number", 0)
 
@@ -240,7 +253,10 @@ def _analyze_variable_flow(ir: ShortcutIR, findings: list[SimulationFinding]) ->
                 if stmt.var_name not in all_defs:
                     all_defs[stmt.var_name] = stmt.line_number
             elif isinstance(stmt, ActionStatement):
-                if stmt.action_name in ("setvariable", "is.workflow.actions.setvariable"):
+                if stmt.action_name in (
+                    "setvariable",
+                    "is.workflow.actions.setvariable",
+                ):
                     name_val = stmt.params.get("WFVariableName")
                     if isinstance(name_val, StringValue):
                         defined.add(name_val.value)
@@ -266,21 +282,25 @@ def _analyze_variable_flow(ir: ShortcutIR, findings: list[SimulationFinding]) ->
                 only_else = else_defs - then_defs
 
                 for var in only_then:
-                    findings.append(SimulationFinding(
-                        severity=Severity.INFO,
-                        category=FindingCategory.VARIABLE_FLOW,
-                        message=f"Variable ${var} only defined in IF-then branch, not in ELSE",
-                        line_number=stmt.line_number,
-                        suggestion=f"Ensure ${var} is set in both branches if used after IF",
-                    ))
+                    findings.append(
+                        SimulationFinding(
+                            severity=Severity.INFO,
+                            category=FindingCategory.VARIABLE_FLOW,
+                            message=f"Variable ${var} only defined in IF-then branch, not in ELSE",
+                            line_number=stmt.line_number,
+                            suggestion=f"Ensure ${var} is set in both branches if used after IF",
+                        )
+                    )
                 for var in only_else:
-                    findings.append(SimulationFinding(
-                        severity=Severity.INFO,
-                        category=FindingCategory.VARIABLE_FLOW,
-                        message=f"Variable ${var} only defined in ELSE branch, not in IF-then",
-                        line_number=stmt.line_number,
-                        suggestion=f"Ensure ${var} is set in both branches if used after IF",
-                    ))
+                    findings.append(
+                        SimulationFinding(
+                            severity=Severity.INFO,
+                            category=FindingCategory.VARIABLE_FLOW,
+                            message=f"Variable ${var} only defined in ELSE branch, not in IF-then",
+                            line_number=stmt.line_number,
+                            suggestion=f"Ensure ${var} is set in both branches if used after IF",
+                        )
+                    )
 
                 # Only both-branch defs are considered defined after the IF
                 defined.update(both)
@@ -308,13 +328,15 @@ def _analyze_variable_flow(ir: ShortcutIR, findings: list[SimulationFinding]) ->
                 # Loop-scoped vars: warn but still add (they will be defined at runtime)
                 for var in loop_defs:
                     if var not in defined and var not in newly_defined:
-                        findings.append(SimulationFinding(
-                            severity=Severity.INFO,
-                            category=FindingCategory.VARIABLE_FLOW,
-                            message=f"Variable ${var} defined inside loop body",
-                            line_number=stmt.line_number,
-                            suggestion=f"Value of ${var} after loop depends on last iteration",
-                        ))
+                        findings.append(
+                            SimulationFinding(
+                                severity=Severity.INFO,
+                                category=FindingCategory.VARIABLE_FLOW,
+                                message=f"Variable ${var} defined inside loop body",
+                                line_number=stmt.line_number,
+                                suggestion=f"Value of ${var} after loop depends on last iteration",
+                            )
+                        )
                 defined.update(loop_defs)
                 newly_defined.update(loop_defs)
 
@@ -325,13 +347,15 @@ def _analyze_variable_flow(ir: ShortcutIR, findings: list[SimulationFinding]) ->
     # Check for unused vars
     for var, def_line in all_defs.items():
         if var not in all_uses:
-            findings.append(SimulationFinding(
-                severity=Severity.INFO,
-                category=FindingCategory.VARIABLE_FLOW,
-                message=f"Variable ${var} is defined but never used",
-                line_number=def_line,
-                suggestion="Remove unused variable or verify it's needed",
-            ))
+            findings.append(
+                SimulationFinding(
+                    severity=Severity.INFO,
+                    category=FindingCategory.VARIABLE_FLOW,
+                    message=f"Variable ${var} is defined but never used",
+                    line_number=def_line,
+                    suggestion="Remove unused variable or verify it's needed",
+                )
+            )
 
 
 # ── Analysis 2: Loop Bound Checking ─────────────────────────────
@@ -347,21 +371,25 @@ def _analyze_loop_bounds(ir: ShortcutIR, findings: list[SimulationFinding]) -> N
             if isinstance(stmt, RepeatBlock):
                 if isinstance(stmt.count, NumberValue):
                     if stmt.count.value > _MAX_REASONABLE_REPEAT:
-                        findings.append(SimulationFinding(
-                            severity=Severity.WARNING,
-                            category=FindingCategory.LOOP_BOUND,
-                            message=f"REPEAT count {stmt.count.value} exceeds {_MAX_REASONABLE_REPEAT}",
-                            line_number=stmt.line_number,
-                            suggestion="Large repeat counts may cause performance issues or timeouts",
-                        ))
+                        findings.append(
+                            SimulationFinding(
+                                severity=Severity.WARNING,
+                                category=FindingCategory.LOOP_BOUND,
+                                message=f"REPEAT count {stmt.count.value} exceeds {_MAX_REASONABLE_REPEAT}",
+                                line_number=stmt.line_number,
+                                suggestion="Large repeat counts may cause performance issues or timeouts",
+                            )
+                        )
                     elif stmt.count.value <= 0:
-                        findings.append(SimulationFinding(
-                            severity=Severity.WARNING,
-                            category=FindingCategory.LOOP_BOUND,
-                            message=f"REPEAT count {stmt.count.value} is zero or negative",
-                            line_number=stmt.line_number,
-                            suggestion="Loop body will never execute",
-                        ))
+                        findings.append(
+                            SimulationFinding(
+                                severity=Severity.WARNING,
+                                category=FindingCategory.LOOP_BOUND,
+                                message=f"REPEAT count {stmt.count.value} is zero or negative",
+                                line_number=stmt.line_number,
+                                suggestion="Loop body will never execute",
+                            )
+                        )
                 walk(stmt.body)
             elif isinstance(stmt, ForeachBlock):
                 walk(stmt.body)
@@ -378,7 +406,10 @@ def _analyze_loop_bounds(ir: ShortcutIR, findings: list[SimulationFinding]) -> N
 
 # ── Analysis 3: Menu Case Completeness ──────────────────────────
 
-def _analyze_menu_completeness(ir: ShortcutIR, findings: list[SimulationFinding]) -> None:
+
+def _analyze_menu_completeness(
+    ir: ShortcutIR, findings: list[SimulationFinding]
+) -> None:
     """Check for duplicate menu labels and empty menu cases."""
 
     def walk(stmts: list[Statement]) -> None:
@@ -388,36 +419,42 @@ def _analyze_menu_completeness(ir: ShortcutIR, findings: list[SimulationFinding]
                 labels: list[str] = []
                 for case in stmt.cases:
                     label_lower = case.label.lower()
-                    if label_lower in [l.lower() for l in labels]:
-                        findings.append(SimulationFinding(
-                            severity=Severity.WARNING,
-                            category=FindingCategory.MENU_COMPLETENESS,
-                            message=f'Duplicate menu label "{case.label}"',
-                            line_number=stmt.line_number,
-                            suggestion="Use unique labels for each menu case",
-                        ))
+                    if label_lower in [lb.lower() for lb in labels]:
+                        findings.append(
+                            SimulationFinding(
+                                severity=Severity.WARNING,
+                                category=FindingCategory.MENU_COMPLETENESS,
+                                message=f'Duplicate menu label "{case.label}"',
+                                line_number=stmt.line_number,
+                                suggestion="Use unique labels for each menu case",
+                            )
+                        )
                     labels.append(case.label)
 
                     # Check for empty cases (no statements, or only comments)
                     non_comment = [s for s in case.body if not isinstance(s, Comment)]
                     if not non_comment:
-                        findings.append(SimulationFinding(
-                            severity=Severity.INFO,
-                            category=FindingCategory.MENU_COMPLETENESS,
-                            message=f'Empty menu case "{case.label}"',
-                            line_number=stmt.line_number,
-                            suggestion="Add actions to this menu case or remove it",
-                        ))
+                        findings.append(
+                            SimulationFinding(
+                                severity=Severity.INFO,
+                                category=FindingCategory.MENU_COMPLETENESS,
+                                message=f'Empty menu case "{case.label}"',
+                                line_number=stmt.line_number,
+                                suggestion="Add actions to this menu case or remove it",
+                            )
+                        )
 
                 # Check for single-case menu (usually a mistake)
                 if len(stmt.cases) == 1:
-                    findings.append(SimulationFinding(
-                        severity=Severity.INFO,
-                        category=FindingCategory.MENU_COMPLETENESS,
-                        message="Menu has only one case",
-                        line_number=stmt.line_number,
-                        suggestion="Consider using a simple alert instead of a single-option menu",
-                    ))
+                    findings.append(
+                        SimulationFinding(
+                            severity=Severity.INFO,
+                            category=FindingCategory.MENU_COMPLETENESS,
+                            message="Menu has only one case",
+                            line_number=stmt.line_number,
+                            suggestion="Consider using a simple alert instead of a single-option menu",
+                        )
+                    )
 
                 # Recurse into cases
                 for case in stmt.cases:
@@ -437,6 +474,7 @@ def _analyze_menu_completeness(ir: ShortcutIR, findings: list[SimulationFinding]
 
 # ── Analysis 4: Dead Code Detection ─────────────────────────────
 
+
 def _analyze_dead_code(ir: ShortcutIR, findings: list[SimulationFinding]) -> None:
     """Detect statements after unconditional exit actions."""
 
@@ -446,13 +484,15 @@ def _analyze_dead_code(ir: ShortcutIR, findings: list[SimulationFinding]) -> Non
 
         for stmt in stmts:
             if found_exit and not isinstance(stmt, Comment):
-                findings.append(SimulationFinding(
-                    severity=Severity.WARNING,
-                    category=FindingCategory.DEAD_CODE,
-                    message="Unreachable code after exit action",
-                    line_number=getattr(stmt, "line_number", 0),
-                    suggestion=f"This code won't execute (exit at line {exit_line})",
-                ))
+                findings.append(
+                    SimulationFinding(
+                        severity=Severity.WARNING,
+                        category=FindingCategory.DEAD_CODE,
+                        message="Unreachable code after exit action",
+                        line_number=getattr(stmt, "line_number", 0),
+                        suggestion=f"This code won't execute (exit at line {exit_line})",
+                    )
+                )
                 # Only report once per block
                 break
 
@@ -480,17 +520,30 @@ def _analyze_dead_code(ir: ShortcutIR, findings: list[SimulationFinding]) -> Non
 # ── Analysis 5: API Endpoint Validation ─────────────────────────
 
 # Actions that take URLs
-_URL_ACTIONS = frozenset({
-    "downloadurl", "getcontentsofurl", "openurl", "openxcallbackurl",
-    "is.workflow.actions.downloadurl",
-    "is.workflow.actions.url.expand",
-    "is.workflow.actions.openurl",
-})
+_URL_ACTIONS = frozenset(
+    {
+        "downloadurl",
+        "getcontentsofurl",
+        "openurl",
+        "openxcallbackurl",
+        "is.workflow.actions.downloadurl",
+        "is.workflow.actions.url.expand",
+        "is.workflow.actions.openurl",
+    }
+)
 
 # HTTP methods
-_VALID_HTTP_METHODS = frozenset({
-    "GET", "POST", "PUT", "DELETE", "PATCH", "HEAD", "OPTIONS",
-})
+_VALID_HTTP_METHODS = frozenset(
+    {
+        "GET",
+        "POST",
+        "PUT",
+        "DELETE",
+        "PATCH",
+        "HEAD",
+        "OPTIONS",
+    }
+)
 
 # URL pattern (very basic)
 _URL_PATTERN = re.compile(r"^https?://[^\s]+$", re.IGNORECASE)
@@ -512,41 +565,49 @@ def _analyze_api_endpoints(ir: ShortcutIR, findings: list[SimulationFinding]) ->
                         if url_str and "{...}" not in url_str:
                             # Pure static URL — validate format
                             if not _URL_PATTERN.match(url_str):
-                                findings.append(SimulationFinding(
-                                    severity=Severity.WARNING,
-                                    category=FindingCategory.API_VALIDATION,
-                                    message=f'URL "{url_str[:60]}" may be malformed',
-                                    line_number=stmt.line_number,
-                                    suggestion="Ensure URL starts with http:// or https://",
-                                ))
+                                findings.append(
+                                    SimulationFinding(
+                                        severity=Severity.WARNING,
+                                        category=FindingCategory.API_VALIDATION,
+                                        message=f'URL "{url_str[:60]}" may be malformed',
+                                        line_number=stmt.line_number,
+                                        suggestion="Ensure URL starts with http:// or https://",
+                                    )
+                                )
 
                     # Check HTTP method
                     method_val = stmt.params.get("WFHTTPMethod")
                     if method_val:
                         method_str = _get_string_value(method_val)
                         if method_str and method_str.upper() not in _VALID_HTTP_METHODS:
-                            findings.append(SimulationFinding(
-                                severity=Severity.WARNING,
-                                category=FindingCategory.API_VALIDATION,
-                                message=f'Unknown HTTP method "{method_str}"',
-                                line_number=stmt.line_number,
-                                suggestion=f"Valid methods: {', '.join(sorted(_VALID_HTTP_METHODS))}",
-                            ))
+                            findings.append(
+                                SimulationFinding(
+                                    severity=Severity.WARNING,
+                                    category=FindingCategory.API_VALIDATION,
+                                    message=f'Unknown HTTP method "{method_str}"',
+                                    line_number=stmt.line_number,
+                                    suggestion=f"Valid methods: {', '.join(sorted(_VALID_HTTP_METHODS))}",
+                                )
+                            )
 
                     # Check: POST/PUT without body is suspicious
                     method_val = stmt.params.get("WFHTTPMethod")
                     if method_val:
                         method_str = _get_string_value(method_val)
                         if method_str and method_str.upper() in ("POST", "PUT"):
-                            body_val = stmt.params.get("WFHTTPBodyType") or stmt.params.get("WFRequestVariable")
+                            body_val = stmt.params.get(
+                                "WFHTTPBodyType"
+                            ) or stmt.params.get("WFRequestVariable")
                             if not body_val:
-                                findings.append(SimulationFinding(
-                                    severity=Severity.INFO,
-                                    category=FindingCategory.API_VALIDATION,
-                                    message=f"{method_str.upper()} request without body specification",
-                                    line_number=stmt.line_number,
-                                    suggestion="POST/PUT typically include a request body",
-                                ))
+                                findings.append(
+                                    SimulationFinding(
+                                        severity=Severity.INFO,
+                                        category=FindingCategory.API_VALIDATION,
+                                        message=f"{method_str.upper()} request without body specification",
+                                        line_number=stmt.line_number,
+                                        suggestion="POST/PUT typically include a request body",
+                                    )
+                                )
 
             # Recurse
             if isinstance(stmt, IfBlock):
@@ -648,19 +709,29 @@ def _analyze_type_flow(ir: ShortcutIR, findings: list[SimulationFinding]) -> Non
                 if isinstance(input_val, HandleRef) and input_val.kind == "prev":
                     uses_prev = True
 
-                if uses_prev and current_type and action_lower in _ACTION_INPUT_EXPECTATIONS:
+                if (
+                    uses_prev
+                    and current_type
+                    and action_lower in _ACTION_INPUT_EXPECTATIONS
+                ):
                     expected = _ACTION_INPUT_EXPECTATIONS[action_lower]
-                    if current_type != "any" and expected != "any" and current_type != expected:
-                        findings.append(SimulationFinding(
-                            severity=Severity.INFO,
-                            category=FindingCategory.TYPE_FLOW,
-                            message=(
-                                f"Action '{stmt.action_name}' expects {expected} input "
-                                f"but previous output is {current_type}"
-                            ),
-                            line_number=stmt.line_number,
-                            suggestion=f"Consider adding a conversion action (detect.{expected})",
-                        ))
+                    if (
+                        current_type != "any"
+                        and expected != "any"
+                        and current_type != expected
+                    ):
+                        findings.append(
+                            SimulationFinding(
+                                severity=Severity.INFO,
+                                category=FindingCategory.TYPE_FLOW,
+                                message=(
+                                    f"Action '{stmt.action_name}' expects {expected} input "
+                                    f"but previous output is {current_type}"
+                                ),
+                                line_number=stmt.line_number,
+                                suggestion=f"Consider adding a conversion action (detect.{expected})",
+                            )
+                        )
 
                 # Update current type based on what this action produces
                 if action_lower in _ACTION_OUTPUT_TYPES:
@@ -717,16 +788,19 @@ def _analyze_contracts(ir: ShortcutIR, findings: list[SimulationFinding]) -> Non
 
     for f in report.findings:
         severity = _SEVERITY_MAP.get(f.severity, Severity.INFO)
-        findings.append(SimulationFinding(
-            severity=severity,
-            category=FindingCategory.CONTRACT,
-            message=f"[{f.rule_id}] {f.message}",
-            line_number=f.line,
-            suggestion=f.suggestion,
-        ))
+        findings.append(
+            SimulationFinding(
+                severity=severity,
+                category=FindingCategory.CONTRACT,
+                message=f"[{f.rule_id}] {f.message}",
+                line_number=f.line,
+                suggestion=f.suggestion,
+            )
+        )
 
 
 # ── Main Harness ────────────────────────────────────────────────
+
 
 class SimulationHarness:
     """Run all static analyses on a ShortcutIR.

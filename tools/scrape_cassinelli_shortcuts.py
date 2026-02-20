@@ -26,7 +26,9 @@ def fetch_page(page_num: int) -> tuple[list, int | None]:
             data = json.loads(resp.read().decode())
             total = resp.headers.get("X-WP-Total", "?")
             total_pages = resp.headers.get("X-WP-TotalPages", "?")
-            print(f"    Got {len(data)} shortcuts (total: {total}, pages: {total_pages})")
+            print(
+                f"    Got {len(data)} shortcuts (total: {total}, pages: {total_pages})"
+            )
             return data, int(total_pages) if total_pages != "?" else None
     except urllib.error.HTTPError as e:
         if e.code == 400:
@@ -116,7 +118,9 @@ def main() -> None:
     ]
     if counts:
         print("\nAction counts:")
-        print(f"  Min: {min(counts)}, Max: {max(counts)}, Avg: {sum(counts) / len(counts):.0f}")
+        print(
+            f"  Min: {min(counts)}, Max: {max(counts)}, Avg: {sum(counts) / len(counts):.0f}"
+        )
         simple = sum(1 for c in counts if c <= 5)
         medium = sum(1 for c in counts if 5 < c <= 20)
         complex_ = sum(1 for c in counts if 20 < c <= 50)
@@ -134,7 +138,9 @@ def main() -> None:
     with_links_and_counts = [
         s
         for s in clean
-        if s.get("icloud_link") and s.get("action_count") and str(s["action_count"]).isdigit()
+        if s.get("icloud_link")
+        and s.get("action_count")
+        and str(s["action_count"]).isdigit()
     ]
     with_links_and_counts.sort(key=lambda s: int(s["action_count"]), reverse=True)
 

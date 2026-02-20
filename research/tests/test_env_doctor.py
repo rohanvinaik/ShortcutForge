@@ -4,7 +4,6 @@
 import sys
 import unittest
 from pathlib import Path
-from unittest.mock import patch
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
@@ -13,9 +12,6 @@ from research.scripts.env_doctor import (
     HealthReport,
     _version_tuple,
     check_build_system,
-    check_interpreter,
-    check_lockfile,
-    check_python_version_file,
 )
 
 

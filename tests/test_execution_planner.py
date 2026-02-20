@@ -18,7 +18,6 @@ if str(_SRC_DIR) not in sys.path:
 from execution_planner import (
     ExecutionPlan,
     ExecutionPlanner,
-    PlanStep,
     format_plan_context,
 )
 

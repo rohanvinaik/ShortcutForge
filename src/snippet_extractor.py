@@ -32,31 +32,29 @@ _SCRIPT_DIR = Path(__file__).resolve().parent
 if str(_SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(_SCRIPT_DIR))
 
-from dsl_parser import parse_dsl
-from dsl_linter import lint_dsl
 from dsl_ir import (
-    ShortcutIR,
     ActionStatement,
-    SetVariable,
-    IfBlock,
-    MenuBlock,
-    RepeatBlock,
-    ForeachBlock,
-    Comment,
-    VarRef,
-    HandleRef,
-    InterpolatedString,
-    StringValue,
-    NumberValue,
     BoolValue,
+    Comment,
     DictLiteral,
-    ListLiteral,
-    QuantityLiteral,
+    ForeachBlock,
+    HandleRef,
     HeadersLiteral,
-    Statement,
+    IfBlock,
+    InterpolatedString,
     IRValue,
+    ListLiteral,
+    MenuBlock,
+    NumberValue,
+    QuantityLiteral,
+    RepeatBlock,
+    SetVariable,
+    Statement,
+    StringValue,
+    VarRef,
 )
-
+from dsl_linter import lint_dsl
+from dsl_parser import parse_dsl
 
 # ============================================================
 # Domain Tagging
@@ -231,12 +229,14 @@ _VERB_ACTION_MAP: dict[str, list[str]] = {
 # Flat Statement Representation
 # ============================================================
 
+
 @dataclass
 class FlatStatement:
     """A statement extracted from IR with its context."""
+
     kind: str  # "action", "set", "if_start", "else", "endif", "foreach_start",
-               # "endforeach", "repeat_start", "endrepeat", "menu_start",
-               # "case", "endmenu", "comment"
+    # "endforeach", "repeat_start", "endrepeat", "menu_start",
+    # "case", "endmenu", "comment"
     action_id: str | None = None  # Only for "action" kind
     params: dict[str, Any] = field(default_factory=dict)
     var_name: str | None = None  # Only for "set" kind
@@ -249,7 +249,10 @@ class FlatStatement:
 # IR Flattening
 # ============================================================
 
-def _flatten_ir(statements: list[Statement], in_cf: bool = False) -> list[FlatStatement]:
+
+def _flatten_ir(
+    statements: list[Statement], in_cf: bool = False
+) -> list[FlatStatement]:
     """Recursively flatten IR statements into a linear list of FlatStatements.
 
     Walks through control flow blocks, recording their boundaries as
@@ -260,21 +263,25 @@ def _flatten_ir(statements: list[Statement], in_cf: bool = False) -> list[FlatSt
 
     for stmt in statements:
         if isinstance(stmt, ActionStatement):
-            result.append(FlatStatement(
-                kind="action",
-                action_id=_normalize_action_id(stmt.action_name),
-                params={k: _value_to_str(v) for k, v in stmt.params.items()},
-                in_control_flow=in_cf,
-                original_stmt=stmt,
-            ))
+            result.append(
+                FlatStatement(
+                    kind="action",
+                    action_id=_normalize_action_id(stmt.action_name),
+                    params={k: _value_to_str(v) for k, v in stmt.params.items()},
+                    in_control_flow=in_cf,
+                    original_stmt=stmt,
+                )
+            )
         elif isinstance(stmt, SetVariable):
-            result.append(FlatStatement(
-                kind="set",
-                var_name=stmt.var_name,
-                value_repr=_value_to_str(stmt.value),
-                in_control_flow=in_cf,
-                original_stmt=stmt,
-            ))
+            result.append(
+                FlatStatement(
+                    kind="set",
+                    var_name=stmt.var_name,
+                    value_repr=_value_to_str(stmt.value),
+                    in_control_flow=in_cf,
+                    original_stmt=stmt,
+                )
+            )
         elif isinstance(stmt, IfBlock):
             result.append(FlatStatement(kind="if_start", in_control_flow=in_cf))
             result.extend(_flatten_ir(stmt.then_body, in_cf=True))
@@ -306,7 +313,7 @@ def _normalize_action_id(name: str) -> str:
     """Strip the is.workflow.actions. prefix for canonical comparison."""
     prefix = "is.workflow.actions."
     if name.startswith(prefix):
-        return name[len(prefix):]
+        return name[len(prefix) :]
     return name
 
 
@@ -354,6 +361,7 @@ def _value_to_str(val: IRValue) -> str:
 # Variable Canonicalization
 # ============================================================
 
+
 def _canonicalize_variables(flat_stmts: list[FlatStatement]) -> list[FlatStatement]:
     """Replace user-defined variable names with canonical placeholders.
 
@@ -374,10 +382,12 @@ def _canonicalize_variables(flat_stmts: list[FlatStatement]) -> list[FlatStateme
 
     def _remap_in_str(s: str) -> str:
         """Replace $VarName references in a string."""
+
         def _replace(m: re.Match) -> str:
             vname = m.group(1)
             return f"${_remap_var(vname)}"
-        return re.sub(r'\$([A-Za-z_]\w*)', _replace, s)
+
+        return re.sub(r"\$([A-Za-z_]\w*)", _replace, s)
 
     result: list[FlatStatement] = []
     for fs in flat_stmts:
@@ -398,6 +408,7 @@ def _canonicalize_variables(flat_stmts: list[FlatStatement]) -> list[FlatStateme
 # Structural Key & Scoring
 # ============================================================
 
+
 def _compute_structural_key(flat_stmts: list[FlatStatement]) -> str:
     """Compute a dot-joined key from action IDs in the window.
 
@@ -406,18 +417,25 @@ def _compute_structural_key(flat_stmts: list[FlatStatement]) -> str:
     scoring via has_control_flow detection.
     """
     action_ids = [
-        fs.action_id for fs in flat_stmts
-        if fs.kind == "action" and fs.action_id
+        fs.action_id for fs in flat_stmts if fs.kind == "action" and fs.action_id
     ]
     return ".".join(action_ids)
 
 
-_CONTROL_FLOW_KINDS = frozenset({
-    "if_start", "else", "endif",
-    "foreach_start", "endforeach",
-    "repeat_start", "endrepeat",
-    "menu_start", "case", "endmenu",
-})
+_CONTROL_FLOW_KINDS = frozenset(
+    {
+        "if_start",
+        "else",
+        "endif",
+        "foreach_start",
+        "endforeach",
+        "repeat_start",
+        "endrepeat",
+        "menu_start",
+        "case",
+        "endmenu",
+    }
+)
 
 
 def _has_control_flow(flat_stmts: list[FlatStatement]) -> bool:
@@ -425,8 +443,7 @@ def _has_control_flow(flat_stmts: list[FlatStatement]) -> bool:
     return any(fs.kind in _CONTROL_FLOW_KINDS for fs in flat_stmts)
 
 
-def _score_snippet(frequency: int, action_ids: list[str],
-                   has_cf: bool) -> float:
+def _score_snippet(frequency: int, action_ids: list[str], has_cf: bool) -> float:
     """Score a snippet candidate.
 
     score = frequency * action_diversity_ratio * (1 + has_control_flow_weight)
@@ -474,6 +491,7 @@ def _generate_description(action_ids: list[str], has_cf: bool) -> str:
 # ============================================================
 # Canonical DSL Reconstruction
 # ============================================================
+
 
 def _reconstruct_canonical_dsl(flat_stmts: list[FlatStatement]) -> str:
     """Reconstruct a canonical DSL string from flat statements."""
@@ -530,9 +548,11 @@ def _reconstruct_canonical_dsl(flat_stmts: list[FlatStatement]) -> str:
 # Snippet Data Structure
 # ============================================================
 
+
 @dataclass
 class SnippetCandidate:
     """A candidate snippet before deduplication."""
+
     structural_key: str
     action_ids: list[str]
     has_control_flow: bool
@@ -589,7 +609,7 @@ class SnippetExtractor:
             if wsize > len(flat):
                 continue
             for start in range(len(flat) - wsize + 1):
-                window = flat[start:start + wsize]
+                window = flat[start : start + wsize]
                 self._process_window(window)
 
     def _process_window(self, window: list[FlatStatement]) -> None:
@@ -598,8 +618,7 @@ class SnippetExtractor:
 
         # Extract action IDs (only from action statements)
         action_ids = [
-            fs.action_id for fs in window
-            if fs.kind == "action" and fs.action_id
+            fs.action_id for fs in window if fs.kind == "action" and fs.action_id
         ]
 
         # Skip windows with fewer than 2 unique action IDs
@@ -644,21 +663,23 @@ class SnippetExtractor:
         scored.sort(key=lambda x: -x[0])
 
         # Take top-K
-        top = scored[:self.top_k]
+        top = scored[: self.top_k]
 
         snippets: list[dict] = []
         for rank, (score, key) in enumerate(top, 1):
             candidate = self._key_candidates[key]
-            snippets.append({
-                "id": f"snip_{rank:03d}",
-                "structural_key": key,
-                "canonical_dsl": candidate.canonical_dsl,
-                "action_count": len(candidate.action_ids),
-                "frequency": self._key_counts[key],
-                "score": round(score, 4),
-                "domain_tags": candidate.domain_tags,
-                "description": candidate.description,
-            })
+            snippets.append(
+                {
+                    "id": f"snip_{rank:03d}",
+                    "structural_key": key,
+                    "canonical_dsl": candidate.canonical_dsl,
+                    "action_count": len(candidate.action_ids),
+                    "frequency": self._key_counts[key],
+                    "score": round(score, 4),
+                    "domain_tags": candidate.domain_tags,
+                    "description": candidate.description,
+                }
+            )
 
         return snippets
 
@@ -687,6 +708,7 @@ class SnippetExtractor:
 # ============================================================
 # Query Function
 # ============================================================
+
 
 def query_snippets(
     prompt: str,
@@ -725,7 +747,7 @@ def query_snippets(
         return []
 
     # Tokenize prompt into lowercase words
-    prompt_words = set(re.findall(r'[a-z]+', prompt.lower()))
+    prompt_words = set(re.findall(r"[a-z]+", prompt.lower()))
 
     # Map prompt words to action IDs via verb mapping
     target_actions: set[str] = set()
@@ -736,13 +758,29 @@ def query_snippets(
         if word in _VERB_ACTION_MAP:
             target_actions.update(_VERB_ACTION_MAP[word])
         # Check for control flow keywords
-        if word in {"loop", "repeat", "iterate", "condition", "if", "menu",
-                     "foreach", "each", "every"}:
+        if word in {
+            "loop",
+            "repeat",
+            "iterate",
+            "condition",
+            "if",
+            "menu",
+            "foreach",
+            "each",
+            "every",
+        }:
             has_control_flow_keyword = True
         # Direct domain matching
-        for domain_name in ("health", "networking", "text_processing", "media",
-                            "messaging", "scheduling", "file_operations",
-                            "user_feedback"):
+        for domain_name in (
+            "health",
+            "networking",
+            "text_processing",
+            "media",
+            "messaging",
+            "scheduling",
+            "file_operations",
+            "user_feedback",
+        ):
             # Match on domain name words
             for dw in domain_name.split("_"):
                 if dw in prompt_words:
@@ -797,24 +835,32 @@ def query_snippets(
 # CLI
 # ============================================================
 
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Extract reusable snippet sub-sequences from training data."
     )
     parser.add_argument(
-        "--input", "-i",
+        "--input",
+        "-i",
         type=Path,
-        default=Path(__file__).resolve().parent.parent / "training_data" / "shortcutdsl_train.jsonl",
+        default=Path(__file__).resolve().parent.parent
+        / "training_data"
+        / "shortcutdsl_train.jsonl",
         help="Path to training JSONL file",
     )
     parser.add_argument(
-        "--output", "-o",
+        "--output",
+        "-o",
         type=Path,
-        default=Path(__file__).resolve().parent.parent / "references" / "snippet_registry.json",
+        default=Path(__file__).resolve().parent.parent
+        / "references"
+        / "snippet_registry.json",
         help="Path to output snippet registry JSON",
     )
     parser.add_argument(
-        "--top-k", "-k",
+        "--top-k",
+        "-k",
         type=int,
         default=200,
         help="Number of top snippets to export (default: 200)",
@@ -864,7 +910,7 @@ def main() -> None:
 
     # Print stats
     stats = extractor.stats()
-    print(f"\nExtraction Statistics:")
+    print("\nExtraction Statistics:")
     print(f"  Total examples:          {stats['total_examples']}")
     print(f"  Parse errors:            {stats['parse_errors']}")
     print(f"  Successfully parsed:     {stats['parsed_ok']}")

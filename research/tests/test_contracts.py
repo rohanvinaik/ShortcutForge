@@ -55,7 +55,11 @@ class TestSemanticFrame(unittest.TestCase):
 
 class TestTier2Block(unittest.TestCase):
     def test_roundtrip_without_ids(self):
-        b = Tier2Block(action_index=0, action_name="is.workflow.actions.delay", tokens=["PARAM", "WFDelayTime", "5"])
+        b = Tier2Block(
+            action_index=0,
+            action_name="is.workflow.actions.delay",
+            tokens=["PARAM", "WFDelayTime", "5"],
+        )
         d = b.to_dict()
         self.assertNotIn("token_ids", d)  # Not persisted
         b2 = Tier2Block.from_dict(d)
@@ -70,7 +74,12 @@ class TestTier2Block(unittest.TestCase):
 
 class TestTier3Slot(unittest.TestCase):
     def test_roundtrip(self):
-        s = Tier3Slot(slot_id="s1", value_kind="string", value="Hello World", source_param="WFMessage")
+        s = Tier3Slot(
+            slot_id="s1",
+            value_kind="string",
+            value="Hello World",
+            source_param="WFMessage",
+        )
         d = s.to_dict()
         s2 = Tier3Slot.from_dict(d)
         self.assertEqual(s.value, s2.value)
@@ -93,7 +102,11 @@ class TestTypedIRExample(unittest.TestCase):
             dsl='SHORTCUT "Timer"\nACTION is.workflow.actions.delay\nENDACTION\nENDSHORTCUT',
             shortcut_name="Timer",
             tier1_tokens=["SHORTCUT", "ACTION", "ENDACTION", "ENDSHORTCUT"],
-            tier2_blocks=[Tier2Block(0, "is.workflow.actions.delay", ["PARAM", "WFDelayTime", "300"])],
+            tier2_blocks=[
+                Tier2Block(
+                    0, "is.workflow.actions.delay", ["PARAM", "WFDelayTime", "300"]
+                )
+            ],
             tier3_slots=[Tier3Slot("s1", "string", "Timer")],
             metadata={"domain": "timer", "action_count": 1},
         )
@@ -116,12 +129,22 @@ class TestTypedIRExample(unittest.TestCase):
 class TestNegativeBankEntry(unittest.TestCase):
     def test_roundtrip(self):
         pos = TypedIRExample(
-            shortcut_id="t1", system_prompt="", prompt="test", dsl="DSL",
-            shortcut_name="Test", tier1_tokens=["A"], tier2_blocks=[], tier3_slots=[],
+            shortcut_id="t1",
+            system_prompt="",
+            prompt="test",
+            dsl="DSL",
+            shortcut_name="Test",
+            tier1_tokens=["A"],
+            tier2_blocks=[],
+            tier3_slots=[],
         )
         entry = NegativeBankEntry(
-            prompt="test", shortcut_id="t1", positive=pos, negative=None,
-            error_tags=["hallucinated_action"], source="distillation",
+            prompt="test",
+            shortcut_id="t1",
+            positive=pos,
+            negative=None,
+            error_tags=["hallucinated_action"],
+            source="distillation",
             lint_changes=[{"type": "action_repair", "confidence": 0.9}],
         )
         d = entry.to_dict()
@@ -149,8 +172,10 @@ class TestGateDecision(unittest.TestCase):
 class TestCoverageReport(unittest.TestCase):
     def test_roundtrip(self):
         r = CoverageReport(
-            scope="tier1", dataset="eval",
-            total_tokens_in_eval=500, covered=495,
+            scope="tier1",
+            dataset="eval",
+            total_tokens_in_eval=500,
+            covered=495,
             uncovered=["UNKNOWN_TOKEN_A", "UNKNOWN_TOKEN_B"],
             coverage_pct=99.0,
         )
@@ -160,12 +185,16 @@ class TestCoverageReport(unittest.TestCase):
         self.assertEqual(r2.uncovered, ["UNKNOWN_TOKEN_A", "UNKNOWN_TOKEN_B"])
 
     def test_uncovered_sorted(self):
-        r = CoverageReport.from_dict({
-            "scope": "tier2", "dataset": "eval",
-            "total_tokens_in_eval": 100, "covered": 90,
-            "uncovered": ["z_token", "a_token"],
-            "coverage_pct": 90.0,
-        })
+        r = CoverageReport.from_dict(
+            {
+                "scope": "tier2",
+                "dataset": "eval",
+                "total_tokens_in_eval": 100,
+                "covered": 90,
+                "uncovered": ["z_token", "a_token"],
+                "coverage_pct": 90.0,
+            }
+        )
         self.assertEqual(r.uncovered, ["a_token", "z_token"])
 
 

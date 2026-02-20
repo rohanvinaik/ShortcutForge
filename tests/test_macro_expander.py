@@ -12,8 +12,8 @@ Tests cover:
   - Integration with lint pipeline
 """
 
-import sys
 import json
+import sys
 import tempfile
 from pathlib import Path
 
@@ -24,14 +24,12 @@ if str(_SRC_DIR) not in sys.path:
     sys.path.insert(0, str(_SRC_DIR))
 
 from macro_expander import (
-    MacroExpander,
-    MacroExpansion,
     MacroDefinition,
+    MacroExpander,
     _parse_macro_params,
     _render_template,
-    _load_registry,
-    reload_registry,
     expand_macros,
+    reload_registry,
     validate_macro_params,
 )
 
@@ -57,6 +55,7 @@ def run_test(name: str, fn):
 
 # ── Registry Tests ──────────────────────────────────────────────────
 
+
 def test_registry_loads():
     """Registry loads from macro_patterns.json and contains expected macros."""
     registry = reload_registry()
@@ -64,6 +63,7 @@ def test_registry_loads():
     assert "api.fetch_json" in registry
     assert "health.log_batch" in registry
     assert "platform.if_ios" in registry
+
 
 run_test("registry_loads", test_registry_loads)
 
@@ -75,6 +75,7 @@ def test_registry_macro_fields():
         assert defn.name == name, f"Name mismatch: {defn.name} != {name}"
         assert defn.description, f"Missing description for {name}"
         assert defn.expansion_template, f"Missing template for {name}"
+
 
 run_test("registry_macro_fields", test_registry_macro_fields)
 
@@ -88,22 +89,26 @@ def test_registry_block_macros():
         assert defn.end_marker, f"Missing end_marker for block macro {name}"
         assert defn.end_expansion, f"Missing end_expansion for block macro {name}"
 
+
 run_test("registry_block_macros", test_registry_block_macros)
 
 
 def test_registry_custom_path():
     """Registry can load from a custom path."""
     # Create a minimal registry file
-    with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False) as f:
-        json.dump({
-            "macros": {
-                "test.macro": {
-                    "description": "Test macro",
-                    "params": {},
-                    "expansion_template": "ACTION comment WFCommentActionText=\"test\"",
+    with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
+        json.dump(
+            {
+                "macros": {
+                    "test.macro": {
+                        "description": "Test macro",
+                        "params": {},
+                        "expansion_template": 'ACTION comment WFCommentActionText="test"',
+                    }
                 }
-            }
-        }, f)
+            },
+            f,
+        )
         tmp_path = Path(f.name)
 
     try:
@@ -115,16 +120,19 @@ def test_registry_custom_path():
         # Reload the real registry
         reload_registry()
 
+
 run_test("registry_custom_path", test_registry_custom_path)
 
 
 # ── Parameter Parsing Tests ─────────────────────────────────────────
 
+
 def test_parse_bare_params():
     """Parse bare word parameters."""
-    params = _parse_macro_params('url=https://example.com method=GET')
+    params = _parse_macro_params("url=https://example.com method=GET")
     assert params["url"] == "https://example.com"
     assert params["method"] == "GET"
+
 
 run_test("parse_bare_params", test_parse_bare_params)
 
@@ -135,6 +143,7 @@ def test_parse_quoted_params():
     assert params["name"] == "My API"
     assert params["desc"] == "fetch data"
 
+
 run_test("parse_quoted_params", test_parse_quoted_params)
 
 
@@ -144,6 +153,7 @@ def test_parse_var_ref_params():
     assert params["source"] == "$WeatherData"
     assert params["target"] == "$Output"
 
+
 run_test("parse_var_ref_params", test_parse_var_ref_params)
 
 
@@ -151,6 +161,7 @@ def test_parse_list_params():
     """Parse list parameters."""
     params = _parse_macro_params('items=["a","b","c"]')
     assert params["items"] == '["a","b","c"]'
+
 
 run_test("parse_list_params", test_parse_list_params)
 
@@ -162,6 +173,7 @@ def test_parse_mixed_params():
     assert params["source"] == "$Data"
     assert params["method"] == "POST"
 
+
 run_test("parse_mixed_params", test_parse_mixed_params)
 
 
@@ -170,20 +182,27 @@ def test_parse_empty_params():
     params = _parse_macro_params("")
     assert params == {}
 
+
 run_test("parse_empty_params", test_parse_empty_params)
 
 
 # ── Template Rendering Tests ─────────────────────────────────────────
 
+
 def test_render_simple_substitution():
     """Simple {{param}} substitution."""
     defn = MacroDefinition(
-        name="test", description="", params={},
-        expansion_template="ACTION url WFURLActionURL=\"{{url}}\"",
+        name="test",
+        description="",
+        params={},
+        expansion_template='ACTION url WFURLActionURL="{{url}}"',
     )
-    result = _render_template(defn.expansion_template, {"url": "https://example.com"}, defn)
+    result = _render_template(
+        defn.expansion_template, {"url": "https://example.com"}, defn
+    )
     assert "https://example.com" in result
     assert "{{url}}" not in result
+
 
 run_test("render_simple_substitution", test_render_simple_substitution)
 
@@ -191,8 +210,10 @@ run_test("render_simple_substitution", test_render_simple_substitution)
 def test_render_multiple_params():
     """Multiple parameter substitution."""
     defn = MacroDefinition(
-        name="test", description="", params={},
-        expansion_template="ACTION downloadurl WFHTTPMethod=\"{{method}}\" WFURLActionURL=\"{{url}}\"",
+        name="test",
+        description="",
+        params={},
+        expansion_template='ACTION downloadurl WFHTTPMethod="{{method}}" WFURLActionURL="{{url}}"',
     )
     result = _render_template(
         defn.expansion_template,
@@ -202,18 +223,21 @@ def test_render_multiple_params():
     assert "POST" in result
     assert "https://api.com" in result
 
+
 run_test("render_multiple_params", test_render_multiple_params)
 
 
 def test_render_default_values():
     """Default values from macro definition are applied."""
     defn = MacroDefinition(
-        name="test", description="",
+        name="test",
+        description="",
         params={"method": {"type": "string", "default": "GET"}},
-        expansion_template="ACTION downloadurl WFHTTPMethod=\"{{method}}\"",
+        expansion_template='ACTION downloadurl WFHTTPMethod="{{method}}"',
     )
     result = _render_template(defn.expansion_template, {}, defn)
     assert "GET" in result
+
 
 run_test("render_default_values", test_render_default_values)
 
@@ -221,7 +245,9 @@ run_test("render_default_values", test_render_default_values)
 def test_render_list_iteration():
     """List iteration with {{#list}}...{{/list}}."""
     defn = MacroDefinition(
-        name="test", description="", params={},
+        name="test",
+        description="",
+        params={},
         expansion_template='{{#items}}ACTION setclipboard Text="{{.}}"\n{{/items}}',
     )
     result = _render_template(
@@ -233,14 +259,16 @@ def test_render_list_iteration():
     assert "beta" in result
     assert "gamma" in result
 
+
 run_test("render_list_iteration", test_render_list_iteration)
 
 
 # ── Expansion Tests ──────────────────────────────────────────────────
 
+
 def test_expand_api_fetch_json():
     """api.fetch_json macro expands correctly."""
-    text = 'MACRO api.fetch_json url=https://api.example.com/data'
+    text = "MACRO api.fetch_json url=https://api.example.com/data"
     expander = MacroExpander()
     expanded, expansions = expander.expand(text)
 
@@ -250,18 +278,20 @@ def test_expand_api_fetch_json():
     assert "detect.dictionary" in expanded.lower()
     assert "MACRO" not in expanded  # Directive replaced
 
+
 run_test("expand_api_fetch_json", test_expand_api_fetch_json)
 
 
 def test_expand_health_log_batch():
     """health.log_batch macro expands correctly."""
-    text = 'MACRO health.log_batch source=$NutrientData'
+    text = "MACRO health.log_batch source=$NutrientData"
     expander = MacroExpander()
     expanded, expansions = expander.expand(text)
 
     assert len(expansions) == 1
     assert "health.quantity.log" in expanded.lower()
     assert "MACRO" not in expanded
+
 
 run_test("expand_health_log_batch", test_expand_health_log_batch)
 
@@ -281,6 +311,7 @@ ENDPLATFORM"""
     assert "ENDPLATFORM" not in expanded
     assert "MACRO" not in expanded
 
+
 run_test("expand_platform_block_macro", test_expand_platform_block_macro)
 
 
@@ -295,28 +326,31 @@ ENDSHORTCUT"""
     assert len(expansions) == 0
     assert expanded == text
 
+
 run_test("expand_no_macros_unchanged", test_expand_no_macros_unchanged)
 
 
 def test_expand_unknown_macro_passthrough():
     """Unknown macros are left as-is."""
-    text = 'MACRO nonexistent.macro param=value'
+    text = "MACRO nonexistent.macro param=value"
     expander = MacroExpander()
     expanded, expansions = expander.expand(text)
 
     assert len(expansions) == 0
     assert "MACRO nonexistent.macro" in expanded
 
+
 run_test("expand_unknown_macro_passthrough", test_expand_unknown_macro_passthrough)
 
 
 def test_expand_case_insensitive():
     """MACRO directive matching is case-insensitive."""
-    text = 'macro api.fetch_json url=https://example.com'
+    text = "macro api.fetch_json url=https://example.com"
     expander = MacroExpander()
     expanded, expansions = expander.expand(text)
 
     assert len(expansions) == 1
+
 
 run_test("expand_case_insensitive", test_expand_case_insensitive)
 
@@ -332,6 +366,7 @@ MACRO api.fetch_json url=https://api.com/b"""
     assert len(expansions) == 2
     assert "middle" in expanded
     assert "MACRO" not in expanded
+
 
 run_test("expand_multiple_macros", test_expand_multiple_macros)
 
@@ -353,6 +388,7 @@ ENDSHORTCUT"""
     assert "done" in expanded
     assert "MACRO" not in expanded
 
+
 run_test("expand_mixed_with_dsl", test_expand_mixed_with_dsl)
 
 
@@ -368,32 +404,36 @@ line4"""
     assert len(expansions) == 1
     assert expansions[0].line == 3  # 1-indexed
 
+
 run_test("expansion_records_line_numbers", test_expansion_records_line_numbers)
 
 
 def test_expansion_records_param_values():
     """Expansion records include parsed parameter values."""
-    text = 'MACRO api.fetch_json url=https://example.com'
+    text = "MACRO api.fetch_json url=https://example.com"
     expander = MacroExpander()
     _, expansions = expander.expand(text)
 
     assert expansions[0].param_values["url"] == "https://example.com"
+
 
 run_test("expansion_records_param_values", test_expansion_records_param_values)
 
 
 def test_convenience_function():
     """expand_macros() convenience function works."""
-    text = 'MACRO api.fetch_json url=https://example.com'
+    text = "MACRO api.fetch_json url=https://example.com"
     expanded, expansions = expand_macros(text)
 
     assert len(expansions) == 1
     assert "MACRO" not in expanded
 
+
 run_test("convenience_function", test_convenience_function)
 
 
 # ── Integration with Lint Pipeline ───────────────────────────────────
+
 
 def test_lint_pipeline_expands_macros():
     """Macros are expanded in Phase 0 of lint pipeline."""
@@ -411,10 +451,12 @@ ENDSHORTCUT
     macro_changes = [c for c in result.changes if c.kind == "macro_expansion"]
     assert len(macro_changes) >= 1
 
+
 run_test("lint_pipeline_expands_macros", test_lint_pipeline_expands_macros)
 
 
 # ── Phase 5: Platform Branching Tests ──────────────────────────────
+
 
 def test_platform_if_ios_expands():
     """IF_PLATFORM ios block macro expands to getdevicedetails + IF."""
@@ -432,6 +474,7 @@ ENDPLATFORM"""
     assert "ENDPLATFORM" not in expanded
     assert "MACRO" not in expanded
 
+
 run_test("platform_if_ios_expands", test_platform_if_ios_expands)
 
 
@@ -448,6 +491,7 @@ ENDPLATFORM"""
     assert "Terminal" in expanded
     assert "ENDIF" in expanded
 
+
 run_test("platform_if_macos_expands", test_platform_if_macos_expands)
 
 
@@ -463,6 +507,7 @@ ENDPLATFORM"""
     assert 'contains "Watch"' in expanded
     assert "Watch!" in expanded
     assert "ENDIF" in expanded
+
 
 run_test("platform_if_watchos_expands", test_platform_if_watchos_expands)
 
@@ -489,7 +534,10 @@ ENDSHORTCUT
         f"Validation errors: {[e.message for e in validation.errors]}"
     )
 
-run_test("platform_block_parses_and_validates", test_platform_block_parses_and_validates)
+
+run_test(
+    "platform_block_parses_and_validates", test_platform_block_parses_and_validates
+)
 
 
 def test_platform_multiple_blocks():
@@ -509,15 +557,19 @@ ENDPLATFORM"""
     assert 'contains "iPhone"' in expanded
     assert 'contains "Mac"' in expanded
 
+
 run_test("platform_multiple_blocks", test_platform_multiple_blocks)
 
 
 # ── v2.0 Conditional Template Tests ──────────────────────────────────
 
+
 def test_conditional_section_included():
     """{{?param}}...{{/param}} section included when param is present."""
     defn = MacroDefinition(
-        name="test", description="", params={},
+        name="test",
+        description="",
+        params={},
         expansion_template='ACTION event Title="Meeting"{{?notes}} Notes="{{notes}}"{{/notes}}',
     )
     result = _render_template(defn.expansion_template, {"notes": "Agenda items"}, defn)
@@ -525,13 +577,16 @@ def test_conditional_section_included():
     assert "{{?notes}}" not in result
     assert "{{/notes}}" not in result
 
+
 run_test("conditional_section_included", test_conditional_section_included)
 
 
 def test_conditional_section_omitted():
     """{{?param}}...{{/param}} section omitted when param is absent."""
     defn = MacroDefinition(
-        name="test", description="", params={},
+        name="test",
+        description="",
+        params={},
         expansion_template='ACTION event Title="Meeting"{{?notes}} Notes="{{notes}}"{{/notes}}',
     )
     result = _render_template(defn.expansion_template, {}, defn)
@@ -540,13 +595,16 @@ def test_conditional_section_omitted():
     assert "{{/notes}}" not in result
     assert 'Title="Meeting"' in result
 
+
 run_test("conditional_section_omitted", test_conditional_section_omitted)
 
 
 def test_conditional_multiple_sections():
     """Multiple conditional sections in one template expand independently."""
     defn = MacroDefinition(
-        name="test", description="", params={},
+        name="test",
+        description="",
+        params={},
         expansion_template='ACTION event Title="T"{{?cal}} Cal="{{cal}}"{{/cal}}{{?notes}} Notes="{{notes}}"{{/notes}}',
     )
     # Provide only cal, not notes
@@ -555,9 +613,12 @@ def test_conditional_multiple_sections():
     assert "Notes=" not in result
 
     # Provide both
-    result2 = _render_template(defn.expansion_template, {"cal": "Work", "notes": "Hi"}, defn)
+    result2 = _render_template(
+        defn.expansion_template, {"cal": "Work", "notes": "Hi"}, defn
+    )
     assert 'Cal="Work"' in result2
     assert 'Notes="Hi"' in result2
+
 
 run_test("conditional_multiple_sections", test_conditional_multiple_sections)
 
@@ -565,7 +626,9 @@ run_test("conditional_multiple_sections", test_conditional_multiple_sections)
 def test_conditional_with_list_iteration():
     """Conditional section alongside list iteration in same template."""
     defn = MacroDefinition(
-        name="test", description="", params={},
+        name="test",
+        description="",
+        params={},
         expansion_template='{{#items}}ITEM "{{.}}"\n{{/items}}{{?footer}}FOOTER "{{footer}}"{{/footer}}',
     )
     result = _render_template(
@@ -577,13 +640,15 @@ def test_conditional_with_list_iteration():
     assert 'ITEM "b"' in result
     assert 'FOOTER "done"' in result
 
+
 run_test("conditional_with_list_iteration", test_conditional_with_list_iteration)
 
 
 def test_conditional_section_with_default_value():
     """Conditional section uses default value and is included when default applies."""
     defn = MacroDefinition(
-        name="test", description="",
+        name="test",
+        description="",
         params={"priority": {"type": "string", "default": "0"}},
         expansion_template='ACTION reminder Title="Task"{{?priority}} Priority={{priority}}{{/priority}}',
     )
@@ -591,15 +656,21 @@ def test_conditional_section_with_default_value():
     result = _render_template(defn.expansion_template, {}, defn)
     assert "Priority=0" in result
 
-run_test("conditional_section_with_default_value", test_conditional_section_with_default_value)
+
+run_test(
+    "conditional_section_with_default_value",
+    test_conditional_section_with_default_value,
+)
 
 
 # ── v2.0 Parameter Validation Tests ─────────────────────────────────
 
+
 def test_validate_missing_required_param():
     """Missing required parameter produces a warning."""
     defn = MacroDefinition(
-        name="api.fetch_json", description="",
+        name="api.fetch_json",
+        description="",
         params={"url": {"type": "string", "required": True}},
         expansion_template="ACTION url",
     )
@@ -608,13 +679,15 @@ def test_validate_missing_required_param():
     assert "missing required" in warnings[0].lower()
     assert "url" in warnings[0]
 
+
 run_test("validate_missing_required_param", test_validate_missing_required_param)
 
 
 def test_validate_unknown_param():
     """Unknown parameter produces a warning."""
     defn = MacroDefinition(
-        name="api.fetch_json", description="",
+        name="api.fetch_json",
+        description="",
         params={"url": {"type": "string", "required": True}},
         expansion_template="ACTION url",
     )
@@ -623,21 +696,26 @@ def test_validate_unknown_param():
     assert "unknown parameter" in warnings[0].lower()
     assert "bogus" in warnings[0]
 
+
 run_test("validate_unknown_param", test_validate_unknown_param)
 
 
 def test_validate_valid_params_no_warnings():
     """Valid parameters produce no warnings."""
     defn = MacroDefinition(
-        name="api.fetch_json", description="",
+        name="api.fetch_json",
+        description="",
         params={
             "url": {"type": "string", "required": True},
             "method": {"type": "string", "required": False, "default": "GET"},
         },
         expansion_template="ACTION url",
     )
-    warnings = validate_macro_params("api.fetch_json", {"url": "https://example.com"}, defn)
+    warnings = validate_macro_params(
+        "api.fetch_json", {"url": "https://example.com"}, defn
+    )
     assert warnings == []
+
 
 run_test("validate_valid_params_no_warnings", test_validate_valid_params_no_warnings)
 
@@ -645,7 +723,8 @@ run_test("validate_valid_params_no_warnings", test_validate_valid_params_no_warn
 def test_validate_multiple_warnings():
     """Multiple validation issues produce multiple warnings."""
     defn = MacroDefinition(
-        name="test", description="",
+        name="test",
+        description="",
         params={
             "a": {"type": "string", "required": True},
             "b": {"type": "string", "required": True},
@@ -660,19 +739,21 @@ def test_validate_multiple_warnings():
     assert len(missing_warns) == 2
     assert len(unknown_warns) == 1
 
+
 run_test("validate_multiple_warnings", test_validate_multiple_warnings)
 
 
 def test_warnings_via_expander_property():
     """Validation warnings are accessible via MacroExpander.warnings property."""
     # Use a macro with a required param but don't provide it
-    text = 'MACRO error.guard_input'
+    text = "MACRO error.guard_input"
     expander = MacroExpander()
     expanded, expansions = expander.expand(text)
 
     # error.guard_input requires 'var' param — should produce a warning
     assert len(expander.warnings) >= 1
     assert any("var" in w for w in expander.warnings)
+
 
 run_test("warnings_via_expander_property", test_warnings_via_expander_property)
 
@@ -681,9 +762,10 @@ run_test("warnings_via_expander_property", test_warnings_via_expander_property)
 
 # -- Error Handling --
 
+
 def test_expand_error_guard_network():
     """error.guard_network expands to IF/ENDIF connectivity check pattern."""
-    text = 'MACRO error.guard_network'
+    text = "MACRO error.guard_network"
     expander = MacroExpander()
     expanded, expansions = expander.expand(text)
 
@@ -694,6 +776,7 @@ def test_expand_error_guard_network():
     assert "exitshortcut" in expanded.lower()
     assert "Network Error" in expanded
     assert "MACRO" not in expanded
+
 
 run_test("expand_error_guard_network", test_expand_error_guard_network)
 
@@ -710,7 +793,11 @@ def test_expand_error_guard_input_custom_message():
     assert "ENDIF" in expanded
     assert "exitshortcut" in expanded.lower()
 
-run_test("expand_error_guard_input_custom_message", test_expand_error_guard_input_custom_message)
+
+run_test(
+    "expand_error_guard_input_custom_message",
+    test_expand_error_guard_input_custom_message,
+)
 
 
 def test_expand_error_retry_loop_block():
@@ -729,14 +816,16 @@ ENDRETRY"""
     assert "ENDRETRY" not in expanded
     assert "MACRO" not in expanded
 
+
 run_test("expand_error_retry_loop_block", test_expand_error_retry_loop_block)
 
 
 # -- API Contracts --
 
+
 def test_expand_api_fetch_parse_guard():
     """api.fetch_parse_guard expands to fetch + guard + parse pipeline."""
-    text = 'MACRO api.fetch_parse_guard url=https://api.example.com/data'
+    text = "MACRO api.fetch_parse_guard url=https://api.example.com/data"
     expander = MacroExpander()
     expanded, expansions = expander.expand(text)
 
@@ -747,12 +836,13 @@ def test_expand_api_fetch_parse_guard():
     assert "detect.dictionary" in expanded.lower()
     assert "API Error" in expanded
 
+
 run_test("expand_api_fetch_parse_guard", test_expand_api_fetch_parse_guard)
 
 
 def test_expand_api_auth_header_bearer():
     """api.auth_header with default Bearer scheme."""
-    text = 'MACRO api.auth_header token_var=$MyToken'
+    text = "MACRO api.auth_header token_var=$MyToken"
     expander = MacroExpander()
     expanded, expansions = expander.expand(text)
 
@@ -760,6 +850,7 @@ def test_expand_api_auth_header_bearer():
     assert "Bearer" in expanded
     assert "$MyToken" in expanded
     assert "$__auth_header" in expanded
+
 
 run_test("expand_api_auth_header_bearer", test_expand_api_auth_header_bearer)
 
@@ -775,14 +866,16 @@ def test_expand_api_auth_header_basic():
     assert "$Creds" in expanded
     assert "Bearer" not in expanded
 
+
 run_test("expand_api_auth_header_basic", test_expand_api_auth_header_basic)
 
 
 # -- File Operations --
 
+
 def test_expand_file_save_with_picker():
     """file.save_with_picker expands to savefile action."""
-    text = 'MACRO file.save_with_picker data_var=$Report'
+    text = "MACRO file.save_with_picker data_var=$Report"
     expander = MacroExpander()
     expanded, expansions = expander.expand(text)
 
@@ -791,12 +884,15 @@ def test_expand_file_save_with_picker():
     assert "$Report" in expanded
     assert "WFAskWhere=true" in expanded
 
+
 run_test("expand_file_save_with_picker", test_expand_file_save_with_picker)
 
 
 def test_expand_file_batch_rename():
     """file.batch_rename expands to FOREACH with rename logic."""
-    text = 'MACRO file.batch_rename source_var=$Files pattern="draft" replacement="final"'
+    text = (
+        'MACRO file.batch_rename source_var=$Files pattern="draft" replacement="final"'
+    )
     expander = MacroExpander()
     expanded, expansions = expander.expand(text)
 
@@ -809,10 +905,12 @@ def test_expand_file_batch_rename():
     assert "rename" in expanded.lower()
     assert "ENDFOREACH" in expanded
 
+
 run_test("expand_file_batch_rename", test_expand_file_batch_rename)
 
 
 # -- Notifications --
+
 
 def test_expand_notify_rich_alert_with_labels():
     """notify.rich_alert with explicit title and body."""
@@ -826,7 +924,10 @@ def test_expand_notify_rich_alert_with_labels():
     assert "alert" in expanded.lower()
     assert "CancelButtonShown=true" in expanded
 
-run_test("expand_notify_rich_alert_with_labels", test_expand_notify_rich_alert_with_labels)
+
+run_test(
+    "expand_notify_rich_alert_with_labels", test_expand_notify_rich_alert_with_labels
+)
 
 
 def test_expand_notify_progress_update():
@@ -841,10 +942,12 @@ def test_expand_notify_progress_update():
     # Default subtitle should be applied
     assert "ShortcutForge" in expanded
 
+
 run_test("expand_notify_progress_update", test_expand_notify_progress_update)
 
 
 # -- Calendar --
+
 
 def test_expand_calendar_create_event_minimal():
     """calendar.create_event with only required params (no optional calendar/notes)."""
@@ -857,10 +960,13 @@ def test_expand_calendar_create_event_minimal():
     assert "$MeetingTime" in expanded
     assert "addnewevent" in expanded.lower()
     # Optional params not provided — conditional sections should be omitted
-    assert 'WFCalendarItemCalendar' not in expanded
-    assert 'WFCalendarItemNotes' not in expanded
+    assert "WFCalendarItemCalendar" not in expanded
+    assert "WFCalendarItemNotes" not in expanded
 
-run_test("expand_calendar_create_event_minimal", test_expand_calendar_create_event_minimal)
+
+run_test(
+    "expand_calendar_create_event_minimal", test_expand_calendar_create_event_minimal
+)
 
 
 def test_expand_calendar_create_event_with_optionals():
@@ -874,7 +980,11 @@ def test_expand_calendar_create_event_with_optionals():
     assert 'WFCalendarItemCalendar="Work"' in expanded
     assert 'WFCalendarItemNotes="Q4 planning"' in expanded
 
-run_test("expand_calendar_create_event_with_optionals", test_expand_calendar_create_event_with_optionals)
+
+run_test(
+    "expand_calendar_create_event_with_optionals",
+    test_expand_calendar_create_event_with_optionals,
+)
 
 
 def test_expand_calendar_find_free_slot():
@@ -886,6 +996,7 @@ def test_expand_calendar_find_free_slot():
     assert len(expansions) == 1
     assert "getcalendarevents" in expanded.lower()
     assert "45" in expanded
+
 
 run_test("expand_calendar_find_free_slot", test_expand_calendar_find_free_slot)
 
@@ -903,14 +1014,16 @@ def test_expand_reminders_batch_create():
     assert 'WFReminderList="Shopping"' in expanded
     assert "ENDFOREACH" in expanded
 
+
 run_test("expand_reminders_batch_create", test_expand_reminders_batch_create)
 
 
 # -- Messaging --
 
+
 def test_expand_message_send_with_confirm():
     """message.send_with_confirm expands to alert + sendmessage."""
-    text = 'MACRO message.send_with_confirm recipient=$Contact body=$Msg'
+    text = "MACRO message.send_with_confirm recipient=$Contact body=$Msg"
     expander = MacroExpander()
     expanded, expansions = expander.expand(text)
 
@@ -920,6 +1033,7 @@ def test_expand_message_send_with_confirm():
     assert "$Msg" in expanded
     assert "sendmessage" in expanded.lower()
     assert "alert" in expanded.lower()
+
 
 run_test("expand_message_send_with_confirm", test_expand_message_send_with_confirm)
 
@@ -936,18 +1050,20 @@ def test_expand_message_email_report():
     assert "$Report" in expanded
     assert "sendemail" in expanded.lower()
 
+
 run_test("expand_message_email_report", test_expand_message_email_report)
 
 
 def test_expand_message_share_result():
     """message.share_result expands to share action."""
-    text = 'MACRO message.share_result data_var=$Output'
+    text = "MACRO message.share_result data_var=$Output"
     expander = MacroExpander()
     expanded, expansions = expander.expand(text)
 
     assert len(expansions) == 1
     assert "share" in expanded.lower()
     assert "$Output" in expanded
+
 
 run_test("expand_message_share_result", test_expand_message_share_result)
 

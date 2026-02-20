@@ -70,7 +70,9 @@ def convert_peft_to_mlx(
     target_modules = peft_config.get("target_modules", "all-linear")
     scale = lora_alpha / r
 
-    print(f"PEFT config: r={r}, alpha={lora_alpha}, scale={scale:.2f}, dropout={lora_dropout}")
+    print(
+        f"PEFT config: r={r}, alpha={lora_alpha}, scale={scale:.2f}, dropout={lora_dropout}"
+    )
     print(f"Target modules: {target_modules}")
 
     # Load PEFT weights
@@ -97,12 +99,21 @@ def convert_peft_to_mlx(
             # Track which layers have adapters
             # Keys are now model.layers.X.module.lora_a
             parts = mlx_key.split(".")
-            if len(parts) >= 3 and parts[0] == "model" and parts[1] == "layers" and parts[2].isdigit():
+            if (
+                len(parts) >= 3
+                and parts[0] == "model"
+                and parts[1] == "layers"
+                and parts[2].isdigit()
+            ):
                 layer_indices.add(int(parts[2]))
 
     num_layers = len(layer_indices) if layer_indices else -1
     print(f"Converted {n_converted} weight tensors across {num_layers} layers")
-    print(f"Layer range: {min(layer_indices)}-{max(layer_indices)}" if layer_indices else "")
+    print(
+        f"Layer range: {min(layer_indices)}-{max(layer_indices)}"
+        if layer_indices
+        else ""
+    )
 
     # Build MLX-LM config
     lora_params = {
@@ -159,7 +170,9 @@ def main():
 
     try:
         stats = convert_peft_to_mlx(args.peft_dir, args.output_dir)
-        print(f"\nConversion complete: {stats['n_converted']} tensors → {stats['weights_path']}")
+        print(
+            f"\nConversion complete: {stats['n_converted']} tensors → {stats['weights_path']}"
+        )
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
         sys.exit(1)

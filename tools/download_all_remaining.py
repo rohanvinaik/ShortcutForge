@@ -3,13 +3,14 @@
 Bulk downloader for all remaining Cassinelli shortcuts.
 Reads the library JSON, skips already-downloaded entries, downloads the rest.
 """
+
 import json
 import os
-import re
 import random
+import re
 import time
-import urllib.request
 import urllib.error
+import urllib.request
 from datetime import datetime
 
 BASE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..")
@@ -33,7 +34,9 @@ def download_one(icloud_url, output_dir):
         raise ValueError("Bad iCloud URL: " + icloud_url)
     api_url = "https://www.icloud.com/shortcuts/api/records/" + match.group(1)
 
-    req = urllib.request.Request(api_url, headers={"User-Agent": "ShortcutsCompiler/1.0"})
+    req = urllib.request.Request(
+        api_url, headers={"User-Agent": "ShortcutsCompiler/1.0"}
+    )
     with urllib.request.urlopen(req, timeout=30) as resp:
         data = json.loads(resp.read().decode())
 
@@ -55,7 +58,9 @@ def download_one(icloud_url, output_dir):
     safe = sanitize_filename(name) or sanitize_filename(icloud_url.split("/")[-1])
     filepath = os.path.join(output_dir, safe + ".shortcut")
 
-    req2 = urllib.request.Request(dl_url, headers={"User-Agent": "ShortcutsCompiler/1.0"})
+    req2 = urllib.request.Request(
+        dl_url, headers={"User-Agent": "ShortcutsCompiler/1.0"}
+    )
     with urllib.request.urlopen(req2, timeout=60) as resp2:
         blob = resp2.read()
 
@@ -82,7 +87,7 @@ def main():
     existing = set()
     for fn in os.listdir(DOWNLOAD_DIR):
         if fn.endswith(".shortcut"):
-            existing.add(normalize(fn[:-len(".shortcut")]))
+            existing.add(normalize(fn[: -len(".shortcut")]))
     print("Already downloaded: " + str(len(existing)))
 
     to_dl = []
@@ -115,7 +120,13 @@ def main():
             elapsed = (datetime.now() - t0).total_seconds()
             rate = ok / elapsed * 3600 if elapsed > 0 else 0
             msg = "--- %d/%d | %d OK | %d fail | %ds | ~%d/hr ---" % (
-                i, len(to_dl), ok, len(fails), elapsed, rate)
+                i,
+                len(to_dl),
+                ok,
+                len(fails),
+                elapsed,
+                rate,
+            )
             print("\n" + msg + "\n")
 
         try:
@@ -125,7 +136,7 @@ def main():
                 signed_ct += 1
             base = os.path.basename(fp)
             if base.endswith(".shortcut"):
-                existing.add(normalize(base[:-len(".shortcut")]))
+                existing.add(normalize(base[: -len(".shortcut")]))
             if i < 10 or ok % 100 == 0:
                 print("  [%d/%d] OK: %s (%s)" % (i + 1, len(to_dl), name, fmt))
 

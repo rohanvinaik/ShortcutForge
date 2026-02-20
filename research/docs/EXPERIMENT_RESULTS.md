@@ -203,6 +203,37 @@ Copy this block for each configuration tested.
 | Iter 750 | | | | | |
 | Iter 1000 | | | | | |
 
+**PAB Trajectory Profile:**
+
+*Full profile saved at: `research/models/EXP-2.X/pab_profile.json`*
+
+| PAB Metric | Value | Assessment |
+|---|---|---|
+| Stability mean (S̄) | | ≤0.15 = stable, 0.15–0.30 = moderate, >0.30 = chaotic |
+| Stability std | | Low = consistent dynamics |
+| Predictability (final) | | ≤0.05 = structured training |
+| Stability regime | | stable / chaotic / phase_transition |
+| Tier 1 convergence step | | Step where tier1_acc > 0.80 |
+| Tier 2 convergence step | | Step where tier2_acc > 0.70 |
+| Ternary crystallization (final) | | % of weights settled |
+| Crystallization rate | | Slope of crystallization curve |
+| Representation evolution (final) | | Low = bottleneck stabilized |
+| Convergence epoch | | Step where S < 0.10 for 5 consecutive checks |
+| Early-exit triggered? | | [ ] No / [ ] Yes at step ___ |
+
+**Domain Progression (PAB):**
+
+| Domain | Classification | Convergence Step | Final Accuracy | Notes |
+|---|---|---|---|---|
+| health | | | | early / late / unstable |
+| api | | | | |
+| file | | | | |
+| media | | | | |
+| clipboard | | | | |
+| calendar | | | | |
+| share_sheet | | | | |
+| morning_routine | | | | |
+
 **Observations:**
 
 **Decision:** [ ] Promising / [ ] Neutral / [ ] Abandon variant
@@ -217,15 +248,17 @@ Copy this block for each configuration tested.
 
 **Configuration held constant:** [best configuration from Cycle 2]
 
-| Bottleneck dim (d) | Compile strict % | Compile permissive % | Effective rank | Separability | Notes |
-|---|---|---|---|---|---|
-| 32 | | | | | |
-| 64 | | | | | |
-| 128 | | | | | |
-| 256 | | | | | |
-| 384 (full) | | | | | |
+| Bottleneck dim (d) | Compile strict % | Compile permissive % | Effective rank | Separability | PAB Stability (S̄) | PAB Tier1 Conv. Step | PAB Crystal. Rate | Notes |
+|---|---|---|---|---|---|---|---|---|
+| 32 | | | | | | | | |
+| 64 | | | | | | | | |
+| 128 | | | | | | | | |
+| 256 | | | | | | | | |
+| 384 (full) | | | | | | | | |
 
 **Critical dimension** (smallest d where compile strict ≥ 90%): ______
+**Fastest crystallization** (smallest d with crystallization_rate > 0.002): ______
+**Most stable training** (d with lowest PAB stability_mean): ______
 
 **Observations:**
 
@@ -237,15 +270,17 @@ Copy this block for each configuration tested.
 
 *Purpose: Isolate the contribution of each negative learning component.*
 
-| Configuration | Compile strict % | Separability | Failure entropy | Notes |
-|---|---|---|---|---|
-| CE only (no negatives) | | | | |
-| CE + L_margin | | | | |
-| CE + L_repair | | | | |
-| CE + L_margin + L_repair (full) | | | | |
-| CE + L_margin + L_repair + adaptive λ | | | | |
+| Configuration | Compile strict % | Separability | Failure entropy | PAB Stability (S̄) | PAB Predictability | Unstable Domains | Notes |
+|---|---|---|---|---|---|---|---|
+| CE only (no negatives) | | | | | | | |
+| CE + L_margin | | | | | | | |
+| CE + L_repair | | | | | | | |
+| CE + L_margin + L_repair (full) | | | | | | | |
+| CE + L_margin + L_repair + adaptive λ | | | | | | | |
 
-**Key finding:** Which negative learning component contributes most?
+**Key finding (endpoint):** Which negative learning component contributes most to compile rate?
+
+**Key finding (trajectory):** Does negative learning change the *stability* of training, even when endpoint metrics are similar? Do runs with negatives have fewer "unstable" domains?
 
 **Observations:**
 
@@ -255,12 +290,14 @@ Copy this block for each configuration tested.
 
 *Purpose: Compare distillation path vs. direct training vs. from-scratch.*
 
-| Track | Description | Compile strict % | Compile permissive % | Separability | OOD F1 | Params (M) | Latency p95 (ms) |
-|---|---|---|---|---|---|---|---|
-| A | Teacher-distilled | | | | | | |
-| B | Direct tiny-specialist | | | | | | |
-| C | From-scratch ablation | | | | | | |
-| BL-1 | Existing 8B baseline | 85.0% | 89.0% | N/A | N/A | ~8000 | TBD |
+| Track | Description | Compile strict % | Compile permissive % | Separability | OOD F1 | Params (M) | Latency p95 (ms) | PAB Stability (S̄) | PAB Regime |
+|---|---|---|---|---|---|---|---|---|---|
+| A | Teacher-distilled | | | | | | | | |
+| B | Direct tiny-specialist | | | | | | | | |
+| C | From-scratch ablation | | | | | | | | |
+| BL-1 | Existing 8B baseline | 85.0% | 89.0% | N/A | N/A | ~8000 | TBD | N/A | N/A |
+
+**Trajectory comparison**: Do the three tracks have qualitatively different learning trajectories? Does Track A (distilled) learn more smoothly than Track B (direct)? Does Track C (from-scratch) show a longer "chaotic" phase before stabilization?
 
 **Observations:**
 
@@ -312,6 +349,10 @@ For the top-5 most common actions in the eval set, document the ternary weight p
 | H5 | Typed IR output improves compile rate over raw DSL text | ☐ Supported / ☐ Refuted / ☐ Inconclusive | | |
 | H6 | Adaptive loss weighting outperforms fixed coefficients | ☐ Supported / ☐ Refuted / ☐ Inconclusive | | |
 | H7 | Teacher distillation (Track A) outperforms direct training (Track B) | ☐ Supported / ☐ Refuted / ☐ Inconclusive | | |
+| H8 | Ternary weights learn Tier 1 (structure) earlier/more stably than Tier 2 (parameters) | ☐ Supported / ☐ Refuted / ☐ Inconclusive | PAB tier-wise progression | |
+| H9 | Negative learning reduces domain-level instability (fewer "unstable" domains) | ☐ Supported / ☐ Refuted / ☐ Inconclusive | PAB domain progression comparison | |
+| H10 | PAB-informed distillation curation improves training stability and/or endpoint metrics | ☐ Supported / ☐ Refuted / ☐ Inconclusive | PAB profile comparison pre/post curation | |
+| H11 | STE training exhibits characteristic phase transitions visible in PAB stability curves | ☐ Supported / ☐ Refuted / ☐ Inconclusive | PAB stability time series | |
 
 ### Decision Log
 
@@ -320,6 +361,8 @@ For the top-5 most common actions in the eval set, document the ternary weight p
 | 2026-02-16 | Architecture: split continuous/ternary | Theoretical alignment with task asymmetry | Uniform ternary, uniform continuous |
 | 2026-02-16 | Encoder: all-MiniLM-L6-v2 | Encoder-only, optimized for semantic similarity | Qwen 0.5B encoder layers, BERT-base |
 | 2026-02-16 | Adaptive loss: UW-SO framework | Handles different convergence rates | Fixed λ, manual curriculum |
+| 2026-02-20 | PAB integration: adapt PABKit metrics for trajectory evaluation | STE training dynamics need monitoring beyond NaN checks; trajectory comparison enriches ablation analysis; distillation quality benefits from per-example difficulty profiling | Full PABKit dependency (rejected: too early-stage, vision-focused); no trajectory tracking (rejected: lose valuable training dynamics data) |
+| 2026-02-20 | Trajectory promotion gates alongside endpoint gates | Prevents promoting chaotic/fragile models that happen to hit endpoint targets | Endpoint-only gates (rejected: misses training reliability signal) |
 | | | | |
 
 ---
@@ -351,7 +394,62 @@ For the top-5 most common actions in the eval set, document the ternary weight p
   "val_compile_strict": 0.72,
   "val_compile_permissive": 0.78,
   "ternary_sparsity": 0.45,
-  "wall_time_s": 3600
+  "wall_time_s": 3600,
+  "pab_stability": 0.12,
+  "pab_predictability": 0.03,
+  "pab_generalization_gap": 0.45,
+  "pab_repr_evolution": 0.08,
+  "pab_tier1_accuracy": 0.74,
+  "pab_tier2_accuracy": 0.61,
+  "pab_tier3_accuracy": 0.55,
+  "pab_crystallization": 0.68
+}
+```
+
+## Appendix D: PAB Profile Schema
+
+*Full PAB profiles are saved per-run at: `research/models/<run_name>/pab_profile.json`*
+
+*Schema:*
+```json
+{
+  "experiment_id": "EXP-2.3",
+  "config_hash": "abc123...",
+  "checkpoints": [50, 100, 150, "..."],
+  "stability": [0.35, 0.22, 0.18, "..."],
+  "predictability": [0.12, 0.08, 0.04, "..."],
+  "generalization_gap": [1.2, 0.8, 0.5, "..."],
+  "representation_evolution": [0.45, 0.22, 0.11, "..."],
+  "tier1_accuracy": [0.32, 0.55, 0.71, "..."],
+  "tier2_accuracy": [0.18, 0.35, 0.52, "..."],
+  "tier3_accuracy": [0.15, 0.28, 0.41, "..."],
+  "ternary_crystallization": [0.33, 0.45, 0.62, "..."],
+  "domain_progression": {
+    "health": [0.40, 0.65, 0.78, "..."],
+    "api": [0.25, 0.42, 0.58, "..."]
+  },
+  "domain_classification": {
+    "health": "early",
+    "api": "late",
+    "clipboard": "unstable"
+  },
+  "loss_ce": [2.1, 1.5, 1.1, "..."],
+  "loss_margin": [0.8, 0.5, 0.3, "..."],
+  "loss_repair": [0.3, 0.2, 0.1, "..."],
+  "loss_adaptive_weights": [
+    {"ce": 0.5, "margin": 0.3, "repair": 0.2}
+  ],
+  "summary": {
+    "stability_mean": 0.14,
+    "stability_std": 0.08,
+    "predictability_final": 0.03,
+    "early_stop_epoch": null,
+    "convergence_epoch": 450,
+    "stability_regime": "stable",
+    "tier1_convergence_step": 350,
+    "tier2_convergence_step": 600,
+    "crystallization_rate": 0.0015
+  }
 }
 ```
 
@@ -366,4 +464,4 @@ For the top-5 most common actions in the eval set, document the ternary weight p
 
 ---
 
-*Ledger version: 1.0. Template created 2026-02-16. Skeleton awaiting experimental data.*
+*Ledger version: 1.1. Template created 2026-02-16. Updated 2026-02-20: Added PAB trajectory profile schema, trajectory-aware comparison tables, hypotheses H8–H11. Skeleton awaiting experimental data.*

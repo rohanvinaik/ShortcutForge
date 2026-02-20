@@ -18,6 +18,7 @@ class TestCompositeLoss(unittest.TestCase):
 
     def test_log_sigma_parameters_exist(self):
         from research.src.losses import CompositeLoss
+
         loss = CompositeLoss(initial_log_sigma=0.0)
         self.assertTrue(hasattr(loss, "log_sigma_ce"))
         self.assertTrue(hasattr(loss, "log_sigma_margin"))
@@ -27,6 +28,7 @@ class TestCompositeLoss(unittest.TestCase):
 
     def test_composite_forward_returns_dict(self):
         from research.src.losses import CompositeLoss
+
         loss = CompositeLoss()
         try:
             result = loss(
@@ -42,6 +44,7 @@ class TestCompositeLoss(unittest.TestCase):
 class TestOODLoss(unittest.TestCase):
     def test_forward_returns_scalar(self):
         from research.src.losses import OODLoss
+
         loss = OODLoss()
         try:
             result = loss(

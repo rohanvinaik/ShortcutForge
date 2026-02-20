@@ -41,11 +41,11 @@ _INTENT_SUFFIX_RE = re.compile(r"Intent$", re.IGNORECASE)
 
 # Known Apple intent class prefixes to strip
 _APPLE_INTENT_PREFIXES = {
-    "MT",   # MobileTimer (MTCreateAlarmIntent)
-    "AX",   # Accessibility (AXSetBackgroundSoundIntent)
-    "IN",   # Intents
+    "MT",  # MobileTimer (MTCreateAlarmIntent)
+    "AX",  # Accessibility (AXSetBackgroundSoundIntent)
+    "IN",  # Intents
     "REM",  # Reminders
-    "SF",   # ShortcutsFramework
+    "SF",  # ShortcutsFramework
 }
 
 
@@ -60,7 +60,7 @@ def _camel_to_lower(name: str) -> str:
         if name.startswith(prefix) and len(name) > len(prefix):
             next_char = name[len(prefix)]
             if next_char.isupper():
-                name = name[len(prefix):]
+                name = name[len(prefix) :]
                 break
 
     # Strip Intent suffix
@@ -114,7 +114,7 @@ def generate_canonical_map(catalog: dict) -> tuple[dict[str, str], dict[str, str
     for identifier in actions:
         # Strategy 1: Strip is.workflow.actions. prefix
         if identifier.startswith("is.workflow.actions."):
-            short = identifier[len("is.workflow.actions."):]
+            short = identifier[len("is.workflow.actions.") :]
             if short and short not in existing_map:
                 new_entries[short] = identifier
 
@@ -151,7 +151,12 @@ def generate_canonical_map(catalog: dict) -> tuple[dict[str, str], dict[str, str
             class_name = parts[-1] if parts else ""
             if class_name.endswith("Intent") and len(class_name) > 10:
                 third_party_short = _camel_to_lower(class_name)
-                if third_party_short and len(third_party_short) >= 6 and third_party_short not in existing_map and third_party_short not in new_entries:
+                if (
+                    third_party_short
+                    and len(third_party_short) >= 6
+                    and third_party_short not in existing_map
+                    and third_party_short not in new_entries
+                ):
                     new_entries[third_party_short] = identifier
 
     return new_entries, existing_map
@@ -189,8 +194,8 @@ def show_stats(catalog: dict, new_entries: dict, existing: dict):
         covered.add(full)
     coverage = len(covered.intersection(actions)) / total * 100 if total else 0
 
-    print(f"\nCanonical Map Coverage Statistics")
-    print(f"{'='*50}")
+    print("\nCanonical Map Coverage Statistics")
+    print(f"{'=' * 50}")
     print(f"Total actions:       {total}")
     print(f"  is.workflow.*:     {workflow_count}")
     print(f"  com.apple.*:       {apple_count}")
@@ -198,13 +203,17 @@ def show_stats(catalog: dict, new_entries: dict, existing: dict):
     print(f"\nExisting map:        {len(existing)} entries")
     print(f"New entries:         {len(new_entries)} entries")
     print(f"Total after merge:   {len(existing) + len(new_entries)} entries")
-    print(f"Action coverage:     {len(covered.intersection(actions))}/{total} ({coverage:.1f}%)")
+    print(
+        f"Action coverage:     {len(covered.intersection(actions))}/{total} ({coverage:.1f}%)"
+    )
 
     # Breakdown new entries by type
-    new_workflow = sum(1 for v in new_entries.values() if v.startswith("is.workflow.actions."))
+    new_workflow = sum(
+        1 for v in new_entries.values() if v.startswith("is.workflow.actions.")
+    )
     new_apple = sum(1 for v in new_entries.values() if v.startswith("com.apple."))
     new_third = len(new_entries) - new_workflow - new_apple
-    print(f"\nNew entry breakdown:")
+    print("\nNew entry breakdown:")
     print(f"  is.workflow.*:     {new_workflow}")
     print(f"  com.apple.*:       {new_apple}")
     print(f"  Third-party:       {new_third}")
@@ -224,19 +233,24 @@ def main():
         description="Auto-generate canonical_map entries for action catalog",
     )
     parser.add_argument(
-        "--dry-run", action="store_true",
+        "--dry-run",
+        action="store_true",
         help="Preview new entries without writing",
     )
     parser.add_argument(
-        "--apply", action="store_true",
+        "--apply",
+        action="store_true",
         help="Write new entries to action_catalog.json",
     )
     parser.add_argument(
-        "--stats", action="store_true",
+        "--stats",
+        action="store_true",
         help="Show coverage statistics",
     )
     parser.add_argument(
-        "--catalog", type=str, default=str(_CATALOG_PATH),
+        "--catalog",
+        type=str,
+        default=str(_CATALOG_PATH),
         help="Path to action_catalog.json",
     )
 

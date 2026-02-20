@@ -16,6 +16,7 @@ class TestSmokeE2E(unittest.TestCase):
     def test_fixture_loads(self):
         """Fixture JSONL loads as valid TypedIRExample records."""
         from research.src.data import load_typed_ir_jsonl
+
         examples = load_typed_ir_jsonl(FIXTURE)
         self.assertEqual(len(examples), 3)
         for ex in examples:
@@ -27,16 +28,20 @@ class TestSmokeE2E(unittest.TestCase):
         try:
             from research.src.data import load_typed_ir_jsonl
             from research.src.lowering import roundtrip_validate
+
             examples = load_typed_ir_jsonl(FIXTURE)
             for ex in examples:
                 success, msg = roundtrip_validate(ex)
-                self.assertTrue(success, f"Roundtrip failed for {ex.shortcut_id}: {msg}")
+                self.assertTrue(
+                    success, f"Roundtrip failed for {ex.shortcut_id}: {msg}"
+                )
         except ImportError:
             self.skipTest("lowering not available")
 
     def test_vocab_from_fixture(self):
         """Can build tier1 vocab from fixture data."""
         from research.src.data import load_typed_ir_jsonl
+
         examples = load_typed_ir_jsonl(FIXTURE)
         # Simple vocab extraction
         all_tokens = set()
@@ -50,7 +55,9 @@ class TestSmokeE2E(unittest.TestCase):
         """TernaryDecoder forward pass with tiny dimensions."""
         try:
             import torch
+
             from research.src.ternary_decoder import TernaryDecoder
+
             decoder = TernaryDecoder(
                 input_dim=32,
                 hidden_dim=16,
@@ -69,7 +76,9 @@ class TestSmokeE2E(unittest.TestCase):
         """CompositeLoss runs without NaN on random data."""
         try:
             import torch
+
             from research.src.losses import CompositeLoss
+
             loss_fn = CompositeLoss(initial_log_sigma=0.0)
             logits = torch.randn(4, 10)
             targets = torch.randint(0, 10, (4,))

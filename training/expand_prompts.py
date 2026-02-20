@@ -93,6 +93,7 @@ async def expand_batch_claude(
 ) -> list[dict]:
     """Expand a batch of training pairs using Claude API."""
     import anthropic
+
     client = anthropic.AsyncAnthropic()
 
     new_examples = []
@@ -123,7 +124,10 @@ async def expand_batch_claude(
 
         if verbose:
             expanded = sum(len(r) for r in results)
-            print(f"    Batch {batch_start+1}-{batch_end}/{total}: +{expanded} variants", flush=True)
+            print(
+                f"    Batch {batch_start + 1}-{batch_end}/{total}: +{expanded} variants",
+                flush=True,
+            )
 
     return new_examples
 
@@ -153,7 +157,8 @@ def _expand_one_local(
 
     try:
         text = mlx_lm.generate(
-            model, tokenizer,
+            model,
+            tokenizer,
             prompt=formatted,
             max_tokens=max_tokens,
             verbose=False,
@@ -174,7 +179,7 @@ def expand_batch_local(
 
     print(f"  Loading model: {model_path}...", flush=True)
     model, tokenizer = mlx_lm.load(model_path)
-    print(f"  Model loaded.", flush=True)
+    print("  Model loaded.", flush=True)
 
     new_examples = []
     total = len(pairs)
@@ -200,7 +205,7 @@ def expand_batch_local(
             rate = (i + 1) / elapsed
             eta = (total - i - 1) / rate if rate > 0 else 0
             print(
-                f"    {i+1}/{total}: +{len(variants)} variants "
+                f"    {i + 1}/{total}: +{len(variants)} variants "
                 f"({rate:.1f} examples/s, ETA {eta:.0f}s)",
                 flush=True,
             )
@@ -261,16 +266,21 @@ def run_expansion(
 
     # Expand training prompts
     if engine == "local":
-        print(f"  [2/3] Expanding training prompts (local MLX model)...", flush=True)
+        print("  [2/3] Expanding training prompts (local MLX model)...", flush=True)
         new_examples = expand_batch_local(
             train_pairs, model_path=model_path, verbose=verbose
         )
     else:
-        print(f"  [2/3] Expanding training prompts (Claude API, {batch_size} concurrent)...", flush=True)
+        print(
+            f"  [2/3] Expanding training prompts (Claude API, {batch_size} concurrent)...",
+            flush=True,
+        )
         claude_model = model or "claude-haiku-4-5-20251001"
-        new_examples = asyncio.run(expand_batch_claude(
-            train_pairs, batch_size=batch_size, model=claude_model, verbose=verbose
-        ))
+        new_examples = asyncio.run(
+            expand_batch_claude(
+                train_pairs, batch_size=batch_size, model=claude_model, verbose=verbose
+            )
+        )
 
     stats["variants_generated"] = len(new_examples)
 
@@ -279,13 +289,13 @@ def run_expansion(
     stats["total_expanded"] = len(all_train)
 
     # Write expanded training file
-    print(f"  [3/3] Writing expanded JSONL...", end=" ", flush=True)
+    print("  [3/3] Writing expanded JSONL...", end=" ", flush=True)
     expanded_path = os.path.join(input_dir, "shortcutdsl_train_expanded.jsonl")
     with open(expanded_path, "w") as f:
         for example in all_train:
             f.write(json.dumps(example) + "\n")
 
-    print(f"done")
+    print("done")
     print(f"\n  Output: {expanded_path} ({len(all_train)} examples)")
     print(f"  Eval:   {eval_path} ({len(eval_pairs)} examples, unchanged)")
 
@@ -328,7 +338,8 @@ def main():
         help="Local MLX model path (default: mlx-community/Meta-Llama-3.1-8B-Instruct-4bit)",
     )
     parser.add_argument(
-        "-v", "--verbose",
+        "-v",
+        "--verbose",
         action="store_true",
         help="Show per-batch/per-example progress",
     )
@@ -337,11 +348,18 @@ def main():
 
     # Resolve paths
     project_root = Path(__file__).resolve().parent.parent
-    input_dir = args.input_dir if os.path.isabs(args.input_dir) else str(project_root / args.input_dir)
+    input_dir = (
+        args.input_dir
+        if os.path.isabs(args.input_dir)
+        else str(project_root / args.input_dir)
+    )
 
     # Check API key for Claude mode
     if args.engine == "claude" and not os.environ.get("ANTHROPIC_API_KEY"):
-        print("Error: ANTHROPIC_API_KEY not set (required for --engine claude)", file=sys.stderr)
+        print(
+            "Error: ANTHROPIC_API_KEY not set (required for --engine claude)",
+            file=sys.stderr,
+        )
         sys.exit(1)
 
     print(f"\nShortcutForge: Expanding training prompts ({args.engine} engine)...\n")
@@ -355,7 +373,7 @@ def main():
         verbose=args.verbose,
     )
 
-    print(f"\n  --- Statistics ---")
+    print("\n  --- Statistics ---")
     print(f"  Engine:              {stats['engine']}")
     print(f"  Train originals:     {stats['train_originals']}")
     print(f"  Variants generated:  {stats['variants_generated']}")

@@ -15,17 +15,25 @@ Shortcuts tested:
 
 Run: python3 scripts/test_roundtrip.py
 """
-import sys, os
-from pathlib import Path
+
+import os
 import plistlib
+import sys
+from pathlib import Path
 
 sys.path.insert(0, str(Path(os.path.abspath(__file__)).parent.parent / "src"))
 from shortcuts_compiler import (
-    Shortcut, actions, ActionHandle, ref_extension_input, ref_variable,
+    ActionHandle,
+    Shortcut,
+    actions,
+    ref_extension_input,
+    ref_variable,
     wrap_token_attachment,
 )
 
-DOWNLOAD_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "downloaded")
+DOWNLOAD_DIR = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "..", "downloaded"
+)
 
 # Keys injected by the compiler or inherently non-deterministic
 SKIP_KEYS = {"UUID", "GroupingIdentifier"}
@@ -53,7 +61,9 @@ def compare_actions(original, reconstructed):
 
     # Check 1: Same number of actions
     if len(original) != len(reconstructed):
-        details.append(f"Action count mismatch: original={len(original)}, reconstructed={len(reconstructed)}")
+        details.append(
+            f"Action count mismatch: original={len(original)}, reconstructed={len(reconstructed)}"
+        )
         checks_failed += 1
     else:
         checks_passed += 1
@@ -68,21 +78,34 @@ def compare_actions(original, reconstructed):
         checks_failed += 1
         for i, (o, r) in enumerate(zip(orig_idents, recon_idents)):
             if o != r:
-                details.append(f"Identifier mismatch at [{i}]: original={o}, reconstructed={r}")
+                details.append(
+                    f"Identifier mismatch at [{i}]: original={o}, reconstructed={r}"
+                )
                 break
         if len(orig_idents) != len(recon_idents):
-            details.append(f"Identifier count: original={len(orig_idents)}, reconstructed={len(recon_idents)}")
+            details.append(
+                f"Identifier count: original={len(orig_idents)}, reconstructed={len(recon_idents)}"
+            )
 
     # Check 3: Parameter keys match for each action (excluding SKIP_KEYS)
     min_len = min(len(original), len(reconstructed))
     param_mismatches = 0
     for i in range(min_len):
-        orig_params = set(original[i].get("WFWorkflowActionParameters", {}).keys()) - SKIP_KEYS
-        recon_params = set(reconstructed[i].get("WFWorkflowActionParameters", {}).keys()) - SKIP_KEYS
+        orig_params = (
+            set(original[i].get("WFWorkflowActionParameters", {}).keys()) - SKIP_KEYS
+        )
+        recon_params = (
+            set(reconstructed[i].get("WFWorkflowActionParameters", {}).keys())
+            - SKIP_KEYS
+        )
         if orig_params != recon_params:
             missing = orig_params - recon_params
             extra = recon_params - orig_params
-            short_ident = orig_idents[i].replace("is.workflow.actions.", "") if i < len(orig_idents) else "?"
+            short_ident = (
+                orig_idents[i].replace("is.workflow.actions.", "")
+                if i < len(orig_idents)
+                else "?"
+            )
             if missing:
                 details.append(f"[{i}] {short_ident}: missing params {missing}")
             if extra:
@@ -93,7 +116,9 @@ def compare_actions(original, reconstructed):
         checks_passed += 1
     else:
         checks_failed += 1
-        details.append(f"Parameter key mismatches in {param_mismatches}/{min_len} actions")
+        details.append(
+            f"Parameter key mismatches in {param_mismatches}/{min_len} actions"
+        )
 
     # Check 4: Scalar parameter values match where applicable
     scalar_total = 0
@@ -110,14 +135,26 @@ def compare_actions(original, reconstructed):
                 if orig_val == recon_val:
                     scalar_match += 1
                 else:
-                    short_ident = orig_idents[i].replace("is.workflow.actions.", "") if i < len(orig_idents) else "?"
-                    details.append(f"[{i}] {short_ident}.{key}: {repr(orig_val)[:60]} != {repr(recon_val)[:60]}")
-            elif isinstance(orig_val, list) and all(isinstance(x, str) for x in orig_val):
+                    short_ident = (
+                        orig_idents[i].replace("is.workflow.actions.", "")
+                        if i < len(orig_idents)
+                        else "?"
+                    )
+                    details.append(
+                        f"[{i}] {short_ident}.{key}: {repr(orig_val)[:60]} != {repr(recon_val)[:60]}"
+                    )
+            elif isinstance(orig_val, list) and all(
+                isinstance(x, str) for x in orig_val
+            ):
                 scalar_total += 1
                 if orig_val == recon_val:
                     scalar_match += 1
                 else:
-                    short_ident = orig_idents[i].replace("is.workflow.actions.", "") if i < len(orig_idents) else "?"
+                    short_ident = (
+                        orig_idents[i].replace("is.workflow.actions.", "")
+                        if i < len(orig_idents)
+                        else "?"
+                    )
                     details.append(f"[{i}] {short_ident}.{key}: list mismatch")
 
     if scalar_total > 0:
@@ -149,7 +186,9 @@ def compare_actions(original, reconstructed):
         checks_passed += 1
     else:
         checks_failed += 1
-        details.append(f"Control flow groups differ: original={orig_groups}, reconstructed={recon_groups}")
+        details.append(
+            f"Control flow groups differ: original={orig_groups}, reconstructed={recon_groups}"
+        )
 
     return checks_passed, checks_failed, details
 
@@ -157,6 +196,7 @@ def compare_actions(original, reconstructed):
 # ============================================================
 # Test 1: Find Gas Nearby (5 actions, linear)
 # ============================================================
+
 
 def reconstruct_find_gas():
     """Reconstruct Find_gas_nearby.shortcut.
@@ -169,27 +209,49 @@ def reconstruct_find_gas():
     s = Shortcut("Find Gas Nearby")
 
     # [0] Comment
-    s.add(actions.make("comment",
-        WFCommentActionText=orig[0]["WFWorkflowActionParameters"]["WFCommentActionText"]))
+    s.add(
+        actions.make(
+            "comment",
+            WFCommentActionText=orig[0]["WFWorkflowActionParameters"][
+                "WFCommentActionText"
+            ],
+        )
+    )
 
     # [1] Comment (long, with smart quotes — copy from original)
-    s.add(actions.make("comment",
-        WFCommentActionText=orig[1]["WFWorkflowActionParameters"]["WFCommentActionText"]))
+    s.add(
+        actions.make(
+            "comment",
+            WFCommentActionText=orig[1]["WFWorkflowActionParameters"][
+                "WFCommentActionText"
+            ],
+        )
+    )
 
     # [2] Search local businesses using extension input as location
-    businesses = s.add(actions.make("searchlocalbusinesses",
-        WFSearchQuery="Gas Station",
-        WFInput=ref_extension_input()))
+    businesses = s.add(
+        actions.make(
+            "searchlocalbusinesses",
+            WFSearchQuery="Gas Station",
+            WFInput=ref_extension_input(),
+        )
+    )
 
     # [3] Choose from the results
-    chosen = s.add(actions.make("choosefromlist",
-        WFChooseFromListActionPrompt="Which gas station do you want directions for?",
-        WFInput=businesses))
+    chosen = s.add(
+        actions.make(
+            "choosefromlist",
+            WFChooseFromListActionPrompt="Which gas station do you want directions for?",
+            WFInput=businesses,
+        )
+    )
 
     # [4] Get directions
-    s.add(actions.make("getdirections",
-        WFGetDirectionsActionMode="Driving",
-        WFDestination=chosen))
+    s.add(
+        actions.make(
+            "getdirections", WFGetDirectionsActionMode="Driving", WFDestination=chosen
+        )
+    )
 
     return s
 
@@ -197,6 +259,7 @@ def reconstruct_find_gas():
 # ============================================================
 # Test 2: Log Toothbrushing (9 actions, menu)
 # ============================================================
+
 
 def reconstruct_log_toothbrushing():
     """Reconstruct Log_toothbrushing.shortcut.
@@ -206,8 +269,12 @@ def reconstruct_log_toothbrushing():
     s = Shortcut("Log Toothbrushing")
 
     # [0] Comment
-    s.add(actions.make("comment",
-        WFCommentActionText="Adds data to Health that you brushed you teeth, either at the current time or an earlier date you input."))
+    s.add(
+        actions.make(
+            "comment",
+            WFCommentActionText="Adds data to Health that you brushed you teeth, either at the current time or an earlier date you input.",
+        )
+    )
 
     # [1-6] Menu: "Now" or "Earlier"
     with s.menu_block("When did you brush?", ["Now", "Earlier"]) as cases:
@@ -219,9 +286,7 @@ def reconstruct_log_toothbrushing():
         # Case: Earlier [4]
         cases["Earlier"]()
         # [5] Ask for time
-        s.add(actions.make("ask",
-            WFAskActionPrompt="When?",
-            WFInputType="Time"))
+        s.add(actions.make("ask", WFAskActionPrompt="When?", WFInputType="Time"))
 
     # After the menu block, the menu end action is s.actions[-1].
     # Its UUID is the output of the choosefrommenu block ("Menu Result").
@@ -232,21 +297,32 @@ def reconstruct_log_toothbrushing():
         # But the action was appended without going through s.add(), so no UUID.
         # We need to add one manually.
         import uuid as uuid_mod
+
         menu_end_uuid = str(uuid_mod.uuid4()).upper()
         s.actions[-1]["WFWorkflowActionParameters"]["UUID"] = menu_end_uuid
 
-    menu_result = ActionHandle(menu_end_uuid, "Menu Result", "is.workflow.actions.choosefrommenu")
+    menu_result = ActionHandle(
+        menu_end_uuid, "Menu Result", "is.workflow.actions.choosefrommenu"
+    )
 
     # [7] Adjust date: subtract 2 minutes from the chosen time
-    adjusted = s.add(actions.make("adjustdate",
-        WFDate=menu_result,
-        WFDuration=actions.build_quantity(2, "min")))
+    adjusted = s.add(
+        actions.make(
+            "adjustdate",
+            WFDate=menu_result,
+            WFDuration=actions.build_quantity(2, "min"),
+        )
+    )
 
     # [8] Log health data
-    s.add(actions.make("health.quantity.log",
-        WFQuantitySampleType="Toothbrushing",
-        WFQuantitySampleDate=menu_result,
-        WFSampleEndDate=adjusted))
+    s.add(
+        actions.make(
+            "health.quantity.log",
+            WFQuantitySampleType="Toothbrushing",
+            WFQuantitySampleDate=menu_result,
+            WFSampleEndDate=adjusted,
+        )
+    )
 
     return s
 
@@ -254,6 +330,7 @@ def reconstruct_log_toothbrushing():
 # ============================================================
 # Test 3: Golden Hour Times (15 actions, nested repeat-each)
 # ============================================================
+
 
 def reconstruct_golden_hour():
     """Reconstruct Check_upcoming_Golden_Hour_times.shortcut.
@@ -271,8 +348,14 @@ def reconstruct_golden_hour():
     s = Shortcut("Check upcoming Golden Hour times")
 
     # [0] Comment
-    s.add(actions.make("comment",
-        WFCommentActionText=orig[0]["WFWorkflowActionParameters"]["WFCommentActionText"]))
+    s.add(
+        actions.make(
+            "comment",
+            WFCommentActionText=orig[0]["WFWorkflowActionParameters"][
+                "WFCommentActionText"
+            ],
+        )
+    )
 
     # [1] Get weather forecast
     forecast = s.add(actions.make("weather.forecast"))
@@ -282,84 +365,133 @@ def reconstruct_golden_hour():
         # [3] Set item name — uses Repeat Item variable with Aggrandizements.
         # Pass the complex WFName value from original since it uses
         # property access + custom date formatting beyond simple ActionHandle.
-        s.add(actions.make("setitemname",
-            WFName=orig[3]["WFWorkflowActionParameters"]["WFName"],
-            WFInput=wrap_token_attachment(ref_variable("Repeat Item"))))
+        s.add(
+            actions.make(
+                "setitemname",
+                WFName=orig[3]["WFWorkflowActionParameters"]["WFName"],
+                WFInput=wrap_token_attachment(ref_variable("Repeat Item")),
+            )
+        )
 
     # [5] Choose from list (multi-select) — references Repeat Results
     # The repeat end action output is the last action before this
     repeat_end_uuid = s.actions[-1]["WFWorkflowActionParameters"].get("UUID")
     if not repeat_end_uuid:
         import uuid as uuid_mod
+
         repeat_end_uuid = str(uuid_mod.uuid4()).upper()
         s.actions[-1]["WFWorkflowActionParameters"]["UUID"] = repeat_end_uuid
-    repeat_results = ActionHandle(repeat_end_uuid, "Repeat Results", "is.workflow.actions.repeat.each")
+    repeat_results = ActionHandle(
+        repeat_end_uuid, "Repeat Results", "is.workflow.actions.repeat.each"
+    )
 
-    chosen_days = s.add(actions.make("choosefromlist",
-        WFChooseFromListActionPrompt="Which days?",
-        WFChooseFromListActionSelectMultiple=True,
-        WFInput=repeat_results))
+    chosen_days = s.add(
+        actions.make(
+            "choosefromlist",
+            WFChooseFromListActionPrompt="Which days?",
+            WFChooseFromListActionSelectMultiple=True,
+            WFInput=repeat_results,
+        )
+    )
 
     # [6-14] Second repeat: for each chosen day
     with s.repeat_each_block(chosen_days):
         # [7] Get sunset time — uses Repeat Item variable
-        sunset = s.add(actions.make("properties.weather.conditions",
-            WFContentItemPropertyName="Sunset Time",
-            WFInput=wrap_token_attachment(ref_variable("Repeat Item")),
-            CustomOutputName="Sunset"))
+        sunset = s.add(
+            actions.make(
+                "properties.weather.conditions",
+                WFContentItemPropertyName="Sunset Time",
+                WFInput=wrap_token_attachment(ref_variable("Repeat Item")),
+                CustomOutputName="Sunset",
+            )
+        )
 
         # [8] Adjust date: subtract 1 hour from sunset
-        golden_start = s.add(actions.make("adjustdate",
-            WFDate=sunset,
-            WFDuration=actions.build_quantity(1, "hr"),
-            CustomOutputName="Sunset-1",
-            WFAdjustOffsetPicker=orig[8]["WFWorkflowActionParameters"]["WFAdjustOffsetPicker"],
-            WFAdjustOperation="Subtract"))
+        golden_start = s.add(
+            actions.make(
+                "adjustdate",
+                WFDate=sunset,
+                WFDuration=actions.build_quantity(1, "hr"),
+                CustomOutputName="Sunset-1",
+                WFAdjustOffsetPicker=orig[8]["WFWorkflowActionParameters"][
+                    "WFAdjustOffsetPicker"
+                ],
+                WFAdjustOperation="Subtract",
+            )
+        )
 
         # [9] Add calendar event: Golden Hour
-        s.add(actions.make("addnewevent",
-            WFCalendarItemTitle="Golden hour",
-            WFCalendarDescriptor=orig[9]["WFWorkflowActionParameters"]["WFCalendarDescriptor"],
-            WFAlertTime="1 hour before",
-            WFCalendarItemDates=True,
-            WFCalendarItemEndDate=sunset,
-            ShowWhenRun=False,
-            WFCalendarItemStartDate=golden_start,
-            WFCalendarItemCalendar="Photography"))
+        s.add(
+            actions.make(
+                "addnewevent",
+                WFCalendarItemTitle="Golden hour",
+                WFCalendarDescriptor=orig[9]["WFWorkflowActionParameters"][
+                    "WFCalendarDescriptor"
+                ],
+                WFAlertTime="1 hour before",
+                WFCalendarItemDates=True,
+                WFCalendarItemEndDate=sunset,
+                ShowWhenRun=False,
+                WFCalendarItemStartDate=golden_start,
+                WFCalendarItemCalendar="Photography",
+            )
+        )
 
         # [10] Get sunrise time
-        sunrise = s.add(actions.make("properties.weather.conditions",
-            WFContentItemPropertyName="Sunrise Time",
-            WFInput=wrap_token_attachment(ref_variable("Repeat Item")),
-            CustomOutputName="Sunrise Hour"))
+        sunrise = s.add(
+            actions.make(
+                "properties.weather.conditions",
+                WFContentItemPropertyName="Sunrise Time",
+                WFInput=wrap_token_attachment(ref_variable("Repeat Item")),
+                CustomOutputName="Sunrise Hour",
+            )
+        )
 
         # [11] Adjust date: add 1 hour to sunrise
-        sunrise_plus1 = s.add(actions.make("adjustdate",
-            WFDate=sunrise,
-            WFDuration=actions.build_quantity(1, "hr"),
-            CustomOutputName="Sunrise Hour +1",
-            WFAdjustOffsetPicker=orig[11]["WFWorkflowActionParameters"]["WFAdjustOffsetPicker"],
-            WFAdjustOperation="Add"))
+        sunrise_plus1 = s.add(
+            actions.make(
+                "adjustdate",
+                WFDate=sunrise,
+                WFDuration=actions.build_quantity(1, "hr"),
+                CustomOutputName="Sunrise Hour +1",
+                WFAdjustOffsetPicker=orig[11]["WFWorkflowActionParameters"][
+                    "WFAdjustOffsetPicker"
+                ],
+                WFAdjustOperation="Add",
+            )
+        )
 
         # [12] Adjust date: subtract 30 min from sunrise+1
-        half_through = s.add(actions.make("adjustdate",
-            WFDate=sunrise_plus1,
-            WFDuration=actions.build_quantity(30, "min"),
-            CustomOutputName="Half Through",
-            WFAdjustOffsetPicker=orig[12]["WFWorkflowActionParameters"]["WFAdjustOffsetPicker"],
-            WFAdjustOperation="Subtract"))
+        half_through = s.add(
+            actions.make(
+                "adjustdate",
+                WFDate=sunrise_plus1,
+                WFDuration=actions.build_quantity(30, "min"),
+                CustomOutputName="Half Through",
+                WFAdjustOffsetPicker=orig[12]["WFWorkflowActionParameters"][
+                    "WFAdjustOffsetPicker"
+                ],
+                WFAdjustOperation="Subtract",
+            )
+        )
 
         # [13] Add calendar event: Golden hour (morning)
-        s.add(actions.make("addnewevent",
-            WFCalendarItemTitle="Golden hour",
-            WFCalendarDescriptor=orig[13]["WFWorkflowActionParameters"]["WFCalendarDescriptor"],
-            WFAlertTime="Custom",
-            WFCalendarItemDates=True,
-            WFCalendarItemEndDate=sunrise_plus1,
-            ShowWhenRun=False,
-            WFAlertCustomTime=half_through,
-            WFCalendarItemStartDate=sunrise,
-            WFCalendarItemCalendar="Photography"))
+        s.add(
+            actions.make(
+                "addnewevent",
+                WFCalendarItemTitle="Golden hour",
+                WFCalendarDescriptor=orig[13]["WFWorkflowActionParameters"][
+                    "WFCalendarDescriptor"
+                ],
+                WFAlertTime="Custom",
+                WFCalendarItemDates=True,
+                WFCalendarItemEndDate=sunrise_plus1,
+                ShowWhenRun=False,
+                WFAlertCustomTime=half_through,
+                WFCalendarItemStartDate=sunrise,
+                WFCalendarItemCalendar="Photography",
+            )
+        )
 
     return s
 
@@ -367,6 +499,7 @@ def reconstruct_golden_hour():
 # ============================================================
 # Run all tests
 # ============================================================
+
 
 def run_roundtrip(name, filename, reconstruct_fn):
     global passed, failed
@@ -393,6 +526,7 @@ def run_roundtrip(name, filename, reconstruct_fn):
 
     except Exception as e:
         import traceback
+
         print(f"  FAIL: Exception during reconstruction: {e}")
         traceback.print_exc()
         failed += 1

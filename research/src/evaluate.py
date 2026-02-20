@@ -92,14 +92,12 @@ def evaluate_checkpoint(
 
     # Build inverse vocab for decoding
     tier1_idx2token = {v: k for k, v in tier1_vocab.items()}
-    tier2_idx2token = {v: k for k, v in tier2_fallback.items()}
 
     # Metrics
     total = len(examples)
     gate_correct = 0
     roundtrip_success = 0
     tier1_exact_match = 0
-    tier1_token_accuracy_sum = 0.0
 
     print(f"Evaluating {total} examples...")
 
@@ -137,7 +135,7 @@ def evaluate_checkpoint(
                 roundtrip_success += 1
 
             if (i + 1) % 25 == 0:
-                print(f"  {i+1}/{total} evaluated...")
+                print(f"  {i + 1}/{total} evaluated...")
 
     results = {
         "total_examples": total,
@@ -161,14 +159,21 @@ def main():
     parser = argparse.ArgumentParser(
         description="Evaluate a Balanced Sashimi checkpoint",
     )
-    parser.add_argument("--config", type=Path, required=True,
-                       help="Path to experiment YAML config")
-    parser.add_argument("--checkpoint", type=Path, required=True,
-                       help="Path to model checkpoint")
-    parser.add_argument("--eval-file", type=Path, required=True,
-                       help="Path to typed_ir_eval.jsonl")
-    parser.add_argument("--output-json", type=Path, default=None,
-                       help="Path to write evaluation results JSON")
+    parser.add_argument(
+        "--config", type=Path, required=True, help="Path to experiment YAML config"
+    )
+    parser.add_argument(
+        "--checkpoint", type=Path, required=True, help="Path to model checkpoint"
+    )
+    parser.add_argument(
+        "--eval-file", type=Path, required=True, help="Path to typed_ir_eval.jsonl"
+    )
+    parser.add_argument(
+        "--output-json",
+        type=Path,
+        default=None,
+        help="Path to write evaluation results JSON",
+    )
     args = parser.parse_args()
 
     config_data = yaml.safe_load(open(args.config))

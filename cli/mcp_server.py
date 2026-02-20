@@ -32,7 +32,6 @@ import os
 import subprocess
 import sys
 import tempfile
-import time
 from pathlib import Path
 
 # Project paths
@@ -88,6 +87,7 @@ mcp = _build_mcp_server()
 
 # ── Helpers ──────────────────────────────────────────────────────────
 
+
 def _run_script(script_name: str, args: list[str], timeout: int = 600) -> dict:
     """Run a script in the scripts/ directory and capture output."""
     cmd = [sys.executable, str(SCRIPTS_DIR / script_name)] + args
@@ -101,12 +101,21 @@ def _run_script(script_name: str, args: list[str], timeout: int = 600) -> dict:
         )
         return {
             "returncode": result.returncode,
-            "stdout": result.stdout[-8000:] if len(result.stdout) > 8000 else result.stdout,
-            "stderr": result.stderr[-4000:] if len(result.stderr) > 4000 else result.stderr,
+            "stdout": result.stdout[-8000:]
+            if len(result.stdout) > 8000
+            else result.stdout,
+            "stderr": result.stderr[-4000:]
+            if len(result.stderr) > 4000
+            else result.stderr,
             "truncated": len(result.stdout) > 8000,
         }
     except subprocess.TimeoutExpired:
-        return {"returncode": -1, "stdout": "", "stderr": f"Timeout after {timeout}s", "truncated": False}
+        return {
+            "returncode": -1,
+            "stdout": "",
+            "stderr": f"Timeout after {timeout}s",
+            "truncated": False,
+        }
     except Exception as e:
         return {"returncode": -1, "stdout": "", "stderr": str(e), "truncated": False}
 
@@ -137,9 +146,12 @@ def _run_health_logger_scenario(
         output_path = f.name
 
     args = [
-        "--scenario", str(REFERENCES_DIR / "scenario_packs" / "health_logger"),
-        "--output", output_path,
-        "--engine", engine,
+        "--scenario",
+        str(REFERENCES_DIR / "scenario_packs" / "health_logger"),
+        "--output",
+        output_path,
+        "--engine",
+        engine,
         "-v",
     ]
     if engine == "local":
@@ -179,6 +191,7 @@ def _normalize_eval_for_gating(eval_results: dict) -> dict:
 
 
 # ── Generation Tools ─────────────────────────────────────────────────
+
 
 @mcp.tool()
 def forge_generate(
@@ -230,7 +243,10 @@ def forge_compile_dsl(dsl_text: str) -> str:
         dsl_text: ShortcutDSL text (must start with SHORTCUT and end with ENDSHORTCUT)
     """
     import tempfile
-    with tempfile.NamedTemporaryFile(mode="w", suffix=".dsl", delete=False, dir=str(PROJECT_ROOT / "output")) as f:
+
+    with tempfile.NamedTemporaryFile(
+        mode="w", suffix=".dsl", delete=False, dir=str(PROJECT_ROOT / "output")
+    ) as f:
         f.write(dsl_text)
         dsl_path = f.name
     try:
@@ -256,6 +272,7 @@ def forge_decompile(shortcut_path: str, validate: bool = True) -> str:
 
 
 # ── Evaluation Tools ─────────────────────────────────────────────────
+
 
 @mcp.tool()
 def forge_eval(
@@ -285,8 +302,15 @@ def forge_eval(
         timeout_per_example: Wall-clock timeout per generation (seconds)
         chat_template: Chat template format - "llama3" or "chatml" (for Qwen models)
     """
-    args = ["--model-path", model_path, "-v", "--timeout", str(timeout_per_example),
-            "--chat-template", chat_template]
+    args = [
+        "--model-path",
+        model_path,
+        "-v",
+        "--timeout",
+        str(timeout_per_example),
+        "--chat-template",
+        chat_template,
+    ]
     if adapter_path:
         args += ["--adapter-path", adapter_path]
     if max_examples:
@@ -342,7 +366,7 @@ def forge_eval_scenario(
         args.append("--all-scenarios")
     elif scenario:
         # Resolve scenario name to path if not already a path
-        if not os.path.sep in scenario:
+        if os.path.sep not in scenario:
             scenario = str(REFERENCES_DIR / "scenario_packs" / scenario)
         args += ["--scenario", scenario]
     if score_reference:
@@ -398,7 +422,9 @@ def forge_promotion_check(
     """
     eval_results = _read_json(TRAINING_DATA_DIR / "eval_results.json")
     if not eval_results:
-        return json.dumps({"error": "No eval_results.json found. Run forge_eval first."})
+        return json.dumps(
+            {"error": "No eval_results.json found. Run forge_eval first."}
+        )
     eval_results = _normalize_eval_for_gating(eval_results)
 
     scenario_result = None
@@ -417,6 +443,7 @@ def forge_promotion_check(
     # Try to load gates from model_profiles.yaml
     try:
         from model_profiles import check_promotion as _check_gates
+
         metrics = {k: v for k, v in eval_results.items() if isinstance(v, (int, float))}
         gate_result = _check_gates(metrics)
     except Exception:
@@ -433,8 +460,9 @@ def forge_promotion_check(
         "total_gates": gate_result["total_gates"],
         "gate_details": gate_result["gates"],
         "current_baseline": baseline.get("metrics", {}) if baseline else None,
-        "recommendation": "Model meets all promotion gates!" if gate_result["passed"]
-            else "Model does NOT meet promotion gates. See failing metrics above.",
+        "recommendation": "Model meets all promotion gates!"
+        if gate_result["passed"]
+        else "Model does NOT meet promotion gates. See failing metrics above.",
     }
     if eval_results.get("health_logger_scenario_score") is None and not run_scenario:
         result["note"] = (
@@ -470,13 +498,15 @@ def _hardcoded_promotion_check(eval_results: dict) -> dict:
         else:
             passed = actual <= gate["threshold"]
         op = ">=" if gate["direction"] == "min" else "<="
-        gate_details.append({
-            "gate": f"{metric} {op} {gate['threshold']}",
-            "metric": metric,
-            "value": actual,
-            "threshold": gate["threshold"],
-            "passed": passed,
-        })
+        gate_details.append(
+            {
+                "gate": f"{metric} {op} {gate['threshold']}",
+                "metric": metric,
+                "value": actual,
+                "threshold": gate["threshold"],
+                "passed": passed,
+            }
+        )
         if not passed:
             all_pass = False
 
@@ -489,6 +519,7 @@ def _hardcoded_promotion_check(eval_results: dict) -> dict:
 
 
 # ── Distillation & Training Tools ────────────────────────────────────
+
 
 @mcp.tool()
 def forge_distill_generate(
@@ -510,13 +541,19 @@ def forge_distill_generate(
         max_examples: Limit to N examples (for testing)
         chat_template: Chat template format - "llama3" or "chatml" (for Qwen models)
     """
-    eval_file = input_file or str(TRAINING_DATA_DIR / "shortcutdsl_train_expanded.jsonl")
+    eval_file = input_file or str(
+        TRAINING_DATA_DIR / "shortcutdsl_train_expanded.jsonl"
+    )
     args = [
-        "--model-path", model_path,
-        "--adapter-path", adapter_path,
-        "--eval-file", eval_file,
+        "--model-path",
+        model_path,
+        "--adapter-path",
+        adapter_path,
+        "--eval-file",
+        eval_file,
         "--log-distillation",
-        "--chat-template", chat_template,
+        "--chat-template",
+        chat_template,
         "-v",
     ]
     if max_examples:
@@ -595,25 +632,40 @@ def forge_train(
         eval_file = Path(data) / "shortcutdsl_eval.jsonl"
         hint = ""
         if expanded.exists():
-            hint = (f"\n\nHint: Found {expanded.name}. Create symlinks:\n"
-                    f"  ln -s {expanded.name} {data}/train.jsonl\n"
-                    f"  ln -s {eval_file.name} {data}/valid.jsonl")
-        return json.dumps({
-            "error": f"train.jsonl not found in {data}. mlx_lm.lora expects train.jsonl and valid.jsonl.{hint}"
-        })
+            hint = (
+                f"\n\nHint: Found {expanded.name}. Create symlinks:\n"
+                f"  ln -s {expanded.name} {data}/train.jsonl\n"
+                f"  ln -s {eval_file.name} {data}/valid.jsonl"
+            )
+        return json.dumps(
+            {
+                "error": f"train.jsonl not found in {data}. mlx_lm.lora expects train.jsonl and valid.jsonl.{hint}"
+            }
+        )
 
     cmd = [
-        sys.executable, "-m", "mlx_lm.lora",
-        "--model", model,
-        "--data", data,
+        sys.executable,
+        "-m",
+        "mlx_lm.lora",
+        "--model",
+        model,
+        "--data",
+        data,
         "--train",
-        "--batch-size", str(batch_size),
-        "--num-layers", str(lora_layers),
-        "--learning-rate", str(learning_rate),
-        "--iters", str(iters),
-        "--steps-per-eval", str(steps_per_eval),
-        "--adapter-path", adapter_path,
-        "--fine-tune-type", method,
+        "--batch-size",
+        str(batch_size),
+        "--num-layers",
+        str(lora_layers),
+        "--learning-rate",
+        str(learning_rate),
+        "--iters",
+        str(iters),
+        "--steps-per-eval",
+        str(steps_per_eval),
+        "--adapter-path",
+        adapter_path,
+        "--fine-tune-type",
+        method,
     ]
 
     try:
@@ -624,17 +676,26 @@ def forge_train(
             timeout=36000,  # 10 hours max
             cwd=str(PROJECT_ROOT),
         )
-        return json.dumps({
-            "returncode": result.returncode,
-            "stdout": result.stdout[-8000:] if len(result.stdout) > 8000 else result.stdout,
-            "stderr": result.stderr[-4000:] if len(result.stderr) > 4000 else result.stderr,
-            "adapter_path": adapter_path,
-            "model": model,
-            "method": method,
-            "next_step": f"Run: forge_eval(model_path='{model}', adapter_path='{adapter_path}')",
-        }, indent=2)
+        return json.dumps(
+            {
+                "returncode": result.returncode,
+                "stdout": result.stdout[-8000:]
+                if len(result.stdout) > 8000
+                else result.stdout,
+                "stderr": result.stderr[-4000:]
+                if len(result.stderr) > 4000
+                else result.stderr,
+                "adapter_path": adapter_path,
+                "model": model,
+                "method": method,
+                "next_step": f"Run: forge_eval(model_path='{model}', adapter_path='{adapter_path}')",
+            },
+            indent=2,
+        )
     except subprocess.TimeoutExpired:
-        return json.dumps({"error": "Training timed out after 10 hours", "adapter_path": adapter_path})
+        return json.dumps(
+            {"error": "Training timed out after 10 hours", "adapter_path": adapter_path}
+        )
     except Exception as e:
         return json.dumps({"error": str(e)})
 
@@ -658,22 +719,34 @@ def forge_fuse_adapter(
         save_path = adapter_path.rstrip("/") + "-fused"
 
     cmd = [
-        sys.executable, "-m", "mlx_lm.fuse",
-        "--model", model,
-        "--adapter-path", adapter_path,
-        "--save-path", save_path,
+        sys.executable,
+        "-m",
+        "mlx_lm.fuse",
+        "--model",
+        model,
+        "--adapter-path",
+        adapter_path,
+        "--save-path",
+        save_path,
     ]
 
     try:
         result = subprocess.run(
-            cmd, capture_output=True, text=True, timeout=600, cwd=str(PROJECT_ROOT),
+            cmd,
+            capture_output=True,
+            text=True,
+            timeout=600,
+            cwd=str(PROJECT_ROOT),
         )
-        return json.dumps({
-            "returncode": result.returncode,
-            "stdout": result.stdout,
-            "stderr": result.stderr,
-            "fused_model_path": save_path,
-        }, indent=2)
+        return json.dumps(
+            {
+                "returncode": result.returncode,
+                "stdout": result.stdout,
+                "stderr": result.stderr,
+                "fused_model_path": save_path,
+            },
+            indent=2,
+        )
     except Exception as e:
         return json.dumps({"error": str(e)})
 
@@ -697,29 +770,42 @@ def forge_quantize(
         save_path = str(MODELS_DIR / "quantized" / f"{Path(model).name}-{bits}bit")
 
     cmd = [
-        sys.executable, "-m", "mlx_lm.convert",
-        "--hf-path", model,
-        "--mlx-path", save_path,
+        sys.executable,
+        "-m",
+        "mlx_lm.convert",
+        "--hf-path",
+        model,
+        "--mlx-path",
+        save_path,
         "-q",
-        "--q-bits", str(bits),
+        "--q-bits",
+        str(bits),
     ]
 
     try:
         result = subprocess.run(
-            cmd, capture_output=True, text=True, timeout=600, cwd=str(PROJECT_ROOT),
+            cmd,
+            capture_output=True,
+            text=True,
+            timeout=600,
+            cwd=str(PROJECT_ROOT),
         )
-        return json.dumps({
-            "returncode": result.returncode,
-            "stdout": result.stdout[-4000:],
-            "stderr": result.stderr[-2000:],
-            "quantized_model_path": save_path,
-            "bits": bits,
-        }, indent=2)
+        return json.dumps(
+            {
+                "returncode": result.returncode,
+                "stdout": result.stdout[-4000:],
+                "stderr": result.stderr[-2000:],
+                "quantized_model_path": save_path,
+                "bits": bits,
+            },
+            indent=2,
+        )
     except Exception as e:
         return json.dumps({"error": str(e)})
 
 
 # ── Pipeline Inspection Tools ────────────────────────────────────────
+
 
 @mcp.tool()
 def forge_lint(dsl_text: str) -> str:
@@ -731,16 +817,25 @@ def forge_lint(dsl_text: str) -> str:
         dsl_text: Raw DSL text to lint
     """
     from dsl_linter import lint_dsl
+
     result = lint_dsl(dsl_text)
-    return json.dumps({
-        "canonicalized_text": result.text,
-        "num_changes": len(result.changes),
-        "changes": [
-            {"kind": c.kind, "original": c.original, "replacement": c.replacement,
-             "confidence": c.confidence, "reason": c.reason}
-            for c in result.changes
-        ],
-    }, indent=2)
+    return json.dumps(
+        {
+            "canonicalized_text": result.text,
+            "num_changes": len(result.changes),
+            "changes": [
+                {
+                    "kind": c.kind,
+                    "original": c.original,
+                    "replacement": c.replacement,
+                    "confidence": c.confidence,
+                    "reason": c.reason,
+                }
+                for c in result.changes
+            ],
+        },
+        indent=2,
+    )
 
 
 @mcp.tool()
@@ -751,29 +846,36 @@ def forge_validate(dsl_text: str, strict: bool = True) -> str:
         dsl_text: DSL text (should be linted first)
         strict: Use strict validation mode
     """
+    # Lint first
+    from dsl_linter import lint_dsl
     from dsl_parser import parse_dsl
     from dsl_validator import validate_ir
 
-    # Lint first
-    from dsl_linter import lint_dsl
     lint_result = lint_dsl(dsl_text)
     linted = lint_result.text
 
     try:
         ir = parse_dsl(linted)
     except Exception as e:
-        return json.dumps({"parsed": False, "error": str(e), "lint_changes": len(lint_result.changes)})
+        return json.dumps(
+            {"parsed": False, "error": str(e), "lint_changes": len(lint_result.changes)}
+        )
 
     try:
         validation = validate_ir(ir, strict=strict)
-        return json.dumps({
-            "parsed": True,
-            "validated": len(validation.errors) == 0,
-            "errors": [str(e) for e in validation.errors],
-            "warnings": [str(w) for w in validation.warnings],
-            "lint_changes": len(lint_result.changes),
-            "action_count": len([s for s in ir.statements if hasattr(s, "action_name")]),
-        }, indent=2)
+        return json.dumps(
+            {
+                "parsed": True,
+                "validated": len(validation.errors) == 0,
+                "errors": [str(e) for e in validation.errors],
+                "warnings": [str(w) for w in validation.warnings],
+                "lint_changes": len(lint_result.changes),
+                "action_count": len(
+                    [s for s in ir.statements if hasattr(s, "action_name")]
+                ),
+            },
+            indent=2,
+        )
     except Exception as e:
         return json.dumps({"parsed": True, "validated": False, "error": str(e)})
 
@@ -788,8 +890,8 @@ def forge_analyze(dsl_text: str) -> str:
     Args:
         dsl_text: DSL text to analyze
     """
-    from dsl_parser import parse_dsl
     from dsl_linter import lint_dsl
+    from dsl_parser import parse_dsl
     from simulation_harness import SimulationHarness
 
     lint_result = lint_dsl(dsl_text)
@@ -801,18 +903,26 @@ def forge_analyze(dsl_text: str) -> str:
     harness = SimulationHarness()
     report = harness.analyze(ir)
 
-    return json.dumps({
-        "findings_count": len(report.findings),
-        "findings": [
-            {"category": f.category.value, "severity": f.severity.value,
-             "message": f.message, "location": f.location}
-            for f in report.findings
-        ],
-        "summary": report.summary(),
-    }, indent=2)
+    return json.dumps(
+        {
+            "findings_count": len(report.findings),
+            "findings": [
+                {
+                    "category": f.category.value,
+                    "severity": f.severity.value,
+                    "message": f.message,
+                    "location": f.location,
+                }
+                for f in report.findings
+            ],
+            "summary": report.summary(),
+        },
+        indent=2,
+    )
 
 
 # ── Status & Inventory Tools ────────────────────────────────────────
+
 
 @mcp.tool()
 def forge_status() -> str:
@@ -826,21 +936,30 @@ def forge_status() -> str:
     if MODELS_DIR.exists():
         for d in sorted(MODELS_DIR.iterdir()):
             if d.is_dir() and (d / "adapter_config.json").exists():
-                size_mb = sum(f.stat().st_size for f in d.rglob("*") if f.is_file()) / 1e6
+                size_mb = (
+                    sum(f.stat().st_size for f in d.rglob("*") if f.is_file()) / 1e6
+                )
                 adapters.append({"name": d.name, "size_mb": round(size_mb, 1)})
         # Check local-runs subdirectory
         local_runs = MODELS_DIR / "local-runs"
         if local_runs.exists():
             for d in sorted(local_runs.iterdir()):
                 if d.is_dir() and (d / "adapter_config.json").exists():
-                    size_mb = sum(f.stat().st_size for f in d.rglob("*") if f.is_file()) / 1e6
-                    adapters.append({"name": f"local-runs/{d.name}", "size_mb": round(size_mb, 1)})
+                    size_mb = (
+                        sum(f.stat().st_size for f in d.rglob("*") if f.is_file()) / 1e6
+                    )
+                    adapters.append(
+                        {"name": f"local-runs/{d.name}", "size_mb": round(size_mb, 1)}
+                    )
 
     # Training data stats
     data_files = {}
     for f in TRAINING_DATA_DIR.glob("*.jsonl"):
         count = sum(1 for _ in open(f))
-        data_files[f.name] = {"lines": count, "size_mb": round(f.stat().st_size / 1e6, 1)}
+        data_files[f.name] = {
+            "lines": count,
+            "size_mb": round(f.stat().st_size / 1e6, 1),
+        }
 
     # Latest eval results
     eval_results = _read_json(TRAINING_DATA_DIR / "eval_results.json")
@@ -857,15 +976,18 @@ def forge_status() -> str:
     if packs_dir.exists():
         packs = [d.name for d in sorted(packs_dir.iterdir()) if d.is_dir()]
 
-    return json.dumps({
-        "project_root": str(PROJECT_ROOT),
-        "adapters": adapters,
-        "training_data": data_files,
-        "latest_eval": eval_summary,
-        "baseline": baseline.get("metrics", {}) if baseline else None,
-        "scenario_packs": packs,
-        "action_catalog_size": _count_actions(),
-    }, indent=2)
+    return json.dumps(
+        {
+            "project_root": str(PROJECT_ROOT),
+            "adapters": adapters,
+            "training_data": data_files,
+            "latest_eval": eval_summary,
+            "baseline": baseline.get("metrics", {}) if baseline else None,
+            "scenario_packs": packs,
+            "action_catalog_size": _count_actions(),
+        },
+        indent=2,
+    )
 
 
 def _count_actions() -> int:
@@ -914,17 +1036,23 @@ def forge_test(suite: str | None = None) -> str:
                 total_pass += 1
             else:
                 total_fail += 1
-                results[tf.stem]["stderr_tail"] = r["stderr"][-500:] if r["stderr"] else ""
+                results[tf.stem]["stderr_tail"] = (
+                    r["stderr"][-500:] if r["stderr"] else ""
+                )
 
-        return json.dumps({
-            "total_suites": len(test_files),
-            "passed": total_pass,
-            "failed": total_fail,
-            "suites": results,
-        }, indent=2)
+        return json.dumps(
+            {
+                "total_suites": len(test_files),
+                "passed": total_pass,
+                "failed": total_fail,
+                "suites": results,
+            },
+            indent=2,
+        )
 
 
 # ── Training Data Tools ──────────────────────────────────────────────
+
 
 @mcp.tool()
 def forge_build_training_data(verbose: bool = True) -> str:
@@ -965,15 +1093,19 @@ def forge_extract_snippets(
         top_k: Number of top patterns to keep
     """
     args = [
-        "--input", str(TRAINING_DATA_DIR / "shortcutdsl_train.jsonl"),
-        "--output", str(REFERENCES_DIR / "snippet_registry.json"),
-        "--top-k", str(top_k),
+        "--input",
+        str(TRAINING_DATA_DIR / "shortcutdsl_train.jsonl"),
+        "--output",
+        str(REFERENCES_DIR / "snippet_registry.json"),
+        "--top-k",
+        str(top_k),
     ]
     result = _run_script("snippet_extractor.py", args, timeout=120)
     return json.dumps(result, indent=2)
 
 
 # ── Sashimi Mode: Distillation & Training Pipeline ─────────────────
+
 
 @mcp.tool()
 def forge_distill_build(
@@ -1000,10 +1132,14 @@ def forge_distill_build(
         no_shaping: Skip lint-based weighting in merge
     """
     args = [
-        "--model-path", model_path,
-        "--adapter-path", adapter_path,
-        "--batch-size", str(batch_size),
-        "--chat-template", chat_template,
+        "--model-path",
+        model_path,
+        "--adapter-path",
+        adapter_path,
+        "--batch-size",
+        str(batch_size),
+        "--chat-template",
+        chat_template,
         "-v",
     ]
     if curate_only:
@@ -1059,13 +1195,17 @@ def forge_profile_list() -> str:
     and promotion gates.
     """
     try:
-        from model_profiles import list_profiles, get_promotion_gates
+        from model_profiles import get_promotion_gates, list_profiles
+
         profiles = list_profiles()
         gates = get_promotion_gates()
-        return json.dumps({
-            "profiles": profiles,
-            "promotion_gates": [str(g) for g in gates],
-        }, indent=2)
+        return json.dumps(
+            {
+                "profiles": profiles,
+                "promotion_gates": [str(g) for g in gates],
+            },
+            indent=2,
+        )
     except Exception as e:
         return json.dumps({"error": str(e)})
 
@@ -1114,7 +1254,9 @@ def forge_prepare_training_data() -> str:
     merged = TRAINING_DATA_DIR / "merged_train.jsonl"
     if merged.exists():
         count = sum(1 for _ in open(merged))
-        results["merged_train.jsonl"] = f"{count} examples (available for --merged training)"
+        results["merged_train.jsonl"] = (
+            f"{count} examples (available for --merged training)"
+        )
 
     return json.dumps(results, indent=2)
 
@@ -1127,12 +1269,16 @@ def forge_compare_runs() -> str:
     """
     try:
         from train_local_mlx import compare_runs
+
         runs = compare_runs()
-        return json.dumps({
-            "total_runs": len(runs),
-            "runs": runs,
-            "best_run": runs[0] if runs else None,
-        }, indent=2)
+        return json.dumps(
+            {
+                "total_runs": len(runs),
+                "runs": runs,
+                "best_run": runs[0] if runs else None,
+            },
+            indent=2,
+        )
     except Exception as e:
         return json.dumps({"error": str(e)})
 
@@ -1162,8 +1308,11 @@ def forge_promotion_report(
     # Step 1: Run eval if requested
     if run_eval:
         eval_args = [
-            "--model-path", model_path, "-v",
-            "--chat-template", chat_template,
+            "--model-path",
+            model_path,
+            "-v",
+            "--chat-template",
+            chat_template,
             "--log-distillation",
         ]
         if adapter_path:
@@ -1193,7 +1342,10 @@ def forge_promotion_report(
             eval_results["health_logger_scenario_score"] = round(scenario_score, 3)
         try:
             from model_profiles import check_promotion as _check_gates
-            metrics = {k: v for k, v in eval_results.items() if isinstance(v, (int, float))}
+
+            metrics = {
+                k: v for k, v in eval_results.items() if isinstance(v, (int, float))
+            }
             gate_result = _check_gates(metrics)
         except Exception:
             gate_result = _hardcoded_promotion_check(eval_results)
@@ -1204,9 +1356,13 @@ def forge_promotion_report(
             "validate_strict_rate": eval_results.get("validate_strict_rate"),
             "compile_strict_rate": eval_results.get("compile_strict_rate"),
             "compile_permissive_rate": eval_results.get("compile_permissive_rate"),
-            "runtime_unverified_compile_rate": eval_results.get("runtime_unverified_compile_rate"),
+            "runtime_unverified_compile_rate": eval_results.get(
+                "runtime_unverified_compile_rate"
+            ),
             "fallback_rate": eval_results.get("fallback_rate"),
-            "health_logger_scenario_score": eval_results.get("health_logger_scenario_score"),
+            "health_logger_scenario_score": eval_results.get(
+                "health_logger_scenario_score"
+            ),
         }
         if eval_results.get("health_logger_scenario_score") is None:
             report["note"] = (
@@ -1260,6 +1416,7 @@ def forge_mine_errors(
 
 # ── MCP Resources & Prompts ──────────────────────────────────────────
 
+
 @mcp.resource(
     "shortcutforge://status",
     name="ShortcutForge Status",
@@ -1281,6 +1438,7 @@ def resource_promotion_gates() -> str:
     """Resource: promotion gate policy."""
     try:
         from model_profiles import get_promotion_gates
+
         gates = [str(g) for g in get_promotion_gates()]
     except Exception as e:
         return json.dumps({"error": str(e)}, indent=2)

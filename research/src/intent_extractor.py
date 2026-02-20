@@ -57,11 +57,13 @@ class IntentExtractor(nn.Module):
             features = self.forward(embeddings)
             frames = []
             for i in range(features.shape[0]):
-                frames.append(SemanticFrame(
-                    domain="shortcuts",
-                    primary_intent="unknown",
-                    entities=[],
-                    constraints=[],
-                    estimated_complexity="simple",
-                ))
+                frames.append(
+                    SemanticFrame(
+                        domain="shortcuts",
+                        primary_intent="unknown",
+                        entities=[],
+                        constraints=[],
+                        estimated_complexity="simple",
+                    )
+                )
             return frames

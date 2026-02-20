@@ -3,7 +3,7 @@
 **Principal Investigator:** Rohan Vinaik
 **Research Partner:** Claude (Opus 4.6), Anthropic
 **Date:** February 16, 2026
-**Status:** Pre-experimental design specification
+**Status:** Pre-experimental design specification (v1.1 — PAB integration)
 **Project:** ShortcutForge — Natural Language → Apple Shortcuts Compiler
 
 ---
@@ -391,7 +391,60 @@ We adopt the **Soft Optimal Uncertainty Weighting (UW-SO)** framework, which ext
 - **Overfitting to easy tasks**: Temperature scheduling ensures harder tasks (L_margin, L_repair) retain adequate gradient signal as training progresses.
 - **Implicit curriculum**: The adaptive weights naturally discover that L_ce converges first (learn what's right), L_margin converges next (sharpen boundaries), and L_repair converges last (handle edge cases) — a data-driven curriculum that emerges from training dynamics rather than being hand-specified.
 
-### 4.4 Ternary Training Protocol
+### 4.4 Process-Aware Training: Trajectory Analysis for Distillation Quality
+
+Traditional model evaluation judges training runs by final metrics alone (compile rate, accuracy). We integrate **Process-Aware Benchmarking (PAB)** — a framework for analyzing *how* models learn, not just *what* they learn — into both the training loop and the distillation pipeline. PAB was designed by Parama Pal (Pal, 2025) and formalizes learning trajectory analysis within a PAC learning theory extension.
+
+#### 4.4.1 Trajectory Metrics During Training
+
+Every training run records a **PAB profile**: a time series of trajectory-specific metrics computed at regular checkpoints (every 50 iterations). These metrics operate on values the training loop already computes (loss, accuracy, representations) — the overhead is negligible.
+
+**Learning stability** quantifies smoothness of training dynamics:
+```
+S(t) = |L(t-1) - L(t)| / (L(t-1) + ε)
+```
+Low stability scores indicate structured, convergent learning; high scores indicate chaotic dynamics. This is especially critical for STE training, where the gradient mismatch between the quantized forward pass and continuous backward pass can introduce training instability that NaN checks alone won't detect.
+
+**Learning curve predictability** measures how structured the loss trajectory is:
+```
+P = Var(ΔL_t) where ΔL_t = L(t) - L(t-1)
+```
+Low predictability scores indicate the loss decreases in a regular pattern; high scores indicate erratic jumps. A training run with high accuracy but high predictability variance may be unreliable — it reached the target by luck rather than structured learning.
+
+**Representation evolution** tracks how the information bottleneck embedding changes over training:
+```
+R(t) = 1 - cos_sim(normalize(z̄(t-1)), normalize(z̄(t)))
+```
+where z̄(t) is the mean bottleneck embedding at checkpoint t. Declining R(t) indicates the bottleneck representation is stabilizing; persistent high R(t) suggests the model hasn't found a stable internal representation.
+
+**Tier-wise progression** — analogous to PABKit's class-wise progression — tracks when each output tier reaches proficiency:
+- *Early-learning tiers*: Accuracy exceeds threshold (e.g., 80%) in the first third of training.
+- *Late-learning tiers*: Accuracy exceeds threshold only in the final third.
+- *Unstable tiers*: Accuracy oscillates rather than converging monotonically.
+
+If Tier 1 (structural tokens) learns early and stably while Tier 3 (free values) is late/unstable, that's direct evidence for the thesis that ternary weights are architecturally suited to structural decisions.
+
+**Ternary crystallization** tracks the percentage of decoder weights that have settled into their final ternary value ({-1, 0, +1}) and stopped changing across checkpoints. Rising crystallization indicates the weight space is converging; stalled crystallization suggests the model is stuck between discrete states.
+
+#### 4.4.2 PAB-Informed Distillation
+
+The distillation pipeline (Section 5) currently uses binary quality gates: a distillation example either compiles or it doesn't. PAB trajectory analysis enables a richer, second-pass quality filter:
+
+1. **Probe training pass**: Run a short training pass (200–300 iterations) on candidate distillation data, collecting per-example loss trajectories.
+
+2. **Example difficulty profiling**: Classify each training example by its loss trajectory:
+   - *Easy* (loss drops fast, stays low): Model already handles these. Over-representing them wastes training budget.
+   - *Hard-but-learnable* (loss drops slowly, steadily): High-value examples that push the model forward.
+   - *Unlearnable* (loss stays high or oscillates): Likely noisy or conflicting with other examples, even if they individually pass compile gates.
+   - *Destabilizing* (loss spikes when this example appears in a batch): Actively harmful; may conflict with other training signal.
+
+3. **Trajectory-informed curation**: Re-balance the distillation dataset based on difficulty profiles. Down-weight easy examples, prioritize hard-but-learnable ones, flag unlearnable examples for manual review, remove destabilizing examples.
+
+4. **Iterative refinement**: After training on curated data, compare the PAB trajectory of the new run against the probe run. If specific domains or action types remain unstable, generate targeted distillation data for those failure modes and repeat.
+
+This creates a closed feedback loop: training trajectory → data curation → training trajectory → data curation, converging on a distillation dataset that produces maximally stable, structured learning.
+
+### 4.5 Ternary Training Protocol
 
 Following BitNet b1.58's established protocol:
 
@@ -495,12 +548,76 @@ Each experiment cycle evaluates variants along these dimensions:
 
 Full factorial is 3 × 3 × 2 × 5 × 2 × 2 = 360 combinations. We use a **fractional factorial design** (resolution IV) to cover the design space in ~40–60 runs, with full factorial sweeps only for the dimensions showing strongest interactions.
 
-### 6.4 Regression and Promotion Gates
+### 6.4 Process-Aware Benchmarking (PAB) Metrics
+
+In addition to endpoint metrics, every training run produces a **PAB profile** — a structured time series capturing the learning trajectory. These metrics are not merely diagnostic; they are formal evaluation criteria that complement endpoint metrics by measuring *how* a model reached its final performance.
+
+#### PAB Profile Schema
+
+Each profile is saved as `research/models/<run_name>/pab_profile.json` alongside the model checkpoint:
+
+```python
+@dataclass
+class PABProfile:
+    """Process-Aware Benchmark profile for a training run."""
+    # Experiment identification
+    experiment_id: str              # e.g., "EXP-2.3"
+    config_hash: str                # SHA of training config for reproducibility
+
+    # Core PAB metrics (time series, one value per checkpoint)
+    stability: list[float]          # S(t) = |ΔL| / (L_prev + ε)
+    predictability: list[float]     # Var(ΔL) over recent window
+    generalization_gap: list[float] # val_loss - train_loss
+    representation_evolution: list[float]  # 1 - cos_sim of bottleneck means
+
+    # Balanced Sashimi-specific extensions
+    tier1_accuracy: list[float]     # Structural token accuracy over time
+    tier2_accuracy: list[float]     # Parameter token accuracy over time
+    tier3_accuracy: list[float]     # Value fill accuracy over time
+    ternary_crystallization: list[float]  # % of weights settled at {-1,0,+1}
+
+    # Per-domain progression (analogous to PABKit's class-wise progression)
+    domain_progression: dict[str, list[float]]  # {domain: [accuracy_per_checkpoint]}
+    domain_classification: dict[str, str]  # {domain: "early"|"late"|"unstable"}
+
+    # Per-action difficulty (top-N tracked actions)
+    action_progression: dict[str, list[float]]  # {action_name: [accuracy_per_checkpoint]}
+
+    # Loss component trajectories
+    loss_ce: list[float]
+    loss_margin: list[float]
+    loss_repair: list[float]
+    loss_adaptive_weights: list[dict[str, float]]  # [{ce: w, margin: w, repair: w}]
+
+    # Derived summary statistics
+    stability_mean: float
+    stability_std: float
+    predictability_final: float
+    early_stop_epoch: int | None    # Epoch where val loss first increases
+    convergence_epoch: int | None   # Epoch where stability < threshold for 5 consecutive checks
+    stability_regime: str           # "stable" | "chaotic" | "phase_transition"
+    tier1_convergence_step: int | None  # Step where tier1_accuracy > 0.8
+    tier2_convergence_step: int | None
+    crystallization_rate: float     # Slope of ternary_crystallization curve
+```
+
+#### PAB Comparison Protocol
+
+When comparing configurations (ablation matrix, track comparison), PAB profiles are overlaid to answer:
+
+1. **Which configuration learns fastest?** Compare tier1_convergence_step and tier2_convergence_step.
+2. **Which configuration learns most stably?** Compare stability_mean and predictability_final.
+3. **Which configuration produces the most structured representations?** Compare representation_evolution trajectories — faster stabilization indicates more structured internal representations.
+4. **Do ternary weights crystallize differently under different training regimes?** Compare ternary_crystallization curves across weight regime ablations.
+5. **Which domains are fragile?** Domains classified as "unstable" across multiple configurations indicate inherent difficulty, not configuration-specific issues.
+
+### 6.5 Regression and Promotion Gates
 
 Extended from the existing ShortcutForge regression gate (`training/check_regression.py`):
 
 ```yaml
 balanced_sashimi_gates:
+  # Endpoint gates (existing)
   compile_strict_rate: {min: 95.0}
   compile_permissive_rate: {min: 97.0}
   runtime_unverified_compile_rate: {max: 2.0}
@@ -508,9 +625,18 @@ balanced_sashimi_gates:
   hard_negative_separability: {min: 2.0}  # log-likelihood gap, nats
   inference_latency_p95_ms: {max: 2000}
   model_total_params_M: {max: 500}
+
+  # Trajectory gates (PAB — new)
+  pab_stability_mean: {max: 0.15}         # Training was stable, not chaotic
+  pab_predictability_final: {max: 0.05}   # Loss trajectory was structured
+  pab_tier1_converged_by: {max: 500}      # Structure learned in first half of training
+  pab_no_domain_regression: {value: true} # No domain accuracy regressed in final 20%
+  pab_crystallization_rate: {min: 0.001}  # Ternary weights are converging, not stuck
 ```
 
-### 6.5 Mandatory Test Scenarios
+The trajectory gates prevent promoting a model that hits endpoint targets through chaotic, unreliable training. A model that achieves 95% compile rate via a stable, predictable trajectory is more trustworthy (and more likely to generalize) than one that oscillated wildly and happened to end at the same number.
+
+### 6.6 Mandatory Test Scenarios
 
 1. **Short prompts** (2–8 words): "Toggle DND," "Set a timer for 5 minutes," "Log 200mg caffeine."
 2. **Long/ambiguous prompts**: "Every morning check the weather and if it's raining send me a notification, otherwise open my running playlist."
@@ -709,9 +835,13 @@ This interpretability is not an afterthought — it's a design goal that flows d
 - Analytical Uncertainty-Based Loss Weighting in Multi-Task Learning. arXiv:2408.07985 (2024).
 - Investigating Uncertainty Weighting for Multi-Task Learning. IJCV 2025.
 
+### Process-Aware Benchmarking
+- Pal, P. (2025). PABKit: Process-Aware Benchmarking Toolkit. GitHub: parama/pabkit. MIT License.
+  *Introduces trajectory-aware evaluation metrics (learning stability, generalization efficiency, rule evolution, class-wise progression) grounded in PAC learning theory extensions. We adapt PABKit's class-wise progression to tier-wise and domain-wise progression, and extend the stability metrics to address STE-specific training dynamics.*
+
 ### Sentence Encoders
 - Wang, W., et al. (2020). MiniLM: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers.
 
 ---
 
-*Document version: 1.0. Pre-experimental specification. To be updated as experimental results accumulate.*
+*Document version: 1.1. Updated 2026-02-20: Added Process-Aware Benchmarking (PAB) integration (Sections 4.4, 6.4–6.5). Pre-experimental specification. To be updated as experimental results accumulate.*

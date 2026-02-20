@@ -85,8 +85,11 @@ def resolve_data_dir(gold_only: bool = True) -> str:
     if not gold_only:
         merged_path = _TRAINING_DIR / "merged_train.jsonl"
         if not merged_path.exists():
-            print(f"  WARNING: merged_train.jsonl not found. Run build_distill_data.py first.", flush=True)
-            print(f"  Falling back to gold-only data.", flush=True)
+            print(
+                "  WARNING: merged_train.jsonl not found. Run build_distill_data.py first.",
+                flush=True,
+            )
+            print("  Falling back to gold-only data.", flush=True)
             return data_dir
 
         # For merged mode, create a temp symlink pointing train.jsonl → merged_train.jsonl
@@ -94,7 +97,9 @@ def resolve_data_dir(gold_only: bool = True) -> str:
         if train_link.exists() or train_link.is_symlink():
             os.remove(train_link)
         os.symlink("merged_train.jsonl", str(train_link))
-        print(f"  Linked train.jsonl → merged_train.jsonl for merged training", flush=True)
+        print(
+            "  Linked train.jsonl → merged_train.jsonl for merged training", flush=True
+        )
 
     return data_dir
 
@@ -131,7 +136,9 @@ def train(
         Training result dict with config, output path, timing.
     """
     if preset_name not in PRESETS:
-        raise ValueError(f"Unknown preset '{preset_name}'. Available: {list(PRESETS.keys())}")
+        raise ValueError(
+            f"Unknown preset '{preset_name}'. Available: {list(PRESETS.keys())}"
+        )
 
     preset = PRESETS[preset_name]
     output_dir = _MODELS_DIR / run_id
@@ -144,16 +151,26 @@ def train(
     # Note: mlx_lm >= 0.30 uses --num-layers (not --lora-layers)
     # and --fine-tune-type lora|dora|full (not --use-dora)
     cmd = [
-        sys.executable, "-m", "mlx_lm.lora",
-        "--model", preset["model"],
-        "--data", data_dir,
+        sys.executable,
+        "-m",
+        "mlx_lm.lora",
+        "--model",
+        preset["model"],
+        "--data",
+        data_dir,
         "--train",
-        "--batch-size", str(preset["batch_size"]),
-        "--num-layers", str(preset["lora_layers"]),
-        "--iters", str(iters),
-        "--learning-rate", str(preset["learning_rate"]),
-        "--adapter-path", str(output_dir),
-        "--fine-tune-type", method,
+        "--batch-size",
+        str(preset["batch_size"]),
+        "--num-layers",
+        str(preset["lora_layers"]),
+        "--iters",
+        str(iters),
+        "--learning-rate",
+        str(preset["learning_rate"]),
+        "--adapter-path",
+        str(output_dir),
+        "--fine-tune-type",
+        method,
     ]
 
     # Log training config
@@ -212,7 +229,10 @@ def train(
         print(f"\n  Training complete in {elapsed:.0f}s", flush=True)
         print(f"  Adapter saved to: {output_dir}", flush=True)
     else:
-        print(f"\n  Training FAILED (exit {result.returncode}) after {elapsed:.0f}s", flush=True)
+        print(
+            f"\n  Training FAILED (exit {result.returncode}) after {elapsed:.0f}s",
+            flush=True,
+        )
 
     # Restore gold symlink if we changed it
     if not gold_only:
@@ -238,17 +258,22 @@ def run_eval_after(
     eval_file = str(_TRAINING_DIR / "shortcutdsl_eval.jsonl")
 
     cmd = [
-        sys.executable, str(_SCRIPT_DIR / "evaluate_model.py"),
-        "--model-path", preset["model"],
-        "--adapter-path", adapter_path,
-        "--eval-file", eval_file,
-        "--chat-template", chat_template,
+        sys.executable,
+        str(_SCRIPT_DIR / "evaluate_model.py"),
+        "--model-path",
+        preset["model"],
+        "--adapter-path",
+        adapter_path,
+        "--eval-file",
+        eval_file,
+        "--chat-template",
+        chat_template,
         "--log-distillation",
     ]
     if verbose:
         cmd.append("--verbose")
 
-    print(f"\n  Running evaluation on frozen eval set...", flush=True)
+    print("\n  Running evaluation on frozen eval set...", flush=True)
     print(f"  Template: {chat_template}", flush=True)
 
     result = subprocess.run(
@@ -322,7 +347,9 @@ def compare_runs() -> list[dict]:
             summary["parse_rate"] = eval_data.get("parse_rate", 0)
             summary["validate_strict_rate"] = eval_data.get("validate_strict_rate", 0)
             summary["compile_strict_rate"] = eval_data.get("compile_strict_rate", 0)
-            summary["compile_permissive_rate"] = eval_data.get("compile_permissive_rate", 0)
+            summary["compile_permissive_rate"] = eval_data.get(
+                "compile_permissive_rate", 0
+            )
 
         runs.append(summary)
 
@@ -380,7 +407,8 @@ def main():
         help="Compare metrics across all training runs and exit",
     )
     parser.add_argument(
-        "-v", "--verbose",
+        "-v",
+        "--verbose",
         action="store_true",
         help="Verbose output",
     )
@@ -393,9 +421,9 @@ def main():
             print("  No training runs found.", flush=True)
             return
 
-        print(f"\n  {'='*70}", flush=True)
+        print(f"\n  {'=' * 70}", flush=True)
         print(f"  TRAINING RUN COMPARISON ({len(runs)} runs)", flush=True)
-        print(f"  {'='*70}", flush=True)
+        print(f"  {'=' * 70}", flush=True)
 
         for r in runs:
             compile_str = f"{r.get('compile_strict_rate', '?')}%"

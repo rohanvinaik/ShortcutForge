@@ -81,7 +81,7 @@ async def _expand_batch_cli(
 ) -> list[list[str]]:
     """Generate variants for a batch of descriptions via claude CLI."""
     # Build numbered descriptions
-    numbered = "\n".join(f"{i+1}. {desc}" for i, desc in enumerate(descriptions))
+    numbered = "\n".join(f"{i + 1}. {desc}" for i, desc in enumerate(descriptions))
     prompt = BATCH_PROMPT_TEMPLATE.format(descriptions=numbered)
 
     async with semaphore:
@@ -89,7 +89,11 @@ async def _expand_batch_cli(
         env.pop("CLAUDECODE", None)
 
         proc = await asyncio.create_subprocess_exec(
-            "claude", "-p", prompt, "--model", model,
+            "claude",
+            "-p",
+            prompt,
+            "--model",
+            model,
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE,
             env=env,
@@ -161,11 +165,16 @@ async def run_expansion(
 
     # Find uncached pairs
     uncached_pairs = [p for p in train_pairs if p["shortcut_id"] not in cached_variants]
-    print(f"  Need to expand: {len(uncached_pairs)} (skipping {len(cached_variants)} cached)")
+    print(
+        f"  Need to expand: {len(uncached_pairs)} (skipping {len(cached_variants)} cached)"
+    )
 
     # Expand in batches
     n_batches = (len(uncached_pairs) + batch_size - 1) // batch_size
-    print(f"  [2/3] Expanding ({n_batches} batches of ~{batch_size}, {concurrency} concurrent)...", flush=True)
+    print(
+        f"  [2/3] Expanding ({n_batches} batches of ~{batch_size}, {concurrency} concurrent)...",
+        flush=True,
+    )
 
     semaphore = asyncio.Semaphore(concurrency)
     t0 = time.monotonic()
@@ -222,14 +231,16 @@ async def run_expansion(
         sid = pair["shortcut_id"]
         variants = cached_variants.get(sid, [])
         for variant in variants:
-            new_examples.append({
-                "shortcut_id": sid,
-                "messages": [
-                    pair["messages"][0],
-                    {"role": "user", "content": variant},
-                    pair["messages"][2],
-                ],
-            })
+            new_examples.append(
+                {
+                    "shortcut_id": sid,
+                    "messages": [
+                        pair["messages"][0],
+                        {"role": "user", "content": variant},
+                        pair["messages"][2],
+                    ],
+                }
+            )
 
     stats["variants_generated"] = len(new_examples)
 
@@ -238,13 +249,13 @@ async def run_expansion(
     stats["total_expanded"] = len(all_train)
 
     # Write expanded training file
-    print(f"  [3/3] Writing expanded JSONL...", end=" ", flush=True)
+    print("  [3/3] Writing expanded JSONL...", end=" ", flush=True)
     expanded_path = os.path.join(input_dir, "shortcutdsl_train_expanded.jsonl")
     with open(expanded_path, "w") as f:
         for example in all_train:
             f.write(json.dumps(example) + "\n")
 
-    print(f"done")
+    print("done")
     print(f"\n  Output: {expanded_path} ({len(all_train)} examples)")
     print(f"  Eval:   {eval_path} ({eval_count} examples, unchanged)")
 
@@ -281,7 +292,8 @@ def main():
         help="Claude model to use (default: haiku)",
     )
     parser.add_argument(
-        "-v", "--verbose",
+        "-v",
+        "--verbose",
         action="store_true",
         help="Show progress",
     )
@@ -289,19 +301,27 @@ def main():
     args = parser.parse_args()
 
     project_root = Path(__file__).resolve().parent.parent
-    input_dir = args.input_dir if os.path.isabs(args.input_dir) else str(project_root / args.input_dir)
+    input_dir = (
+        args.input_dir
+        if os.path.isabs(args.input_dir)
+        else str(project_root / args.input_dir)
+    )
 
-    print(f"\nShortcutForge: Expanding training prompts (Claude CLI batched, {args.model})...\n")
+    print(
+        f"\nShortcutForge: Expanding training prompts (Claude CLI batched, {args.model})...\n"
+    )
 
-    stats = asyncio.run(run_expansion(
-        input_dir=input_dir,
-        batch_size=args.batch_size,
-        concurrency=args.concurrency,
-        model=args.model,
-        verbose=args.verbose,
-    ))
+    stats = asyncio.run(
+        run_expansion(
+            input_dir=input_dir,
+            batch_size=args.batch_size,
+            concurrency=args.concurrency,
+            model=args.model,
+            verbose=args.verbose,
+        )
+    )
 
-    print(f"\n  --- Statistics ---")
+    print("\n  --- Statistics ---")
     print(f"  Engine:              {stats['engine']}")
     print(f"  Train originals:     {stats['train_originals']}")
     print(f"  Variants generated:  {stats['variants_generated']}")

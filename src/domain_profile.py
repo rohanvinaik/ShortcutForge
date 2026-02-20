@@ -30,9 +30,11 @@ _PROFILES_DIR = _REFS_DIR / "domain_profiles"
 
 # ── Data Classes ───────────────────────────────────────────────────────
 
+
 @dataclass
 class DomainProfile:
     """A loaded domain profile."""
+
     profile_id: str
     keywords: list[str] = field(default_factory=list)
     prompt_context: str = ""
@@ -70,6 +72,7 @@ class DomainProfile:
 
 # ── Profile Manager ───────────────────────────────────────────────────
 
+
 class DomainProfileManager:
     """Manages domain profiles for context-aware generation.
 
@@ -106,7 +109,7 @@ class DomainProfileManager:
                     relevant_actions=data.get("relevant_actions", []),
                     data=data,
                 )
-            except (json.JSONDecodeError, KeyError) as e:
+            except (json.JSONDecodeError, KeyError):
                 # Skip malformed profile files
                 pass
 
@@ -140,7 +143,7 @@ class DomainProfileManager:
             return DomainProfile(profile_id="general")
 
         prompt_lower = prompt.lower()
-        prompt_words = set(re.findall(r'\w+', prompt_lower))
+        prompt_words = set(re.findall(r"\w+", prompt_lower))
 
         best_id = "general"
         best_score = 0
@@ -215,7 +218,9 @@ class DomainProfileManager:
 _manager: DomainProfileManager | None = None
 
 
-def get_domain_profile_manager(profiles_dir: Path | None = None) -> DomainProfileManager:
+def get_domain_profile_manager(
+    profiles_dir: Path | None = None,
+) -> DomainProfileManager:
     """Get the global domain profile manager (singleton)."""
     global _manager
     if _manager is None or profiles_dir is not None:
@@ -252,5 +257,9 @@ if __name__ == "__main__":
             if profile:
                 print(f"  {pid}:")
                 print(f"    Keywords: {profile.keywords[:5]}...")
-                print(f"    Context: {profile.prompt_context[:60]}..." if profile.prompt_context else "    Context: (none)")
+                print(
+                    f"    Context: {profile.prompt_context[:60]}..."
+                    if profile.prompt_context
+                    else "    Context: (none)"
+                )
                 print(f"    Actions: {len(profile.relevant_actions)}")

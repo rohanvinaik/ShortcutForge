@@ -28,9 +28,11 @@ __version__ = "1.0"
 
 # ── Data Classes ─────────────────────────────────────────────────
 
+
 @dataclass
 class ScenarioProfile:
     """A scenario profile that bundles pipeline configuration."""
+
     scenario_id: str
     domain_profile: str = "general"
     creative_mode: str = "pragmatic"
@@ -62,9 +64,20 @@ _BUILTIN_SCENARIOS: dict[str, ScenarioProfile] = {
             "with proper error checking. Provide user feedback after logging."
         ),
         keywords=[
-            "health", "healthkit", "nutrient", "vitamin", "mineral",
-            "caffeine", "supplement", "workout", "fitness", "calorie",
-            "protein", "log health", "apple health", "health sample",
+            "health",
+            "healthkit",
+            "nutrient",
+            "vitamin",
+            "mineral",
+            "caffeine",
+            "supplement",
+            "workout",
+            "fitness",
+            "calorie",
+            "protein",
+            "log health",
+            "apple health",
+            "health sample",
         ],
         description="HealthKit health logging workflows",
     ),
@@ -79,9 +92,19 @@ _BUILTIN_SCENARIOS: dict[str, ScenarioProfile] = {
             "Use appropriate HTTP methods and headers. Show clear feedback."
         ),
         keywords=[
-            "api", "http", "json", "fetch", "server", "webhook",
-            "rest", "endpoint", "request", "response", "download",
-            "post data", "get request",
+            "api",
+            "http",
+            "json",
+            "fetch",
+            "server",
+            "webhook",
+            "rest",
+            "endpoint",
+            "request",
+            "response",
+            "download",
+            "post data",
+            "get request",
         ],
         description="REST API integration workflows",
     ),
@@ -97,9 +120,18 @@ _BUILTIN_SCENARIOS: dict[str, ScenarioProfile] = {
             "Include error handling and a polished user experience."
         ),
         keywords=[
-            "app", "interactive", "quiz", "game", "tracker",
-            "manager", "organizer", "planner", "dashboard",
-            "mini app", "rich ui", "multiple screens",
+            "app",
+            "interactive",
+            "quiz",
+            "game",
+            "tracker",
+            "manager",
+            "organizer",
+            "planner",
+            "dashboard",
+            "mini app",
+            "rich ui",
+            "multiple screens",
         ],
         description="Interactive mini-app style shortcuts",
     ),
@@ -110,9 +142,17 @@ _BUILTIN_SCENARIOS: dict[str, ScenarioProfile] = {
         budget_override="simple",
         system_prompt_addendum="",  # No addendum needed for simple automation
         keywords=[
-            "toggle", "turn on", "turn off", "set brightness",
-            "set volume", "open app", "launch", "quick",
-            "simple", "fast", "one tap",
+            "toggle",
+            "turn on",
+            "turn off",
+            "set brightness",
+            "set volume",
+            "open app",
+            "launch",
+            "quick",
+            "simple",
+            "fast",
+            "one tap",
         ],
         description="Simple device automations and toggles",
     ),
@@ -127,9 +167,20 @@ _BUILTIN_SCENARIOS: dict[str, ScenarioProfile] = {
             "formats (images, PDFs, text) with appropriate actions."
         ),
         keywords=[
-            "file", "folder", "document", "pdf", "rename", "organize",
-            "sort files", "file type", "extension", "move files",
-            "import", "export", "save file", "select file",
+            "file",
+            "folder",
+            "document",
+            "pdf",
+            "rename",
+            "organize",
+            "sort files",
+            "file type",
+            "extension",
+            "move files",
+            "import",
+            "export",
+            "save file",
+            "select file",
         ],
         description="File management and routing workflows",
     ),
@@ -144,8 +195,16 @@ _BUILTIN_SCENARIOS: dict[str, ScenarioProfile] = {
             "to extract event details. Group or categorize events as needed."
         ),
         keywords=[
-            "calendar", "event", "events", "schedule", "meeting", "appointment",
-            "agenda", "today's events", "upcoming", "calendar triage",
+            "calendar",
+            "event",
+            "events",
+            "schedule",
+            "meeting",
+            "appointment",
+            "agenda",
+            "today's events",
+            "upcoming",
+            "calendar triage",
             "event summary",
         ],
         description="Calendar event management and triage workflows",
@@ -161,8 +220,14 @@ _BUILTIN_SCENARIOS: dict[str, ScenarioProfile] = {
             "actions. Consider using Notes for clipboard history."
         ),
         keywords=[
-            "clipboard", "copy", "paste", "clean", "clipboard history",
-            "clean clipboard", "clipboard manager", "text clean",
+            "clipboard",
+            "copy",
+            "paste",
+            "clean",
+            "clipboard history",
+            "clean clipboard",
+            "clipboard manager",
+            "text clean",
             "clipboard utility",
         ],
         description="Clipboard management and text cleaning utilities",
@@ -178,8 +243,16 @@ _BUILTIN_SCENARIOS: dict[str, ScenarioProfile] = {
             "multiple items. Generate summary reports of media properties."
         ),
         keywords=[
-            "photo", "image", "video", "media", "resize", "metadata",
-            "exif", "thumbnail", "batch process", "photo info",
+            "photo",
+            "image",
+            "video",
+            "media",
+            "resize",
+            "metadata",
+            "exif",
+            "thumbnail",
+            "batch process",
+            "photo info",
             "image detail",
         ],
         description="Media processing and metadata extraction workflows",
@@ -195,8 +268,15 @@ _BUILTIN_SCENARIOS: dict[str, ScenarioProfile] = {
             "everything into a spoken or displayed briefing. Make it time-aware."
         ),
         keywords=[
-            "morning", "briefing", "daily", "routine", "morning routine",
-            "daily summary", "weather check", "commute", "news",
+            "morning",
+            "briefing",
+            "daily",
+            "routine",
+            "morning routine",
+            "daily summary",
+            "weather check",
+            "commute",
+            "news",
             "daily briefing",
         ],
         description="Multi-source daily briefing and morning routine workflows",
@@ -205,6 +285,7 @@ _BUILTIN_SCENARIOS: dict[str, ScenarioProfile] = {
 
 
 # ── Scenario Profile Manager ────────────────────────────────────
+
 
 class ScenarioProfileManager:
     """Manages scenario profiles for pipeline customization.
@@ -239,7 +320,7 @@ class ScenarioProfileManager:
             The best-matching ScenarioProfile.
         """
         prompt_lower = prompt.lower()
-        prompt_words = set(re.findall(r'\w+', prompt_lower))
+        prompt_words = set(re.findall(r"\w+", prompt_lower))
 
         best_id = None
         best_score = 0
@@ -315,5 +396,7 @@ if __name__ == "__main__":
             s = mgr.get_scenario(sid)
             if s:
                 print(f"  {sid}: {s.description}")
-                print(f"    Domain: {s.domain_profile}, Mode: {s.creative_mode}, Budget: {s.budget_override}")
+                print(
+                    f"    Domain: {s.domain_profile}, Mode: {s.creative_mode}, Budget: {s.budget_override}"
+                )
                 print(f"    Keywords: {s.keywords[:5]}...")

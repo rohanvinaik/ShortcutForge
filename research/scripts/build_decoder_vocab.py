@@ -150,30 +150,52 @@ def main():
     parser = argparse.ArgumentParser(
         description="Build Tier 1/2 decoder vocabularies from typed IR data",
     )
-    parser.add_argument("--typed-ir-train", type=Path,
-                       default=PROJECT_ROOT / "training_data" / "typed_ir_train.jsonl",
-                       help="Typed IR training JSONL")
-    parser.add_argument("--typed-ir-eval", type=Path,
-                       default=PROJECT_ROOT / "training_data" / "typed_ir_eval.jsonl",
-                       help="Typed IR eval JSONL (for coverage)")
-    parser.add_argument("--action-catalog", type=Path,
-                       default=PROJECT_ROOT / "references" / "action_catalog.json",
-                       help="Action catalog JSON (615 actions)")
-    parser.add_argument("--param-schemas", type=Path, default=None,
-                       help="Optional param schema directory")
-    parser.add_argument("--tier1-out", type=Path,
-                       default=PROJECT_ROOT / "references" / "tier1_vocab.json",
-                       help="Output Tier 1 vocabulary JSON")
-    parser.add_argument("--tier2-dir", type=Path,
-                       default=PROJECT_ROOT / "references" / "tier2_vocab",
-                       help="Output directory for per-action Tier 2 JSONs")
-    parser.add_argument("--coverage-out", type=Path,
-                       default=PROJECT_ROOT / "training_data" / "vocab_coverage.json",
-                       help="Output coverage report JSON (tier1 + tier2)")
-    parser.add_argument("--dry-run", action="store_true",
-                       help="Compute vocab without writing files")
-    parser.add_argument("-v", "--verbose", action="store_true",
-                       help="Verbose output")
+    parser.add_argument(
+        "--typed-ir-train",
+        type=Path,
+        default=PROJECT_ROOT / "training_data" / "typed_ir_train.jsonl",
+        help="Typed IR training JSONL",
+    )
+    parser.add_argument(
+        "--typed-ir-eval",
+        type=Path,
+        default=PROJECT_ROOT / "training_data" / "typed_ir_eval.jsonl",
+        help="Typed IR eval JSONL (for coverage)",
+    )
+    parser.add_argument(
+        "--action-catalog",
+        type=Path,
+        default=PROJECT_ROOT / "references" / "action_catalog.json",
+        help="Action catalog JSON (615 actions)",
+    )
+    parser.add_argument(
+        "--param-schemas",
+        type=Path,
+        default=None,
+        help="Optional param schema directory",
+    )
+    parser.add_argument(
+        "--tier1-out",
+        type=Path,
+        default=PROJECT_ROOT / "references" / "tier1_vocab.json",
+        help="Output Tier 1 vocabulary JSON",
+    )
+    parser.add_argument(
+        "--tier2-dir",
+        type=Path,
+        default=PROJECT_ROOT / "references" / "tier2_vocab",
+        help="Output directory for per-action Tier 2 JSONs",
+    )
+    parser.add_argument(
+        "--coverage-out",
+        type=Path,
+        default=PROJECT_ROOT / "training_data" / "vocab_coverage.json",
+        help="Output coverage report JSON (tier1 + tier2)",
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Compute vocab without writing files"
+    )
+    parser.add_argument("-v", "--verbose", action="store_true", help="Verbose output")
     args = parser.parse_args()
 
     # -----------------------------------------------------------------------
@@ -210,9 +232,11 @@ def main():
     # -----------------------------------------------------------------------
     print("\nBuilding Tier 1 vocabulary ...")
     tier1_vocab = _build_tier1_vocab(train_examples)
-    print(f"  Tier 1 vocab size: {len(tier1_vocab)} "
-          f"({len(tier1_vocab) - len(SPECIAL_TOKENS)} real + "
-          f"{len(SPECIAL_TOKENS)} special)")
+    print(
+        f"  Tier 1 vocab size: {len(tier1_vocab)} "
+        f"({len(tier1_vocab) - len(SPECIAL_TOKENS)} real + "
+        f"{len(SPECIAL_TOKENS)} special)"
+    )
 
     # -----------------------------------------------------------------------
     # 3. Build Tier 2 per-action vocabs from training data
@@ -227,20 +251,27 @@ def main():
     fallback_count = total_actions_seen - dedicated_count
 
     print(f"  Unique actions in training data: {total_actions_seen}")
-    print(f"  Actions with dedicated vocab (>= {MIN_ACTION_EXAMPLES} examples): "
-          f"{dedicated_count}")
-    print(f"  Actions using global fallback (< {MIN_ACTION_EXAMPLES} examples): "
-          f"{fallback_count}")
-    print(f"  Global fallback vocab size: {len(global_fallback)} "
-          f"({len(global_fallback) - len(SPECIAL_TOKENS)} real + "
-          f"{len(SPECIAL_TOKENS)} special)")
+    print(
+        f"  Actions with dedicated vocab (>= {MIN_ACTION_EXAMPLES} examples): "
+        f"{dedicated_count}"
+    )
+    print(
+        f"  Actions using global fallback (< {MIN_ACTION_EXAMPLES} examples): "
+        f"{fallback_count}"
+    )
+    print(
+        f"  Global fallback vocab size: {len(global_fallback)} "
+        f"({len(global_fallback) - len(SPECIAL_TOKENS)} real + "
+        f"{len(SPECIAL_TOKENS)} special)"
+    )
 
     if args.verbose:
         print("\n  Per-action vocab sizes:")
         for action_name, vocab in sorted(per_action_vocabs.items()):
             n_examples = action_counts[action_name]
-            print(f"    {action_name}: {len(vocab)} tokens "
-                  f"({n_examples} training blocks)")
+            print(
+                f"    {action_name}: {len(vocab)} tokens ({n_examples} training blocks)"
+            )
 
     # -----------------------------------------------------------------------
     # 4. Measure coverage on eval set
@@ -248,22 +279,32 @@ def main():
     print("\nMeasuring coverage on eval set ...")
     tier1_coverage = _measure_tier1_coverage(eval_examples, tier1_vocab)
     tier2_coverage = _measure_tier2_coverage(
-        eval_examples, per_action_vocabs, global_fallback,
+        eval_examples,
+        per_action_vocabs,
+        global_fallback,
     )
 
-    print(f"\n  Tier 1 coverage: {tier1_coverage.coverage_pct:.2f}% "
-          f"({tier1_coverage.covered}/{tier1_coverage.total_tokens_in_eval} tokens)")
+    print(
+        f"\n  Tier 1 coverage: {tier1_coverage.coverage_pct:.2f}% "
+        f"({tier1_coverage.covered}/{tier1_coverage.total_tokens_in_eval} tokens)"
+    )
     if tier1_coverage.uncovered:
-        print(f"    Uncovered tier1 tokens ({len(tier1_coverage.uncovered)}): "
-              f"{tier1_coverage.uncovered[:20]}"
-              f"{'...' if len(tier1_coverage.uncovered) > 20 else ''}")
+        print(
+            f"    Uncovered tier1 tokens ({len(tier1_coverage.uncovered)}): "
+            f"{tier1_coverage.uncovered[:20]}"
+            f"{'...' if len(tier1_coverage.uncovered) > 20 else ''}"
+        )
 
-    print(f"  Tier 2 coverage: {tier2_coverage.coverage_pct:.2f}% "
-          f"({tier2_coverage.covered}/{tier2_coverage.total_tokens_in_eval} tokens)")
+    print(
+        f"  Tier 2 coverage: {tier2_coverage.coverage_pct:.2f}% "
+        f"({tier2_coverage.covered}/{tier2_coverage.total_tokens_in_eval} tokens)"
+    )
     if tier2_coverage.uncovered:
-        print(f"    Uncovered tier2 tokens ({len(tier2_coverage.uncovered)}): "
-              f"{tier2_coverage.uncovered[:20]}"
-              f"{'...' if len(tier2_coverage.uncovered) > 20 else ''}")
+        print(
+            f"    Uncovered tier2 tokens ({len(tier2_coverage.uncovered)}): "
+            f"{tier2_coverage.uncovered[:20]}"
+            f"{'...' if len(tier2_coverage.uncovered) > 20 else ''}"
+        )
 
     # -----------------------------------------------------------------------
     # 5. Write outputs (unless --dry-run)
@@ -283,7 +324,9 @@ def main():
             out_path = args.tier2_dir / f"{action_name}.json"
             with open(out_path, "w") as f:
                 json.dump(vocab, f, indent=2, ensure_ascii=False)
-        print(f"Wrote {len(per_action_vocabs)} per-action tier2 vocabs -> {args.tier2_dir}/")
+        print(
+            f"Wrote {len(per_action_vocabs)} per-action tier2 vocabs -> {args.tier2_dir}/"
+        )
 
         # Global fallback
         fallback_path = args.tier2_dir / "_global_fallback.json"
@@ -306,10 +349,14 @@ def main():
     # -----------------------------------------------------------------------
     gate_pass = True
     if tier1_coverage.coverage_pct < 98.0:
-        print(f"\nFAIL: Tier 1 coverage {tier1_coverage.coverage_pct:.2f}% < 98% threshold")
+        print(
+            f"\nFAIL: Tier 1 coverage {tier1_coverage.coverage_pct:.2f}% < 98% threshold"
+        )
         gate_pass = False
     if tier2_coverage.coverage_pct < 95.0:
-        print(f"\nFAIL: Tier 2 coverage {tier2_coverage.coverage_pct:.2f}% < 95% threshold")
+        print(
+            f"\nFAIL: Tier 2 coverage {tier2_coverage.coverage_pct:.2f}% < 95% threshold"
+        )
         gate_pass = False
 
     if gate_pass:

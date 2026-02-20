@@ -29,12 +29,12 @@ from __future__ import annotations
 import json
 import os
 import plistlib
-import sys
 from pathlib import Path
-from typing import Any
 
 # System paths for action definitions
-ACTIONKIT_FRAMEWORK = Path("/System/Library/PrivateFrameworks/ActionKit.framework/Versions/A/Resources")
+ACTIONKIT_FRAMEWORK = Path(
+    "/System/Library/PrivateFrameworks/ActionKit.framework/Versions/A/Resources"
+)
 INTENTS_FILE = ACTIONKIT_FRAMEWORK / "Base.lproj" / "Actions.intentdefinition"
 APPINTENTS_FILE = ACTIONKIT_FRAMEWORK / "Metadata.appintents" / "extract.actionsdata"
 SYSTEM_SEARCH_ROOT = Path("/System/Library")
@@ -56,11 +56,17 @@ def scrape_intentdefinition(path: Path) -> dict[str, dict]:
 
     intents = plist.get("INIntents", [])
     for intent in intents:
-        class_name = intent.get("INIntentClassPrefix", "") + intent.get("INIntentName", "")
-        identifier = intent.get("INIntentManagedPropertyList", {}).get("WFWorkflowActionIdentifier", "")
+        class_name = intent.get("INIntentClassPrefix", "") + intent.get(
+            "INIntentName", ""
+        )
+        identifier = intent.get("INIntentManagedPropertyList", {}).get(
+            "WFWorkflowActionIdentifier", ""
+        )
         if not identifier:
             # Try constructing from class name
-            identifier = f"is.workflow.actions.{class_name.lower()}" if class_name else ""
+            identifier = (
+                f"is.workflow.actions.{class_name.lower()}" if class_name else ""
+            )
         if not identifier:
             continue
 
@@ -75,7 +81,9 @@ def scrape_intentdefinition(path: Path) -> dict[str, dict]:
                     "source": "intentdefinition",
                 }
 
-        description = intent.get("INIntentDescriptionID", "") or intent.get("INIntentDescription", "")
+        description = intent.get("INIntentDescriptionID", "") or intent.get(
+            "INIntentDescription", ""
+        )
         title = intent.get("INIntentTitle", "") or class_name
 
         actions[identifier] = {
@@ -171,11 +179,15 @@ def scrape_system_actionsdata() -> dict[str, dict]:
             all_actions.update(actions)
             count += 1
 
-    print(f"  Scanned {count} actionsdata files, found {len(all_actions)} total actions")
+    print(
+        f"  Scanned {count} actionsdata files, found {len(all_actions)} total actions"
+    )
     return all_actions
 
 
-def scrape_corpus(downloads_dir: Path, existing_actions: dict[str, dict]) -> dict[str, dict]:
+def scrape_corpus(
+    downloads_dir: Path, existing_actions: dict[str, dict]
+) -> dict[str, dict]:
     """Enrich the catalog with observed parameters from downloaded shortcuts."""
     if not downloads_dir.exists():
         print(f"\n  [skip] Corpus not found at {downloads_dir}")
@@ -201,10 +213,16 @@ def scrape_corpus(downloads_dir: Path, existing_actions: dict[str, dict]) -> dic
                 param_counts[identifier] = {}
 
             for pname in params:
-                if pname in ("UUID", "GroupingIdentifier", "WFControlFlowMode",
-                             "CustomOutputName"):
+                if pname in (
+                    "UUID",
+                    "GroupingIdentifier",
+                    "WFControlFlowMode",
+                    "CustomOutputName",
+                ):
                     continue
-                param_counts[identifier][pname] = param_counts[identifier].get(pname, 0) + 1
+                param_counts[identifier][pname] = (
+                    param_counts[identifier].get(pname, 0) + 1
+                )
 
     # Merge observed params into existing actions
     for identifier, pcounts in param_counts.items():
@@ -212,7 +230,7 @@ def scrape_corpus(downloads_dir: Path, existing_actions: dict[str, dict]) -> dic
             # New action discovered from corpus
             short = identifier
             if short.startswith("is.workflow.actions."):
-                short = short[len("is.workflow.actions."):]
+                short = short[len("is.workflow.actions.") :]
             existing_actions[identifier] = {
                 "identifier": identifier,
                 "name": short,
@@ -237,7 +255,7 @@ def build_canonical_map(actions: dict[str, dict]) -> dict[str, str]:
     cmap = {}
     for identifier in actions:
         if identifier.startswith("is.workflow.actions."):
-            short = identifier[len("is.workflow.actions."):]
+            short = identifier[len("is.workflow.actions.") :]
             if short not in cmap or len(identifier) < len(cmap.get(short, "")):
                 cmap[short] = identifier
     return cmap
@@ -245,11 +263,21 @@ def build_canonical_map(actions: dict[str, dict]) -> dict[str, str]:
 
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description="Scrape macOS for Shortcuts action catalog")
-    parser.add_argument("--merge-corpus", action="store_true",
-                        help="Enrich catalog with observed params from downloaded shortcuts")
-    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT,
-                        help=f"Output path (default: {DEFAULT_OUTPUT})")
+
+    parser = argparse.ArgumentParser(
+        description="Scrape macOS for Shortcuts action catalog"
+    )
+    parser.add_argument(
+        "--merge-corpus",
+        action="store_true",
+        help="Enrich catalog with observed params from downloaded shortcuts",
+    )
+    parser.add_argument(
+        "--output",
+        type=Path,
+        default=DEFAULT_OUTPUT,
+        help=f"Output path (default: {DEFAULT_OUTPUT})",
+    )
     args = parser.parse_args()
 
     all_actions: dict[str, dict] = {}

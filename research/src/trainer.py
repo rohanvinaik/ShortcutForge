@@ -12,8 +12,12 @@ from __future__ import annotations
 
 import argparse
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 import yaml
+
+if TYPE_CHECKING:
+    import torch
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
 
@@ -75,7 +79,9 @@ class BalancedSashimiTrainer:
         tier1_vocab = json.loads((PROJECT_ROOT / data_cfg["tier1_vocab"]).read_text())
         tier2_vocab_dir = PROJECT_ROOT / data_cfg["tier2_vocab_dir"]
         # Count total tier2 vocab size (use global fallback for simplicity)
-        tier2_fallback = json.loads((tier2_vocab_dir / "_global_fallback.json").read_text())
+        tier2_fallback = json.loads(
+            (tier2_vocab_dir / "_global_fallback.json").read_text()
+        )
 
         model_cfg = self.config["model"]
 
@@ -154,7 +160,7 @@ class BalancedSashimiTrainer:
             params.extend(p for p in module.parameters() if p.requires_grad)
         return params
 
-    def _build_tier1_targets(self, batch: list) -> "torch.Tensor":
+    def _build_tier1_targets(self, batch: list) -> torch.Tensor:
         """Build tier1 target indices from batch examples.
 
         Use the FIRST meaningful tier1 token (after SHORTCUT) as the target.
@@ -186,7 +192,9 @@ class BalancedSashimiTrainer:
         gate_logits = self.domain_gate(embeddings)  # [B, 1]
         frame_features = self.intent_extractor(embeddings)  # [B, 256]
         bridge_features = self.bridge(frame_features)  # [B, 128]
-        decoder_output = self.decoder(bridge_features)  # dict with tier1_logits, tier2_logits
+        decoder_output = self.decoder(
+            bridge_features
+        )  # dict with tier1_logits, tier2_logits
 
         # Build targets from examples
         tier1_targets = self._build_tier1_targets(batch)  # [B] long tensor
@@ -282,9 +290,52 @@ class BalancedSashimiTrainer:
         )
         return path
 
+    def _run_step_checks(self, loss_dict: dict, safety: dict) -> dict | None:
+        """Run per-step safety checks and logging. Returns early-exit dict or None."""
+        if self.step % safety["gradient_check_every_n_steps"] == 0:
+            if not self.check_gradient_health() and safety["nan_abort"]:
+                if safety.get("nan_checkpoint_before_abort", True):
+                    self.save_checkpoint(self.step)
+                print(f"ABORT: NaN/Inf gradient at step {self.step}")
+                return {"status": "nan_abort", "step": self.step}
+
+        if self.step % safety["ternary_distribution_log_every_n_steps"] == 0:
+            ternary_dist = self.log_ternary_distribution(self.step)
+            if ternary_dist:
+                print(f"  Step {self.step} ternary: {ternary_dist}")
+
+        if self.step % 50 == 0:
+            print(f"  Step {self.step}/{self.config['training']['max_iterations']}: L_total={loss_dict['L_total']:.4f}")
+
+        return None
+
+    def _finalize_training(self, all_losses, epoch, elapsed, log_path) -> dict:
+        """Save checkpoint, write log, return summary."""
+        import json
+
+        ckpt_path = self.save_checkpoint(self.step)
+        with open(log_path, "w") as f:
+            for entry in all_losses:
+                f.write(json.dumps(entry) + "\n")
+
+        print(f"\nTraining complete: {self.step} steps in {elapsed:.1f}s")
+        if all_losses:
+            print(f"Final loss: {all_losses[-1]['L_total']:.4f}")
+        else:
+            print("No losses recorded")
+        print(f"Checkpoint: {ckpt_path}")
+
+        return {
+            "status": "complete",
+            "steps": self.step,
+            "epochs": epoch,
+            "elapsed_s": round(elapsed, 1),
+            "final_loss": all_losses[-1] if all_losses else {},
+            "checkpoint": str(ckpt_path),
+        }
+
     def train(self, dry_run: bool = False) -> dict:
         """Main training loop."""
-        import json
         import time
 
         from torch.utils.data import DataLoader
@@ -293,7 +344,10 @@ class BalancedSashimiTrainer:
 
         max_iters = self.config["training"]["max_iterations"]
         safety = self.config["safety"]
-        log_path = self.run_dir / f"{self.run_id}{self.config['logging']['training_log_suffix']}"
+        log_path = (
+            self.run_dir
+            / f"{self.run_id}{self.config['logging']['training_log_suffix']}"
+        )
 
         print(f"Training run: {self.run_id}")
         print(f"  Device: {self.device}")
@@ -306,7 +360,6 @@ class BalancedSashimiTrainer:
         start = time.time()
         all_losses: list[dict[str, float]] = []
 
-        # Custom collate that returns list of TypedIRExample
         loader = DataLoader(
             self.train_dataset,
             batch_size=self.config["training"]["batch_size"],
@@ -324,55 +377,15 @@ class BalancedSashimiTrainer:
                 loss_dict = self.train_step(batch)
                 all_losses.append(loss_dict)
 
-                # Gradient health check
-                if self.step % safety["gradient_check_every_n_steps"] == 0:
-                    healthy = self.check_gradient_health()
-                    if not healthy and safety["nan_abort"]:
-                        if safety.get("nan_checkpoint_before_abort", True):
-                            self.save_checkpoint(self.step)
-                        print(f"ABORT: NaN/Inf gradient at step {self.step}")
-                        return {"status": "nan_abort", "step": self.step}
-
-                # Ternary distribution logging
-                if self.step % safety["ternary_distribution_log_every_n_steps"] == 0:
-                    ternary_dist = self.log_ternary_distribution(self.step)
-                    if ternary_dist:
-                        print(f"  Step {self.step} ternary: {ternary_dist}")
-
-                # Progress
-                if self.step % 50 == 0:
-                    print(f"  Step {self.step}/{max_iters}: L_total={loss_dict['L_total']:.4f}")
+                abort = self._run_step_checks(loss_dict, safety)
+                if abort is not None:
+                    return abort
 
                 if dry_run:
                     print(f"  Dry run complete after 1 step. Loss: {loss_dict['L_total']:.4f}")
                     return {"status": "dry_run", "step": 1, "loss": loss_dict}
 
-        elapsed = time.time() - start
-
-        # Save final checkpoint
-        ckpt_path = self.save_checkpoint(self.step)
-
-        # Write training log
-        with open(log_path, "w") as f:
-            for entry in all_losses:
-                f.write(json.dumps(entry) + "\n")
-
-        result = {
-            "status": "complete",
-            "steps": self.step,
-            "epochs": epoch,
-            "elapsed_s": round(elapsed, 1),
-            "final_loss": all_losses[-1] if all_losses else {},
-            "checkpoint": str(ckpt_path),
-        }
-        print(f"\nTraining complete: {self.step} steps in {elapsed:.1f}s")
-        if all_losses:
-            print(f"Final loss: {all_losses[-1]['L_total']:.4f}")
-        else:
-            print("No losses recorded")
-        print(f"Checkpoint: {ckpt_path}")
-
-        return result
+        return self._finalize_training(all_losses, epoch, time.time() - start, log_path)
 
 
 def main():

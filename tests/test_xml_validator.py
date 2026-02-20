@@ -17,14 +17,14 @@ Optional stress test mode (requires XML files):
 
 Run: python3 scripts/test_xml_validator.py
 """
+
 import os
-from pathlib import Path
 import sys
 import uuid
+from pathlib import Path
 
 sys.path.insert(0, str(Path(os.path.abspath(__file__)).parent.parent / "src"))
 from shortcuts_compiler import Shortcut
-
 
 # -- Test Harness ----------------------------------------------------------
 
@@ -47,6 +47,7 @@ def run_test(name: str, fn):
 
 
 # -- Fixture Helpers -------------------------------------------------------
+
 
 def _make_action(identifier: str, **params) -> dict:
     """Create a minimal action dict."""
@@ -76,16 +77,19 @@ def _make_shortcut_with_actions(name: str, actions_list: list[dict]) -> Shortcut
 # Clean Shortcut Tests
 # ==========================================================================
 
+
 def test_clean_simple_shortcut():
     """Simple shortcut with no control flow validates cleanly."""
     actions = [
         _make_action("is.workflow.actions.comment", WFCommentActionText="Hello"),
-        _make_action("is.workflow.actions.notification",
-                     WFNotificationActionTitle="Done"),
+        _make_action(
+            "is.workflow.actions.notification", WFNotificationActionTitle="Done"
+        ),
     ]
     s = _make_shortcut_with_actions("Clean Simple", actions)
     warnings = s.validate()
     assert len(warnings) == 0, f"Expected 0 warnings, got {len(warnings)}: {warnings}"
+
 
 run_test("clean_simple_shortcut", test_clean_simple_shortcut)
 
@@ -104,6 +108,7 @@ def test_clean_if_block():
     warnings = s.validate()
     assert len(warnings) == 0, f"Expected 0 warnings, got {len(warnings)}: {warnings}"
 
+
 run_test("clean_if_block", test_clean_if_block)
 
 
@@ -121,6 +126,7 @@ def test_clean_nested_blocks():
     warnings = s.validate()
     assert len(warnings) == 0, f"Expected 0 warnings, got {len(warnings)}: {warnings}"
 
+
 run_test("clean_nested_blocks", test_clean_nested_blocks)
 
 
@@ -128,8 +134,12 @@ def test_clean_menu_block():
     """Properly formed menu with matching case count validates cleanly."""
     gid = str(uuid.uuid4())
     actions = [
-        _make_cf_action("is.workflow.actions.choosefrommenu", gid, 0,
-                        WFMenuItems=["Option A", "Option B"]),
+        _make_cf_action(
+            "is.workflow.actions.choosefrommenu",
+            gid,
+            0,
+            WFMenuItems=["Option A", "Option B"],
+        ),
         _make_cf_action("is.workflow.actions.choosefrommenu", gid, 1),  # Case A
         _make_action("is.workflow.actions.comment", WFCommentActionText="A"),
         _make_cf_action("is.workflow.actions.choosefrommenu", gid, 1),  # Case B
@@ -139,6 +149,7 @@ def test_clean_menu_block():
     s = _make_shortcut_with_actions("Clean Menu", actions)
     warnings = s.validate()
     assert len(warnings) == 0, f"Expected 0 warnings, got {len(warnings)}: {warnings}"
+
 
 run_test("clean_menu_block", test_clean_menu_block)
 
@@ -155,12 +166,14 @@ def test_clean_repeat_block():
     warnings = s.validate()
     assert len(warnings) == 0, f"Expected 0 warnings, got {len(warnings)}: {warnings}"
 
+
 run_test("clean_repeat_block", test_clean_repeat_block)
 
 
 # ==========================================================================
 # Unclosed Block Tests
 # ==========================================================================
+
 
 def test_unclosed_if_block():
     """IF without ENDIF detected."""
@@ -172,8 +185,10 @@ def test_unclosed_if_block():
     ]
     s = _make_shortcut_with_actions("Unclosed IF", actions)
     warnings = s.validate()
-    assert any("unclosed" in w.lower() or "Unclosed" in w for w in warnings), \
+    assert any("unclosed" in w.lower() or "Unclosed" in w for w in warnings), (
         f"Expected unclosed warning, got: {warnings}"
+    )
+
 
 run_test("unclosed_if_block", test_unclosed_if_block)
 
@@ -187,8 +202,10 @@ def test_orphan_end_block():
     ]
     s = _make_shortcut_with_actions("Orphan End", actions)
     warnings = s.validate()
-    assert any("without" in w.lower() or "End blocks" in w for w in warnings), \
+    assert any("without" in w.lower() or "End blocks" in w for w in warnings), (
         f"Expected orphan end warning, got: {warnings}"
+    )
+
 
 run_test("orphan_end_block", test_orphan_end_block)
 
@@ -196,6 +213,7 @@ run_test("orphan_end_block", test_orphan_end_block)
 # ==========================================================================
 # Ordering Tests
 # ==========================================================================
+
 
 def test_end_before_start():
     """End block before start block detected."""
@@ -206,8 +224,10 @@ def test_end_before_start():
     ]
     s = _make_shortcut_with_actions("End Before Start", actions)
     warnings = s.validate()
-    assert any("before start" in w.lower() or "before" in w.lower() for w in warnings), \
-        f"Expected ordering warning, got: {warnings}"
+    assert any(
+        "before start" in w.lower() or "before" in w.lower() for w in warnings
+    ), f"Expected ordering warning, got: {warnings}"
+
 
 run_test("end_before_start", test_end_before_start)
 
@@ -216,12 +236,14 @@ run_test("end_before_start", test_end_before_start)
 # Menu Validation Tests
 # ==========================================================================
 
+
 def test_menu_case_mismatch():
     """Menu with wrong number of cases detected."""
     gid = str(uuid.uuid4())
     actions = [
-        _make_cf_action("is.workflow.actions.choosefrommenu", gid, 0,
-                        WFMenuItems=["A", "B", "C"]),  # 3 items
+        _make_cf_action(
+            "is.workflow.actions.choosefrommenu", gid, 0, WFMenuItems=["A", "B", "C"]
+        ),  # 3 items
         _make_cf_action("is.workflow.actions.choosefrommenu", gid, 1),  # Case 1
         _make_cf_action("is.workflow.actions.choosefrommenu", gid, 1),  # Case 2
         # Missing case 3
@@ -230,10 +252,12 @@ def test_menu_case_mismatch():
     s = _make_shortcut_with_actions("Menu Mismatch", actions)
     warnings = s.validate()
     has_mismatch_warning = any(
-        "menu" in w.lower() and ("mismatch" in w.lower() or "case" in w.lower() or "items" in w.lower())
+        "menu" in w.lower()
+        and ("mismatch" in w.lower() or "case" in w.lower() or "items" in w.lower())
         for w in warnings
     )
     assert has_mismatch_warning, f"Expected menu case mismatch warning, got: {warnings}"
+
 
 run_test("menu_case_mismatch", test_menu_case_mismatch)
 
@@ -242,12 +266,15 @@ run_test("menu_case_mismatch", test_menu_case_mismatch)
 # Empty Shortcut Test
 # ==========================================================================
 
+
 def test_empty_shortcut():
     """Empty shortcut produces a warning."""
     s = _make_shortcut_with_actions("Empty", [])
     warnings = s.validate()
-    assert any("no actions" in w.lower() for w in warnings), \
+    assert any("no actions" in w.lower() for w in warnings), (
         f"Expected 'no actions' warning, got: {warnings}"
+    )
+
 
 run_test("empty_shortcut", test_empty_shortcut)
 
@@ -255,6 +282,7 @@ run_test("empty_shortcut", test_empty_shortcut)
 # ==========================================================================
 # UUID Collision / Edge Cases
 # ==========================================================================
+
 
 def test_uuid_collision_no_crash():
     """Duplicate GroupingIdentifier for unrelated blocks doesn't crash."""
@@ -268,6 +296,7 @@ def test_uuid_collision_no_crash():
     s = _make_shortcut_with_actions("UUID Collision", actions)
     warnings = s.validate()
     assert isinstance(warnings, list)
+
 
 run_test("uuid_collision_no_crash", test_uuid_collision_no_crash)
 
@@ -286,12 +315,14 @@ def test_multiple_clean_blocks():
     warnings = s.validate()
     assert len(warnings) == 0, f"Expected 0 warnings, got {len(warnings)}: {warnings}"
 
+
 run_test("multiple_clean_blocks", test_multiple_clean_blocks)
 
 
 # ==========================================================================
 # Stress Test Mode (optional, requires XML files)
 # ==========================================================================
+
 
 def _run_stress_test(xml_dir: str):
     """Run the original stress test against real XML shortcuts."""
@@ -329,7 +360,9 @@ def _run_stress_test(xml_dir: str):
         else:
             clean += 1
 
-    print(f"  Processed: {processed}, Clean: {clean}, With warnings: {len(warnings_by_file)}")
+    print(
+        f"  Processed: {processed}, Clean: {clean}, With warnings: {len(warnings_by_file)}"
+    )
     if warnings_by_file:
         for fname, ws in sorted(warnings_by_file.items()):
             print(f"    {fname}: {len(ws)} warning(s)")

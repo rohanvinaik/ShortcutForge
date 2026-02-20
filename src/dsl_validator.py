@@ -31,26 +31,27 @@ from pathlib import Path
 from typing import Optional
 
 from dsl_ir import (
-    ShortcutIR,
     ActionStatement,
-    SetVariable,
-    IfBlock,
-    MenuBlock,
-    RepeatBlock,
-    ForeachBlock,
-    Comment,
-    StringValue,
-    NumberValue,
     BoolValue,
-    VarRef,
-    HandleRef,
-    InterpolatedString,
+    Comment,
     DictLiteral,
-    ListLiteral,
-    QuantityLiteral,
+    ForeachBlock,
+    HandleRef,
     HeadersLiteral,
-    Statement,
+    IfBlock,
+    InterpolatedString,
     IRValue,
+    ListLiteral,
+    MenuBlock,
+    NumberValue,
+    QuantityLiteral,
+    RepeatBlock,
+    SetVariable,
+    ShortcutIR,
+    Statement,
+    StringValue,
+    VarRef,
+    iter_child_blocks,
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -61,6 +62,7 @@ SCHEMAS_PATH = BASE_DIR / "references" / "param_schemas.json"
 @dataclass
 class ValidationError:
     """A structured validation error."""
+
     severity: str  # "error" or "warning"
     category: str  # "unknown_action", "unknown_param", "undefined_variable", etc.
     message: str
@@ -76,6 +78,7 @@ class ValidationError:
 @dataclass
 class ValidationResult:
     """Result of validating a ShortcutIR."""
+
     errors: list[ValidationError] = field(default_factory=list)
     warnings: list[ValidationError] = field(default_factory=list)
 
@@ -109,15 +112,17 @@ class ValidationResult:
 _VENDOR_PREFIX_RE = re.compile(r"^(is\.workflow|com\.[a-z0-9-]+)\.")
 
 # Manual overrides for non-standard TLD patterns not in catalog
-_MANUAL_VENDOR_PREFIXES = frozenset({
-    "company.thebrowser.",
-    "codes.rambo.",
-    "dk.simonbs.",
-    "fm.overcast.",
-    "fyi.lunar.",
-    "net.shinyfrog.",
-    "ai.perplexity.",
-})
+_MANUAL_VENDOR_PREFIXES = frozenset(
+    {
+        "company.thebrowser.",
+        "codes.rambo.",
+        "dk.simonbs.",
+        "fm.overcast.",
+        "fyi.lunar.",
+        "net.shinyfrog.",
+        "ai.perplexity.",
+    }
+)
 
 
 def _derive_vendor_prefixes(actions: dict) -> frozenset:
@@ -173,7 +178,9 @@ class SemanticValidator:
         with catalog_path.open() as f:
             catalog_data = json.load(f)
 
-        self._canonical_map: dict[str, str] = catalog_data.get("_meta", {}).get("canonical_map", {})
+        self._canonical_map: dict[str, str] = catalog_data.get("_meta", {}).get(
+            "canonical_map", {}
+        )
         self._actions: dict[str, dict] = catalog_data.get("actions", {})
 
         # Auto-derive known vendor prefixes from catalog
@@ -277,6 +284,15 @@ class SemanticValidator:
 
         return result
 
+    _STMT_VALIDATORS: dict[type, str] = {
+        ActionStatement: "_validate_action_stmt",
+        SetVariable: "_validate_set_stmt",
+        IfBlock: "_validate_if_block",
+        MenuBlock: "_validate_menu_block",
+        RepeatBlock: "_validate_repeat_block",
+        ForeachBlock: "_validate_foreach_block",
+    }
+
     def _validate_statements(
         self,
         stmts: list[Statement],
@@ -285,22 +301,17 @@ class SemanticValidator:
         strict: bool = True,
     ) -> None:
         for stmt in stmts:
-            if isinstance(stmt, ActionStatement):
-                self._validate_action(stmt, result, ctx, strict)
-                ctx.has_preceding_action = True
-            elif isinstance(stmt, SetVariable):
-                self._validate_set_variable(stmt, result, ctx)
-                ctx.has_preceding_action = True  # SET compiles to setvariable action
-            elif isinstance(stmt, IfBlock):
-                self._validate_if_block(stmt, result, ctx, strict)
-            elif isinstance(stmt, MenuBlock):
-                self._validate_menu_block(stmt, result, ctx, strict)
-            elif isinstance(stmt, RepeatBlock):
-                self._validate_repeat_block(stmt, result, ctx, strict)
-            elif isinstance(stmt, ForeachBlock):
-                self._validate_foreach_block(stmt, result, ctx, strict)
-            elif isinstance(stmt, Comment):
-                pass  # Comments are always valid
+            method_name = self._STMT_VALIDATORS.get(type(stmt))
+            if method_name is not None:
+                getattr(self, method_name)(stmt, result, ctx, strict)
+
+    def _validate_action_stmt(self, stmt, result, ctx, strict):
+        self._validate_action(stmt, result, ctx, strict)
+        ctx.has_preceding_action = True
+
+    def _validate_set_stmt(self, stmt, result, ctx, _strict):
+        self._validate_set_variable(stmt, result, ctx)
+        ctx.has_preceding_action = True
 
     def _validate_action(
         self,
@@ -314,63 +325,81 @@ class SemanticValidator:
 
         if tier == "t4_unknown":
             # Always an error
-            result.errors.append(ValidationError(
-                severity="error",
-                category="unknown_action",
-                message=msg or f"Unknown action: '{stmt.action_name}'",
-                action_name=stmt.action_name,
-                line_number=stmt.line_number,
-            ))
-            return
-
-        if tier == "t3_vendor_prefix":
-            if strict:
-                # Error in strict mode
-                result.errors.append(ValidationError(
+            result.errors.append(
+                ValidationError(
                     severity="error",
                     category="unknown_action",
                     message=msg or f"Unknown action: '{stmt.action_name}'",
                     action_name=stmt.action_name,
                     line_number=stmt.line_number,
-                ))
+                )
+            )
+            return
+
+        if tier == "t3_vendor_prefix":
+            if strict:
+                # Error in strict mode
+                result.errors.append(
+                    ValidationError(
+                        severity="error",
+                        category="unknown_action",
+                        message=msg or f"Unknown action: '{stmt.action_name}'",
+                        action_name=stmt.action_name,
+                        line_number=stmt.line_number,
+                    )
+                )
                 return
             else:
                 # Warning in permissive mode — pass through
-                result.warnings.append(ValidationError(
-                    severity="warning",
-                    category="vendor_prefix_unknown",
-                    message=msg or f"Action '{stmt.action_name}' has known vendor prefix but is not in catalog",
-                    action_name=stmt.action_name,
-                    line_number=stmt.line_number,
-                ))
+                result.warnings.append(
+                    ValidationError(
+                        severity="warning",
+                        category="vendor_prefix_unknown",
+                        message=msg
+                        or f"Action '{stmt.action_name}' has known vendor prefix but is not in catalog",
+                        action_name=stmt.action_name,
+                        line_number=stmt.line_number,
+                    )
+                )
                 # Check for compiler risk: unknown action with handle params
                 for param_name, param_value in stmt.params.items():
                     if _value_has_handle(param_value):
-                        result.warnings.append(ValidationError(
-                            severity="warning",
-                            category="compiler_risk",
-                            message=(
-                                f"Action '{stmt.action_name}' has no schema; "
-                                f"param '{param_name}' uses handle ref. Compiler defaults "
-                                f"to WFTextTokenAttachment wrapping — may fail at runtime."
-                            ),
-                            action_name=stmt.action_name,
-                            param_name=param_name,
-                            line_number=stmt.line_number,
-                        ))
+                        result.warnings.append(
+                            ValidationError(
+                                severity="warning",
+                                category="compiler_risk",
+                                message=(
+                                    f"Action '{stmt.action_name}' has no schema; "
+                                    f"param '{param_name}' uses handle ref. Compiler defaults "
+                                    f"to WFTextTokenAttachment wrapping — may fail at runtime."
+                                ),
+                                action_name=stmt.action_name,
+                                param_name=param_name,
+                                line_number=stmt.line_number,
+                            )
+                        )
                 # Validate value refs even for unresolved actions (permissive mode)
                 for param_name, param_value in stmt.params.items():
-                    self._validate_value_refs(param_value, result, ctx, stmt.action_name, param_name, stmt.line_number)
+                    self._validate_value_refs(
+                        param_value,
+                        result,
+                        ctx,
+                        stmt.action_name,
+                        param_name,
+                        stmt.line_number,
+                    )
                 return
 
         if tier == "t2_alias" and identifier:
-            result.warnings.append(ValidationError(
-                severity="warning",
-                category="alias_rewrite",
-                message=f"Action '{stmt.action_name}' resolved via alias to '{identifier}'",
-                action_name=stmt.action_name,
-                line_number=stmt.line_number,
-            ))
+            result.warnings.append(
+                ValidationError(
+                    severity="warning",
+                    category="alias_rewrite",
+                    message=f"Action '{stmt.action_name}' resolved via alias to '{identifier}'",
+                    action_name=stmt.action_name,
+                    line_number=stmt.line_number,
+                )
+            )
 
         # Tier 1 or Tier 2 resolved — validate params normally
         if identifier is None:
@@ -381,17 +410,21 @@ class SemanticValidator:
         for param_name, param_value in stmt.params.items():
             if observed and param_name not in observed:
                 # Warn, don't error — the catalog may not have seen every param
-                result.warnings.append(ValidationError(
-                    severity="warning",
-                    category="unknown_param",
-                    message=f"Parameter '{param_name}' not observed for action '{stmt.action_name}' (known: {sorted(observed)[:5]}...)",
-                    action_name=stmt.action_name,
-                    param_name=param_name,
-                    line_number=stmt.line_number,
-                ))
+                result.warnings.append(
+                    ValidationError(
+                        severity="warning",
+                        category="unknown_param",
+                        message=f"Parameter '{param_name}' not observed for action '{stmt.action_name}' (known: {sorted(observed)[:5]}...)",
+                        action_name=stmt.action_name,
+                        param_name=param_name,
+                        line_number=stmt.line_number,
+                    )
+                )
 
             # 3. Check value references
-            self._validate_value_refs(param_value, result, ctx, stmt.action_name, param_name, stmt.line_number)
+            self._validate_value_refs(
+                param_value, result, ctx, stmt.action_name, param_name, stmt.line_number
+            )
 
     def _validate_set_variable(
         self,
@@ -417,7 +450,9 @@ class SemanticValidator:
 
         # Validate compare value if present
         if stmt.compare_value:
-            self._validate_value_refs(stmt.compare_value, result, ctx, "IF", "", stmt.line_number)
+            self._validate_value_refs(
+                stmt.compare_value, result, ctx, "IF", "", stmt.line_number
+            )
 
         # Scope semantics: In Apple Shortcuts, SET creates global variables
         # that persist after the block. So variables defined in IF branches
@@ -450,12 +485,14 @@ class SemanticValidator:
         strict: bool = True,
     ) -> None:
         if len(stmt.cases) == 0:
-            result.errors.append(ValidationError(
-                severity="error",
-                category="empty_menu",
-                message="Menu block has no cases",
-                line_number=stmt.line_number,
-            ))
+            result.errors.append(
+                ValidationError(
+                    severity="error",
+                    category="empty_menu",
+                    message="Menu block has no cases",
+                    line_number=stmt.line_number,
+                )
+            )
 
         # Each case gets an independent scope; variables merge back after ENDMENU
         for case in stmt.cases:
@@ -523,13 +560,19 @@ class SemanticValidator:
                     self._validate_ref(part, result, ctx, action_name, line_number)
         elif isinstance(value, DictLiteral):
             for _key, val in value.entries:
-                self._validate_value_refs(val, result, ctx, action_name, param_name, line_number)
+                self._validate_value_refs(
+                    val, result, ctx, action_name, param_name, line_number
+                )
         elif isinstance(value, ListLiteral):
             for item in value.items:
-                self._validate_value_refs(item, result, ctx, action_name, param_name, line_number)
+                self._validate_value_refs(
+                    item, result, ctx, action_name, param_name, line_number
+                )
         elif isinstance(value, HeadersLiteral):
             for _key, val in value.entries:
-                self._validate_value_refs(val, result, ctx, action_name, param_name, line_number)
+                self._validate_value_refs(
+                    val, result, ctx, action_name, param_name, line_number
+                )
         # StringValue, NumberValue, BoolValue, QuantityLiteral — no refs to validate
 
     def _validate_ref(
@@ -546,41 +589,49 @@ class SemanticValidator:
                 # Downgrade to warning (not error) for variables that could be
                 # implicitly defined by the Shortcuts runtime (menu selections,
                 # Shortcut Input, etc.)
-                result.warnings.append(ValidationError(
-                    severity="warning",
-                    category="undefined_variable",
-                    message=f"Variable '${ref.name}' used before definition",
-                    action_name=action_name,
-                    line_number=line_number,
-                ))
+                result.warnings.append(
+                    ValidationError(
+                        severity="warning",
+                        category="undefined_variable",
+                        message=f"Variable '${ref.name}' used before definition",
+                        action_name=action_name,
+                        line_number=line_number,
+                    )
+                )
         elif isinstance(ref, HandleRef):
             if ref.kind == "prev":
                 if not ctx.has_preceding_action:
-                    result.errors.append(ValidationError(
-                        severity="error",
-                        category="invalid_handle",
-                        message="@prev used without a preceding action",
-                        action_name=action_name,
-                        line_number=line_number,
-                    ))
+                    result.errors.append(
+                        ValidationError(
+                            severity="error",
+                            category="invalid_handle",
+                            message="@prev used without a preceding action",
+                            action_name=action_name,
+                            line_number=line_number,
+                        )
+                    )
             elif ref.kind == "item":
                 if not ctx.in_foreach:
-                    result.warnings.append(ValidationError(
-                        severity="warning",
-                        category="handle_context",
-                        message="@item used outside FOREACH block",
-                        action_name=action_name,
-                        line_number=line_number,
-                    ))
+                    result.warnings.append(
+                        ValidationError(
+                            severity="warning",
+                            category="handle_context",
+                            message="@item used outside FOREACH block",
+                            action_name=action_name,
+                            line_number=line_number,
+                        )
+                    )
             elif ref.kind == "index":
                 if not ctx.in_foreach and not ctx.in_repeat:
-                    result.warnings.append(ValidationError(
-                        severity="warning",
-                        category="handle_context",
-                        message="@index used outside loop block",
-                        action_name=action_name,
-                        line_number=line_number,
-                    ))
+                    result.warnings.append(
+                        ValidationError(
+                            severity="warning",
+                            category="handle_context",
+                            message="@index used outside loop block",
+                            action_name=action_name,
+                            line_number=line_number,
+                        )
+                    )
             elif ref.kind in ("input", "date"):
                 pass  # Always valid
             # Named handles are custom — always allowed
@@ -588,15 +639,18 @@ class SemanticValidator:
 
 # Implicitly-defined variables inside loop/menu blocks
 _IMPLICIT_LOOP_VARS = {
-    "Repeat_Item", "Repeat_Index",
+    "Repeat_Item",
+    "Repeat_Index",
     # Common variants from the reverse compiler
-    "Repeat Item", "Repeat Index",
+    "Repeat Item",
+    "Repeat Index",
 }
 
 
 @dataclass
 class _ValidationContext:
     """Tracks validation state through nested scopes."""
+
     defined_variables: set[str] = field(default_factory=set)
     has_preceding_action: bool = False
     in_foreach: bool = False
@@ -676,16 +730,18 @@ class DomainValidationLayer:
                 # Check for unit in params (some DSL patterns set it explicitly)
                 explicit_unit = self._get_string_param(stmt, "WFQuantitySampleUnit")
                 if explicit_unit and expected_unit and explicit_unit != expected_unit:
-                    result.warnings.append(ValidationError(
-                        severity="warning",
-                        category="hk_unit_mismatch",
-                        message=(
-                            f"HealthKit sample '{sample_type}' expects unit "
-                            f"'{expected_unit}', but got '{explicit_unit}'"
-                        ),
-                        action_name=stmt.action_name,
-                        line_number=stmt.line_number,
-                    ))
+                    result.warnings.append(
+                        ValidationError(
+                            severity="warning",
+                            category="hk_unit_mismatch",
+                            message=(
+                                f"HealthKit sample '{sample_type}' expects unit "
+                                f"'{expected_unit}', but got '{explicit_unit}'"
+                            ),
+                            action_name=stmt.action_name,
+                            line_number=stmt.line_number,
+                        )
+                    )
 
     # ── Rule 2: HealthKit Value Range Sanity ─────────────────────────
 
@@ -714,16 +770,18 @@ class DomainValidationLayer:
             max_val = range_info.get("max", float("inf"))
 
             if quantity < min_val or quantity > max_val:
-                result.warnings.append(ValidationError(
-                    severity="warning",
-                    category="hk_value_range",
-                    message=(
-                        f"HealthKit value {quantity} for '{sample_type}' "
-                        f"is outside typical range [{min_val}, {max_val}]"
-                    ),
-                    action_name=stmt.action_name,
-                    line_number=stmt.line_number,
-                ))
+                result.warnings.append(
+                    ValidationError(
+                        severity="warning",
+                        category="hk_value_range",
+                        message=(
+                            f"HealthKit value {quantity} for '{sample_type}' "
+                            f"is outside typical range [{min_val}, {max_val}]"
+                        ),
+                        action_name=stmt.action_name,
+                        line_number=stmt.line_number,
+                    )
+                )
 
     # ── Rule 3: Missing Error Handling After downloadurl ─────────────
 
@@ -742,7 +800,9 @@ class DomainValidationLayer:
     ) -> None:
         """Recursively check for error handling after downloadurl in statement lists."""
         for i, stmt in enumerate(stmts):
-            if isinstance(stmt, ActionStatement) and self._is_action(stmt, "downloadurl"):
+            if isinstance(stmt, ActionStatement) and self._is_action(
+                stmt, "downloadurl"
+            ):
                 # Check if any of the next 3 statements is an IF block
                 has_if = False
                 for j in range(i + 1, min(i + 4, len(stmts))):
@@ -759,29 +819,22 @@ class DomainValidationLayer:
                         break
 
                 if not has_if:
-                    result.warnings.append(ValidationError(
-                        severity="warning",
-                        category="missing_error_handling",
-                        message=(
-                            "downloadurl not followed by error handling (IF block). "
-                            "Network requests can fail — consider checking the response."
-                        ),
-                        action_name=stmt.action_name,
-                        line_number=stmt.line_number,
-                    ))
+                    result.warnings.append(
+                        ValidationError(
+                            severity="warning",
+                            category="missing_error_handling",
+                            message=(
+                                "downloadurl not followed by error handling (IF block). "
+                                "Network requests can fail — consider checking the response."
+                            ),
+                            action_name=stmt.action_name,
+                            line_number=stmt.line_number,
+                        )
+                    )
 
             # Recurse into nested blocks
-            if isinstance(stmt, IfBlock):
-                self._check_error_handling_in_stmts(stmt.then_body, result)
-                if stmt.else_body:
-                    self._check_error_handling_in_stmts(stmt.else_body, result)
-            elif isinstance(stmt, MenuBlock):
-                for case in stmt.cases:
-                    self._check_error_handling_in_stmts(case.body, result)
-            elif isinstance(stmt, RepeatBlock):
-                self._check_error_handling_in_stmts(stmt.body, result)
-            elif isinstance(stmt, ForeachBlock):
-                self._check_error_handling_in_stmts(stmt.body, result)
+            for body, _ctx, _is_loop in iter_child_blocks(stmt):
+                self._check_error_handling_in_stmts(body, result)
 
     # ── Rule 4: Unreachable Code Detection ───────────────────────────
 
@@ -807,54 +860,38 @@ class DomainValidationLayer:
                 action_lower = stmt.action_name.lower()
                 if action_lower in _EXIT_ACTIONS and i < len(stmts) - 1:
                     # Check if remaining statements are all comments
-                    remaining = stmts[i + 1:]
+                    remaining = stmts[i + 1 :]
                     non_comment = [s for s in remaining if not isinstance(s, Comment)]
                     if non_comment:
                         next_stmt = non_comment[0]
-                        line_num = getattr(next_stmt, 'line_number', 0)
-                        result.warnings.append(ValidationError(
-                            severity="warning",
-                            category="unreachable_code",
-                            message=(
-                                f"Statement after '{stmt.action_name}' may be unreachable"
-                            ),
-                            action_name=getattr(next_stmt, 'action_name', ''),
-                            line_number=line_num,
-                        ))
+                        line_num = getattr(next_stmt, "line_number", 0)
+                        result.warnings.append(
+                            ValidationError(
+                                severity="warning",
+                                category="unreachable_code",
+                                message=(
+                                    f"Statement after '{stmt.action_name}' may be unreachable"
+                                ),
+                                action_name=getattr(next_stmt, "action_name", ""),
+                                line_number=line_num,
+                            )
+                        )
 
             # Recurse into nested blocks
-            if isinstance(stmt, IfBlock):
-                self._check_unreachable_in_stmts(stmt.then_body, result)
-                if stmt.else_body:
-                    self._check_unreachable_in_stmts(stmt.else_body, result)
-            elif isinstance(stmt, MenuBlock):
-                for case in stmt.cases:
-                    self._check_unreachable_in_stmts(case.body, result)
-            elif isinstance(stmt, RepeatBlock):
-                self._check_unreachable_in_stmts(stmt.body, result)
-            elif isinstance(stmt, ForeachBlock):
-                self._check_unreachable_in_stmts(stmt.body, result)
+            for body, _ctx, _is_loop in iter_child_blocks(stmt):
+                self._check_unreachable_in_stmts(body, result)
 
     # ── Helpers ───────────────────────────────────────────────────────
 
     def _walk_actions(self, stmts: list[Statement]) -> list[ActionStatement]:
         """Recursively collect all ActionStatements from nested blocks."""
-        actions: list[ActionStatement] = []
+        result: list[ActionStatement] = []
         for stmt in stmts:
             if isinstance(stmt, ActionStatement):
-                actions.append(stmt)
-            elif isinstance(stmt, IfBlock):
-                actions.extend(self._walk_actions(stmt.then_body))
-                if stmt.else_body:
-                    actions.extend(self._walk_actions(stmt.else_body))
-            elif isinstance(stmt, MenuBlock):
-                for case in stmt.cases:
-                    actions.extend(self._walk_actions(case.body))
-            elif isinstance(stmt, RepeatBlock):
-                actions.extend(self._walk_actions(stmt.body))
-            elif isinstance(stmt, ForeachBlock):
-                actions.extend(self._walk_actions(stmt.body))
-        return actions
+                result.append(stmt)
+            for body, _ctx, _is_loop in iter_child_blocks(stmt):
+                result.extend(self._walk_actions(body))
+        return result
 
     @staticmethod
     def _is_action(stmt: ActionStatement, short_name: str) -> bool:
@@ -921,6 +958,7 @@ def validate_ir(
     if domain_profile != "general":
         try:
             from domain_profile import DomainProfileManager
+
             mgr = DomainProfileManager()
             domain_data = mgr.get_validation_data(domain_profile)
         except ImportError:

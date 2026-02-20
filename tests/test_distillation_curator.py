@@ -15,7 +15,6 @@ Run: python3 scripts/test_distillation_curator.py
 """
 
 import json
-import os
 import sys
 import tempfile
 from pathlib import Path
@@ -29,14 +28,13 @@ _TRAINING_DIR = _SCRIPT_DIR.parent / "training"
 sys.path.insert(0, str(_TRAINING_DIR))
 
 from distillation_curator import (
-    DistillationCurator,
     CuratedEntry,
     CurationStats,
-    curate_distillation_log,
-    _word_overlap_similarity,
+    DistillationCurator,
     _normalize_prompt,
+    _word_overlap_similarity,
+    curate_distillation_log,
 )
-
 
 # -- Test Harness ----------------------------------------------------------
 
@@ -59,6 +57,7 @@ def run_test(name: str, fn):
 
 
 # -- Helpers ---------------------------------------------------------------
+
 
 def _make_entry(
     prompt: str = "Test prompt",
@@ -95,6 +94,7 @@ def _make_entry(
 # Quality Gate Tests
 # ==========================================================================
 
+
 def test_quality_passes_good_entry():
     """Entry that parses+validates+compiles passes quality gate."""
     curator = DistillationCurator()
@@ -104,6 +104,7 @@ def test_quality_passes_good_entry():
     assert len(curated) == 1, f"Expected 1 curated entry, got {len(curated)}"
     assert stats.quality_passed == 1
     assert stats.quality_failed == 0
+
 
 run_test("quality_passes_good_entry", test_quality_passes_good_entry)
 
@@ -117,6 +118,7 @@ def test_quality_rejects_unparsed():
     assert len(curated) == 0
     assert stats.failed_parse == 1
 
+
 run_test("quality_rejects_unparsed", test_quality_rejects_unparsed)
 
 
@@ -128,6 +130,7 @@ def test_quality_rejects_unvalidated():
 
     assert len(curated) == 0
     assert stats.failed_validate == 1
+
 
 run_test("quality_rejects_unvalidated", test_quality_rejects_unvalidated)
 
@@ -141,6 +144,7 @@ def test_quality_rejects_uncompiled():
     assert len(curated) == 0
     assert stats.failed_compile == 1
 
+
 run_test("quality_rejects_uncompiled", test_quality_rejects_uncompiled)
 
 
@@ -153,6 +157,7 @@ def test_quality_rejects_low_creativity():
     assert len(curated) == 0
     assert stats.failed_creativity == 1
 
+
 run_test("quality_rejects_low_creativity", test_quality_rejects_low_creativity)
 
 
@@ -164,12 +169,14 @@ def test_quality_passes_no_creativity_score():
 
     assert len(curated) == 1
 
+
 run_test("quality_passes_no_creativity_score", test_quality_passes_no_creativity_score)
 
 
 # ==========================================================================
 # Deduplication Tests
 # ==========================================================================
+
 
 def test_dedup_removes_identical():
     """Identical prompts are deduplicated."""
@@ -182,6 +189,7 @@ def test_dedup_removes_identical():
 
     assert len(curated) == 1
     assert stats.dedup_removed == 1
+
 
 run_test("dedup_removes_identical", test_dedup_removes_identical)
 
@@ -198,6 +206,7 @@ def test_dedup_removes_similar():
     assert len(curated) == 1
     assert stats.dedup_removed == 1
 
+
 run_test("dedup_removes_similar", test_dedup_removes_similar)
 
 
@@ -213,6 +222,7 @@ def test_dedup_keeps_different():
     assert len(curated) == 2
     assert stats.dedup_removed == 0
 
+
 run_test("dedup_keeps_different", test_dedup_keeps_different)
 
 
@@ -220,10 +230,12 @@ run_test("dedup_keeps_different", test_dedup_keeps_different)
 # Similarity Function Tests
 # ==========================================================================
 
+
 def test_similarity_identical():
     """Identical prompts have similarity 1.0."""
     sim = _word_overlap_similarity("Set a timer", "Set a timer")
     assert sim == 1.0, f"Expected 1.0, got {sim}"
+
 
 run_test("similarity_identical", test_similarity_identical)
 
@@ -231,10 +243,10 @@ run_test("similarity_identical", test_similarity_identical)
 def test_similarity_different():
     """Completely different prompts have low similarity."""
     sim = _word_overlap_similarity(
-        "Set a timer for 5 minutes",
-        "Deploy a backend server with database"
+        "Set a timer for 5 minutes", "Deploy a backend server with database"
     )
     assert sim < 0.3, f"Expected < 0.3, got {sim}"
+
 
 run_test("similarity_different", test_similarity_different)
 
@@ -244,12 +256,14 @@ def test_normalize_prompt():
     norm = _normalize_prompt("  Set a Timer!  For 5 Minutes. ")
     assert norm == "set a timer for 5 minutes", f"Got: {norm}"
 
+
 run_test("normalize_prompt", test_normalize_prompt)
 
 
 # ==========================================================================
 # Scenario Balancing Tests
 # ==========================================================================
+
 
 def test_scenario_balancing():
     """max_per_scenario caps entries per scenario."""
@@ -262,12 +276,14 @@ def test_scenario_balancing():
 
     assert len(curated) == 2, f"Expected 2 after capping, got {len(curated)}"
 
+
 run_test("scenario_balancing", test_scenario_balancing)
 
 
 # ==========================================================================
 # Output Format Tests
 # ==========================================================================
+
 
 def test_curated_entry_to_dict():
     """CuratedEntry.to_training_dict produces expected format."""
@@ -289,6 +305,7 @@ def test_curated_entry_to_dict():
     assert d["metadata"]["domain_profile"] == "health_logger"
     assert d["metadata"]["creativity_score"] == 0.75
 
+
 run_test("curated_entry_to_dict", test_curated_entry_to_dict)
 
 
@@ -308,6 +325,7 @@ def test_stats_summary():
     assert "8" in summary
     assert "7" in summary
 
+
 run_test("stats_summary", test_stats_summary)
 
 
@@ -315,14 +333,14 @@ run_test("stats_summary", test_stats_summary)
 # File-Based Curation Tests
 # ==========================================================================
 
+
 def test_curate_file():
     """File-based curation reads JSONL and writes curated output."""
-    entries = [
-        _make_entry(prompt=f"Task {i}", shortcut_id=f"id-{i}")
-        for i in range(5)
-    ]
+    entries = [_make_entry(prompt=f"Task {i}", shortcut_id=f"id-{i}") for i in range(5)]
     # Add a failing entry
-    entries.append(_make_entry(prompt="Failing task", parsed=False, shortcut_id="id-fail"))
+    entries.append(
+        _make_entry(prompt="Failing task", parsed=False, shortcut_id="id-fail")
+    )
 
     with tempfile.TemporaryDirectory() as tmpdir:
         input_path = Path(tmpdir) / "distillation_log.jsonl"
@@ -354,6 +372,7 @@ def test_curate_file():
         assert "completion" in first
         assert "metadata" in first
 
+
 run_test("curate_file", test_curate_file)
 
 
@@ -373,12 +392,14 @@ def test_convenience_function():
         assert stats.input_count == 3
         assert stats.output_count == 3
 
+
 run_test("convenience_function", test_convenience_function)
 
 
 # ==========================================================================
 # Scenario Distribution Test
 # ==========================================================================
+
 
 def test_scenario_distribution():
     """Stats correctly tracks scenario distribution."""
@@ -392,6 +413,7 @@ def test_scenario_distribution():
 
     assert stats.scenario_distribution.get("health_tracking") == 2
     assert stats.scenario_distribution.get("api_integration") == 1
+
 
 run_test("scenario_distribution", test_scenario_distribution)
 

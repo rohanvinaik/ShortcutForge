@@ -17,7 +17,7 @@ if str(_SRC_DIR) not in sys.path:
 _TRAINING_DIR = _SCRIPT_DIR.parent / "training"
 sys.path.insert(0, str(_TRAINING_DIR))
 
-from label_training_data import TrainingDataLabeler, _detect_constructs, _count_actions
+from label_training_data import TrainingDataLabeler, _count_actions, _detect_constructs
 
 
 class TestConstructDetection(unittest.TestCase):
@@ -90,13 +90,13 @@ class TestTrainingDataLabeler(unittest.TestCase):
                 {"role": "system", "content": "You are ShortcutForge..."},
                 {"role": "user", "content": prompt},
                 {"role": "assistant", "content": dsl},
-            ]
+            ],
         }
 
     def test_label_simple_example(self):
         example = self._make_example(
             "Open the Calculator app",
-            'SHORTCUT "Open Calc"\nACTION openapp WFAppIdentifier="com.apple.calculator"'
+            'SHORTCUT "Open Calc"\nACTION openapp WFAppIdentifier="com.apple.calculator"',
         )
         result = self.labeler.label_example(example)
         labels = result["labels"]
@@ -110,7 +110,7 @@ class TestTrainingDataLabeler(unittest.TestCase):
     def test_label_health_example(self):
         example = self._make_example(
             "Log my caffeine intake to HealthKit with the vitamin supplements",
-            'SHORTCUT "Health Log"\nACTION health.quantity.log WFQuantitySampleType="Caffeine"\nACTION health.quantity.log WFQuantitySampleType="Vitamin C"'
+            'SHORTCUT "Health Log"\nACTION health.quantity.log WFQuantitySampleType="Caffeine"\nACTION health.quantity.log WFQuantitySampleType="Vitamin C"',
         )
         result = self.labeler.label_example(example)
         labels = result["labels"]
@@ -120,7 +120,7 @@ class TestTrainingDataLabeler(unittest.TestCase):
     def test_label_api_example(self):
         example = self._make_example(
             "Fetch JSON data from the REST API endpoint and parse the response",
-            'SHORTCUT "API Fetch"\nACTION url WFURLActionURL="https://api.example.com/data"\nACTION downloadurl WFHTTPMethod="GET"\nIF $response "is" ""\nACTION alert WFAlertActionTitle="Error"\nENDIF'
+            'SHORTCUT "API Fetch"\nACTION url WFURLActionURL="https://api.example.com/data"\nACTION downloadurl WFHTTPMethod="GET"\nIF $response "is" ""\nACTION alert WFAlertActionTitle="Error"\nENDIF',
         )
         result = self.labeler.label_example(example)
         labels = result["labels"]
@@ -130,7 +130,7 @@ class TestTrainingDataLabeler(unittest.TestCase):
     def test_label_file_example(self):
         example = self._make_example(
             "Save the document file to a folder in iCloud",
-            'SHORTCUT "Save File"\nACTION savefile'
+            'SHORTCUT "Save File"\nACTION savefile',
         )
         result = self.labeler.label_example(example)
         self.assertEqual(result["labels"]["domain"], "file_operations")
@@ -138,7 +138,7 @@ class TestTrainingDataLabeler(unittest.TestCase):
     def test_label_media_example(self):
         example = self._make_example(
             "Resize photos and crop the image to a thumbnail",
-            'SHORTCUT "Resize"\nACTION resizeimage\nACTION cropimage'
+            'SHORTCUT "Resize"\nACTION resizeimage\nACTION cropimage',
         )
         result = self.labeler.label_example(example)
         self.assertEqual(result["labels"]["domain"], "media_processing")
@@ -146,7 +146,7 @@ class TestTrainingDataLabeler(unittest.TestCase):
     def test_label_scheduling_example(self):
         example = self._make_example(
             "Create a calendar event and set a reminder for the meeting",
-            'SHORTCUT "Schedule"\nACTION addnewevent\nACTION addnewreminder'
+            'SHORTCUT "Schedule"\nACTION addnewevent\nACTION addnewreminder',
         )
         result = self.labeler.label_example(example)
         self.assertEqual(result["labels"]["domain"], "scheduling")
@@ -154,7 +154,7 @@ class TestTrainingDataLabeler(unittest.TestCase):
     def test_label_messaging_example(self):
         example = self._make_example(
             "Send a text message to my contact via email",
-            'SHORTCUT "Message"\nACTION sendmessage'
+            'SHORTCUT "Message"\nACTION sendmessage',
         )
         result = self.labeler.label_example(example)
         self.assertEqual(result["labels"]["domain"], "messaging")
@@ -174,7 +174,9 @@ class TestTrainingDataLabeler(unittest.TestCase):
         """Write examples to temp file, label them, verify output."""
         examples = [
             self._make_example("Open the app", 'SHORTCUT "T"\nACTION openapp'),
-            self._make_example("Set a timer for 5 minutes", 'SHORTCUT "T"\nACTION starttimer'),
+            self._make_example(
+                "Set a timer for 5 minutes", 'SHORTCUT "T"\nACTION starttimer'
+            ),
         ]
 
         with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False) as f:
@@ -209,9 +211,15 @@ class TestTrainingDataLabeler(unittest.TestCase):
     def test_label_file_skips_empty_lines(self):
         """Empty lines in JSONL should be skipped."""
         with tempfile.NamedTemporaryFile(mode="w", suffix=".jsonl", delete=False) as f:
-            f.write(json.dumps(self._make_example("Test", 'SHORTCUT "T"\nACTION alert')) + "\n")
+            f.write(
+                json.dumps(self._make_example("Test", 'SHORTCUT "T"\nACTION alert'))
+                + "\n"
+            )
             f.write("\n")
-            f.write(json.dumps(self._make_example("Test2", 'SHORTCUT "T2"\nACTION alert')) + "\n")
+            f.write(
+                json.dumps(self._make_example("Test2", 'SHORTCUT "T2"\nACTION alert'))
+                + "\n"
+            )
             input_path = Path(f.name)
 
         try:

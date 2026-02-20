@@ -9,44 +9,38 @@ Pipeline: DSL text → (parser) → ShortcutIR → (validator) → validated IR 
 
 from __future__ import annotations
 
-import sys
-from pathlib import Path
-from typing import Any, Optional, Union
+from typing import Any
 
 from dsl_ir import (
-    ShortcutIR,
     ActionStatement,
-    SetVariable,
-    IfBlock,
-    MenuBlock,
-    RepeatBlock,
-    ForeachBlock,
-    Comment,
-    StringValue,
-    NumberValue,
     BoolValue,
-    VarRef,
-    HandleRef,
-    InterpolatedString,
     DictLiteral,
-    ListLiteral,
-    QuantityLiteral,
+    ForeachBlock,
+    HandleRef,
     HeadersLiteral,
-    Statement,
+    IfBlock,
+    InterpolatedString,
     IRValue,
+    ListLiteral,
+    MenuBlock,
+    NumberValue,
+    QuantityLiteral,
+    RepeatBlock,
+    SetVariable,
+    ShortcutIR,
+    Statement,
+    StringValue,
+    VarRef,
 )
-
 from shortcuts_compiler import (
+    ActionHandle,
     Shortcut,
     actions,
-    ActionHandle,
-    ref_variable,
-    ref_extension_input,
     ref_current_date,
-    wrap_token_attachment,
+    ref_extension_input,
+    ref_variable,
     wrap_token_string,
     wrap_token_string_multi,
-    wrap_conditional_input,
 )
 
 
@@ -82,22 +76,20 @@ class CompilerBridge:
 
         return self._shortcut
 
+    _STMT_COMPILERS: dict[type, str] = {
+        ActionStatement: "_compile_action",
+        SetVariable: "_compile_set_variable",
+        IfBlock: "_compile_if_block",
+        MenuBlock: "_compile_menu_block",
+        RepeatBlock: "_compile_repeat_block",
+        ForeachBlock: "_compile_foreach_block",
+    }
+
     def _compile_statements(self, stmts: list[Statement]) -> None:
         for stmt in stmts:
-            if isinstance(stmt, ActionStatement):
-                self._compile_action(stmt)
-            elif isinstance(stmt, SetVariable):
-                self._compile_set_variable(stmt)
-            elif isinstance(stmt, IfBlock):
-                self._compile_if_block(stmt)
-            elif isinstance(stmt, MenuBlock):
-                self._compile_menu_block(stmt)
-            elif isinstance(stmt, RepeatBlock):
-                self._compile_repeat_block(stmt)
-            elif isinstance(stmt, ForeachBlock):
-                self._compile_foreach_block(stmt)
-            elif isinstance(stmt, Comment):
-                pass  # Comments don't compile to actions
+            method_name = self._STMT_COMPILERS.get(type(stmt))
+            if method_name is not None:
+                getattr(self, method_name)(stmt)
 
     def _compile_action(self, stmt: ActionStatement) -> None:
         """Compile an ACTION statement."""
@@ -111,17 +103,25 @@ class CompilerBridge:
         # Handle 'name' key collision: actions.make() takes 'name' as first positional arg.
         if "name" in params:
             name_val = params.pop("name")
-            action_dict = actions.make(stmt.action_name, _validate_params=False, **params)
+            action_dict = actions.make(
+                stmt.action_name, _validate_params=False, **params
+            )
             action_dict["WFWorkflowActionParameters"]["name"] = name_val
         else:
-            action_dict = actions.make(stmt.action_name, _validate_params=False, **params)
+            action_dict = actions.make(
+                stmt.action_name, _validate_params=False, **params
+            )
         handle = self._shortcut.add(action_dict)
         self._handle_stack.append(handle)
         # Register by action short name for named handle resolution (@someName)
         # The decompiler names non-@prev handles after the action's short name,
         # so we mirror that here. Later refs to @someName look up this dict first
         # and produce ActionOutput refs (not Variable refs).
-        short = stmt.action_name.rsplit(".", 1)[-1] if "." in stmt.action_name else stmt.action_name
+        short = (
+            stmt.action_name.rsplit(".", 1)[-1]
+            if "." in stmt.action_name
+            else stmt.action_name
+        )
         self._named_handles[short] = handle
 
     def _compile_set_variable(self, stmt: SetVariable) -> None:
@@ -197,35 +197,30 @@ class CompilerBridge:
         For ActionHandle-wrappable values, returns the handle itself
         so the compiler's auto-wrapping can apply.
         """
-        if isinstance(value, StringValue):
+        if isinstance(value, (StringValue, NumberValue, BoolValue)):
             return value.value
-        elif isinstance(value, NumberValue):
-            return value.value
-        elif isinstance(value, BoolValue):
-            return value.value
-        elif isinstance(value, VarRef):
-            # If we have an ActionHandle for this variable, use it
-            if value.name in self._variables:
-                return self._variables[value.name]
-            # Otherwise, build a variable reference dict
-            return ref_variable(value.name)
-        elif isinstance(value, HandleRef):
+        if isinstance(value, VarRef):
+            return self._variables.get(value.name) or ref_variable(value.name)
+        if isinstance(value, HandleRef):
             return self._resolve_handle(value)
-        elif isinstance(value, InterpolatedString):
+        if isinstance(value, InterpolatedString):
             return self._resolve_interpolated(value)
-        elif isinstance(value, DictLiteral):
+        if isinstance(value, DictLiteral):
             return self._resolve_dict(value)
-        elif isinstance(value, ListLiteral):
+        if isinstance(value, ListLiteral):
             return self._resolve_list(value)
-        elif isinstance(value, QuantityLiteral):
-            mag = value.magnitude
-            if isinstance(mag, (VarRef, HandleRef)):
-                mag = self._resolve_value(mag)
-            return actions.build_quantity(mag, value.unit)
-        elif isinstance(value, HeadersLiteral):
+        if isinstance(value, QuantityLiteral):
+            return self._resolve_quantity(value)
+        if isinstance(value, HeadersLiteral):
             return self._resolve_headers(value)
-        else:
-            raise ValueError(f"Unknown IR value type: {type(value)}")
+        raise ValueError(f"Unknown IR value type: {type(value)}")
+
+    def _resolve_quantity(self, value: QuantityLiteral) -> Any:
+        """Resolve a quantity literal to a compiler quantity dict."""
+        mag = value.magnitude
+        if isinstance(mag, (VarRef, HandleRef)):
+            mag = self._resolve_value(mag)
+        return actions.build_quantity(mag, value.unit)
 
     def _resolve_value_raw(self, value: IRValue) -> Any:
         """Resolve an IR value to a raw Python value (for compare_value in conditionals).
@@ -284,59 +279,52 @@ class CompilerBridge:
 
     def _resolve_interpolated(self, interp: InterpolatedString) -> Any:
         """Resolve an interpolated string to a token string or plain string."""
-        # Check if there are any embedded references
         refs = [p for p in interp.parts if isinstance(p, (VarRef, HandleRef))]
         if not refs:
-            # No references — just concatenate strings
             return "".join(
-                p.value if isinstance(p, StringValue) else str(p)
-                for p in interp.parts
+                p.value if isinstance(p, StringValue) else str(p) for p in interp.parts
             )
-
         if len(refs) == 1:
-            # Single reference — use wrap_token_string
-            before_parts = []
-            after_parts = []
-            found_ref = False
-            attachment = None
+            return self._resolve_single_ref_interp(interp)
+        return self._resolve_multi_ref_interp(interp)
 
-            for part in interp.parts:
-                if isinstance(part, (VarRef, HandleRef)):
-                    found_ref = True
-                    resolved = self._resolve_value(part)
-                    if isinstance(resolved, ActionHandle):
-                        attachment = resolved.ref()
-                    elif isinstance(resolved, dict):
-                        attachment = resolved
-                    else:
-                        attachment = ref_variable(str(resolved))
-                elif isinstance(part, StringValue):
-                    if found_ref:
-                        after_parts.append(part.value)
-                    else:
-                        before_parts.append(part.value)
+    def _resolve_ref_to_attachment(self, resolved: Any) -> Any:
+        """Convert a resolved reference to an attachment dict for token strings."""
+        if isinstance(resolved, ActionHandle):
+            return resolved.ref()
+        if isinstance(resolved, dict):
+            return resolved
+        return ref_variable(str(resolved))
 
-            before = "".join(before_parts)
-            after = "".join(after_parts)
-            return wrap_token_string(before, attachment, after)
-        else:
-            # Multiple references — use wrap_token_string_multi
-            template = ""
-            attachments = []
-            for part in interp.parts:
-                if isinstance(part, StringValue):
-                    template += part.value
-                elif isinstance(part, (VarRef, HandleRef)):
-                    template += "\ufffc"
-                    resolved = self._resolve_value(part)
-                    if isinstance(resolved, ActionHandle):
-                        attachments.append(resolved.ref())
-                    elif isinstance(resolved, dict):
-                        attachments.append(resolved)
-                    else:
-                        attachments.append(ref_variable(str(resolved)))
+    def _resolve_single_ref_interp(self, interp: InterpolatedString) -> Any:
+        """Resolve an interpolated string with exactly one embedded reference."""
+        before_parts: list[str] = []
+        after_parts: list[str] = []
+        found_ref = False
+        attachment = None
 
-            return wrap_token_string_multi(template, attachments)
+        for part in interp.parts:
+            if isinstance(part, (VarRef, HandleRef)):
+                found_ref = True
+                attachment = self._resolve_ref_to_attachment(self._resolve_value(part))
+            elif isinstance(part, StringValue):
+                (after_parts if found_ref else before_parts).append(part.value)
+
+        return wrap_token_string("".join(before_parts), attachment, "".join(after_parts))
+
+    def _resolve_multi_ref_interp(self, interp: InterpolatedString) -> Any:
+        """Resolve an interpolated string with multiple embedded references."""
+        template = ""
+        attachments = []
+        for part in interp.parts:
+            if isinstance(part, StringValue):
+                template += part.value
+            elif isinstance(part, (VarRef, HandleRef)):
+                template += "\ufffc"
+                attachments.append(
+                    self._resolve_ref_to_attachment(self._resolve_value(part))
+                )
+        return wrap_token_string_multi(template, attachments)
 
     def _resolve_dict(self, d: DictLiteral) -> list[dict]:
         """Resolve a dict literal to build_dict_items format.
@@ -418,6 +406,7 @@ class CompilerBridge:
 # ============================================================
 # Public API
 # ============================================================
+
 
 def compile_ir(ir: ShortcutIR) -> Shortcut:
     """Compile a ShortcutIR into a Shortcut object.

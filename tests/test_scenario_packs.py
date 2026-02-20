@@ -19,11 +19,12 @@ sys.path.insert(0, str(_SRC_DIR))
 _TRAINING_DIR = _SCRIPT_DIR.parent / "training"
 sys.path.insert(0, str(_TRAINING_DIR))
 
+from evaluate_scenario import load_scenario_pack, score_dsl_text
+
+from dsl_bridge import compile_ir
 from dsl_linter import lint_dsl
 from dsl_parser import parse_dsl
 from dsl_validator import validate_ir
-from dsl_bridge import compile_ir
-from evaluate_scenario import load_scenario_pack, score_dsl_text
 
 # ── Constants ────────────────────────────────────────────────────────
 
@@ -60,6 +61,7 @@ def _load_reference_dsl(pack_name: str) -> str:
 
 # ── 1. TestAllPacksExist ─────────────────────────────────────────────
 
+
 class TestAllPacksExist(unittest.TestCase):
     """Verify all 8 scenario pack directories exist and contain both files."""
 
@@ -83,6 +85,7 @@ class TestAllPacksExist(unittest.TestCase):
 
 
 # ── 2. TestRubricSchema ─────────────────────────────────────────────
+
 
 class TestRubricSchema(unittest.TestCase):
     """Verify each rubric has the required top-level fields with correct types."""
@@ -139,6 +142,7 @@ class TestRubricSchema(unittest.TestCase):
 
 # ── 3. TestScoringWeights ────────────────────────────────────────────
 
+
 class TestScoringWeights(unittest.TestCase):
     """Verify scoring dimension weights sum to 1.0 for each pack."""
 
@@ -148,9 +152,7 @@ class TestScoringWeights(unittest.TestCase):
                 rubric = _load_rubric(pack_name)
                 scoring = rubric["scoring"]
 
-                total_weight = sum(
-                    dim["weight"] for dim in scoring.values()
-                )
+                total_weight = sum(dim["weight"] for dim in scoring.values())
                 self.assertAlmostEqual(
                     total_weight,
                     1.0,
@@ -161,6 +163,7 @@ class TestScoringWeights(unittest.TestCase):
 
 
 # ── 4. TestPromptVariants ────────────────────────────────────────────
+
 
 class TestPromptVariants(unittest.TestCase):
     """Verify each prompt variant has required fields with valid values."""
@@ -174,15 +177,18 @@ class TestPromptVariants(unittest.TestCase):
                 for i, variant in enumerate(variants):
                     with self.subTest(variant_index=i):
                         self.assertIn(
-                            "id", variant,
+                            "id",
+                            variant,
                             f"{pack_name} variant {i}: missing 'id'",
                         )
                         self.assertIn(
-                            "difficulty", variant,
+                            "difficulty",
+                            variant,
                             f"{pack_name} variant {i}: missing 'difficulty'",
                         )
                         self.assertIn(
-                            "prompt", variant,
+                            "prompt",
+                            variant,
                             f"{pack_name} variant {i}: missing 'prompt'",
                         )
 
@@ -197,6 +203,7 @@ class TestPromptVariants(unittest.TestCase):
 
 # ── 5. TestReferenceDslParses ────────────────────────────────────────
 
+
 class TestReferenceDslParses(unittest.TestCase):
     """Verify each reference.dsl parses without errors after linting."""
 
@@ -208,9 +215,7 @@ class TestReferenceDslParses(unittest.TestCase):
                 try:
                     ir = parse_dsl(lint_result.text)
                 except Exception as e:
-                    self.fail(
-                        f"{pack_name}: reference.dsl failed to parse: {e}"
-                    )
+                    self.fail(f"{pack_name}: reference.dsl failed to parse: {e}")
                 self.assertIsNotNone(ir)
                 self.assertTrue(
                     hasattr(ir, "name"),
@@ -219,6 +224,7 @@ class TestReferenceDslParses(unittest.TestCase):
 
 
 # ── 6. TestReferenceDslValidates ─────────────────────────────────────
+
 
 class TestReferenceDslValidates(unittest.TestCase):
     """Verify each reference.dsl passes validation (strict=False)."""
@@ -239,6 +245,7 @@ class TestReferenceDslValidates(unittest.TestCase):
 
 # ── 7. TestReferenceDslCompiles ──────────────────────────────────────
 
+
 class TestReferenceDslCompiles(unittest.TestCase):
     """Verify each reference.dsl compiles without errors."""
 
@@ -251,13 +258,12 @@ class TestReferenceDslCompiles(unittest.TestCase):
                 try:
                     shortcut = compile_ir(ir)
                 except Exception as e:
-                    self.fail(
-                        f"{pack_name}: reference.dsl failed to compile: {e}"
-                    )
+                    self.fail(f"{pack_name}: reference.dsl failed to compile: {e}")
                 self.assertIsNotNone(shortcut)
 
 
 # ── 8. TestReferenceDslActionCount ───────────────────────────────────
+
 
 class TestReferenceDslActionCount(unittest.TestCase):
     """Verify each reference DSL has a reasonable minimum of actions (>= 5)."""
@@ -265,8 +271,13 @@ class TestReferenceDslActionCount(unittest.TestCase):
     def _count_actions(self, statements) -> int:
         """Recursively count ActionStatement nodes in IR statements."""
         from dsl_ir import (
-            ActionStatement, IfBlock, MenuBlock, RepeatBlock, ForeachBlock,
+            ActionStatement,
+            ForeachBlock,
+            IfBlock,
+            MenuBlock,
+            RepeatBlock,
         )
+
         count = 0
         for stmt in statements:
             if isinstance(stmt, ActionStatement):
@@ -301,6 +312,7 @@ class TestReferenceDslActionCount(unittest.TestCase):
 
 # ── 9. TestScoreReferenceDsl ─────────────────────────────────────────
 
+
 class TestScoreReferenceDsl(unittest.TestCase):
     """Score each reference DSL against its own rubric and verify quality."""
 
@@ -333,6 +345,7 @@ class TestScoreReferenceDsl(unittest.TestCase):
 
 # ── 10. TestScoringCriteria ──────────────────────────────────────────
 
+
 class TestScoringCriteria(unittest.TestCase):
     """Verify each criterion has 'description' and 'points' fields."""
 
@@ -344,7 +357,8 @@ class TestScoringCriteria(unittest.TestCase):
 
                 for dim_name, dim in scoring.items():
                     self.assertIn(
-                        "criteria", dim,
+                        "criteria",
+                        dim,
                         f"{pack_name}/{dim_name}: missing 'criteria'",
                     )
                     criteria = dim["criteria"]
@@ -355,18 +369,17 @@ class TestScoringCriteria(unittest.TestCase):
                     )
 
                     for crit_name, crit in criteria.items():
-                        with self.subTest(
-                            dimension=dim_name, criterion=crit_name
-                        ):
+                        with self.subTest(dimension=dim_name, criterion=crit_name):
                             self.assertIn(
-                                "description", crit,
+                                "description",
+                                crit,
                                 f"{pack_name}/{dim_name}/{crit_name}: "
                                 f"missing 'description'",
                             )
                             self.assertIn(
-                                "points", crit,
-                                f"{pack_name}/{dim_name}/{crit_name}: "
-                                f"missing 'points'",
+                                "points",
+                                crit,
+                                f"{pack_name}/{dim_name}/{crit_name}: missing 'points'",
                             )
                             points = crit["points"]
                             self.assertGreaterEqual(
@@ -385,12 +398,14 @@ class TestScoringCriteria(unittest.TestCase):
 
 # ── 11. TestScenarioDiscovery ────────────────────────────────────────
 
+
 class TestScenarioDiscovery(unittest.TestCase):
     """Verify scenario pack auto-discovery finds at least 8 packs."""
 
     def test_scenario_discovery(self):
         pack_dirs = sorted(
-            p for p in SCENARIO_PACKS_DIR.iterdir()
+            p
+            for p in SCENARIO_PACKS_DIR.iterdir()
             if p.is_dir() and not p.name.startswith(".")
         )
         self.assertGreaterEqual(

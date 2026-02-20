@@ -55,14 +55,12 @@ _VERB_TO_ACTIONS: dict[str, list[str]] = {
     "count": ["count"],
     "combine": ["text"],
     "format": ["text"],
-
     # Networking
     "download": ["downloadurl"],
     "fetch": ["downloadurl"],
     "request": ["downloadurl"],
     "upload": ["downloadurl"],
     "api": ["downloadurl", "url"],
-
     # Media
     "resize": ["resizeimage"],
     "crop": ["cropimage"],
@@ -70,33 +68,28 @@ _VERB_TO_ACTIONS: dict[str, list[str]] = {
     "screenshot": ["takescreenshot"],
     "gif": ["makegif"],
     "video": ["trimvideo"],
-
     # Communication
     "message": ["sendmessage"],
     "email": ["sendemail"],
     "text": ["sendmessage"],
     "call": ["phone"],
     "share": ["share"],
-
     # Calendar
     "event": ["addnewevent"],
     "reminder": ["addnewreminder"],
     "calendar": ["getcalendarevents"],
     "schedule": ["addnewevent"],
-
     # Files
     "save": ["savefile"],
     "open": ["openin", "openurl"],
     "file": ["getfile", "savefile"],
     "rename": ["rename"],
     "folder": ["createfolder"],
-
     # Health
     "health": ["health.quantity.log"],
     "caffeine": ["health.quantity.log"],
     "nutrient": ["health.quantity.log"],
     "workout": ["health.workout.log"],
-
     # System
     "bluetooth": ["bluetooth.set"],
     "wifi": ["wifi.set"],
@@ -104,7 +97,6 @@ _VERB_TO_ACTIONS: dict[str, list[str]] = {
     "volume": ["setvolume"],
     "timer": ["starttimer"],
     "alarm": ["createalarm"],
-
     # UI
     "menu": ["choosefromlist"],
     "ask": ["askforinput"],
@@ -116,7 +108,6 @@ _VERB_TO_ACTIONS: dict[str, list[str]] = {
     "clipboard": ["getclipboard", "setclipboard"],
     "copy": ["setclipboard"],
     "paste": ["getclipboard"],
-
     # Data
     "dictionary": ["detect.dictionary"],
     "json": ["detect.dictionary", "downloadurl"],
@@ -131,27 +122,77 @@ _VERB_TO_ACTIONS: dict[str, list[str]] = {
 
 _ARCHETYPE_SIGNALS: dict[str, set[str]] = {
     "data_transform": {
-        "split", "replace", "format", "convert", "transform",
-        "parse", "extract", "clean", "text", "uppercase",
-        "lowercase", "trim", "combine", "regex",
+        "split",
+        "replace",
+        "format",
+        "convert",
+        "transform",
+        "parse",
+        "extract",
+        "clean",
+        "text",
+        "uppercase",
+        "lowercase",
+        "trim",
+        "combine",
+        "regex",
     },
     "automation": {
-        "set", "toggle", "enable", "disable", "turn", "start",
-        "stop", "timer", "alarm", "automate", "routine",
-        "schedule", "batch", "trigger",
+        "set",
+        "toggle",
+        "enable",
+        "disable",
+        "turn",
+        "start",
+        "stop",
+        "timer",
+        "alarm",
+        "automate",
+        "routine",
+        "schedule",
+        "batch",
+        "trigger",
     },
     "interactive_app": {
-        "menu", "ask", "choose", "input", "prompt", "select",
-        "pick", "quiz", "game", "dialog", "question",
+        "menu",
+        "ask",
+        "choose",
+        "input",
+        "prompt",
+        "select",
+        "pick",
+        "quiz",
+        "game",
+        "dialog",
+        "question",
     },
     "api_integration": {
-        "api", "fetch", "download", "url", "json", "webhook",
-        "server", "endpoint", "http", "rest", "request",
+        "api",
+        "fetch",
+        "download",
+        "url",
+        "json",
+        "webhook",
+        "server",
+        "endpoint",
+        "http",
+        "rest",
+        "request",
     },
     "system_control": {
-        "bluetooth", "wifi", "volume", "brightness", "airplane",
-        "dnd", "focus", "wallpaper", "flashlight", "cellular",
-        "appearance", "dark", "light",
+        "bluetooth",
+        "wifi",
+        "volume",
+        "brightness",
+        "airplane",
+        "dnd",
+        "focus",
+        "wallpaper",
+        "flashlight",
+        "cellular",
+        "appearance",
+        "dark",
+        "light",
     },
 }
 
@@ -200,9 +241,11 @@ _ARCHETYPE_TO_CREATIVE: dict[str, str] = {
 
 # ── Data Classes ──────────────────────────────────────────────────────
 
+
 @dataclass
 class PlanStep:
     """A single step in the execution plan."""
+
     description: str  # Human-readable step description
     candidate_actions: list[str] = field(default_factory=list)
     pattern_match: str | None = None  # Matched composition pattern name
@@ -212,6 +255,7 @@ class PlanStep:
 @dataclass
 class ExecutionPlan:
     """Complete execution plan for a prompt."""
+
     archetype: str  # data_transform, automation, interactive_app, api_integration, system_control, hybrid, general
     steps: list[PlanStep] = field(default_factory=list)
     suggested_domain: str = "general"
@@ -222,6 +266,7 @@ class ExecutionPlan:
 
 
 # ── ExecutionPlanner ──────────────────────────────────────────────────
+
 
 class ExecutionPlanner:
     """Produces structured execution plans from natural language prompts.
@@ -249,8 +294,8 @@ class ExecutionPlanner:
         try:
             with open(_ACTION_CATALOG_PATH) as f:
                 self._catalog = json.load(f)
-            self._canonical_map = (
-                self._catalog.get("_meta", {}).get("canonical_map", {})
+            self._canonical_map = self._catalog.get("_meta", {}).get(
+                "canonical_map", {}
             )
         except (FileNotFoundError, json.JSONDecodeError):
             self._catalog = {}
@@ -326,9 +371,7 @@ class ExecutionPlanner:
 
     # ── Action Matching ───────────────────────────────────────────
 
-    def _match_actions(
-        self, chunks: list[str]
-    ) -> dict[str, list[str]]:
+    def _match_actions(self, chunks: list[str]) -> dict[str, list[str]]:
         """Match tokenized words against verb-to-action mapping.
 
         Returns a dict mapping each matched word to its candidate
@@ -355,7 +398,6 @@ class ExecutionPlanner:
         Returns a list of matched idiom names.
         """
         matched_idioms: list[str] = []
-        prompt_text = " ".join(chunks)
         all_actions = set()
         for actions in action_matches.values():
             all_actions.update(actions)
@@ -364,7 +406,13 @@ class ExecutionPlanner:
         _idiom_keywords: dict[str, set[str]] = {
             "api_fetch_chain": {"api", "fetch", "download", "url", "json"},
             "text_split_pipeline": {"split", "text", "replace", "process"},
-            "device_settings_batch": {"bluetooth", "wifi", "volume", "brightness", "set"},
+            "device_settings_batch": {
+                "bluetooth",
+                "wifi",
+                "volume",
+                "brightness",
+                "set",
+            },
             "clipboard_roundtrip": {"clipboard", "copy", "paste"},
             "health_data": {"health", "caffeine", "workout", "nutrient", "log"},
             "multi_menu": {"menu", "choose", "select", "pick"},
@@ -481,7 +529,12 @@ class ExecutionPlanner:
                 _idiom_keyword_sets: dict[str, set[str]] = {
                     "api_fetch_chain": {"api", "fetch", "download", "url", "json"},
                     "text_split_pipeline": {"split", "text", "replace"},
-                    "device_settings_batch": {"bluetooth", "wifi", "volume", "brightness"},
+                    "device_settings_batch": {
+                        "bluetooth",
+                        "wifi",
+                        "volume",
+                        "brightness",
+                    },
                     "health_data": {"health", "caffeine", "workout", "nutrient"},
                     "clipboard_roundtrip": {"clipboard", "copy", "paste"},
                 }
@@ -518,7 +571,20 @@ class ExecutionPlanner:
                 # Non-matched word breaks the group
                 if current_group_words:
                     # Check if this is a connective word (and, then, to, etc.)
-                    if word in {"and", "then", "to", "the", "a", "an", "with", "from", "for", "it", "on", "in"}:
+                    if word in {
+                        "and",
+                        "then",
+                        "to",
+                        "the",
+                        "a",
+                        "an",
+                        "with",
+                        "from",
+                        "for",
+                        "it",
+                        "on",
+                        "in",
+                    }:
                         continue  # Skip connectives, keep group open
                     _flush_group()
                     current_group_words = []
@@ -527,14 +593,18 @@ class ExecutionPlanner:
         # Flush remaining group
         _flush_group()
 
-        return steps if steps else [
-            PlanStep(
-                description=" ".join(chunks),
-                candidate_actions=[],
-                pattern_match=None,
-                estimated_complexity="simple",
-            )
-        ]
+        return (
+            steps
+            if steps
+            else [
+                PlanStep(
+                    description=" ".join(chunks),
+                    candidate_actions=[],
+                    pattern_match=None,
+                    estimated_complexity="simple",
+                )
+            ]
+        )
 
     # ── Domain Suggestion ─────────────────────────────────────────
 
@@ -565,9 +635,7 @@ class ExecutionPlanner:
 
     # ── Budget Suggestion ─────────────────────────────────────────
 
-    def _suggest_budget(
-        self, steps: list[PlanStep], archetype: str
-    ) -> str:
+    def _suggest_budget(self, steps: list[PlanStep], archetype: str) -> str:
         """Suggest a complexity tier for token budgeting.
 
         Based on total step count and individual step complexity:
@@ -590,9 +658,7 @@ class ExecutionPlanner:
 
     # ── Creative Mode Suggestion ──────────────────────────────────
 
-    def _suggest_creative_mode(
-        self, archetype: str, steps: list[PlanStep]
-    ) -> str:
+    def _suggest_creative_mode(self, archetype: str, steps: list[PlanStep]) -> str:
         """Suggest a creative mode based on archetype.
 
         Maps archetype to creative mode via _ARCHETYPE_TO_CREATIVE.
@@ -626,6 +692,7 @@ class ExecutionPlanner:
 
 # ── Plan Context Formatting ───────────────────────────────────────────
 
+
 def format_plan_context(plan: ExecutionPlan) -> str:
     """Format an execution plan as structured text for prompt injection.
 
@@ -647,8 +714,14 @@ def format_plan_context(plan: ExecutionPlan) -> str:
     if plan.steps:
         lines.append("Steps:")
         for i, step in enumerate(plan.steps, 1):
-            actions_str = ", ".join(step.candidate_actions) if step.candidate_actions else "(none)"
-            pattern_str = f" [pattern: {step.pattern_match}]" if step.pattern_match else ""
+            actions_str = (
+                ", ".join(step.candidate_actions)
+                if step.candidate_actions
+                else "(none)"
+            )
+            pattern_str = (
+                f" [pattern: {step.pattern_match}]" if step.pattern_match else ""
+            )
             lines.append(
                 f"  {i}. {step.description} "
                 f"-> likely actions: {actions_str}{pattern_str}"
@@ -667,8 +740,10 @@ def format_plan_context(plan: ExecutionPlan) -> str:
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        print("Usage: python scripts/execution_planner.py \"<prompt>\"")
-        print("Example: python scripts/execution_planner.py \"Download weather data and show a notification\"")
+        print('Usage: python scripts/execution_planner.py "<prompt>"')
+        print(
+            'Example: python scripts/execution_planner.py "Download weather data and show a notification"'
+        )
         sys.exit(1)
 
     prompt = " ".join(sys.argv[1:])

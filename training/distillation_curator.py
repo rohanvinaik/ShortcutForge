@@ -26,9 +26,11 @@ __version__ = "1.0"
 
 # ── Data Classes ─────────────────────────────────────────────────
 
+
 @dataclass
 class CurationStats:
     """Statistics from a curation run."""
+
     input_count: int = 0
     quality_passed: int = 0
     quality_failed: int = 0
@@ -64,6 +66,7 @@ class CurationStats:
 @dataclass
 class CuratedEntry:
     """A single curated training example."""
+
     prompt: str
     canonicalized_output: str
     # Quality signals
@@ -99,6 +102,7 @@ class CuratedEntry:
 
 # ── Similarity ───────────────────────────────────────────────────
 
+
 def _normalize_prompt(prompt: str) -> str:
     """Normalize a prompt for similarity comparison."""
     # Lowercase, remove extra whitespace, strip punctuation
@@ -120,6 +124,7 @@ def _word_overlap_similarity(a: str, b: str) -> float:
 
 
 # ── Curator ──────────────────────────────────────────────────────
+
 
 class DistillationCurator:
     """Process distillation logs into curated training data.
@@ -207,13 +212,17 @@ class DistillationCurator:
             return None
 
         # Must have validated (permissive OK)
-        validated = entry.get("validated_permissive", False) or entry.get("validated_strict", False)
+        validated = entry.get("validated_permissive", False) or entry.get(
+            "validated_strict", False
+        )
         if not validated:
             stats.failed_validate += 1
             return None
 
         # Must have compiled (permissive OK)
-        compiled = entry.get("compiled_permissive", False) or entry.get("compiled_strict", False)
+        compiled = entry.get("compiled_permissive", False) or entry.get(
+            "compiled_strict", False
+        )
         if not compiled:
             stats.failed_compile += 1
             return None
@@ -332,6 +341,7 @@ class DistillationCurator:
 
 # ── Convenience ──────────────────────────────────────────────────
 
+
 def curate_distillation_log(
     input_path: str | Path,
     output_path: str | Path | None = None,
@@ -352,7 +362,9 @@ if __name__ == "__main__":
     import sys
 
     if len(sys.argv) < 2:
-        print("Usage: python distillation_curator.py <input.jsonl> [--output <out.jsonl>]")
+        print(
+            "Usage: python distillation_curator.py <input.jsonl> [--output <out.jsonl>]"
+        )
         print("       [--creativity-threshold 0.3] [--similarity-threshold 0.85]")
         sys.exit(1)
 
@@ -381,5 +393,5 @@ if __name__ == "__main__":
     )
     stats = curator.curate_file(input_file, output_file)
 
-    print(f"\nDistillation Curation Report:")
+    print("\nDistillation Curation Report:")
     print(stats.summary())

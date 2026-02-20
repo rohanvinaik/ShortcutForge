@@ -13,14 +13,15 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import Union
 
-
 # ============================================================
 # IR Value Types
 # ============================================================
 
+
 @dataclass(frozen=True)
 class StringValue:
     """A literal quoted string."""
+
     value: str
 
     def __repr__(self) -> str:
@@ -30,6 +31,7 @@ class StringValue:
 @dataclass(frozen=True)
 class NumberValue:
     """A literal number (int or float)."""
+
     value: Union[int, float]
 
     def __repr__(self) -> str:
@@ -39,6 +41,7 @@ class NumberValue:
 @dataclass(frozen=True)
 class BoolValue:
     """A literal boolean."""
+
     value: bool
 
     def __repr__(self) -> str:
@@ -48,6 +51,7 @@ class BoolValue:
 @dataclass(frozen=True)
 class VarRef:
     """Reference to a named variable: $varname."""
+
     name: str
 
     def __repr__(self) -> str:
@@ -57,6 +61,7 @@ class VarRef:
 @dataclass(frozen=True)
 class HandleRef:
     """Reference to an action handle: @prev, @item, @index, @input, @date, @named."""
+
     kind: str  # "prev", "item", "index", "input", "date", or a custom name
 
     def __repr__(self) -> str:
@@ -67,6 +72,7 @@ class HandleRef:
 class InterpolatedString:
     """A backtick-delimited string with embedded variable/handle references.
     Parts is a list of StringValue, VarRef, or HandleRef."""
+
     parts: tuple[Union[StringValue, VarRef, HandleRef], ...]
 
     def __repr__(self) -> str:
@@ -76,6 +82,7 @@ class InterpolatedString:
 @dataclass(frozen=True)
 class DictLiteral:
     """A dictionary literal: {"key": value, ...}."""
+
     entries: tuple[tuple[str, IRValue], ...]
 
     def __repr__(self) -> str:
@@ -86,6 +93,7 @@ class DictLiteral:
 @dataclass(frozen=True)
 class ListLiteral:
     """A list literal: [value, ...]."""
+
     items: tuple[IRValue, ...]
 
     def __repr__(self) -> str:
@@ -95,7 +103,8 @@ class ListLiteral:
 @dataclass(frozen=True)
 class QuantityLiteral:
     """A quantity literal: QTY(7, "days") or QTY(@prev, "m")."""
-    magnitude: Union[int, float, 'VarRef', 'HandleRef']
+
+    magnitude: Union[int, float, "VarRef", "HandleRef"]
     unit: str
 
     def __repr__(self) -> str:
@@ -105,6 +114,7 @@ class QuantityLiteral:
 @dataclass(frozen=True)
 class HeadersLiteral:
     """HTTP headers literal: HEADERS {"Key": "Value"}."""
+
     entries: tuple[tuple[str, IRValue], ...]
 
     def __repr__(self) -> str:
@@ -131,9 +141,11 @@ IRValue = Union[
 # IR Statement Types
 # ============================================================
 
+
 @dataclass
 class ActionStatement:
     """A single action: ACTION name param=value param=value."""
+
     action_name: str
     params: dict[str, IRValue]
     line_number: int = 0
@@ -146,6 +158,7 @@ class ActionStatement:
 @dataclass
 class SetVariable:
     """Variable assignment: SET $name = value."""
+
     var_name: str
     value: IRValue
     line_number: int = 0
@@ -157,6 +170,7 @@ class SetVariable:
 @dataclass
 class IfBlock:
     """Conditional block: IF target condition [compare_value] ... ELSE ... ENDIF."""
+
     target: Union[VarRef, HandleRef]
     condition: str
     compare_value: IRValue | None
@@ -173,6 +187,7 @@ class IfBlock:
 @dataclass
 class MenuCase:
     """A single menu case: CASE "label" statements..."""
+
     label: str
     body: list[Statement]
 
@@ -183,7 +198,8 @@ class MenuCase:
 @dataclass
 class MenuBlock:
     """Menu block: MENU "prompt" CASE ... CASE ... ENDMENU."""
-    prompt: Union[str, 'InterpolatedString']
+
+    prompt: Union[str, "InterpolatedString"]
     cases: list[MenuCase]
     line_number: int = 0
 
@@ -194,6 +210,7 @@ class MenuBlock:
 @dataclass
 class RepeatBlock:
     """Repeat block: REPEAT count ... ENDREPEAT."""
+
     count: IRValue
     body: list[Statement]
     line_number: int = 0
@@ -205,6 +222,7 @@ class RepeatBlock:
 @dataclass
 class ForeachBlock:
     """For-each block: FOREACH collection ... ENDFOREACH."""
+
     collection: Union[VarRef, HandleRef]
     body: list[Statement]
     line_number: int = 0
@@ -216,6 +234,7 @@ class ForeachBlock:
 @dataclass
 class Comment:
     """A comment line: # text."""
+
     text: str
     line_number: int = 0
 
@@ -233,12 +252,43 @@ Statement = Union[
 
 
 # ============================================================
+# Control-flow child-block dispatch
+# ============================================================
+
+
+def iter_child_blocks(
+    stmt: Statement,
+) -> list[tuple[list["Statement"], str, bool]]:
+    """Return (body, context_label, is_loop) for every child block of a control-flow statement.
+
+    Centralizes IfBlock/MenuBlock/RepeatBlock/ForeachBlock dispatch so that
+    every tree-walker in the codebase can iterate child bodies without
+    duplicating a 4-way isinstance chain.
+    """
+    results: list[tuple[list[Statement], str, bool]] = []
+    if isinstance(stmt, IfBlock):
+        results.append((stmt.then_body, "if_then", False))
+        if stmt.else_body:
+            results.append((stmt.else_body, "if_else", False))
+    elif isinstance(stmt, MenuBlock):
+        for case in stmt.cases:
+            results.append((case.body, "menu_case", False))
+    elif isinstance(stmt, RepeatBlock):
+        results.append((stmt.body, "repeat", True))
+    elif isinstance(stmt, ForeachBlock):
+        results.append((stmt.body, "foreach", True))
+    return results
+
+
+# ============================================================
 # Top-Level IR
 # ============================================================
+
 
 @dataclass
 class ShortcutIR:
     """Complete intermediate representation of a shortcut."""
+
     name: str
     statements: list[Statement] = field(default_factory=list)
 
@@ -262,6 +312,7 @@ class ShortcutIR:
 # Helpers
 # ============================================================
 
+
 def _count_actions(stmts: list[Statement]) -> int:
     count = 0
     for s in stmts:
@@ -269,17 +320,8 @@ def _count_actions(stmts: list[Statement]) -> int:
             count += 1
         elif isinstance(s, SetVariable):
             count += 1  # SET compiles to setvariable action
-        elif isinstance(s, IfBlock):
-            count += _count_actions(s.then_body)
-            if s.else_body:
-                count += _count_actions(s.else_body)
-        elif isinstance(s, MenuBlock):
-            for case in s.cases:
-                count += _count_actions(case.body)
-        elif isinstance(s, RepeatBlock):
-            count += _count_actions(s.body)
-        elif isinstance(s, ForeachBlock):
-            count += _count_actions(s.body)
+        for body, _ctx, _is_loop in iter_child_blocks(s):
+            count += _count_actions(body)
     return count
 
 
@@ -288,17 +330,8 @@ def _collect_actions(stmts: list[Statement]) -> list[ActionStatement]:
     for s in stmts:
         if isinstance(s, ActionStatement):
             result.append(s)
-        elif isinstance(s, IfBlock):
-            result.extend(_collect_actions(s.then_body))
-            if s.else_body:
-                result.extend(_collect_actions(s.else_body))
-        elif isinstance(s, MenuBlock):
-            for case in s.cases:
-                result.extend(_collect_actions(case.body))
-        elif isinstance(s, RepeatBlock):
-            result.extend(_collect_actions(s.body))
-        elif isinstance(s, ForeachBlock):
-            result.extend(_collect_actions(s.body))
+        for body, _ctx, _is_loop in iter_child_blocks(s):
+            result.extend(_collect_actions(body))
     return result
 
 
@@ -313,15 +346,6 @@ def _collect_defined_vars(stmts: list[Statement]) -> set[str]:
                 name_val = s.params.get("WFVariableName")
                 if isinstance(name_val, StringValue):
                     names.add(name_val.value)
-        elif isinstance(s, IfBlock):
-            names |= _collect_defined_vars(s.then_body)
-            if s.else_body:
-                names |= _collect_defined_vars(s.else_body)
-        elif isinstance(s, MenuBlock):
-            for case in s.cases:
-                names |= _collect_defined_vars(case.body)
-        elif isinstance(s, RepeatBlock):
-            names |= _collect_defined_vars(s.body)
-        elif isinstance(s, ForeachBlock):
-            names |= _collect_defined_vars(s.body)
+        for body, _ctx, _is_loop in iter_child_blocks(s):
+            names |= _collect_defined_vars(body)
     return names

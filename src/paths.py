@@ -3,7 +3,9 @@
 All modules should import paths from here rather than computing them locally.
 This module resolves paths relative to the project root (parent of src/).
 """
+
 from __future__ import annotations
+
 from pathlib import Path
 
 # Project root: parent of the src/ directory

@@ -19,7 +19,6 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from typing import Optional
 
 __version__ = "1.0"
 
@@ -29,48 +28,98 @@ __version__ = "1.0"
 # Keywords that suggest the shortcut needs an external component
 _HYBRID_SIGNALS: dict[str, list[str]] = {
     "server": [
-        "server", "backend", "deploy", "hosting", "cloud",
-        "cloudflare worker", "aws lambda", "firebase", "vercel",
-        "railway", "heroku",
+        "server",
+        "backend",
+        "deploy",
+        "hosting",
+        "cloud",
+        "cloudflare worker",
+        "aws lambda",
+        "firebase",
+        "vercel",
+        "railway",
+        "heroku",
     ],
     "database": [
-        "database", "persistent storage", "store data permanently",
-        "save to cloud", "sql", "mongodb", "redis", "supabase",
-        "d1", "planetscale",
+        "database",
+        "persistent storage",
+        "store data permanently",
+        "save to cloud",
+        "sql",
+        "mongodb",
+        "redis",
+        "supabase",
+        "d1",
+        "planetscale",
     ],
     "webhook": [
-        "webhook", "push notification server", "callback url",
-        "receive from", "listen for",
+        "webhook",
+        "push notification server",
+        "callback url",
+        "receive from",
+        "listen for",
     ],
     "authentication": [
-        "oauth flow", "login server", "auth server", "jwt",
-        "session management", "user accounts",
+        "oauth flow",
+        "login server",
+        "auth server",
+        "jwt",
+        "session management",
+        "user accounts",
     ],
     "realtime": [
-        "websocket", "real-time sync", "live updates",
-        "streaming", "server-sent events",
+        "websocket",
+        "real-time sync",
+        "live updates",
+        "streaming",
+        "server-sent events",
     ],
     "processing": [
-        "image processing server", "ml model", "ai processing",
-        "gpu processing", "heavy computation",
+        "image processing server",
+        "ml model",
+        "ai processing",
+        "gpu processing",
+        "heavy computation",
     ],
 }
 
 # Keywords that indicate shortcut-only is sufficient
 _SHORTCUT_ONLY_SIGNALS = [
-    "timer", "alarm", "reminder", "clipboard", "share", "menu",
-    "brightness", "volume", "wallpaper", "bluetooth", "wifi",
-    "airplane", "flashlight", "open app", "launch app",
-    "photo", "camera", "text message", "email", "note",
-    "calendar", "music", "speak", "vibrate", "notification",
+    "timer",
+    "alarm",
+    "reminder",
+    "clipboard",
+    "share",
+    "menu",
+    "brightness",
+    "volume",
+    "wallpaper",
+    "bluetooth",
+    "wifi",
+    "airplane",
+    "flashlight",
+    "open app",
+    "launch app",
+    "photo",
+    "camera",
+    "text message",
+    "email",
+    "note",
+    "calendar",
+    "music",
+    "speak",
+    "vibrate",
+    "notification",
 ]
 
 
 # ── Data Classes ──────────────────────────────────────────────────
 
+
 @dataclass
 class ArchitectureDecision:
     """Result of architecture analysis for a prompt."""
+
     strategy: str  # "shortcut_only" or "shortcut_plus_blueprint"
     reason: str
     blueprint_scope: list[str] = field(default_factory=list)
@@ -85,6 +134,7 @@ class ArchitectureDecision:
 @dataclass
 class BlueprintDoc:
     """A blueprint document for an external component."""
+
     title: str
     description: str
     components: list[str]
@@ -92,6 +142,7 @@ class BlueprintDoc:
 
 
 # ── Architecture Reasoner ────────────────────────────────────────
+
 
 class ArchitectureReasoner:
     """Analyzes prompts to determine if external infrastructure is needed.
@@ -106,7 +157,7 @@ class ArchitectureReasoner:
         Returns an ArchitectureDecision with the recommended strategy.
         """
         prompt_lower = prompt.lower()
-        prompt_words = set(re.findall(r'\w+', prompt_lower))
+        prompt_words = set(re.findall(r"\w+", prompt_lower))
 
         # Check for hybrid signals
         detected_signals: dict[str, list[str]] = {}
@@ -126,8 +177,7 @@ class ArchitectureReasoner:
 
         # Check for shortcut-only signals
         shortcut_only_count = sum(
-            1 for sig in _SHORTCUT_ONLY_SIGNALS
-            if sig in prompt_lower
+            1 for sig in _SHORTCUT_ONLY_SIGNALS if sig in prompt_lower
         )
 
         # Decision logic
@@ -170,7 +220,9 @@ class ArchitectureReasoner:
             confidence=0.7,
         )
 
-    def generate_blueprint(self, decision: ArchitectureDecision, prompt: str) -> BlueprintDoc | None:
+    def generate_blueprint(
+        self, decision: ArchitectureDecision, prompt: str
+    ) -> BlueprintDoc | None:
         """Generate a blueprint document for hybrid architectures.
 
         Returns None for shortcut_only decisions.
@@ -183,13 +235,17 @@ class ArchitectureReasoner:
 
         for scope in decision.blueprint_scope:
             if scope == "server":
-                components.append("Backend API server (e.g., Cloudflare Worker, AWS Lambda)")
+                components.append(
+                    "Backend API server (e.g., Cloudflare Worker, AWS Lambda)"
+                )
                 integration_notes_parts.append(
                     "The shortcut uses downloadurl to communicate with the server endpoint. "
                     "The server handles data processing and returns JSON responses."
                 )
             elif scope == "database":
-                components.append("Database or persistent storage (e.g., D1, KV, Supabase)")
+                components.append(
+                    "Database or persistent storage (e.g., D1, KV, Supabase)"
+                )
                 integration_notes_parts.append(
                     "Data persistence is handled by the server-side database. "
                     "The shortcut sends data via HTTP POST and retrieves via HTTP GET."
@@ -220,7 +276,7 @@ class ArchitectureReasoner:
                 )
 
         return BlueprintDoc(
-            title=f"Blueprint: External Components for Shortcut",
+            title="Blueprint: External Components for Shortcut",
             description=f"This shortcut requires external infrastructure to fully function. Prompt: {prompt[:100]}",
             components=components,
             integration_notes=" ".join(integration_notes_parts),
@@ -228,6 +284,7 @@ class ArchitectureReasoner:
 
 
 # ── Convenience ──────────────────────────────────────────────────
+
 
 def analyze_architecture(prompt: str) -> ArchitectureDecision:
     """Convenience function to analyze a prompt's architecture needs."""
@@ -239,7 +296,9 @@ def analyze_architecture(prompt: str) -> ArchitectureDecision:
 if __name__ == "__main__":
     import sys
 
-    prompt = " ".join(sys.argv[1:]) if len(sys.argv) > 1 else "Set a timer for 5 minutes"
+    prompt = (
+        " ".join(sys.argv[1:]) if len(sys.argv) > 1 else "Set a timer for 5 minutes"
+    )
     reasoner = ArchitectureReasoner()
     decision = reasoner.analyze(prompt)
 

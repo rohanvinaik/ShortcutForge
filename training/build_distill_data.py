@@ -34,9 +34,8 @@ import subprocess
 import sys
 import time
 from collections import Counter
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any
 
 _SCRIPT_DIR = Path(__file__).resolve().parent
 _SRC_DIR = _SCRIPT_DIR.parent / "src"
@@ -51,6 +50,7 @@ sys.path.insert(0, str(_SRC_DIR))
 # Lint Profile (Sashimi layer)
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class LintProfile:
     """Repair fingerprint for a single distillation example.
@@ -58,12 +58,13 @@ class LintProfile:
     Computed from the lint_changes list attached to each example.
     Used to shape training data: weight/oversample based on repair patterns.
     """
+
     total_repairs: int
     repairs_by_kind: dict[str, int]
     avg_confidence: float
     dominant_kind: str | None
-    is_clean: bool                  # True if total_repairs == 0
-    is_hard_negative: bool          # True if parsed=True AND total_repairs > 0
+    is_clean: bool  # True if total_repairs == 0
+    is_hard_negative: bool  # True if parsed=True AND total_repairs > 0
 
 
 def compute_lint_profile(lint_changes: list[dict], parsed: bool = True) -> LintProfile:
@@ -142,6 +143,7 @@ def compute_shaping_weight(profile: LintProfile) -> float:
 # Pipeline stages
 # ---------------------------------------------------------------------------
 
+
 def generate_distillation_batched(
     model_path: str,
     adapter_path: str | None,
@@ -182,19 +184,30 @@ def generate_distillation_batched(
         current_batch = min(batch_size, remaining)
 
         if verbose:
-            print(f"\n  Batch {batch_num}: examples {processed+1}-{processed+current_batch} of {total}", flush=True)
+            print(
+                f"\n  Batch {batch_num}: examples {processed + 1}-{processed + current_batch} of {total}",
+                flush=True,
+            )
 
         cmd = [
-            sys.executable, str(_SCRIPT_DIR / "evaluate_model.py"),
-            "--model-path", model_path,
-            "--eval-file", eval_file,
-            "--skip-examples", str(processed),
-            "--max-examples", str(current_batch),
+            sys.executable,
+            str(_SCRIPT_DIR / "evaluate_model.py"),
+            "--model-path",
+            model_path,
+            "--eval-file",
+            eval_file,
+            "--skip-examples",
+            str(processed),
+            "--max-examples",
+            str(current_batch),
             "--log-distillation",
-            "--distillation-output", output_path,
+            "--distillation-output",
+            output_path,
             "--append-distillation",
-            "--chat-template", chat_template,
-            "--timeout", str(timeout_s),
+            "--chat-template",
+            chat_template,
+            "--timeout",
+            str(timeout_s),
         ]
         if adapter_path:
             cmd.extend(["--adapter-path", adapter_path])
@@ -209,7 +222,10 @@ def generate_distillation_batched(
 
         elapsed = time.monotonic() - t0
         if result.returncode != 0:
-            print(f"  WARNING: Batch {batch_num} failed (exit {result.returncode})", flush=True)
+            print(
+                f"  WARNING: Batch {batch_num} failed (exit {result.returncode})",
+                flush=True,
+            )
             if verbose:
                 print(f"  stderr: {result.stderr[:500]}", flush=True)
         else:
@@ -250,7 +266,7 @@ def curate_distillation(
     stats = curator.curate_file(input_path, output_path)
 
     if verbose:
-        print(f"\n  Curation stats:", flush=True)
+        print("\n  Curation stats:", flush=True)
         print(f"    Input entries:  {stats.input_count}", flush=True)
         print(f"    Passed gates:   {stats.quality_passed}", flush=True)
         after_dedup = stats.quality_passed - stats.dedup_removed
@@ -289,7 +305,9 @@ def convert_to_chat_format(
             entry = json.loads(line)
             prompt = entry.get("prompt", "")
             # Use canonicalized output (linter-repaired) as the target
-            completion = entry.get("canonicalized_output") or entry.get("completion", "")
+            completion = entry.get("canonicalized_output") or entry.get(
+                "completion", ""
+            )
 
             if not prompt or not completion:
                 continue
@@ -312,7 +330,9 @@ def convert_to_chat_format(
             written += 1
 
     if verbose:
-        print(f"  Converted {written} entries to chat format → {output_path}", flush=True)
+        print(
+            f"  Converted {written} entries to chat format → {output_path}", flush=True
+        )
 
     return written
 
@@ -420,17 +440,24 @@ def merge_gold_and_distilled(
     }
 
     if verbose:
-        print(f"\n  Merge stats:", flush=True)
+        print("\n  Merge stats:", flush=True)
         print(f"    Gold entries:       {stats['gold_count']}", flush=True)
         print(f"    Distilled entries:  {stats['distilled_count']}", flush=True)
         print(f"    Merged output:      {stats['merged_count']}", flush=True)
         print(f"    Skipped (policy):   {stats['skipped_by_policy']}", flush=True)
         print(f"    Unique shortcuts:   {stats['unique_shortcuts']}", flush=True)
-        print(f"\n  Lint profile analysis:", flush=True)
+        print("\n  Lint profile analysis:", flush=True)
         print(f"    Clean examples:     {lint_analysis['clean_count']}", flush=True)
-        print(f"    Hard negatives:     {lint_analysis['hard_negative_count']}", flush=True)
-        print(f"    By dominant kind:   {lint_analysis['dominant_kind_dist']}", flush=True)
-        print(f"    Avg repairs/example: {lint_analysis['avg_repairs']:.2f}", flush=True)
+        print(
+            f"    Hard negatives:     {lint_analysis['hard_negative_count']}",
+            flush=True,
+        )
+        print(
+            f"    By dominant kind:   {lint_analysis['dominant_kind_dist']}", flush=True
+        )
+        print(
+            f"    Avg repairs/example: {lint_analysis['avg_repairs']:.2f}", flush=True
+        )
 
     # Write lint analysis
     analysis_path = os.path.join(os.path.dirname(output_path), "lint_analysis.json")
@@ -477,8 +504,7 @@ def _compute_lint_analysis(profiles: list[LintProfile]) -> dict:
     # Average confidence (only for non-clean)
     non_clean = [p for p in profiles if not p.is_clean]
     avg_conf = (
-        sum(p.avg_confidence for p in non_clean) / len(non_clean)
-        if non_clean else 1.0
+        sum(p.avg_confidence for p in non_clean) / len(non_clean) if non_clean else 1.0
     )
 
     # Weight distribution
@@ -503,6 +529,7 @@ def _compute_lint_analysis(profiles: list[LintProfile]) -> dict:
 # ---------------------------------------------------------------------------
 # Main pipeline
 # ---------------------------------------------------------------------------
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -563,7 +590,8 @@ def main():
         help="Skip lint-based weighting in merge",
     )
     parser.add_argument(
-        "-v", "--verbose",
+        "-v",
+        "--verbose",
         action="store_true",
         help="Verbose output",
     )
@@ -592,7 +620,10 @@ def main():
             apply_shaping=not args.no_shaping,
             verbose=args.verbose,
         )
-        print(f"\n  Done. Merged {merge_stats['merged_count']} examples → {merged_path}", flush=True)
+        print(
+            f"\n  Done. Merged {merge_stats['merged_count']} examples → {merged_path}",
+            flush=True,
+        )
         return
 
     if args.curate_only:
@@ -632,11 +663,17 @@ def main():
             verbose=args.verbose,
         )
 
-        print(f"\n  Done. {curate_stats['final_count']} curated → {n_converted} chat → {merge_stats['merged_count']} merged", flush=True)
+        print(
+            f"\n  Done. {curate_stats['final_count']} curated → {n_converted} chat → {merge_stats['merged_count']} merged",
+            flush=True,
+        )
         return
 
     # Full pipeline
-    print(f"  [Step 1] Generating distillation data (batch_size={args.batch_size})...", flush=True)
+    print(
+        f"  [Step 1] Generating distillation data (batch_size={args.batch_size})...",
+        flush=True,
+    )
     total = generate_distillation_batched(
         model_path=args.model_path,
         adapter_path=args.adapter_path,
@@ -674,12 +711,18 @@ def main():
         verbose=args.verbose,
     )
 
-    print(f"\n  ={'='*50}", flush=True)
-    print(f"  SASHIMI MODE: Distillation Complete", flush=True)
-    print(f"  ={'='*50}", flush=True)
+    print(f"\n  ={'=' * 50}", flush=True)
+    print("  SASHIMI MODE: Distillation Complete", flush=True)
+    print(f"  ={'=' * 50}", flush=True)
     print(f"  Teacher:      {args.model_path}", flush=True)
-    print(f"  Distilled:    {total} → {curate_stats['final_count']} curated → {n_converted} chat", flush=True)
-    print(f"  Merged:       {merge_stats['merged_count']} total ({merge_stats['gold_count']} gold + distilled)", flush=True)
+    print(
+        f"  Distilled:    {total} → {curate_stats['final_count']} curated → {n_converted} chat",
+        flush=True,
+    )
+    print(
+        f"  Merged:       {merge_stats['merged_count']} total ({merge_stats['gold_count']} gold + distilled)",
+        flush=True,
+    )
     print(f"  Output:       {merged_path}", flush=True)
     print(flush=True)
 

@@ -65,23 +65,38 @@ def _short_name(identifier: str) -> str:
         return rev[identifier]
     # Fall back: strip is.workflow.actions. prefix
     if identifier.startswith("is.workflow.actions."):
-        return identifier[len("is.workflow.actions."):]
+        return identifier[len("is.workflow.actions.") :]
     return identifier
 
 
 # ── Tier 1: Top N Actions ─────────────────────────────────────────────
 
 # Internal/system actions that the LLM should NOT generate directly
-_SYSTEM_ACTIONS = frozenset({
-    "conditional", "choosefrommenu", "repeat.each", "repeat.count",
-    "nothing", "setvariable", "getvariable", "appendvariable",
-})
+_SYSTEM_ACTIONS = frozenset(
+    {
+        "conditional",
+        "choosefrommenu",
+        "repeat.each",
+        "repeat.count",
+        "nothing",
+        "setvariable",
+        "getvariable",
+        "appendvariable",
+    }
+)
 
-_SKIP_PARAMS = frozenset({
-    "UUID", "CustomOutputName", "GroupingIdentifier", "WFControlFlowMode",
-    "WFMenuItems", "WFMenuItemTitle", "WFMenuItemAttributedTitle",
-    "WFMenuLegacyCancelBehavior",
-})
+_SKIP_PARAMS = frozenset(
+    {
+        "UUID",
+        "CustomOutputName",
+        "GroupingIdentifier",
+        "WFControlFlowMode",
+        "WFMenuItems",
+        "WFMenuItemTitle",
+        "WFMenuItemAttributedTitle",
+        "WFMenuLegacyCancelBehavior",
+    }
+)
 
 
 def _build_top_actions(n: int = 50) -> str:
@@ -218,21 +233,33 @@ def select_relevant_actions(prompt: str, top_n: int = 20) -> str:
     """
     catalog = _load_catalog()
     all_actions = catalog.get("actions", {})
-
-    # Tokenize prompt into lowercase words
     words = set(re.findall(r"[a-z]+", prompt.lower()))
 
-    # Collect relevant action short names from INTENT_MAP
-    relevant_shorts: set[str] = set()
+    relevant_shorts = _match_intent_keywords(words)
+    relevant_shorts |= _match_action_descriptions(words, all_actions)
+    relevant_shorts -= _get_top_action_shorts(all_actions)
+
+    if not relevant_shorts:
+        return ""
+
+    return _format_relevant_actions(sorted(relevant_shorts)[:top_n], catalog, all_actions)
+
+
+def _match_intent_keywords(words: set[str]) -> set[str]:
+    """Match prompt words against INTENT_MAP (exact + partial)."""
+    shorts: set[str] = set()
     for word in words:
         if word in INTENT_MAP:
-            relevant_shorts.update(INTENT_MAP[word])
-        # Also check partial matches (e.g., "photos" matches "photo")
+            shorts.update(INTENT_MAP[word])
         for intent_word, action_list in INTENT_MAP.items():
             if intent_word in word or word in intent_word:
-                relevant_shorts.update(action_list)
+                shorts.update(action_list)
+    return shorts
 
-    # Also match against action names and descriptions
+
+def _match_action_descriptions(words: set[str], all_actions: dict) -> set[str]:
+    """Match prompt words against action names and descriptions."""
+    shorts: set[str] = set()
     for ident, entry in all_actions.items():
         if not isinstance(entry, dict):
             continue
@@ -240,61 +267,44 @@ def select_relevant_actions(prompt: str, top_n: int = 20) -> str:
         if short in _SYSTEM_ACTIONS:
             continue
         desc = (entry.get("description", "") + " " + entry.get("name", "")).lower()
-        for word in words:
-            if len(word) >= 4 and word in desc:
-                relevant_shorts.add(short)
-                break
+        if any(len(w) >= 4 and w in desc for w in words):
+            shorts.add(short)
+    return shorts
 
-    # Remove actions already in Tier 1 top 50
-    # (We don't want duplicates — Tier 1 is already in the prompt)
-    _build_top_actions()  # ensure top actions are cached
-    top_50_catalog = _load_catalog().get("actions", {})
-    scored_top = []
-    for ident, entry in top_50_catalog.items():
-        if not isinstance(entry, dict):
-            continue
-        short = _short_name(ident)
-        if short in _SYSTEM_ACTIONS:
-            continue
-        scored_top.append((short, entry.get("usage_count", 0)))
-    scored_top.sort(key=lambda x: x[1], reverse=True)
-    top_50_shorts = {s for s, _ in scored_top[:50]}
 
-    relevant_shorts -= top_50_shorts
+def _get_top_action_shorts(all_actions: dict) -> set[str]:
+    """Return top-50 action short names to exclude from relevant actions."""
+    _build_top_actions()
+    scored = [
+        (_short_name(ident), entry.get("usage_count", 0))
+        for ident, entry in all_actions.items()
+        if isinstance(entry, dict) and _short_name(ident) not in _SYSTEM_ACTIONS
+    ]
+    scored.sort(key=lambda x: x[1], reverse=True)
+    return {s for s, _ in scored[:50]}
 
-    if not relevant_shorts:
-        return ""
 
-    # Build text for relevant actions
+def _format_relevant_actions(shorts: list[str], catalog: dict, all_actions: dict) -> str:
+    """Format a list of action short names as a text block."""
+    cmap = catalog.get("_meta", {}).get("canonical_map", {})
     lines = []
-    for short in sorted(relevant_shorts)[:top_n]:
-        # Find the full identifier
-        cmap = catalog.get("_meta", {}).get("canonical_map", {})
-        full_id = cmap.get(short, short)
-        entry = all_actions.get(full_id, {})
+    for short in shorts:
+        entry = all_actions.get(cmap.get(short, short), {})
         if not entry:
-            # Try direct lookup
-            for ident, e in all_actions.items():
-                if _short_name(ident) == short:
-                    entry = e
-                    break
+            entry = next(
+                (e for ident, e in all_actions.items() if _short_name(ident) == short),
+                {},
+            )
         if not entry:
             continue
-
-        desc = entry.get("description", "").strip()
-        if not desc:
-            desc = entry.get("name", short)
+        desc = entry.get("description", "").strip() or entry.get("name", short)
         if len(desc) > 80:
             desc = desc[:77] + "..."
-
         params = entry.get("observed_params", {})
         param_names = [p for p in params if p not in _SKIP_PARAMS]
-        params_str = ", ".join(param_names[:6])
-
         lines.append(f"  {short}: {desc}")
-        if params_str:
-            lines.append(f"    params: {params_str}")
-
+        if param_names:
+            lines.append(f"    params: {', '.join(param_names[:6])}")
     return "\n".join(lines)
 
 
@@ -398,6 +408,7 @@ ENDSHORTCUT
 
 # ── Snippet Context ────────────────────────────────────────────────────
 
+
 def build_snippet_context(
     prompt: str,
     registry_path: Path | None = None,
@@ -442,9 +453,9 @@ def build_snippet_context(
         if not canonical:
             continue
         lines.append(f"### Pattern {i}: {desc}")
-        lines.append(f"```")
+        lines.append("```")
         lines.append(canonical)
-        lines.append(f"```")
+        lines.append("```")
         lines.append("")
 
     return "\n".join(lines).rstrip()
@@ -482,10 +493,7 @@ def build_plan_context(plan: Any) -> str:
                 if step.candidate_actions
                 else "(none)"
             )
-            lines.append(
-                f"  {i}. {step.description} "
-                f"-> likely actions: {actions_str}"
-            )
+            lines.append(f"  {i}. {step.description} -> likely actions: {actions_str}")
 
         return "\n".join(lines)
     except Exception:
@@ -590,7 +598,11 @@ def build_retry_message(dsl_text: str, errors: list[str]) -> str:
 if __name__ == "__main__":
     import sys
 
-    prompt = " ".join(sys.argv[1:]) if len(sys.argv) > 1 else "Set a 5-minute timer and notify me"
+    prompt = (
+        " ".join(sys.argv[1:])
+        if len(sys.argv) > 1
+        else "Set a 5-minute timer and notify me"
+    )
 
     system = build_system_prompt()
     user = build_user_message(prompt)
@@ -608,4 +620,6 @@ if __name__ == "__main__":
 
     # Rough token estimate (1 token ≈ 4 chars)
     total_chars = len(system) + len(user)
-    print(f"Estimated tokens: ~{total_chars // 4:,} (system: ~{len(system) // 4:,}, user: ~{len(user) // 4:,})")
+    print(
+        f"Estimated tokens: ~{total_chars // 4:,} (system: ~{len(system) // 4:,}, user: ~{len(user) // 4:,})"
+    )

@@ -30,20 +30,27 @@ _SCRIPT_DIR = Path(__file__).resolve().parent
 if str(_SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(_SCRIPT_DIR))
 
-from generate_prompt import build_system_prompt, build_user_message, build_retry_message, build_snippet_context, build_plan_context
-from dsl_parser import parse_dsl
-from dsl_linter import lint_dsl
-from dsl_validator import validate_ir
+from architecture_reasoner import ArchitectureReasoner
+from domain_profile import DomainProfileManager
 from dsl_bridge import compile_ir
-from token_budget import estimate_budget, detect_overflow, next_budget
-from domain_profile import DomainProfileManager, DomainProfile
-from architecture_reasoner import ArchitectureReasoner, ArchitectureDecision
-from scenario_profiles import ScenarioProfileManager, ScenarioProfile
-from simulation_harness import SimulationHarness, SimulationReport, Severity, FindingCategory
+from dsl_linter import lint_dsl
+from dsl_parser import parse_dsl
+from dsl_validator import validate_ir
+from generate_prompt import (
+    build_plan_context,
+    build_retry_message,
+    build_snippet_context,
+    build_system_prompt,
+    build_user_message,
+)
+from scenario_profiles import ScenarioProfileManager
+from simulation_harness import FindingCategory, Severity, SimulationHarness
+from token_budget import detect_overflow, estimate_budget, next_budget
 
 # Optional: ExecutionPlanner (degrades gracefully if not available)
 try:
     from execution_planner import ExecutionPlanner
+
     _HAS_EXECUTION_PLANNER = True
 except ImportError:
     _HAS_EXECUTION_PLANNER = False
@@ -53,12 +60,13 @@ except ImportError:
 
 class FailureType(Enum):
     """Classification of generation pipeline failures for retry routing."""
-    OVERFLOW = auto()       # Output near budget, missing ENDSHORTCUT
-    SYNTAX = auto()         # Parse error (bad grammar/structure)
-    UNKNOWN_ACTION = auto() # Validation: unknown action
-    BAD_PARAMS = auto()     # Validation: wrong params / other validation error
-    COMPILE = auto()        # Compilation error
-    NONE = auto()           # No failure
+
+    OVERFLOW = auto()  # Output near budget, missing ENDSHORTCUT
+    SYNTAX = auto()  # Parse error (bad grammar/structure)
+    UNKNOWN_ACTION = auto()  # Validation: unknown action
+    BAD_PARAMS = auto()  # Validation: wrong params / other validation error
+    COMPILE = auto()  # Compilation error
+    NONE = auto()  # No failure
 
 
 def classify_failure(
@@ -210,6 +218,7 @@ class ClaudeBackend:
                 "or pass api_key to ClaudeBackend()."
             )
         import anthropic
+
         self._client = anthropic.Anthropic(api_key=key)
 
     def generate(
@@ -259,6 +268,7 @@ class LocalBackend:
 
         # Primary generator (normally unconstrained in production entry points)
         from inference import LocalDSLGenerator
+
         self._generator = LocalDSLGenerator(
             model_path=model_path,
             adapter_path=adapter_path,
@@ -272,6 +282,7 @@ class LocalBackend:
         """Lazy-load grammar-constrained generator."""
         if self._grammar_generator is None:
             from inference import LocalDSLGenerator
+
             self._grammar_generator = LocalDSLGenerator(
                 model_path=self._model_path,
                 adapter_path=self._adapter_path,
@@ -314,6 +325,7 @@ class LocalBackend:
         Returns (text, GenerationMeta) tuple.
         """
         from inference import GenerationMeta
+
         effective_timeout = timeout_s if timeout_s is not None else self._timeout_s
         result = self._generator.generate_with_meta(
             system_prompt=system_prompt,
@@ -360,7 +372,9 @@ class Orchestrator:
         self._architecture_reasoner = ArchitectureReasoner()
         self._scenario_manager = ScenarioProfileManager()
         self._simulation_harness = SimulationHarness()
-        self._snippet_registry_path = _SCRIPT_DIR.parent / "references" / "snippet_registry.json"
+        self._snippet_registry_path = (
+            _SCRIPT_DIR.parent / "references" / "snippet_registry.json"
+        )
 
         # Phase E: Execution planner (optional, degrades gracefully)
         self._execution_planner = None
@@ -403,16 +417,91 @@ class Orchestrator:
         """
         result = GenerationResult()
 
-        def _stage(stage: str, status: str, message: str = "", duration_ms: int | None = None):
-            sr = StageResult(stage=stage, status=status, message=message, duration_ms=duration_ms)
+        def _stage(
+            stage: str, status: str, message: str = "", duration_ms: int | None = None
+        ):
+            sr = StageResult(
+                stage=stage, status=status, message=message, duration_ms=duration_ms
+            )
             result.stages.append(sr)
             if on_stage_update:
                 on_stage_update(sr)
 
-        # ── Phase E: Execution planning ──
-        # Run the planner before generation to inform domain, budget,
-        # and creative mode defaults. Plan suggestions have the lowest
-        # priority: explicit user params > scenario overrides > plan > defaults
+        # ── Pre-generation: planning, architecture, scenario, domain, budget ──
+        ctx = self._prepare_generation(
+            prompt, creative_mode, implementation_strategy, result,
+        )
+        ctx["model"] = model
+        ctx["max_retries"] = max_retries
+        creative_mode = ctx["creative_mode"]
+        messages = ctx["messages"]
+
+        dsl_text = None
+        last_errors: list[str] = []
+        use_grammar_next = False
+
+        for attempt in range(1, max_retries + 1):
+            result.attempts = attempt
+
+            # ── Generate → Lint → Parse → Validate → Simulate → Compile ──
+            attempt_result = self._run_pipeline_attempt(
+                result, ctx, _stage, attempt, use_grammar_next, prompt,
+            )
+            use_grammar_next = False
+            dsl_text = attempt_result["dsl_text"]
+            raw_text = attempt_result["raw_text"]
+
+            if attempt_result.get("early_return"):
+                return result
+
+            ftype = attempt_result["failure_type"]
+            if ftype == FailureType.NONE:
+                # ── Success: score candidates and deliver ──
+                ir = attempt_result["ir"]
+                shortcut = attempt_result["shortcut"]
+                ir, shortcut, dsl_text = self._score_candidates(
+                    result, ir, shortcut, dsl_text, candidate_count,
+                    creative_mode, ctx, _stage,
+                )
+                result.dsl_text = dsl_text
+
+                if attempt_result.get("compile_error"):
+                    return result
+
+                return self._deliver(
+                    result, shortcut, output_dir, sign, auto_import, _stage,
+                )
+            elif ftype == FailureType.COMPILE:
+                if not result.errors:
+                    result.errors = [f"Compile error: {attempt_result['compile_error']}"]
+                return result
+            elif attempt < max_retries:
+                use_grammar_next = self._route_retry(
+                    ftype, _stage, messages, raw_text, dsl_text,
+                    attempt_result["last_errors"],
+                )
+                last_errors = attempt_result["last_errors"]
+                continue
+            else:
+                last_errors = attempt_result["last_errors"]
+                if not result.errors:
+                    result.errors = last_errors or [
+                        f"{ftype.name} failure after {max_retries} attempts"
+                    ]
+                return result
+
+        result.errors = last_errors or ["Max retries exceeded"]
+        return result
+
+    def _prepare_generation(
+        self,
+        prompt: str,
+        creative_mode: str,
+        implementation_strategy: str,
+        result: GenerationResult,
+    ) -> dict:
+        """Pre-generation setup: planning, architecture, scenarios, domain, budget, messages."""
+        # Execution planning
         plan = None
         plan_context = ""
         if self._execution_planner is not None:
@@ -425,12 +514,10 @@ class Orchestrator:
                     "suggested_domain": plan.suggested_domain,
                 }
             except Exception:
-                plan = None  # Non-critical, continue without plan
+                plan = None
 
-        # ── Phase 3: Architecture reasoning ──
+        # Architecture reasoning
         arch_decision = self._architecture_reasoner.analyze(prompt)
-
-        # Override strategy if explicitly specified
         if implementation_strategy == "shortcut_only":
             arch_decision = type(arch_decision)(
                 strategy="shortcut_only",
@@ -444,60 +531,42 @@ class Orchestrator:
                 hybrid_signals=arch_decision.hybrid_signals,
             )
 
-        # Set result field AFTER any override so it reflects the actual strategy used
         result.architecture_decision = arch_decision.strategy
 
-        # Generate blueprint doc for hybrid architectures
         if arch_decision.is_hybrid:
             bp = self._architecture_reasoner.generate_blueprint(arch_decision, prompt)
             if bp:
-                result.blueprint_doc = f"{bp.title}\n\nComponents:\n" + \
-                    "\n".join(f"  - {c}" for c in bp.components) + \
-                    f"\n\n{bp.integration_notes}"
+                result.blueprint_doc = (
+                    f"{bp.title}\n\nComponents:\n"
+                    + "\n".join(f"  - {c}" for c in bp.components)
+                    + f"\n\n{bp.integration_notes}"
+                )
 
-        # ── Phase 3: Scenario profile selection ──
+        # Scenario + domain + creative mode selection
         scenario = self._scenario_manager.select_scenario(prompt)
         result.scenario_profile = scenario.scenario_id
 
-        # Apply plan suggestions (lowest priority, only if user didn't
-        # explicitly set params and before scenario overrides)
         if plan is not None and creative_mode == "pragmatic":
-            # Plan suggestion for creative mode (overridden by scenario below)
             if plan.suggested_creative_mode and plan.suggested_creative_mode != "pragmatic":
                 creative_mode = plan.suggested_creative_mode
-
-        # Apply scenario overrides (higher priority than plan)
         if scenario.creative_mode and creative_mode == "pragmatic":
             creative_mode = scenario.creative_mode
 
-        # Select domain profile for prompt-aware context injection
-        # Priority: scenario domain > plan suggested domain > auto-detect
-        if scenario.domain_profile != "general":
-            domain_profile = self._domain_manager.get_profile(scenario.domain_profile) or \
-                self._domain_manager.select_profile(prompt)
-        elif plan is not None and plan.suggested_domain != "general":
-            domain_profile = self._domain_manager.get_profile(plan.suggested_domain) or \
-                self._domain_manager.select_profile(prompt)
-        else:
-            domain_profile = self._domain_manager.select_profile(prompt)
+        domain_profile = self._select_domain_profile(prompt, scenario, plan)
         domain_context = domain_profile.prompt_context if domain_profile.has_context else ""
         domain_actions = domain_profile.format_relevant_actions()
 
-        # Add scenario-specific system prompt addendum
         if scenario.system_prompt_addendum:
             domain_context = (domain_context + "\n\n" + scenario.system_prompt_addendum).strip()
-
-        # Append execution plan context to domain_context
         if plan_context:
             domain_context = (domain_context + "\n\n" + plan_context).strip()
 
-        # Build snippet context for retrieval-augmented generation
+        # Snippet context
         snippet_ctx = build_snippet_context(prompt, registry_path=self._snippet_registry_path)
         if snippet_ctx:
-            # Count how many snippets were injected (each starts with "### Pattern")
             result.snippets_injected = snippet_ctx.count("### Pattern")
 
-        # Build initial messages with domain context and snippets
+        # Messages
         user_message = build_user_message(
             prompt,
             domain_context=domain_context,
@@ -507,389 +576,417 @@ class Orchestrator:
         )
         messages = [{"role": "user", "content": user_message}]
 
-        # Dynamic token budgeting
-        # Priority: explicit user params > scenario override > plan suggestion > defaults
-        budget = estimate_budget(prompt)
-        _BUDGET_MAP = {"simple": 512, "medium": 1024, "complex": 2048, "very_complex": 4096}
+        # Budget
+        budget = self._compute_budget(prompt, scenario, plan)
 
-        # Apply plan budget suggestion (lowest priority, only increases budget)
+        return {
+            "arch_decision": arch_decision,
+            "scenario": scenario,
+            "domain_profile": domain_profile,
+            "creative_mode": creative_mode,
+            "messages": messages,
+            "budget": budget,
+        }
+
+    def _select_domain_profile(self, prompt, scenario, plan):
+        """Select domain profile with priority: scenario > plan > auto-detect."""
+        if scenario.domain_profile != "general":
+            return (
+                self._domain_manager.get_profile(scenario.domain_profile)
+                or self._domain_manager.select_profile(prompt)
+            )
+        if plan is not None and plan.suggested_domain != "general":
+            return (
+                self._domain_manager.get_profile(plan.suggested_domain)
+                or self._domain_manager.select_profile(prompt)
+            )
+        return self._domain_manager.select_profile(prompt)
+
+    def _compute_budget(self, prompt, scenario, plan):
+        """Compute token budget with priority: scenario > plan > auto."""
+        budget = estimate_budget(prompt)
+        _BUDGET_MAP = {
+            "simple": 512, "medium": 1024, "complex": 2048, "very_complex": 4096,
+        }
+
         if plan is not None and plan.suggested_budget:
             plan_tokens = _BUDGET_MAP.get(plan.suggested_budget)
             if plan_tokens is not None and plan_tokens > budget.max_tokens:
                 budget = type(budget)(
-                    max_tokens=plan_tokens,
-                    complexity=plan.suggested_budget,
+                    max_tokens=plan_tokens, complexity=plan.suggested_budget,
                     word_count=budget.word_count,
                     complex_signal_count=budget.complex_signal_count,
                     simple_signal_count=budget.simple_signal_count,
                     prompt_char_len=budget.prompt_char_len,
                 )
 
-        # Apply scenario budget_override (higher priority than plan)
         if scenario.budget_override:
             override_tokens = _BUDGET_MAP.get(scenario.budget_override)
             if override_tokens is not None and override_tokens > budget.max_tokens:
                 budget = type(budget)(
-                    max_tokens=override_tokens,
-                    complexity=scenario.budget_override,
+                    max_tokens=override_tokens, complexity=scenario.budget_override,
                     word_count=budget.word_count,
                     complex_signal_count=budget.complex_signal_count,
                     simple_signal_count=budget.simple_signal_count,
                     prompt_char_len=budget.prompt_char_len,
                 )
+        return budget
+
+    def _run_pipeline_attempt(
+        self, result, ctx, _stage, attempt, use_grammar, prompt,
+    ) -> dict:
+        """Run one attempt: generate → lint → parse → validate → simulate → compile."""
+        messages = ctx["messages"]
+        model = ctx["model"]
+        budget = ctx["budget"]
         effective_max_tokens = budget.max_tokens
+        max_retries = ctx["max_retries"]
+        engine = self._backend.engine_name
 
-        dsl_text = None
-        last_errors: list[str] = []
-        use_grammar_next = False  # Grammar constraint flag for retry routing
+        # ── Generate ──
+        gen_result = self._run_generation(
+            result, messages, model, effective_max_tokens,
+            use_grammar, budget, _stage, attempt, max_retries,
+        )
+        if gen_result.get("early_return"):
+            return gen_result
 
-        for attempt in range(1, max_retries + 1):
-            result.attempts = attempt
+        raw_text = gen_result["raw_text"]
+        dsl_text = gen_result["dsl_text"]
+        effective_max_tokens = gen_result["effective_max_tokens"]
 
-            # ── Stage: Generating ──
-            retry_note = f" (retry {attempt}/{max_retries})" if attempt > 1 else ""
-            engine = self._backend.engine_name
-            grammar_note = " +grammar" if use_grammar_next else ""
-            budget_note = f", {budget.complexity} budget={effective_max_tokens}"
-            _stage("generating", "running", f"Calling {engine}{retry_note}{budget_note}{grammar_note}...")
+        # ── Lint ──
+        raw_dsl_text = dsl_text
+        lint_result = lint_dsl(dsl_text)
+        if lint_result.was_modified:
+            lint_summary = ", ".join(
+                f"{c.original!r}→{c.replacement!r}" for c in lint_result.changes[:5]
+            )
+            if len(lint_result.changes) > 5:
+                lint_summary += f", +{len(lint_result.changes) - 5} more"
+            _stage("linting", "success", f"Repaired {len(lint_result.changes)} issue(s): {lint_summary}")
+            dsl_text = lint_result.text
+        else:
+            _stage("linting", "success", "No repairs needed")
+        result.dsl_text = dsl_text
 
-            t0 = time.monotonic()
-            gen_timed_out = False
-            try:
-                # Use generate_with_meta for LocalBackend to get timeout info
-                if isinstance(self._backend, LocalBackend) and hasattr(self._backend, 'generate_with_meta'):
-                    if use_grammar_next:
-                        # Grammar-constrained retry: use generate() with use_grammar=True
-                        raw_text = self._backend.generate(
-                            system_prompt=self._system_prompt,
-                            messages=messages,
-                            max_tokens=effective_max_tokens,
-                            use_grammar=True,
-                        )
-                        gen_timed_out = False  # Grammar mode doesn't support timeout
-                    else:
-                        raw_text, gen_meta = self._backend.generate_with_meta(
-                            system_prompt=self._system_prompt,
-                            messages=messages,
-                            max_tokens=effective_max_tokens,
-                        )
-                        gen_timed_out = gen_meta.timed_out
-                    if gen_timed_out:
-                        result.timed_out = True
-                        result.timeout_retries += 1
-                else:
-                    raw_text = self._backend.generate(
-                        system_prompt=self._system_prompt,
-                        messages=messages,
-                        model=model,
-                        max_tokens=effective_max_tokens,
-                    )
-                # Reset grammar flag after use
-                use_grammar_next = False
-            except Exception as e:
-                _stage("generating", "failed", f"Generation error: {e}")
-                result.errors = [f"Generation error: {e}"]
-                return result
-
-            elapsed = int((time.monotonic() - t0) * 1000)
-            dsl_text = _ensure_trailing_newline(_extract_dsl(raw_text))
-            timeout_note = " [TIMED OUT]" if gen_timed_out else ""
-            _stage("generating", "success",
-                   f"Generated ({elapsed}ms, budget={effective_max_tokens}){timeout_note}", elapsed)
-
-            # ── Pre-check: Timeout-triggered escalation ──
-            if gen_timed_out:
-                escalated = next_budget(effective_max_tokens)
-                if escalated is not None:
-                    old_budget = effective_max_tokens
-                    effective_max_tokens = escalated
-                    _stage("generating", "running",
-                           f"Timeout detected, escalating budget {old_budget}→{effective_max_tokens}...")
-                    # Don't regenerate here — let the overflow check below
-                    # or the retry loop handle it. The timed-out output may
-                    # still be usable if ENDSHORTCUT was reached.
-
-            # ── Pre-check: Overflow detection with progressive escalation ──
-            has_endshortcut = "ENDSHORTCUT" in dsl_text
-            if detect_overflow(dsl_text, budget, has_endshortcut):
-                escalated = next_budget(effective_max_tokens)
-                if escalated is not None:
-                    old_budget = effective_max_tokens
-                    effective_max_tokens = escalated
-                    _stage("generating", "running",
-                           f"Overflow detected ({old_budget} tokens), escalating to {effective_max_tokens}...")
-
-                    t0 = time.monotonic()
-                    try:
-                        raw_text = self._backend.generate(
-                            system_prompt=self._system_prompt,
-                            messages=messages,
-                            model=model,
-                            max_tokens=effective_max_tokens,
-                        )
-                    except Exception as e:
-                        _stage("generating", "failed", f"Generation error (budget escalation): {e}")
-                        result.errors = [f"Generation error: {e}"]
-                        return result
-
-                    elapsed = int((time.monotonic() - t0) * 1000)
-                    dsl_text = _ensure_trailing_newline(_extract_dsl(raw_text))
-                    _stage("generating", "success",
-                           f"Budget escalation generated ({elapsed}ms, budget={effective_max_tokens})", elapsed)
-
-            # ── Stage: Linting ──
-            raw_dsl_text = dsl_text  # pre-lint for distillation
-            lint_result = lint_dsl(dsl_text)
-            if lint_result.was_modified:
-                lint_summary = ", ".join(
-                    f"{c.original!r}→{c.replacement!r}" for c in lint_result.changes[:5]
-                )
-                if len(lint_result.changes) > 5:
-                    lint_summary += f", +{len(lint_result.changes) - 5} more"
-                _stage("linting", "success", f"Repaired {len(lint_result.changes)} issue(s): {lint_summary}")
-                dsl_text = lint_result.text
-            else:
-                _stage("linting", "success", "No repairs needed")
-
-            result.dsl_text = dsl_text
-
-            # ── Distillation logging (after lint, before parse) ──
-            if self._distillation_logger:
-                self._distillation_logger({
-                    "prompt": prompt,
-                    "raw_output": raw_dsl_text,
-                    "canonicalized_output": dsl_text,
-                    "lint_changes": [
-                        {"kind": c.kind, "original": c.original,
-                         "replacement": c.replacement, "confidence": c.confidence,
-                         "reason": c.reason}
-                        for c in lint_result.changes
-                    ],
-                    "was_modified": lint_result.was_modified,
-                    "attempt": attempt,
-                    "engine": engine,
-                    "token_budget": effective_max_tokens,
-                    "budget_complexity": budget.complexity,
-                    "domain_profile": domain_profile.profile_id,
-                    "scenario_profile": scenario.scenario_id,
-                    "architecture_decision": arch_decision.strategy,
-                })
-
-            # ── Stage: Parsing ──
-            parse_error = None
-            ir = None
-            _stage("parsing", "running", "Parsing DSL...")
-            try:
-                ir = parse_dsl(dsl_text)
-                result.name = ir.name
-                _stage("parsing", "success", f"Parsed: \"{ir.name}\" ({ir.action_count()} actions)")
-            except Exception as e:
-                error_msg = str(e)
-                if len(error_msg) > 500:
-                    error_msg = error_msg[:500] + "..."
-                parse_error = error_msg
-                _stage("parsing", "failed", f"Parse error: {error_msg}")
-                last_errors = [f"Parse error: {error_msg}"]
-
-            # ── Stage: Validating ──
-            validation_errors: list[str] = []
-            if ir is not None:
-                _stage("validating", "running", "Validating against action catalog...")
-                validation = validate_ir(ir, domain_profile=domain_profile.profile_id)
-                result.warnings = [str(w) for w in validation.warnings]
-
-                if validation.errors:
-                    validation_errors = [
-                        f"Line {e.line_number}: [{e.category}] {e.message}"
-                        for e in validation.errors
-                    ]
-                    _stage("validating", "failed", f"{len(validation.errors)} error(s)")
-                    last_errors = validation_errors
-                else:
-                    warn_note = f" ({len(validation.warnings)} warning(s))" if validation.warnings else ""
-                    _stage("validating", "success", f"Valid{warn_note}")
-
-            # ── Stage: Simulation (static analysis) ──
-            if ir is not None and not validation_errors:
-                try:
-                    sim_report = self._simulation_harness.analyze(ir)
-                    if sim_report.findings:
-                        sim_warnings = [
-                            f"[{f.category.value}] {f.message}"
-                            + (f" (line {f.line_number})" if f.line_number else "")
-                            for f in sim_report.findings
-                            if f.severity in (Severity.WARNING, Severity.ERROR)
-                        ]
-                        result.warnings.extend(sim_warnings)
-                        # Extract contract-category findings
-                        result.contract_findings = [
-                            f"[{f.category.value}] {f.message}"
-                            + (f" (line {f.line_number})" if f.line_number else "")
-                            for f in sim_report.findings
-                            if f.category == FindingCategory.CONTRACT
-                        ]
-                        if sim_warnings:
-                            _stage("simulation", "success",
-                                   f"{len(sim_warnings)} finding(s)")
-                        else:
-                            _stage("simulation", "success", "Clean")
-                    else:
-                        _stage("simulation", "success", "Clean")
-                except Exception:
-                    _stage("simulation", "success", "Skipped")
-
-            # ── Stage: Compiling ──
-            compile_error = None
-            shortcut = None
-            if ir is not None and not validation_errors:
-                _stage("compiling", "running", "Compiling to .shortcut...")
-                try:
-                    shortcut = compile_ir(ir)
-                    _stage("compiling", "success", f"Compiled ({len(shortcut.actions)} actions)")
-                except Exception as e:
-                    compile_error = str(e)
-                    _stage("compiling", "failed", f"Compile error: {e}")
-                    result.errors = [f"Compile error: {e}"]
-
-            # ── Failure-type-routed retry ──
-            ftype = classify_failure(
-                parse_error=parse_error,
-                validation_errors=validation_errors if validation_errors else None,
-                compile_error=compile_error,
-                overflow_detected=False,  # overflow handled in pre-check above
+        # ── Distillation logging ──
+        if self._distillation_logger:
+            self._log_distillation(
+                prompt, raw_dsl_text, dsl_text, lint_result, attempt, engine,
+                effective_max_tokens, budget, ctx,
             )
 
-            if ftype == FailureType.NONE:
-                # Success — score with CreativityScorer (Phase 3)
-                best_ir = ir
-                best_shortcut = shortcut
-                best_dsl = dsl_text
-                best_score: float | None = None
+        # ── Parse ──
+        parse_error, ir = self._run_parse(result, dsl_text, _stage)
 
-                if ir is not None:
-                    try:
-                        from creative_scoring import CreativityScorer
-                        scorer = CreativityScorer()
-                        cs = scorer.score(ir, mode=creative_mode)
-                        best_score = cs.total
-                        result.creativity_score = cs.total
-                    except Exception:
-                        pass  # Non-critical, don't fail pipeline
+        # ── Validate ──
+        validation_errors: list[str] = []
+        if ir is not None:
+            validation_errors = self._run_validation(
+                result, ir, ctx["domain_profile"], _stage,
+            )
 
-                result.candidates_generated = 1
-                result.candidates_valid = 1
+        # ── Simulate ──
+        if ir is not None and not validation_errors:
+            self._run_simulation(result, ir, _stage)
 
-                # Multi-candidate generation: generate additional candidates and
-                # pick the highest-scoring valid one
-                if candidate_count > 1 and ir is not None:
-                    _stage("candidates", "running",
-                           f"Generating {candidate_count - 1} additional candidate(s)...")
+        # ── Compile ──
+        compile_error = None
+        shortcut = None
+        if ir is not None and not validation_errors:
+            shortcut, compile_error = self._run_compilation(result, ir, _stage)
 
-                    for c_idx in range(2, candidate_count + 1):
-                        try:
-                            c_raw = self._backend.generate(
-                                system_prompt=self._system_prompt,
-                                messages=messages,
-                                model=model,
-                                max_tokens=effective_max_tokens,
-                            )
-                            c_dsl = _ensure_trailing_newline(_extract_dsl(c_raw))
-                            c_lint = lint_dsl(c_dsl)
-                            c_dsl = c_lint.text
+        # ── Classify failure ──
+        ftype = classify_failure(
+            parse_error=parse_error,
+            validation_errors=validation_errors if validation_errors else None,
+            compile_error=compile_error,
+            overflow_detected=False,
+        )
 
-                            c_ir = parse_dsl(c_dsl)
-                            c_val = validate_ir(c_ir, domain_profile=domain_profile.profile_id)
-                            if c_val.errors:
-                                result.candidates_generated += 1
-                                continue  # Invalid candidate, skip
+        last_errors: list[str] = []
+        if parse_error:
+            last_errors = [f"Parse error: {parse_error}"]
+        elif validation_errors:
+            last_errors = validation_errors
 
-                            c_shortcut = compile_ir(c_ir)
-                            result.candidates_generated += 1
-                            result.candidates_valid += 1
+        return {
+            "dsl_text": dsl_text,
+            "raw_text": raw_text,
+            "ir": ir,
+            "shortcut": shortcut,
+            "compile_error": compile_error,
+            "failure_type": ftype,
+            "last_errors": last_errors,
+            "effective_max_tokens": effective_max_tokens,
+        }
 
-                            # Score this candidate
-                            try:
-                                c_cs = scorer.score(c_ir, mode=creative_mode)
-                                c_score = c_cs.total
-                            except Exception:
-                                c_score = 0.0
+    def _run_generation(
+        self, result, messages, model, effective_max_tokens,
+        use_grammar, budget, _stage, attempt, max_retries,
+    ) -> dict:
+        """Execute LLM generation with overflow/timeout handling."""
+        engine = self._backend.engine_name
+        retry_note = f" (retry {attempt}/{max_retries})" if attempt > 1 else ""
+        grammar_note = " +grammar" if use_grammar else ""
+        budget_note = f", {budget.complexity} budget={effective_max_tokens}"
+        _stage("generating", "running", f"Calling {engine}{retry_note}{budget_note}{grammar_note}...")
 
-                            # Keep the highest-scoring candidate
-                            if best_score is None or c_score > best_score:
-                                best_ir = c_ir
-                                best_shortcut = c_shortcut
-                                best_dsl = c_dsl
-                                best_score = c_score
-                                result.creativity_score = c_score
-                        except Exception:
-                            result.candidates_generated += 1
-                            continue  # Generation/parse/compile failure
+        t0 = time.monotonic()
+        gen_timed_out = False
+        try:
+            raw_text, gen_timed_out = self._call_backend(
+                messages, model, effective_max_tokens, use_grammar,
+            )
+            if gen_timed_out:
+                result.timed_out = True
+                result.timeout_retries += 1
+        except Exception as e:
+            _stage("generating", "failed", f"Generation error: {e}")
+            result.errors = [f"Generation error: {e}"]
+            return {"early_return": True, "dsl_text": None, "raw_text": "", "effective_max_tokens": effective_max_tokens}
 
-                    _stage("candidates", "success",
-                           f"{result.candidates_valid}/{result.candidates_generated} valid"
-                           + (f", best={best_score:.2f}" if best_score is not None else ""))
+        elapsed = int((time.monotonic() - t0) * 1000)
+        dsl_text = _ensure_trailing_newline(_extract_dsl(raw_text))
+        timeout_note = " [TIMED OUT]" if gen_timed_out else ""
+        _stage("generating", "success", f"Generated ({elapsed}ms, budget={effective_max_tokens}){timeout_note}", elapsed)
 
-                # Use the best candidate for delivery
-                ir = best_ir
-                shortcut = best_shortcut
-                dsl_text = best_dsl
-                result.dsl_text = dsl_text
-                # Fall through to delivery
-            elif ftype == FailureType.COMPILE:
-                # No retry for compile errors — return immediately
-                if not result.errors:
-                    result.errors = [f"Compile error: {compile_error}"]
-                return result
-            elif attempt < max_retries:
-                # Route retry strategy by failure type
-                if ftype == FailureType.SYNTAX and isinstance(self._backend, LocalBackend):
-                    # Syntax failures → grammar constraint can help
-                    use_grammar_next = True
-                    _stage("retrying", "running", f"Syntax failure → enabling grammar constraint")
-                elif ftype == FailureType.UNKNOWN_ACTION:
-                    # Unknown action → grammar won't help, use error context
-                    _stage("retrying", "running", f"Unknown action → error context retry")
-                elif ftype == FailureType.BAD_PARAMS:
-                    _stage("retrying", "running", f"Bad params → error context retry")
+        # Timeout-triggered budget escalation
+        if gen_timed_out:
+            escalated = next_budget(effective_max_tokens)
+            if escalated is not None:
+                _stage("generating", "running", f"Timeout detected, escalating budget {effective_max_tokens}→{escalated}...")
+                effective_max_tokens = escalated
 
-                messages.append({"role": "assistant", "content": raw_text})
-                messages.append({"role": "user", "content": build_retry_message(dsl_text, last_errors)})
-                continue
-            else:
-                # Max retries exceeded
-                if not result.errors:
-                    result.errors = last_errors or [f"{ftype.name} failure after {max_retries} attempts"]
-                return result
+        # Overflow detection with progressive escalation
+        has_endshortcut = "ENDSHORTCUT" in dsl_text
+        if detect_overflow(dsl_text, budget, has_endshortcut):
+            escalated = next_budget(effective_max_tokens)
+            if escalated is not None:
+                old_budget = effective_max_tokens
+                effective_max_tokens = escalated
+                _stage("generating", "running", f"Overflow detected ({old_budget} tokens), escalating to {effective_max_tokens}...")
+                t0 = time.monotonic()
+                try:
+                    raw_text = self._backend.generate(
+                        system_prompt=self._system_prompt, messages=messages,
+                        model=model, max_tokens=effective_max_tokens,
+                    )
+                except Exception as e:
+                    _stage("generating", "failed", f"Generation error (budget escalation): {e}")
+                    result.errors = [f"Generation error: {e}"]
+                    return {"early_return": True, "dsl_text": None, "raw_text": "", "effective_max_tokens": effective_max_tokens}
+                elapsed = int((time.monotonic() - t0) * 1000)
+                dsl_text = _ensure_trailing_newline(_extract_dsl(raw_text))
+                _stage("generating", "success", f"Budget escalation generated ({elapsed}ms, budget={effective_max_tokens})", elapsed)
 
-            # If we reach here, compilation succeeded — skip compile error check
-            if compile_error:
-                return result
+        return {"dsl_text": dsl_text, "raw_text": raw_text, "effective_max_tokens": effective_max_tokens}
 
-            # ── Stage: Delivering ──
-            _stage("delivering", "running", "Saving and signing...")
-            try:
-                os.makedirs(output_dir, exist_ok=True)
-                delivery = shortcut.deliver(
-                    output_dir=output_dir,
-                    sign=sign,
-                    auto_import=auto_import,
+    def _call_backend(self, messages, model, max_tokens, use_grammar):
+        """Call the generation backend, returning (text, timed_out)."""
+        if isinstance(self._backend, LocalBackend) and hasattr(self._backend, "generate_with_meta"):
+            if use_grammar:
+                raw_text = self._backend.generate(
+                    system_prompt=self._system_prompt, messages=messages,
+                    max_tokens=max_tokens, use_grammar=True,
                 )
-                result.shortcut_path = delivery.get("unsigned")
-                result.signed_path = delivery.get("signed")
-                result.imported = delivery.get("imported", False)
-                instructions = delivery.get("instructions", "")
-                _stage("delivering", "success", instructions)
-            except Exception as e:
-                _stage("delivering", "failed", f"Delivery error: {e}")
-                result.errors = [f"Delivery error: {e}"]
-                return result
+                return raw_text, False
+            raw_text, gen_meta = self._backend.generate_with_meta(
+                system_prompt=self._system_prompt, messages=messages,
+                max_tokens=max_tokens,
+            )
+            return raw_text, gen_meta.timed_out
+        raw_text = self._backend.generate(
+            system_prompt=self._system_prompt, messages=messages,
+            model=model, max_tokens=max_tokens,
+        )
+        return raw_text, False
 
-            # ── Done ──
-            result.success = True
+    def _log_distillation(self, prompt, raw_dsl, dsl_text, lint_result, attempt, engine, max_tokens, budget, ctx):
+        """Log distillation data after lint, before parse."""
+        self._distillation_logger({
+            "prompt": prompt,
+            "raw_output": raw_dsl,
+            "canonicalized_output": dsl_text,
+            "lint_changes": [
+                {"kind": c.kind, "original": c.original, "replacement": c.replacement,
+                 "confidence": c.confidence, "reason": c.reason}
+                for c in lint_result.changes
+            ],
+            "was_modified": lint_result.was_modified,
+            "attempt": attempt,
+            "engine": engine,
+            "token_budget": max_tokens,
+            "budget_complexity": budget.complexity,
+            "domain_profile": ctx["domain_profile"].profile_id,
+            "scenario_profile": ctx["scenario"].scenario_id,
+            "architecture_decision": ctx["arch_decision"].strategy,
+        })
+
+    def _run_parse(self, result, dsl_text, _stage):
+        """Parse DSL text into IR. Returns (parse_error, ir)."""
+        _stage("parsing", "running", "Parsing DSL...")
+        try:
+            ir = parse_dsl(dsl_text)
+            result.name = ir.name
+            _stage("parsing", "success", f'Parsed: "{ir.name}" ({ir.action_count()} actions)')
+            return None, ir
+        except Exception as e:
+            error_msg = str(e)
+            if len(error_msg) > 500:
+                error_msg = error_msg[:500] + "..."
+            _stage("parsing", "failed", f"Parse error: {error_msg}")
+            return error_msg, None
+
+    def _run_validation(self, result, ir, domain_profile, _stage):
+        """Validate IR against action catalog. Returns list of error strings."""
+        _stage("validating", "running", "Validating against action catalog...")
+        validation = validate_ir(ir, domain_profile=domain_profile.profile_id)
+        result.warnings = [str(w) for w in validation.warnings]
+
+        if validation.errors:
+            errors = [f"Line {e.line_number}: [{e.category}] {e.message}" for e in validation.errors]
+            _stage("validating", "failed", f"{len(validation.errors)} error(s)")
+            return errors
+
+        warn_note = f" ({len(validation.warnings)} warning(s))" if validation.warnings else ""
+        _stage("validating", "success", f"Valid{warn_note}")
+        return []
+
+    def _run_simulation(self, result, ir, _stage):
+        """Run static analysis (simulation harness) on IR."""
+        try:
+            sim_report = self._simulation_harness.analyze(ir)
+            if not sim_report.findings:
+                _stage("simulation", "success", "Clean")
+                return
+
+            sim_warnings = [
+                f"[{f.category.value}] {f.message}" + (f" (line {f.line_number})" if f.line_number else "")
+                for f in sim_report.findings
+                if f.severity in (Severity.WARNING, Severity.ERROR)
+            ]
+            result.warnings.extend(sim_warnings)
+            result.contract_findings = [
+                f"[{f.category.value}] {f.message}" + (f" (line {f.line_number})" if f.line_number else "")
+                for f in sim_report.findings
+                if f.category == FindingCategory.CONTRACT
+            ]
+            _stage("simulation", "success", f"{len(sim_warnings)} finding(s)" if sim_warnings else "Clean")
+        except Exception:
+            _stage("simulation", "success", "Skipped")
+
+    def _run_compilation(self, result, ir, _stage):
+        """Compile IR to shortcut. Returns (shortcut, compile_error)."""
+        _stage("compiling", "running", "Compiling to .shortcut...")
+        try:
+            shortcut = compile_ir(ir)
+            _stage("compiling", "success", f"Compiled ({len(shortcut.actions)} actions)")
+            return shortcut, None
+        except Exception as e:
+            error = str(e)
+            _stage("compiling", "failed", f"Compile error: {e}")
+            result.errors = [f"Compile error: {e}"]
+            return None, error
+
+    def _score_candidates(
+        self, result, ir, shortcut, dsl_text, candidate_count,
+        creative_mode, ctx, _stage,
+    ):
+        """Score with CreativityScorer and optionally generate additional candidates."""
+        best_ir, best_shortcut, best_dsl = ir, shortcut, dsl_text
+        best_score: float | None = None
+
+        if ir is not None:
+            try:
+                from creative_scoring import CreativityScorer
+                scorer = CreativityScorer()
+                cs = scorer.score(ir, mode=creative_mode)
+                best_score = cs.total
+                result.creativity_score = cs.total
+            except Exception:
+                scorer = None
+
+        result.candidates_generated = 1
+        result.candidates_valid = 1
+
+        if candidate_count > 1 and ir is not None:
+            _stage("candidates", "running", f"Generating {candidate_count - 1} additional candidate(s)...")
+            for _ in range(2, candidate_count + 1):
+                c_result = self._generate_candidate(
+                    ctx["messages"], ctx["model"], ctx["budget"].max_tokens,
+                    ctx["domain_profile"],
+                )
+                result.candidates_generated += 1
+                if c_result is None:
+                    continue
+                result.candidates_valid += 1
+                c_score = 0.0
+                if scorer is not None:
+                    try:
+                        c_score = scorer.score(c_result["ir"], mode=creative_mode).total
+                    except Exception:
+                        pass
+                if best_score is None or c_score > best_score:
+                    best_ir, best_shortcut, best_dsl = c_result["ir"], c_result["shortcut"], c_result["dsl"]
+                    best_score = c_score
+                    result.creativity_score = c_score
+
+            _stage(
+                "candidates", "success",
+                f"{result.candidates_valid}/{result.candidates_generated} valid"
+                + (f", best={best_score:.2f}" if best_score is not None else ""),
+            )
+
+        return best_ir, best_shortcut, best_dsl
+
+    def _generate_candidate(self, messages, model, max_tokens, domain_profile):
+        """Generate and validate a single candidate. Returns dict or None on failure."""
+        try:
+            c_raw = self._backend.generate(
+                system_prompt=self._system_prompt, messages=messages,
+                model=model, max_tokens=max_tokens,
+            )
+            c_dsl = lint_dsl(_ensure_trailing_newline(_extract_dsl(c_raw))).text
+            c_ir = parse_dsl(c_dsl)
+            if validate_ir(c_ir, domain_profile=domain_profile.profile_id).errors:
+                return None
+            return {"ir": c_ir, "shortcut": compile_ir(c_ir), "dsl": c_dsl}
+        except Exception:
+            return None
+
+    def _route_retry(self, ftype, _stage, messages, raw_text, dsl_text, last_errors):
+        """Route retry strategy by failure type. Returns use_grammar_next flag."""
+        use_grammar_next = False
+        if ftype == FailureType.SYNTAX and isinstance(self._backend, LocalBackend):
+            use_grammar_next = True
+            _stage("retrying", "running", "Syntax failure → enabling grammar constraint")
+        elif ftype == FailureType.UNKNOWN_ACTION:
+            _stage("retrying", "running", "Unknown action → error context retry")
+        elif ftype == FailureType.BAD_PARAMS:
+            _stage("retrying", "running", "Bad params → error context retry")
+
+        messages.append({"role": "assistant", "content": raw_text})
+        messages.append({"role": "user", "content": build_retry_message(dsl_text, last_errors)})
+        return use_grammar_next
+
+    def _deliver(self, result, shortcut, output_dir, sign, auto_import, _stage):
+        """Deliver the compiled shortcut (save, sign, import)."""
+        _stage("delivering", "running", "Saving and signing...")
+        try:
+            os.makedirs(output_dir, exist_ok=True)
+            delivery = shortcut.deliver(output_dir=output_dir, sign=sign, auto_import=auto_import)
+            result.shortcut_path = delivery.get("unsigned")
+            result.signed_path = delivery.get("signed")
+            result.imported = delivery.get("imported", False)
+            _stage("delivering", "success", delivery.get("instructions", ""))
+        except Exception as e:
+            _stage("delivering", "failed", f"Delivery error: {e}")
+            result.errors = [f"Delivery error: {e}"]
             return result
 
-        # Should not reach here, but just in case
-        result.errors = last_errors or ["Max retries exceeded"]
+        result.success = True
         return result
 
     def compile_dsl(
@@ -909,8 +1006,12 @@ class Orchestrator:
         result.dsl_text = dsl_text
         result.attempts = 0  # No LLM call
 
-        def _stage(stage: str, status: str, message: str = "", duration_ms: int | None = None):
-            sr = StageResult(stage=stage, status=status, message=message, duration_ms=duration_ms)
+        def _stage(
+            stage: str, status: str, message: str = "", duration_ms: int | None = None
+        ):
+            sr = StageResult(
+                stage=stage, status=status, message=message, duration_ms=duration_ms
+            )
             result.stages.append(sr)
             if on_stage_update:
                 on_stage_update(sr)
@@ -922,7 +1023,11 @@ class Orchestrator:
         try:
             ir = parse_dsl(dsl_text)
             result.name = ir.name
-            _stage("parsing", "success", f"Parsed: \"{ir.name}\" ({ir.action_count()} actions)")
+            _stage(
+                "parsing",
+                "success",
+                f'Parsed: "{ir.name}" ({ir.action_count()} actions)',
+            )
         except Exception as e:
             _stage("parsing", "failed", f"Parse error: {e}")
             result.errors = [f"Parse error: {e}"]
@@ -933,7 +1038,10 @@ class Orchestrator:
         validation = validate_ir(ir)
         result.warnings = [str(w) for w in validation.warnings]
         if validation.errors:
-            error_msgs = [f"Line {e.line_number}: [{e.category}] {e.message}" for e in validation.errors]
+            error_msgs = [
+                f"Line {e.line_number}: [{e.category}] {e.message}"
+                for e in validation.errors
+            ]
             _stage("validating", "failed", f"{len(validation.errors)} error(s)")
             result.errors = error_msgs
             return result
@@ -943,7 +1051,9 @@ class Orchestrator:
         _stage("compiling", "running", "Compiling...")
         try:
             shortcut = compile_ir(ir)
-            _stage("compiling", "success", f"Compiled ({len(shortcut.actions)} actions)")
+            _stage(
+                "compiling", "success", f"Compiled ({len(shortcut.actions)} actions)"
+            )
         except Exception as e:
             _stage("compiling", "failed", f"Compile error: {e}")
             result.errors = [f"Compile error: {e}"]

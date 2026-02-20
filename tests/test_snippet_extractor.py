@@ -10,8 +10,8 @@ Run: python3 scripts/test_snippet_extractor.py
 """
 
 import json
-import sys
 import os
+import sys
 import tempfile
 import unittest
 from pathlib import Path
@@ -19,35 +19,27 @@ from pathlib import Path
 sys.path.insert(0, str(Path(os.path.abspath(__file__)).parent.parent / "src"))
 
 from dsl_ir import (
-    ShortcutIR,
     ActionStatement,
-    SetVariable,
-    IfBlock,
-    MenuBlock,
-    MenuCase,
-    RepeatBlock,
-    ForeachBlock,
     Comment,
-    StringValue,
-    NumberValue,
-    BoolValue,
-    VarRef,
+    ForeachBlock,
     HandleRef,
-    InterpolatedString,
+    IfBlock,
+    SetVariable,
+    StringValue,
 )
 from snippet_extractor import (
+    WINDOW_SIZES,
+    FlatStatement,
     SnippetExtractor,
-    _flatten_ir,
     _canonicalize_variables,
     _compute_structural_key,
-    _score_snippet,
     _detect_domain_tags,
-    _has_control_flow,
+    _flatten_ir,
     _generate_description,
+    _has_control_flow,
     _reconstruct_canonical_dsl,
-    FlatStatement,
+    _score_snippet,
     query_snippets,
-    WINDOW_SIZES,
 )
 
 
@@ -58,7 +50,9 @@ class TestFlattenIR(unittest.TestCase):
         """Simple list of actions flattens 1:1."""
         stmts = [
             ActionStatement(action_name="gettext", params={}),
-            ActionStatement(action_name="splittext", params={"WFInput": HandleRef("prev")}),
+            ActionStatement(
+                action_name="splittext", params={"WFInput": HandleRef("prev")}
+            ),
         ]
         flat = _flatten_ir(stmts)
         self.assertEqual(len(flat), 2)
@@ -82,7 +76,9 @@ class TestFlattenIR(unittest.TestCase):
 
     def test_nested_if_block(self):
         """IF block with then/else body produces boundary markers and nested stmts."""
-        inner_action = ActionStatement(action_name="alert", params={"WFAlertActionMessage": StringValue("hello")})
+        inner_action = ActionStatement(
+            action_name="alert", params={"WFAlertActionMessage": StringValue("hello")}
+        )
         else_action = ActionStatement(action_name="showresult", params={})
         if_block = IfBlock(
             target=HandleRef("prev"),
@@ -136,7 +132,9 @@ class TestFlattenIR(unittest.TestCase):
         # foreach_start, if_start, action, endif, endforeach
         self.assertEqual(len(flat), 5)
         kinds = [f.kind for f in flat]
-        self.assertEqual(kinds, ["foreach_start", "if_start", "action", "endif", "endforeach"])
+        self.assertEqual(
+            kinds, ["foreach_start", "if_start", "action", "endif", "endforeach"]
+        )
         # The inner action should be in_control_flow
         self.assertTrue(flat[2].in_control_flow)
 
@@ -166,8 +164,9 @@ class TestCanonicalizeVariables(unittest.TestCase):
         """Variables are renamed in first-appearance order."""
         flat = [
             FlatStatement(kind="set", var_name="UserInput", value_repr="@prev"),
-            FlatStatement(kind="action", action_id="gettext",
-                          params={"WFInput": "$UserInput"}),
+            FlatStatement(
+                kind="action", action_id="gettext", params={"WFInput": "$UserInput"}
+            ),
             FlatStatement(kind="set", var_name="Result", value_repr="@prev"),
         ]
         canonical = _canonicalize_variables(flat)
@@ -178,8 +177,9 @@ class TestCanonicalizeVariables(unittest.TestCase):
     def test_handles_not_renamed(self):
         """Handle references like @prev are NOT renamed."""
         flat = [
-            FlatStatement(kind="action", action_id="gettext",
-                          params={"WFInput": "@prev"}),
+            FlatStatement(
+                kind="action", action_id="gettext", params={"WFInput": "@prev"}
+            ),
         ]
         canonical = _canonicalize_variables(flat)
         self.assertEqual(canonical[0].params["WFInput"], "@prev")
@@ -188,10 +188,8 @@ class TestCanonicalizeVariables(unittest.TestCase):
         """Multiple references to the same variable get the same canonical name."""
         flat = [
             FlatStatement(kind="set", var_name="X", value_repr="@prev"),
-            FlatStatement(kind="action", action_id="alert",
-                          params={"Msg": "$X"}),
-            FlatStatement(kind="action", action_id="showresult",
-                          params={"Text": "$X"}),
+            FlatStatement(kind="action", action_id="alert", params={"Msg": "$X"}),
+            FlatStatement(kind="action", action_id="showresult", params={"Text": "$X"}),
         ]
         canonical = _canonicalize_variables(flat)
         self.assertEqual(canonical[0].var_name, "__v1")
@@ -308,7 +306,9 @@ class TestDetectDomainTags(unittest.TestCase):
 class TestWindowExtraction(unittest.TestCase):
     """Test sliding window extraction with various sizes."""
 
-    def _make_extractor_with_ir(self, stmts: list, top_k: int = 200) -> SnippetExtractor:
+    def _make_extractor_with_ir(
+        self, stmts: list, top_k: int = 200
+    ) -> SnippetExtractor:
         """Helper: create extractor and feed it an IR directly."""
         ext = SnippetExtractor(top_k=top_k)
         flat = _flatten_ir(stmts)
@@ -316,7 +316,7 @@ class TestWindowExtraction(unittest.TestCase):
             if wsize > len(flat):
                 continue
             for start in range(len(flat) - wsize + 1):
-                window = flat[start:start + wsize]
+                window = flat[start : start + wsize]
                 ext._process_window(window)
         ext._total_examples = 1
         return ext
@@ -345,8 +345,10 @@ class TestWindowExtraction(unittest.TestCase):
             ActionStatement(action_name="alert", params={}),
         ]
         ext = self._make_extractor_with_ir(stmts)
-        self.assertIn("downloadurl.gettext.splittext.count.alert",
-                       list(ext._key_candidates.keys()))
+        self.assertIn(
+            "downloadurl.gettext.splittext.count.alert",
+            list(ext._key_candidates.keys()),
+        )
 
     def test_short_sequence_skipped(self):
         """Sequences shorter than smallest window size (3) produce no windows."""
@@ -392,11 +394,13 @@ class TestTopKSelection(unittest.TestCase):
         ext = SnippetExtractor(top_k=2)
 
         # Create 3 distinct candidates
-        for i, aid_pair in enumerate([
-            ("gettext", "splittext", "count"),
-            ("downloadurl", "alert", "showresult"),
-            ("sendmessage", "notification", "exit"),
-        ]):
+        for i, aid_pair in enumerate(
+            [
+                ("gettext", "splittext", "count"),
+                ("downloadurl", "alert", "showresult"),
+                ("sendmessage", "notification", "exit"),
+            ]
+        ):
             window = [
                 FlatStatement(kind="action", action_id=aid_pair[0]),
                 FlatStatement(kind="action", action_id=aid_pair[1]),
@@ -475,19 +479,20 @@ class TestRoundTrip(unittest.TestCase):
 
         registry = ext.build_registry("test.jsonl")
 
-        with tempfile.NamedTemporaryFile(mode="w", suffix=".json",
-                                         delete=False) as f:
+        with tempfile.NamedTemporaryFile(mode="w", suffix=".json", delete=False) as f:
             json.dump(registry, f)
             tmp_path = Path(f.name)
 
         try:
-            results = query_snippets("split text into lines", registry_path=tmp_path, top_k=3)
+            results = query_snippets(
+                "split text into lines", registry_path=tmp_path, top_k=3
+            )
             self.assertGreater(len(results), 0)
             # The text-processing snippet should match "split"
             keys = [r["structural_key"] for r in results]
             self.assertTrue(
                 any("splittext" in k for k in keys),
-                f"Expected a splittext snippet in results, got keys: {keys}"
+                f"Expected a splittext snippet in results, got keys: {keys}",
             )
         finally:
             tmp_path.unlink()
@@ -511,28 +516,30 @@ class TestQueryFunction(unittest.TestCase):
 
     def test_returns_relevant_results(self):
         """Query with 'download' keyword returns networking snippet."""
-        path = self._make_registry([
-            {
-                "id": "snip_001",
-                "structural_key": "downloadurl.gettext.alert",
-                "canonical_dsl": "ACTION downloadurl\nACTION gettext\nACTION alert",
-                "action_count": 3,
-                "frequency": 5,
-                "score": 5.0,
-                "domain_tags": ["networking", "text_processing", "user_feedback"],
-                "description": "Fetch URL, get text, show alert",
-            },
-            {
-                "id": "snip_002",
-                "structural_key": "sendmessage.notification",
-                "canonical_dsl": "ACTION sendmessage\nACTION notification",
-                "action_count": 2,
-                "frequency": 3,
-                "score": 3.0,
-                "domain_tags": ["messaging"],
-                "description": "Send message, send notification",
-            },
-        ])
+        path = self._make_registry(
+            [
+                {
+                    "id": "snip_001",
+                    "structural_key": "downloadurl.gettext.alert",
+                    "canonical_dsl": "ACTION downloadurl\nACTION gettext\nACTION alert",
+                    "action_count": 3,
+                    "frequency": 5,
+                    "score": 5.0,
+                    "domain_tags": ["networking", "text_processing", "user_feedback"],
+                    "description": "Fetch URL, get text, show alert",
+                },
+                {
+                    "id": "snip_002",
+                    "structural_key": "sendmessage.notification",
+                    "canonical_dsl": "ACTION sendmessage\nACTION notification",
+                    "action_count": 2,
+                    "frequency": 3,
+                    "score": 3.0,
+                    "domain_tags": ["messaging"],
+                    "description": "Send message, send notification",
+                },
+            ]
+        )
         try:
             results = query_snippets("download a file from the web", registry_path=path)
             self.assertGreater(len(results), 0)
@@ -581,7 +588,9 @@ class TestEdgeCases(unittest.TestCase):
         # 10 * (1/3) * 1.0 ~ 3.333
         self.assertAlmostEqual(score, 10 / 3, places=3)
         # Compare to 3 unique actions
-        diverse_score = _score_snippet(frequency=10, action_ids=["a", "b", "c"], has_cf=False)
+        diverse_score = _score_snippet(
+            frequency=10, action_ids=["a", "b", "c"], has_cf=False
+        )
         # 10 * 1.0 * 1.0 = 10.0
         self.assertAlmostEqual(diverse_score, 10.0)
         self.assertGreater(diverse_score, score)
@@ -657,12 +666,12 @@ class TestIngestDSL(unittest.TestCase):
         dsl = (
             'SHORTCUT "Test Snippet"\n'
             'ACTION downloadurl URL="https://example.com"\n'
-            'SET $Response = @prev\n'
-            'ACTION gettext WFInput=$Response\n'
-            'ACTION splittext WFInput=@prev\n'
-            'ACTION count Input=@prev\n'
+            "SET $Response = @prev\n"
+            "ACTION gettext WFInput=$Response\n"
+            "ACTION splittext WFInput=@prev\n"
+            "ACTION count Input=@prev\n"
             'ACTION alert WFAlertActionMessage="Done"\n'
-            'ENDSHORTCUT\n'
+            "ENDSHORTCUT\n"
         )
         ext = SnippetExtractor()
         ext.ingest_dsl(dsl)
@@ -686,7 +695,9 @@ class TestReconstructCanonicalDSL(unittest.TestCase):
     def test_basic_reconstruction(self):
         """Simple action sequence reconstructs to ACTION lines."""
         flat = [
-            FlatStatement(kind="action", action_id="gettext", params={"WFInput": "@prev"}),
+            FlatStatement(
+                kind="action", action_id="gettext", params={"WFInput": "@prev"}
+            ),
             FlatStatement(kind="action", action_id="splittext", params={}),
         ]
         dsl = _reconstruct_canonical_dsl(flat)

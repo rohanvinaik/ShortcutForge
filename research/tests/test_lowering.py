@@ -25,8 +25,11 @@ class TestLowering(unittest.TestCase):
             shortcut_name="TestAlert",
             tier1_tokens=["SHORTCUT", "ACTION", "ENDACTION", "ENDSHORTCUT"],
             tier2_blocks=[
-                Tier2Block(0, "is.workflow.actions.showalert",
-                          ["PARAM", "WFAlertActionMessage"]),
+                Tier2Block(
+                    0,
+                    "is.workflow.actions.showalert",
+                    ["PARAM", "WFAlertActionMessage"],
+                ),
             ],
             tier3_slots=[
                 Tier3Slot("s1", "string", "Hello World", "WFAlertActionMessage"),
@@ -37,6 +40,7 @@ class TestLowering(unittest.TestCase):
         """Lowered DSL must end with ENDSHORTCUT."""
         try:
             from research.src.lowering import lower_typed_ir_to_dsl
+
             example = self._make_simple_example()
             dsl = lower_typed_ir_to_dsl(example)
             self.assertTrue(dsl.strip().endswith("ENDSHORTCUT"))
@@ -47,6 +51,7 @@ class TestLowering(unittest.TestCase):
         """Lowered DSL must parse and validate successfully."""
         try:
             from research.src.lowering import roundtrip_validate
+
             example = self._make_simple_example()
             success, msg = roundtrip_validate(example)
             self.assertTrue(success, f"Roundtrip failed: {msg}")

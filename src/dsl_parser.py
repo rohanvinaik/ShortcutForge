@@ -10,40 +10,45 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any
 
-from lark import Lark, Transformer, v_args, Token, Tree
+from lark import Lark, Transformer, Tree, v_args
 
 from dsl_ir import (
-    ShortcutIR,
     ActionStatement,
-    SetVariable,
+    BoolValue,
+    Comment,
+    DictLiteral,
+    ForeachBlock,
+    HandleRef,
+    HeadersLiteral,
     IfBlock,
+    InterpolatedString,
+    ListLiteral,
     MenuBlock,
     MenuCase,
-    RepeatBlock,
-    ForeachBlock,
-    Comment,
-    StringValue,
     NumberValue,
-    BoolValue,
-    VarRef,
-    HandleRef,
-    InterpolatedString,
-    DictLiteral,
-    ListLiteral,
     QuantityLiteral,
-    HeadersLiteral,
-    Statement,
-    IRValue,
+    RepeatBlock,
+    SetVariable,
+    ShortcutIR,
+    StringValue,
+    VarRef,
 )
 
-GRAMMAR_PATH = Path(__file__).resolve().parent.parent / "references" / "shortcutdsl.lark"
+GRAMMAR_PATH = (
+    Path(__file__).resolve().parent.parent / "references" / "shortcutdsl.lark"
+)
 
 
 def _unquote(s: str) -> str:
     """Remove surrounding quotes and unescape."""
     if s.startswith('"') and s.endswith('"'):
         s = s[1:-1]
-    return s.replace('\\"', '"').replace("\\\\", "\\").replace("\\n", "\n").replace("\\t", "\t")
+    return (
+        s.replace('\\"', '"')
+        .replace("\\\\", "\\")
+        .replace("\\n", "\n")
+        .replace("\\t", "\t")
+    )
 
 
 def _parse_number(s: str) -> int | float:
@@ -247,11 +252,21 @@ class DSLTransformer(Transformer):
 
 def _is_ir_value(obj: Any) -> bool:
     """Check if object is an IR value (not a statement or list)."""
-    return isinstance(obj, (
-        StringValue, NumberValue, BoolValue, VarRef, HandleRef,
-        InterpolatedString, DictLiteral, ListLiteral,
-        QuantityLiteral, HeadersLiteral,
-    ))
+    return isinstance(
+        obj,
+        (
+            StringValue,
+            NumberValue,
+            BoolValue,
+            VarRef,
+            HandleRef,
+            InterpolatedString,
+            DictLiteral,
+            ListLiteral,
+            QuantityLiteral,
+            HeadersLiteral,
+        ),
+    )
 
 
 # ============================================================
@@ -303,10 +318,17 @@ def parse_dsl(text: str) -> ShortcutIR:
 
 
 # Statement-level tree rule names that carry line numbers
-_STMT_RULES = frozenset({
-    "action_stmt", "set_stmt", "if_block", "menu_block",
-    "repeat_block", "foreach_block", "comment",
-})
+_STMT_RULES = frozenset(
+    {
+        "action_stmt",
+        "set_stmt",
+        "if_block",
+        "menu_block",
+        "repeat_block",
+        "foreach_block",
+        "comment",
+    }
+)
 
 
 def _extract_line_numbers(tree: Tree) -> list[int]:
@@ -333,37 +355,11 @@ def _assign_line_numbers(
     idx: list[int],
 ) -> None:
     """Walk IR statements and assign line numbers from the pre-extracted map."""
-    for stmt in stmts:
-        if idx[0] < len(line_map):
-            line = line_map[idx[0]]
-        else:
-            line = 0
+    from dsl_ir import iter_child_blocks
 
-        if isinstance(stmt, ActionStatement):
-            stmt.line_number = line
-            idx[0] += 1
-        elif isinstance(stmt, SetVariable):
-            stmt.line_number = line
-            idx[0] += 1
-        elif isinstance(stmt, IfBlock):
-            stmt.line_number = line
-            idx[0] += 1
-            _assign_line_numbers(stmt.then_body, line_map, idx)
-            if stmt.else_body:
-                _assign_line_numbers(stmt.else_body, line_map, idx)
-        elif isinstance(stmt, MenuBlock):
-            stmt.line_number = line
-            idx[0] += 1
-            for case in stmt.cases:
-                _assign_line_numbers(case.body, line_map, idx)
-        elif isinstance(stmt, RepeatBlock):
-            stmt.line_number = line
-            idx[0] += 1
-            _assign_line_numbers(stmt.body, line_map, idx)
-        elif isinstance(stmt, ForeachBlock):
-            stmt.line_number = line
-            idx[0] += 1
-            _assign_line_numbers(stmt.body, line_map, idx)
-        elif isinstance(stmt, Comment):
-            stmt.line_number = line
-            idx[0] += 1
+    for stmt in stmts:
+        line = line_map[idx[0]] if idx[0] < len(line_map) else 0
+        stmt.line_number = line
+        idx[0] += 1
+        for body, _ctx, _is_loop in iter_child_blocks(stmt):
+            _assign_line_numbers(body, line_map, idx)

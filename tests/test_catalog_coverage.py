@@ -6,32 +6,40 @@ covers every action identifier and parameter name found in real data.
 
 Run: python3 scripts/test_catalog_coverage.py
 """
-import plistlib
+
 import os
-from pathlib import Path
+import plistlib
 import sys
+from pathlib import Path
 
 sys.path.insert(0, str(Path(os.path.abspath(__file__)).parent.parent / "src"))
 import shortcuts_compiler
-from shortcuts_compiler import _resolve_identifier, _load_catalog
+from shortcuts_compiler import _load_catalog, _resolve_identifier
 
-DOWNLOAD_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "downloaded")
+DOWNLOAD_DIR = os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "..", "downloaded"
+)
 
 # Force catalog load
 _load_catalog()
 _ACTION_CATALOG = shortcuts_compiler._ACTION_CATALOG
 
 # Parameters injected by the compiler — always valid, never user-specified
-COMPILER_PARAMS = {"UUID", "CustomOutputName", "GroupingIdentifier", "WFControlFlowMode"}
+COMPILER_PARAMS = {
+    "UUID",
+    "CustomOutputName",
+    "GroupingIdentifier",
+    "WFControlFlowMode",
+}
 
 results = {
     "shortcuts_processed": 0,
     "total_actions": 0,
     "resolved_actions": 0,
     "cataloged_actions": 0,
-    "unresolved_identifiers": {},   # identifier -> count
+    "unresolved_identifiers": {},  # identifier -> count
     "uncataloged_identifiers": {},  # identifier -> count (resolves but no catalog entry)
-    "unknown_params": {},           # identifier -> {param_name: count}
+    "unknown_params": {},  # identifier -> {param_name: count}
     "total_param_instances": 0,
     "covered_param_instances": 0,
 }
@@ -60,8 +68,9 @@ for fname in sorted(os.listdir(DOWNLOAD_DIR)):
             resolved = _resolve_identifier(identifier)
             results["resolved_actions"] += 1
         except ValueError:
-            results["unresolved_identifiers"][identifier] = \
+            results["unresolved_identifiers"][identifier] = (
                 results["unresolved_identifiers"].get(identifier, 0) + 1
+            )
             continue
 
         # Test 2: Does the catalog have an entry with observed_params?
@@ -69,12 +78,15 @@ for fname in sorted(os.listdir(DOWNLOAD_DIR)):
         if catalog_entry:
             results["cataloged_actions"] += 1
         else:
-            results["uncataloged_identifiers"][resolved] = \
+            results["uncataloged_identifiers"][resolved] = (
                 results["uncataloged_identifiers"].get(resolved, 0) + 1
+            )
 
         # Test 3: Are all parameters in the catalog's observed_params?
         params = action.get("WFWorkflowActionParameters", {})
-        known_params = set(catalog_entry.get("observed_params", {}).keys()) | COMPILER_PARAMS
+        known_params = (
+            set(catalog_entry.get("observed_params", {}).keys()) | COMPILER_PARAMS
+        )
 
         for param_name in params:
             results["total_param_instances"] += 1
@@ -83,8 +95,9 @@ for fname in sorted(os.listdir(DOWNLOAD_DIR)):
             else:
                 if resolved not in results["unknown_params"]:
                     results["unknown_params"][resolved] = {}
-                results["unknown_params"][resolved][param_name] = \
+                results["unknown_params"][resolved][param_name] = (
                     results["unknown_params"][resolved].get(param_name, 0) + 1
+                )
 
 
 # === Report ===
@@ -101,9 +114,15 @@ total_params = results["total_param_instances"]
 print(f"Shortcuts processed:  {results['shortcuts_processed']}")
 print(f"Total actions:        {total}")
 print()
-print(f"Action resolution:    {resolved}/{total} ({100*resolved/max(1,total):.1f}%)")
-print(f"Cataloged actions:    {cataloged}/{total} ({100*cataloged/max(1,total):.1f}%)")
-print(f"Parameter coverage:   {covered}/{total_params} ({100*covered/max(1,total_params):.1f}%)")
+print(
+    f"Action resolution:    {resolved}/{total} ({100 * resolved / max(1, total):.1f}%)"
+)
+print(
+    f"Cataloged actions:    {cataloged}/{total} ({100 * cataloged / max(1, total):.1f}%)"
+)
+print(
+    f"Parameter coverage:   {covered}/{total_params} ({100 * covered / max(1, total_params):.1f}%)"
+)
 print()
 
 unresolved = results["unresolved_identifiers"]
@@ -123,7 +142,9 @@ if uncataloged:
 unknown = results["unknown_params"]
 if unknown:
     total_unknown = sum(sum(v.values()) for v in unknown.values())
-    print(f"UNKNOWN PARAMETERS ({total_unknown} instances across {len(unknown)} actions):")
+    print(
+        f"UNKNOWN PARAMETERS ({total_unknown} instances across {len(unknown)} actions):"
+    )
     # Show top 20 by instance count
     flat = []
     for ident, params in unknown.items():

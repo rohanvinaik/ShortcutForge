@@ -35,6 +35,7 @@ DEFAULT_TIMEOUT_S = 90
 @dataclass
 class GenerationMeta:
     """Metadata about a generation run."""
+
     timed_out: bool = False
     gen_time_s: float = 0.0
     tokens_generated: int = 0
@@ -93,9 +94,9 @@ def generate_with_timeout(
                 idx = accumulated.index("ENDSHORTCUT")
                 end_idx = accumulated.find("\n", idx)
                 if end_idx != -1:
-                    result = accumulated[:end_idx + 1]
+                    result = accumulated[: end_idx + 1]
                 else:
-                    result = accumulated[:idx + len("ENDSHORTCUT")] + "\n"
+                    result = accumulated[: idx + len("ENDSHORTCUT")] + "\n"
                 meta.early_stopped = True
                 meta.gen_time_s = time.monotonic() - t0
                 return result, meta
@@ -109,9 +110,9 @@ def generate_with_timeout(
         idx = result.index("ENDSHORTCUT")
         end_idx = result.find("\n", idx)
         if end_idx != -1:
-            result = result[:end_idx + 1]
+            result = result[: end_idx + 1]
         else:
-            result = result[:idx + len("ENDSHORTCUT")] + "\n"
+            result = result[: idx + len("ENDSHORTCUT")] + "\n"
         meta.early_stopped = True
 
     return result, meta
@@ -157,8 +158,8 @@ class LocalDSLGenerator:
         self._chat_template = chat_template
 
         # Lazy-loaded
-        self._raw_model = None       # Raw MLX model (for streaming)
-        self._raw_tokenizer = None   # Raw tokenizer (for streaming)
+        self._raw_model = None  # Raw MLX model (for streaming)
+        self._raw_tokenizer = None  # Raw tokenizer (for streaming)
         self._outlines_model = None  # Outlines-wrapped model (for grammar)
         self._cfg = None
         self._loaded = False
@@ -188,6 +189,7 @@ class LocalDSLGenerator:
         # Load grammar
         if self._use_grammar:
             from outlines.types import CFG
+
             grammar_text = Path(self._grammar_path).read_text()
             self._cfg = CFG(grammar_text)
 
@@ -315,6 +317,7 @@ class LocalDSLGenerator:
         try:
             import mlx_lm  # noqa: F401
             import outlines  # noqa: F401
+
             return True
         except ImportError:
             return False

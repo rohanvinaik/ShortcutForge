@@ -1,7 +1,7 @@
 # Balanced Sashimi: Operational Research Plan
 
-**Version:** 1.0
-**Date:** February 16, 2026
+**Version:** 1.1 (PAB integration)
+**Date:** February 16, 2026 (updated February 20, 2026)
 **Corresponding theory document:** `BALANCED_SASHIMI_RESEARCH.md`
 **Results ledger:** `EXPERIMENT_RESULTS.md`
 
@@ -156,7 +156,102 @@ pyyaml
 
 **Compute**: Local, no GPU needed for setup.
 
-**Stop/go for Phase 0**: All data artifacts pass validation. Round-trip tests pass. PyTorch scaffolding has passing unit tests for data loading and ternary quantization. Estimated: **3–5 days of work.**
+### 0.6 Implement PAB Profile Infrastructure
+
+**What**: Build the Process-Aware Benchmarking (PAB) module that records learning trajectory metrics during training. PAB was designed by Parama Pal (Pal, 2025) and provides a formal framework for evaluating *how* models learn, not just their final metrics. We adapt its core metrics to the Balanced Sashimi training context and extend them with architecture-specific measures.
+
+**How**:
+```python
+# research/src/pab_profile.py
+# Implements PABProfile dataclass + PABTracker class
+#
+# PABTracker is initialized with experiment config and called
+# at each checkpoint during training:
+#
+#   tracker = PABTracker(config, checkpoint_interval=50)
+#   for step in training_loop:
+#       ...
+#       if step % 50 == 0:
+#           tracker.record(
+#               step=step,
+#               train_loss=L_total,
+#               val_loss=val_loss,
+#               loss_components={'ce': L_ce, 'margin': L_margin, 'repair': L_repair},
+#               adaptive_weights={'ce': w_ce, 'margin': w_margin, 'repair': w_repair},
+#               tier_accuracies={'tier1': t1_acc, 'tier2': t2_acc, 'tier3': t3_acc},
+#               bottleneck_embeddings=z_batch,  # for representation evolution
+#               decoder_weights=decoder.parameters(),  # for crystallization
+#               domain_accuracies=domain_acc_dict,  # for domain progression
+#           )
+#   profile = tracker.finalize()
+#   profile.save('research/models/<run_name>/pab_profile.json')
+```
+
+**Core PAB metrics implemented** (adapted from PABKit):
+- **Learning stability**: `S(t) = |L(t-1) - L(t)| / (L(t-1) + ε)` — smoothness of loss trajectory
+- **Predictability**: `Var(ΔL)` over sliding window — structured vs. chaotic training
+- **Generalization gap**: `val_loss - train_loss` — overfitting detection
+- **Representation evolution**: `1 - cos_sim(z̄(t-1), z̄(t))` — bottleneck stability
+
+**Balanced Sashimi extensions**:
+- **Tier-wise progression**: Per-tier accuracy trajectories with early/late/unstable classification
+- **Ternary crystallization**: `% of weights where sign(W(t)) == sign(W(t-1))` across checkpoints
+- **Domain progression**: Per-domain accuracy trajectories (analogous to PABKit's class-wise progression)
+- **Action difficulty**: Per-action accuracy for top-N actions
+
+**Also implement**:
+```python
+# research/src/pab_comparison.py
+# Overlay and compare PAB profiles across runs
+# Used in Phase 4 ablation analysis
+#
+#   profiles = [PABProfile.load(path) for path in run_paths]
+#   comparison = compare_profiles(profiles)
+#   comparison.plot_trajectory_overlay('stability')
+#   comparison.plot_tier_progression()
+#   comparison.rank_by('stability_mean', lower_is_better=True)
+```
+
+**Validation**: Unit tests that (1) PABTracker produces well-formed profiles from synthetic training data, (2) all metrics match hand-computed values on known inputs, (3) profile save/load round-trips correctly.
+
+**Compute**: Local, CPU-only, <1 hour.
+
+### 0.7 Implement PAB-Informed Distillation Curator
+
+**What**: Extend the existing distillation curator (`training/distillation_curator.py`) with trajectory-aware quality filtering.
+
+**How**:
+```python
+# research/scripts/trajectory_curator.py
+# Runs a short probe training pass on candidate distillation data,
+# collects per-example loss trajectories, and classifies examples:
+#
+#   curator = TrajectoryCurator(
+#       distillation_data='training_data/distilled_curated.jsonl',
+#       probe_iterations=250,
+#       model_config=config
+#   )
+#   difficulty_report = curator.run_probe()
+#   # difficulty_report classifies each example as:
+#   #   easy | hard_but_learnable | unlearnable | destabilizing
+#   curated_data = curator.filter(
+#       keep=['hard_but_learnable'],
+#       downsample=['easy'],
+#       flag_for_review=['unlearnable'],
+#       remove=['destabilizing']
+#   )
+#   curated_data.save('training_data/distilled_trajectory_curated.jsonl')
+```
+
+**Classification criteria**:
+- **Easy**: Per-example loss < 0.5 × mean loss by step 100.
+- **Hard-but-learnable**: Per-example loss decreases monotonically but remains above mean.
+- **Unlearnable**: Per-example loss shows no downward trend (Spearman ρ > -0.1 over training).
+- **Destabilizing**: Batch stability metric spikes >2σ when this example is included.
+
+**Compute**: One probe training pass (~250 iterations), <1 hour on MPS. Amortized by saving difficulty profiles for reuse.
+
+**Stop/go for Phase 0**: All data artifacts pass validation. Round-trip tests pass. PyTorch scaffolding has passing unit tests for data loading, ternary quantization, and PAB profiling. Estimated: **4–6 days of work.**
 
 ---
 
@@ -256,11 +351,12 @@ pyyaml
 - Tier 1 token accuracy (exact match per position).
 - Tier 1 sequence accuracy (exact match full sequence).
 - After lowering + Tier 2/3 fill (using oracle values): compile rate on eval set.
+- **PAB profile**: First real trajectory data. Record stability, predictability, and tier1 progression throughout training. This establishes baseline trajectory signatures for comparison in Phase 4.
 
 **Decision criteria**:
 - Tier 1 sequence accuracy ≥ 80%: Proceed with full architecture.
-- 60–80%: Investigate — is the bottleneck too narrow? Architecture too small?
-- <60%: Ternary decoder may be fundamentally insufficient. Consider partial ternary or more decoder capacity.
+- 60–80%: Investigate — is the bottleneck too narrow? Architecture too small? **Consult PAB profile**: if stability is low (mean < 0.2) and tier1 progression shows steady improvement, the configuration may need more iterations rather than architectural changes.
+- <60%: Ternary decoder may be fundamentally insufficient. Consider partial ternary or more decoder capacity. **Consult PAB profile**: if stability is high (mean > 0.3) or tier1 progression is flat/oscillating, the STE training dynamics are the bottleneck, not capacity.
 
 **Compute**: Local, 2–4 hours.
 
@@ -277,7 +373,7 @@ pyyaml
 
 **Compute**: Local, 3–6 hours.
 
-**Stop/go for Phase 2**: Tier 1+2 decoder achieves ≥70% sequence accuracy with ternary weights. Compile rate (with oracle Tier 3 values) ≥80%. Estimated: **5–7 days.**
+**Stop/go for Phase 2**: Tier 1+2 decoder achieves ≥70% sequence accuracy with ternary weights. Compile rate (with oracle Tier 3 values) ≥80%. PAB stability_mean ≤ 0.25 (training is not chaotic). Estimated: **5–7 days.**
 
 ---
 
@@ -297,7 +393,7 @@ pyyaml
 5. Lowering converts structured output to DSL text.
 6. DSL text enters existing pipeline (linter → parser → validator → compiler).
 
-**Validation**: End-to-end forward pass on a single training example. Verify gradient flow from composite loss back through all components (gradient health check: no NaN, no vanishing, no explosion).
+**Validation**: End-to-end forward pass on a single training example. Verify gradient flow from composite loss back through all components (gradient health check: no NaN, no vanishing, no explosion). **PAB tracker wired into training loop** — verify that all trajectory metrics are populated on the first checkpoint.
 
 ### 3.2 Full Composite Loss Training
 
@@ -320,8 +416,12 @@ pyyaml
 **Compare against baseline (BL-1)**:
 - Compile strict rate: target ≥ baseline (85%) even on first full run.
 - If significantly below baseline: diagnose which component is failing (encoder understanding? decoder accuracy? lowering bugs?).
+- **PAB trajectory comparison**: Compare the full-system PAB profile against Phase 2 decoder-only profiles. Key questions:
+  - Did end-to-end wiring introduce training instability (stability_mean increased)?
+  - Do the composite loss components show the expected convergence order (L_ce first, L_margin second, L_repair last)?
+  - Does domain progression reveal any domain that regressed when moving from oracle to learned components?
 
-**Stop/go for Phase 3**: End-to-end system runs without crashes. First compile rate ≥ 70% (allowing for initial training suboptimality). If < 50%, there's a fundamental architecture bug. Estimated: **5–7 days.**
+**Stop/go for Phase 3**: End-to-end system runs without crashes. First compile rate ≥ 70% (allowing for initial training suboptimality). PAB stability_mean ≤ 0.30. If compile < 50% or stability_mean > 0.5, there's a fundamental architecture or training stability bug. Estimated: **5–7 days.**
 
 ---
 
@@ -344,7 +444,44 @@ These 8 runs answer the core research questions:
 | 4.1.7 | Full ternary | Full | Typed IR (bottleneck=64) | Bottleneck sensitivity |
 | 4.1.8 | Full ternary | Full | Typed IR (bottleneck=256) | Bottleneck sensitivity |
 
-**Compute estimate**: 8 runs × 4–8 hours = 32–64 compute hours. **Run 2–3 concurrent on M1 Max** (6–10GB each, one GPU device shared): **12–24 hours wall-clock, $0.** Early-exit runs that fail fast (<70% Tier 1 accuracy by step 200) to free slots.
+**Compute estimate**: 8 runs × 4–8 hours = 32–64 compute hours. **Run 2–3 concurrent on M1 Max** (6–10GB each, one GPU device shared): **12–24 hours wall-clock, $0.** PAB-informed early-exit (see below) to free slots.
+
+**PAB-informed early-exit protocol** (replaces the simple "< 70% at step 200" heuristic):
+
+```python
+def should_early_exit(profile: PABProfile, step: int) -> bool:
+    if step < 200:
+        return False  # Too early to judge
+
+    tier1_acc = profile.tier1_accuracy[-1]
+    stability = profile.stability_mean  # over last 5 checkpoints
+    predictability = profile.predictability[-1]
+    tier1_trend = spearman_rho(profile.tier1_accuracy[-10:])  # monotonic improvement?
+
+    # Case 1: Low accuracy AND unstable AND unpredictable → kill
+    if tier1_acc < 0.60 and stability > 0.30 and predictability > 0.10:
+        return True
+
+    # Case 2: Low accuracy BUT stable and improving → keep going
+    if tier1_acc < 0.70 and stability < 0.15 and tier1_trend > 0.5:
+        return False  # Slow but steady learner, worth the compute
+
+    # Case 3: Accuracy plateaued with no improvement for 200+ steps
+    if step > 400 and tier1_trend < 0.05 and tier1_acc < 0.75:
+        return True  # Converged to a bad optimum
+
+    return False
+```
+
+This saves compute by killing chaotic runs earlier, while protecting slow-but-steady learners that the simple heuristic would have killed.
+
+**PAB trajectory comparison across ablation runs**: After Phase 4.1 completes, use `pab_comparison.py` to overlay all 8 profiles. The comparison answers questions that endpoint metrics cannot:
+
+1. **Does ternary training learn differently?** Compare stability curves of runs 4.1.1 (continuous) vs. 4.1.3 (ternary) vs. 4.1.6 (partial ternary). If ternary shows a characteristic "phase transition" (stability spike followed by rapid improvement), that's evidence the discrete weight space has distinct learning dynamics.
+
+2. **Does negative learning change the trajectory shape?** Compare runs 4.1.1 (no negatives) vs. 4.1.2 (with negatives). Does negative learning reduce domain-level instability even if final compile rate is similar?
+
+3. **Bottleneck size and convergence speed**: Compare runs 4.1.4 (128-dim) vs. 4.1.7 (64-dim) vs. 4.1.8 (256-dim). Do smaller bottlenecks crystallize faster but plateau lower?
 
 ### 4.2 Secondary Ablations (If Phase 4.1 Shows Promise)
 
@@ -367,27 +504,59 @@ These 8 runs answer the core research questions:
 
 *Contingent on Phase 4 showing at least one promising configuration.*
 
-### 5.1 Hyperparameter Optimization
+### 5.1 PAB-Informed Distillation Refinement
 
-Fine-tune the best configuration from Phase 4:
+*Before hyperparameter sweeps, use PAB trajectory analysis to improve the training data itself.*
+
+**Protocol**:
+1. Take the best configuration from Phase 4.
+2. Run the trajectory curator (`research/scripts/trajectory_curator.py`) on the training data:
+   - Short probe pass (250 iterations) collecting per-example loss trajectories.
+   - Classify examples: easy / hard-but-learnable / unlearnable / destabilizing.
+   - Generate a difficulty report showing distribution across domains and complexity levels.
+3. Re-curate:
+   - Downsample easy examples (model already knows these).
+   - Prioritize hard-but-learnable examples.
+   - Flag unlearnable examples for manual inspection (are they noisy? contradictory?).
+   - Remove destabilizing examples.
+4. If specific domains show persistent instability in the Phase 4 PAB profiles (classified as "unstable" across multiple configurations), generate **targeted distillation data** for those domains:
+   - Use Claude API teacher to generate additional examples in the weak domains.
+   - Curate with both structural gates (parse, validate, compile) and trajectory gates (not destabilizing).
+5. Retrain best configuration on the refined dataset.
+6. **Compare PAB profiles**: overlay the Phase 4 trajectory with the refined-data trajectory. Key questions:
+   - Did stability_mean improve?
+   - Did the weak domains move from "unstable" to "late" or "early"?
+   - Did the refined dataset achieve the same or better endpoint metrics in fewer iterations?
+
+**Compute**: Probe pass ~1 hour. Targeted distillation ~$5–10 Claude API. Retraining 4–8 hours.
+
+### 5.2 Hyperparameter Optimization
+
+Fine-tune the best configuration from Phase 5.1 (post-distillation-refinement):
 - Learning rate sweep
-- Training iterations (early stopping analysis)
+- Training iterations (early stopping analysis — **use PAB convergence_epoch as the early stopping signal** rather than patience-based heuristics)
 - Batch size effects
 - Ternarization schedule tuning
+- **For each hyperparameter sweep, compare PAB stability_mean and predictability_final** alongside endpoint metrics. A hyperparameter setting that improves compile rate by 1% but doubles training instability is suspect.
 
-### 5.2 Interpretability Analysis
+### 5.3 Interpretability Analysis
 
 For the best ternary configuration:
 1. Extract ternary weight patterns for top-20 actions.
 2. Identify which input features (from encoder) each action attends to.
 3. Visualize bottleneck representations (UMAP by domain, by compile outcome).
 4. Analyze failure modes: localize failures to specific modules.
+5. **PAB-informed interpretability**: Use the domain_progression and action_progression trajectories to identify:
+   - Which actions the model learned first (easiest to represent in ternary weights).
+   - Which actions the model never stabilized on (may need architectural attention).
+   - Whether the learning order correlates with action frequency, structural complexity, or parameter count.
 
-### 5.3 Promotion Assessment
+### 5.4 Promotion Assessment
 
 Does any configuration meet the promotion gates?
 
 ```yaml
+# Endpoint gates
 compile_strict_rate: ≥95.0%
 compile_permissive_rate: ≥97.0%
 runtime_unverified_compile_rate: ≤2.0%
@@ -395,10 +564,18 @@ ood_false_accept_rate: ≤1.0%
 hard_negative_separability: ≥2.0 nats
 inference_latency_p95_ms: ≤2000ms
 model_total_params_M: ≤500M
+
+# Trajectory gates (PAB)
+pab_stability_mean: ≤0.15
+pab_predictability_final: ≤0.05
+pab_tier1_converged_by: ≤step 500
+pab_no_domain_regression: true
+pab_crystallization_rate: ≥0.001
 ```
 
-If yes: snapshot as new baseline, integrate into orchestrator as production option.
-If no: document findings, identify specific bottlenecks, decide whether to iterate or declare research conclusions.
+If yes: snapshot as new baseline, integrate into orchestrator as production option. **Archive the PAB profile alongside the model checkpoint** — it becomes the reference trajectory for future regression detection.
+
+If no: document findings, identify specific bottlenecks (endpoint gates vs. trajectory gates — which failed?), decide whether to iterate or declare research conclusions. **A model that passes endpoint gates but fails trajectory gates may still be usable but should be flagged as potentially fragile.**
 
 ---
 
@@ -424,13 +601,15 @@ Note: ternary quantization helps *inference* memory (weights pack to ~50MB at 2 
 
 | Phase | Platform | Compute Hours | Wall-Clock (est.) | Cost |
 |---|---|---|---|---|
-| Phase 0: Data prep | Local CPU | 8–12h | 8–12h | $0 |
+| Phase 0: Data prep + PAB infra | Local CPU + MPS | 10–14h | 10–14h | $0 |
 | Phase 1: Component validation | Local CPU | 2–4h | 2–4h | $0 |
 | Phase 2: Decoder prototype | Local MPS | 8–16h | 8–16h | $0 |
 | Phase 3: Full integration | Local MPS | 8–16h | 8–16h | $0 |
 | Phase 4: Ablation matrix (8 runs) | Local MPS, 2–3 concurrent | 32–64h | **12–24h** | $0 |
-| Phase 5: Refinement | Local MPS | 20–40h | 20–40h | $0 |
-| **Total** | | **78–152h compute** | **58–112h wall-clock** | **$0** |
+| Phase 5: Distillation refinement + tuning | Local MPS + Claude API | 24–48h | 24–48h | $5–10 |
+| **Total** | | **84–162h compute** | **64–122h wall-clock** | **$5–10** |
+
+Note: Phase 5 cost increase reflects targeted distillation data generation via Claude API for weak domains identified by PAB trajectory analysis. Phase 4 wall-clock may decrease due to PAB-informed early-exit killing failing runs sooner.
 
 The real savings come from **early pruning**: if Phase 2 stop/go kills a configuration direction, we skip entire ablation branches. And runs that fail fast (< 70% Tier 1 accuracy by step 200) can be terminated early, freeing slots for the next experiment.
 
@@ -457,11 +636,15 @@ If any single ablation run exceeds 12 hours locally, or if the ablation phase wo
 | After Phase | Risk Check | Action if Failed |
 |---|---|---|
 | 0 | Typed IR conversion fails for >5% of data | Fix conversion, investigate edge cases |
+| 0 | PAB tracker unit tests fail or produce malformed profiles | Fix implementation before proceeding — trajectory data is needed from Phase 2 onward |
 | 1 | Encoder separation ratio < 1.0 | Try domain fine-tuning or alternate encoder |
-| 2 | Ternary decoder < 60% Tier 1 accuracy | Increase decoder capacity or use partial ternary |
+| 2 | Ternary decoder < 60% Tier 1 accuracy | Increase decoder capacity or use partial ternary. **Consult PAB: if stability is the issue (chaotic training), try staged ternarization or learning rate adjustments before architectural changes** |
+| 2 | PAB stability_mean > 0.25 | STE training dynamics are problematic. Try warmup schedule adjustments, gradient clipping, or partial ternary |
 | 3 | End-to-end compile rate < 50% | Debug component-level. Check lowering, check data pipeline |
-| 4 | No configuration reaches 75% compile strict | Fundamental architecture concern. Write up findings, compare with standard distillation |
-| 5 | Best config stalls below 90% compile strict | Document diminishing returns. The architecture may have a ceiling for this task |
+| 3 | PAB shows domain regression vs Phase 2 | Specific component (likely bridge or value filler) is interfering with previously-working domains |
+| 4 | No configuration reaches 75% compile strict | Fundamental architecture concern. Write up findings, compare with standard distillation. **Include PAB trajectory analysis in writeup — trajectory signatures may explain why** |
+| 5 | Best config stalls below 90% compile strict | Attempt PAB-informed distillation refinement (Phase 5.1). If trajectories show "unlearnable" examples or domain instability, data quality may be the bottleneck, not architecture |
+| 5 | Config passes endpoint gates but fails trajectory gates | Model is potentially fragile. Flag as experimental, do not promote to production without further stabilization |
 
 ---
 
@@ -473,6 +656,7 @@ research/scripts/build_typed_ir_data.py     # Phase 0.1: DSL → typed IR conver
 research/scripts/build_decoder_vocab.py     # Phase 0.2: Tier 1+2 vocabulary construction
 research/scripts/build_negative_bank.py     # Phase 0.3: Hard negative triple generation
 research/scripts/build_ood_prompts.py       # Phase 0.4: OOD prompt set generation
+research/scripts/trajectory_curator.py      # Phase 0.7 / 5.1: PAB-informed distillation curation
 ```
 
 ### Model Code (in `research/src/`)
@@ -488,6 +672,8 @@ research/src/losses.py
 research/src/data.py
 research/src/trainer.py
 research/src/evaluate.py
+research/src/pab_profile.py         # PABProfile dataclass + PABTracker
+research/src/pab_comparison.py      # Multi-run trajectory comparison + plotting
 ```
 
 ### Data Artifacts
@@ -495,9 +681,16 @@ research/src/evaluate.py
 training_data/typed_ir_train.jsonl
 training_data/typed_ir_eval.jsonl
 training_data/hard_negative_bank.jsonl
+training_data/distilled_trajectory_curated.jsonl  # Phase 5.1: trajectory-curated distillation data
 references/ood_prompt_set.jsonl
 references/tier1_vocab.json
 references/tier2_vocab/*.json
+```
+
+### PAB Profiles (generated per run)
+```
+research/models/<run_name>/pab_profile.json      # Per-run trajectory data
+research/models/<run_name>/difficulty_report.json # Per-run example difficulty classification (if probe was run)
 ```
 
 ### Documentation
@@ -520,11 +713,14 @@ When we're ready to begin implementation:
 - [ ] Run round-trip validation on typed IR data
 - [ ] Run `research/scripts/build_negative_bank.py` — seed negative bank
 - [ ] Run `research/scripts/build_ood_prompts.py` — build OOD set
+- [ ] Implement and test `research/src/pab_profile.py` — PAB tracker and profile
+- [ ] Implement and test `research/src/pab_comparison.py` — multi-run comparison
 - [ ] Implement and test `research/src/ternary_decoder.py` STE quantization
 - [ ] Implement and test `research/src/losses.py` composite loss
+- [ ] Wire PAB tracker into training loop, verify profile output on toy data
 - [ ] Run toy problem validation (EXP-2.1)
-- [ ] **First real training run**
+- [ ] **First real training run** (with PAB profile)
 
 ---
 
-*Plan version: 1.0. Created 2026-02-16. Subject to revision based on Phase 0 findings.*
+*Plan version: 1.1. Created 2026-02-16. Updated 2026-02-20: Added PAB integration (Phases 0.6–0.7, trajectory-informed early-exit, distillation refinement, trajectory promotion gates). Subject to revision based on Phase 0 findings.*

@@ -50,9 +50,11 @@ if str(_SRC_DIR) not in sys.path:
 
 # ── Data Classes ───────────────────────────────────────────────────
 
+
 @dataclass
 class DimensionScore:
     """Score for a single rubric dimension."""
+
     name: str
     weight: float
     score: float  # 0.0–1.0
@@ -67,6 +69,7 @@ class DimensionScore:
 @dataclass
 class ScenarioScore:
     """Complete scoring result for one generation."""
+
     scenario_id: str
     prompt_variant_id: str
     dimensions: list[DimensionScore] = field(default_factory=list)
@@ -85,6 +88,7 @@ class ScenarioScore:
 @dataclass
 class ScenarioResult:
     """Complete evaluation result for a scenario (all prompt variants)."""
+
     scenario_id: str
     scenario_name: str
     variant_scores: list[ScenarioScore] = field(default_factory=list)
@@ -94,10 +98,13 @@ class ScenarioResult:
     def average_score(self) -> float:
         if not self.variant_scores:
             return 0.0
-        return sum(s.total_score for s in self.variant_scores) / len(self.variant_scores)
+        return sum(s.total_score for s in self.variant_scores) / len(
+            self.variant_scores
+        )
 
 
 # ── Scenario Pack Loading ──────────────────────────────────────────
+
 
 def load_scenario_pack(scenario_dir: str | Path) -> dict:
     """Load a scenario pack from a directory.
@@ -142,10 +149,15 @@ def load_scenario_pack(scenario_dir: str | Path) -> dict:
 
 # ── IR Analysis Utilities ─────────────────────────────────────────
 
+
 def _collect_all_actions(ir) -> list:
     """Recursively collect all ActionStatement nodes from IR."""
     from dsl_ir import (
-        ActionStatement, IfBlock, MenuBlock, RepeatBlock, ForeachBlock,
+        ActionStatement,
+        ForeachBlock,
+        IfBlock,
+        MenuBlock,
+        RepeatBlock,
     )
 
     actions = []
@@ -173,7 +185,11 @@ def _collect_all_actions(ir) -> list:
 def _collect_all_constructs(ir) -> dict[str, int]:
     """Count control flow constructs in IR."""
     from dsl_ir import (
-        IfBlock, MenuBlock, RepeatBlock, ForeachBlock, SetVariable,
+        ForeachBlock,
+        IfBlock,
+        MenuBlock,
+        RepeatBlock,
+        SetVariable,
     )
 
     counts: dict[str, int] = {
@@ -208,7 +224,9 @@ def _collect_all_constructs(ir) -> dict[str, int]:
     return counts
 
 
-def _has_action_after_action(ir, before_action: str, after_action_or_construct: str) -> bool:
+def _has_action_after_action(
+    ir, before_action: str, after_action_or_construct: str
+) -> bool:
     """Check if an IF/action appears within a few statements after a specific action."""
     from dsl_ir import ActionStatement, IfBlock
 
@@ -218,9 +236,14 @@ def _has_action_after_action(ir, before_action: str, after_action_or_construct: 
                 # Check next 3 statements for the target
                 for j in range(i + 1, min(i + 4, len(statements))):
                     next_stmt = statements[j]
-                    if after_action_or_construct == "IF" and isinstance(next_stmt, IfBlock):
+                    if after_action_or_construct == "IF" and isinstance(
+                        next_stmt, IfBlock
+                    ):
                         return True
-                    if isinstance(next_stmt, ActionStatement) and next_stmt.action_name == after_action_or_construct:
+                    if (
+                        isinstance(next_stmt, ActionStatement)
+                        and next_stmt.action_name == after_action_or_construct
+                    ):
                         return True
             # Recurse into blocks
             if isinstance(stmt, IfBlock):
@@ -245,13 +268,16 @@ def criterion(name: str):
     (ir, actions, action_set, constructs, parsed, validated, compiled)
     and return bool.
     """
+
     def decorator(fn: Callable) -> Callable:
         _CRITERION_REGISTRY[name] = fn
         return fn
+
     return decorator
 
 
 # ── Structural criteria ───────────────────────────────────────────
+
 
 @criterion("parses")
 def _crit_parses(ir, actions, action_set, constructs, parsed, validated, compiled):
@@ -274,17 +300,23 @@ def _crit_has_foreach(ir, actions, action_set, constructs, parsed, validated, co
 
 
 @criterion("has_conditional")
-def _crit_has_conditional(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_has_conditional(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return constructs.get("IF", 0) > 0
 
 
 @criterion("has_variables")
-def _crit_has_variables(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_has_variables(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return constructs.get("SET", 0) > 0
 
 
 @criterion("has_sufficient_actions")
-def _crit_has_sufficient_actions(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_has_sufficient_actions(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return len(actions) >= 8
 
 
@@ -300,95 +332,138 @@ def _crit_has_repeat(ir, actions, action_set, constructs, parsed, validated, com
 
 # ── Action coverage criteria ─────────────────────────────────────
 
+
 @criterion("uses_downloadurl")
-def _crit_uses_downloadurl(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_uses_downloadurl(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "downloadurl" in action_set
 
 
 @criterion("uses_detect_dictionary")
-def _crit_uses_detect_dictionary(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_uses_detect_dictionary(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "detect.dictionary" in action_set
 
 
 @criterion("uses_getvalueforkey")
-def _crit_uses_getvalueforkey(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_uses_getvalueforkey(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "getvalueforkey" in action_set
 
 
 @criterion("uses_health_quantity_log")
-def _crit_uses_health_quantity_log(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_uses_health_quantity_log(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "health.quantity.log" in action_set
 
 
 @criterion("health_log_count_gte_3")
-def _crit_health_log_count_gte_3(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_health_log_count_gte_3(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return sum(1 for a in actions if a.action_name == "health.quantity.log") >= 3
 
 
 @criterion("health_log_count_gte_10")
-def _crit_health_log_count_gte_10(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_health_log_count_gte_10(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return sum(1 for a in actions if a.action_name == "health.quantity.log") >= 10
 
 
 @criterion("uses_url_action")
-def _crit_uses_url_action(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_uses_url_action(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "url" in action_set or any(
-        "URL" in str(a.params) for a in actions
+        "URL" in str(a.params)
+        for a in actions
         if a.action_name in ("downloadurl", "gettext")
     )
 
 
 # ── Error handling criteria ──────────────────────────────────────
 
+
 @criterion("checks_network_response")
-def _crit_checks_network_response(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_checks_network_response(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return _has_action_after_action(ir, "downloadurl", "IF")
 
 
 @criterion("checks_empty_data")
-def _crit_checks_empty_data(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_checks_empty_data(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return constructs.get("IF", 0) >= 2
 
 
 @criterion("user_feedback_on_error")
-def _crit_user_feedback_on_error(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_user_feedback_on_error(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "alert" in action_set or "notification" in action_set
 
 
 @criterion("input_validation")
-def _crit_input_validation(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_input_validation(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return constructs.get("IF", 0) >= 1 and (
-        "ask" in action_set or
-        any("input" in str(a.params).lower() for a in actions[:5])
+        "ask" in action_set
+        or any("input" in str(a.params).lower() for a in actions[:5])
     )
 
 
 # ── UX criteria ──────────────────────────────────────────────────
 
+
 @criterion("shows_progress")
-def _crit_shows_progress(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_shows_progress(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "notification" in action_set or (
         "showresult" in action_set and constructs.get("FOREACH", 0) > 0
     )
 
 
 @criterion("shows_summary")
-def _crit_shows_summary(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_shows_summary(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "showresult" in action_set or "alert" in action_set
 
 
 @criterion("uses_notification_or_alert")
-def _crit_uses_notification_or_alert(ir, actions, action_set, constructs, parsed, validated, compiled):
-    return "notification" in action_set or "alert" in action_set or "showresult" in action_set
+def _crit_uses_notification_or_alert(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
+    return (
+        "notification" in action_set
+        or "alert" in action_set
+        or "showresult" in action_set
+    )
 
 
 @criterion("accepts_input")
-def _crit_accepts_input(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_accepts_input(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     # Check for @input references in the IR, or askforinput, or file.select, or ask action
-    if "askforinput" in action_set or "ask" in action_set or "file.select" in action_set:
+    if (
+        "askforinput" in action_set
+        or "ask" in action_set
+        or "file.select" in action_set
+    ):
         return True
     # Check for @input handle references in IF blocks or params
     from dsl_ir import HandleRef, IfBlock
+
     def _check_input(stmts):
         for stmt in stmts:
             if isinstance(stmt, IfBlock):
@@ -399,6 +474,7 @@ def _crit_accepts_input(ir, actions, action_set, constructs, parsed, validated, 
                 if stmt.else_body and _check_input(stmt.else_body):
                     return True
         return False
+
     if _check_input(ir.statements):
         return True
     # Fallback: check for @input in text or action params
@@ -410,21 +486,35 @@ def _crit_accepts_input(ir, actions, action_set, constructs, parsed, validated, 
 
 
 @criterion("clean_naming")
-def _crit_clean_naming(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_clean_naming(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return len(ir.name) > 3 and ir.name != "Untitled"
 
 
 # ── New criteria: data flow & platform ───────────────────────────
 
+
 @criterion("data_flow_completeness")
-def _crit_data_flow_completeness(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_data_flow_completeness(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     """Check that variables that are SET are actually referenced later.
     Returns True if >60% of SET variables are referenced somewhere.
     """
-    from dsl_ir import SetVariable, VarRef, InterpolatedString, IfBlock, MenuBlock, RepeatBlock, ForeachBlock
+    from dsl_ir import (
+        ForeachBlock,
+        IfBlock,
+        InterpolatedString,
+        MenuBlock,
+        RepeatBlock,
+        SetVariable,
+        VarRef,
+    )
 
     # Collect all SET variable names
     set_vars = set()
+
     def _collect_sets(stmts):
         for s in stmts:
             if isinstance(s, SetVariable):
@@ -440,6 +530,7 @@ def _crit_data_flow_completeness(ir, actions, action_set, constructs, parsed, va
                 _collect_sets(s.body)
             elif isinstance(s, ForeachBlock):
                 _collect_sets(s.body)
+
     _collect_sets(ir.statements)
 
     if not set_vars:
@@ -447,6 +538,7 @@ def _crit_data_flow_completeness(ir, actions, action_set, constructs, parsed, va
 
     # Collect all referenced variable names
     referenced = set()
+
     def _collect_refs_from_value(val):
         if isinstance(val, VarRef):
             referenced.add(val.name)
@@ -457,6 +549,7 @@ def _crit_data_flow_completeness(ir, actions, action_set, constructs, parsed, va
 
     def _collect_refs(stmts):
         from dsl_ir import ActionStatement
+
         for s in stmts:
             if isinstance(s, ActionStatement):
                 for v in s.params.values():
@@ -478,6 +571,7 @@ def _crit_data_flow_completeness(ir, actions, action_set, constructs, parsed, va
                 _collect_refs(s.body)
             elif isinstance(s, ForeachBlock):
                 _collect_refs(s.body)
+
     _collect_refs(ir.statements)
 
     used_count = len(set_vars & referenced)
@@ -485,24 +579,32 @@ def _crit_data_flow_completeness(ir, actions, action_set, constructs, parsed, va
 
 
 @criterion("platform_appropriateness")
-def _crit_platform_appropriateness(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_platform_appropriateness(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     """Placeholder for future platform validation checks. Returns True always for now."""
     return True
 
 
 # ── Generic construct criteria ───────────────────────────────────
 
+
 @criterion("has_menu_or_if_chain")
-def _crit_has_menu_or_if_chain(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_has_menu_or_if_chain(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return constructs.get("MENU", 0) > 0 or constructs.get("IF", 0) >= 2
 
 
 @criterion("has_input_handling")
-def _crit_has_input_handling(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_has_input_handling(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     if "askforinput" in action_set or "ask" in action_set:
         return True
     # Check IF in first 5 statements
     from dsl_ir import IfBlock
+
     for stmt in ir.statements[:5]:
         if isinstance(stmt, IfBlock):
             return True
@@ -511,65 +613,89 @@ def _crit_has_input_handling(ir, actions, action_set, constructs, parsed, valida
 
 # ── File router criteria ─────────────────────────────────────────
 
+
 @criterion("fallback_selection")
-def _crit_fallback_selection(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_fallback_selection(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "file.select" in action_set
 
 
 @criterion("shows_file_info")
-def _crit_shows_file_info(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_shows_file_info(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "properties.files" in action_set and (
         "showresult" in action_set or "alert" in action_set
     )
 
 
 @criterion("shows_result_per_path")
-def _crit_shows_result_per_path(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_shows_result_per_path(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     sr_count = sum(1 for a in actions if a.action_name == "showresult")
     alert_count = sum(1 for a in actions if a.action_name == "alert")
     return sr_count >= 2 or (sr_count + alert_count) >= 2
 
 
 @criterion("detects_file_type")
-def _crit_detects_file_type(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_detects_file_type(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "properties.files" in action_set
 
 
 @criterion("handles_images")
-def _crit_handles_images(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_handles_images(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "image.resize" in action_set
 
 
 @criterion("handles_pdfs")
-def _crit_handles_pdfs(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_handles_pdfs(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "previewdocument" in action_set
 
 
 @criterion("handles_text")
-def _crit_handles_text(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_handles_text(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "gettext" in action_set
 
 
 @criterion("handles_fallback")
-def _crit_handles_fallback(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_handles_fallback(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "openin" in action_set
 
 
 # ── API pagination criteria ──────────────────────────────────────
 
+
 @criterion("has_pagination_loop")
-def _crit_has_pagination_loop(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_has_pagination_loop(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     has_loop = constructs.get("REPEAT", 0) > 0 or constructs.get("FOREACH", 0) > 0
     return has_loop and "downloadurl" in action_set
 
 
 @criterion("accumulates_results")
-def _crit_accumulates_results(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_accumulates_results(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "appendvariable" in action_set
 
 
 @criterion("uses_url_construction")
-def _crit_uses_url_construction(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_uses_url_construction(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     if "url" in action_set:
         return True
     # Check for gettext with URL content
@@ -582,9 +708,11 @@ def _crit_uses_url_construction(ir, actions, action_set, constructs, parsed, val
 
 
 @criterion("has_stop_condition")
-def _crit_has_stop_condition(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_has_stop_condition(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     """Check if there is an IF inside a REPEAT or FOREACH."""
-    from dsl_ir import IfBlock, RepeatBlock, ForeachBlock
+    from dsl_ir import ForeachBlock, IfBlock, RepeatBlock
 
     def _has_if_in_loop(stmts):
         for stmt in stmts:
@@ -606,13 +734,18 @@ def _crit_has_stop_condition(ir, actions, action_set, constructs, parsed, valida
 
 # ── Calendar triage criteria ─────────────────────────────────────
 
+
 @criterion("categorizes_events")
-def _crit_categorizes_events(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_categorizes_events(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return constructs.get("FOREACH", 0) > 0 and constructs.get("IF", 0) > 0
 
 
 @criterion("shows_grouped_output")
-def _crit_shows_grouped_output(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_shows_grouped_output(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "showresult" in action_set and (
         constructs.get("FOREACH", 0) > 0 or constructs.get("MENU", 0) > 0
     )
@@ -620,18 +753,25 @@ def _crit_shows_grouped_output(ir, actions, action_set, constructs, parsed, vali
 
 # ── Clipboard utility criteria ──────────────────────────────────
 
+
 @criterion("has_clipboard_operations")
-def _crit_has_clipboard_operations(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_has_clipboard_operations(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "getclipboard" in action_set or "setclipboard" in action_set
 
 
 @criterion("has_note_operations")
-def _crit_has_note_operations(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_has_note_operations(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "appendtonote" in action_set or "findnotes" in action_set
 
 
 @criterion("has_menu_navigation")
-def _crit_has_menu_navigation(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_has_menu_navigation(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     """MENU > 0 with >= 2 cases."""
     from dsl_ir import MenuBlock
 
@@ -650,37 +790,55 @@ def _crit_has_menu_navigation(ir, actions, action_set, constructs, parsed, valid
 
 # ── Media metadata pipeline criteria ─────────────────────────────
 
+
 @criterion("extracts_metadata")
-def _crit_extracts_metadata(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_extracts_metadata(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "getimagedetail" in action_set or "properties.files" in action_set
 
 
 @criterion("generates_report")
-def _crit_generates_report(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_generates_report(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     has_text = "gettext" in action_set or "text" in action_set
-    has_output = "showresult" in action_set or "sendemail" in action_set or "setclipboard" in action_set
+    has_output = (
+        "showresult" in action_set
+        or "sendemail" in action_set
+        or "setclipboard" in action_set
+    )
     return has_text and has_output
 
 
 @criterion("handles_multiple_items")
-def _crit_handles_multiple_items(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_handles_multiple_items(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return constructs.get("FOREACH", 0) > 0 or constructs.get("REPEAT", 0) > 0
 
 
 # ── Morning routine criteria ────────────────────────────────────
 
+
 @criterion("has_weather_check")
-def _crit_has_weather_check(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_has_weather_check(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "weather.currentconditions" in action_set
 
 
 @criterion("has_calendar_preview")
-def _crit_has_calendar_preview(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_has_calendar_preview(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "getcalendarevents" in action_set or "filter.calendarevents" in action_set
 
 
 @criterion("has_news_feed")
-def _crit_has_news_feed(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_has_news_feed(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     if "getrssfeed" in action_set:
         return True
     # Check downloadurl with RSS-like content
@@ -693,39 +851,56 @@ def _crit_has_news_feed(ir, actions, action_set, constructs, parsed, validated, 
 
 
 @criterion("has_commute_time")
-def _crit_has_commute_time(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_has_commute_time(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "gettraveltime" in action_set
 
 
 @criterion("has_briefing_output")
-def _crit_has_briefing_output(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_has_briefing_output(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "speaktext" in action_set or "showresult" in action_set
 
 
 @criterion("is_time_aware")
-def _crit_is_time_aware(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_is_time_aware(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "date" in action_set or "format.date" in action_set
 
 
 # ── Share sheet text cleaner criteria ────────────────────────────
 
+
 @criterion("has_text_processing")
-def _crit_has_text_processing(ir, actions, action_set, constructs, parsed, validated, compiled):
-    return "gettext" in action_set or "splittext" in action_set or "replacetext" in action_set
+def _crit_has_text_processing(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
+    return (
+        "gettext" in action_set
+        or "splittext" in action_set
+        or "replacetext" in action_set
+    )
 
 
 @criterion("handles_share_input")
-def _crit_handles_share_input(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_handles_share_input(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     if "extensioninput" in action_set:
         return True
     # Check for @input references
     from dsl_ir import HandleRef, IfBlock
+
     def _check(stmts):
         for stmt in stmts:
             if isinstance(stmt, IfBlock):
                 if isinstance(stmt.target, HandleRef) and stmt.target.kind == "input":
                     return True
         return False
+
     return _check(ir.statements)
 
 
@@ -735,11 +910,14 @@ def _crit_cleans_text(ir, actions, action_set, constructs, parsed, validated, co
 
 
 @criterion("copies_to_clipboard")
-def _crit_copies_to_clipboard(ir, actions, action_set, constructs, parsed, validated, compiled):
+def _crit_copies_to_clipboard(
+    ir, actions, action_set, constructs, parsed, validated, compiled
+):
     return "setclipboard" in action_set
 
 
 # ── Scoring Engine ─────────────────────────────────────────────────
+
 
 class ScenarioScorer:
     """Scores a ShortcutIR against a scenario rubric."""
@@ -781,8 +959,15 @@ class ScenarioScorer:
 
         for dim_name, dim_config in scoring.items():
             dim_score = self._score_dimension(
-                dim_name, dim_config, ir, actions, action_set, constructs,
-                parsed, validated, compiled,
+                dim_name,
+                dim_config,
+                ir,
+                actions,
+                action_set,
+                constructs,
+                parsed,
+                validated,
+                compiled,
             )
             result.dimensions.append(dim_score)
 
@@ -810,12 +995,20 @@ class ScenarioScorer:
         for crit_name, crit_config in criteria.items():
             points = crit_config.get("points", 0.0)
             met = self._check_criterion(
-                crit_name, ir, actions, action_set, constructs,
-                parsed, validated, compiled,
+                crit_name,
+                ir,
+                actions,
+                action_set,
+                constructs,
+                parsed,
+                validated,
+                compiled,
             )
             criteria_scores[crit_name] = points if met else 0.0
             status = "✓" if met else "✗"
-            details.append(f"{status} {crit_name}: {crit_config.get('description', '')}")
+            details.append(
+                f"{status} {crit_name}: {crit_config.get('description', '')}"
+            )
 
         total_points = sum(criteria_scores.values())
         max_points = sum(c.get("points", 0.0) for c in criteria.values())
@@ -854,7 +1047,7 @@ class ScenarioScorer:
 
         # 2. Generic uses_XYZ fallback
         if criterion_name.startswith("uses_"):
-            action_name = criterion_name[len("uses_"):]
+            action_name = criterion_name[len("uses_") :]
             # Support dotted action names encoded with underscores
             # e.g. uses_detect_dictionary -> detect.dictionary already registered,
             # but for truly generic ones like uses_count -> check "count"
@@ -866,16 +1059,17 @@ class ScenarioScorer:
 
 # ── Pipeline Integration ───────────────────────────────────────────
 
+
 def score_dsl_text(
     dsl_text: str,
     rubric: dict,
     prompt_variant_id: str = "",
 ) -> ScenarioScore:
     """Score a DSL text against a rubric. Runs through lint→parse→validate→compile."""
+    from dsl_bridge import compile_ir
     from dsl_linter import lint_dsl
     from dsl_parser import parse_dsl
     from dsl_validator import validate_ir
-    from dsl_bridge import compile_ir
 
     scorer = ScenarioScorer(rubric)
 
@@ -905,7 +1099,7 @@ def score_dsl_text(
         if validated:
             compile_ir(ir)
             compiled = True
-    except Exception as e:
+    except Exception:
         pass  # Don't block scoring on compile errors
 
     return scorer.score(
@@ -947,8 +1141,10 @@ def evaluate_scenario(
 
     # Score the reference DSL (sanity check)
     if verbose:
-        print(f"\n  Scoring reference DSL...", end=" ", flush=True)
-    ref_score = score_dsl_text(pack["reference_dsl"], rubric, prompt_variant_id="reference")
+        print("\n  Scoring reference DSL...", end=" ", flush=True)
+    ref_score = score_dsl_text(
+        pack["reference_dsl"], rubric, prompt_variant_id="reference"
+    )
     result.reference_score = ref_score
     if verbose:
         print(f"done (score: {ref_score.total_score:.2f})")
@@ -962,7 +1158,9 @@ def evaluate_scenario(
 
     orch = Orchestrator(backend=backend)
 
-    variants = prompt_variants if variant_idx is None else [prompt_variants[variant_idx]]
+    variants = (
+        prompt_variants if variant_idx is None else [prompt_variants[variant_idx]]
+    )
 
     for i, variant in enumerate(variants):
         variant_id = variant.get("id", str(i))
@@ -970,7 +1168,9 @@ def evaluate_scenario(
         difficulty = variant.get("difficulty", "unknown")
 
         if verbose:
-            print(f"\n  Variant '{variant_id}' (difficulty: {difficulty})...", flush=True)
+            print(
+                f"\n  Variant '{variant_id}' (difficulty: {difficulty})...", flush=True
+            )
             print(f"    Prompt: {prompt[:80]}...", flush=True)
 
         t0 = time.monotonic()
@@ -987,7 +1187,9 @@ def evaluate_scenario(
         elapsed = time.monotonic() - t0
 
         if gen_result.dsl_text:
-            vscore = score_dsl_text(gen_result.dsl_text, rubric, prompt_variant_id=variant_id)
+            vscore = score_dsl_text(
+                gen_result.dsl_text, rubric, prompt_variant_id=variant_id
+            )
         else:
             vscore = ScenarioScore(
                 scenario_id=rubric.get("scenario_id", "unknown"),
@@ -1012,44 +1214,52 @@ def evaluate_scenario(
 
 # ── Report Generation ──────────────────────────────────────────────
 
+
 def print_report(result: ScenarioResult):
     """Print a formatted evaluation report."""
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
     print(f"Scenario Evaluation: {result.scenario_name}")
-    print(f"{'='*60}")
+    print(f"{'=' * 60}")
 
     if result.reference_score:
         ref = result.reference_score
         print(f"\n  Reference DSL: {ref.total_score:.2f}")
-        print(f"    Parsed: {'✓' if ref.parsed else '✗'}  "
-              f"Validated: {'✓' if ref.validated else '✗'}  "
-              f"Compiled: {'✓' if ref.compiled else '✗'}  "
-              f"Actions: {ref.action_count}")
+        print(
+            f"    Parsed: {'✓' if ref.parsed else '✗'}  "
+            f"Validated: {'✓' if ref.validated else '✗'}  "
+            f"Compiled: {'✓' if ref.compiled else '✗'}  "
+            f"Actions: {ref.action_count}"
+        )
         for dim in ref.dimensions:
-            print(f"    {dim.name}: {dim.score:.2f} (weight: {dim.weight}, "
-                  f"weighted: {dim.weighted_score:.2f})")
+            print(
+                f"    {dim.name}: {dim.score:.2f} (weight: {dim.weight}, "
+                f"weighted: {dim.weighted_score:.2f})"
+            )
 
     if result.variant_scores:
-        print(f"\n  Generated Variants:")
+        print("\n  Generated Variants:")
         for vscore in result.variant_scores:
-            print(f"\n  [{vscore.prompt_variant_id}] "
-                  f"Score: {vscore.total_score:.2f}")
-            print(f"    Parsed: {'✓' if vscore.parsed else '✗'}  "
-                  f"Validated: {'✓' if vscore.validated else '✗'}  "
-                  f"Compiled: {'✓' if vscore.compiled else '✗'}  "
-                  f"Actions: {vscore.action_count}")
+            print(f"\n  [{vscore.prompt_variant_id}] Score: {vscore.total_score:.2f}")
+            print(
+                f"    Parsed: {'✓' if vscore.parsed else '✗'}  "
+                f"Validated: {'✓' if vscore.validated else '✗'}  "
+                f"Compiled: {'✓' if vscore.compiled else '✗'}  "
+                f"Actions: {vscore.action_count}"
+            )
             for dim in vscore.dimensions:
-                print(f"    {dim.name}: {dim.score:.2f} (weight: {dim.weight}, "
-                      f"weighted: {dim.weighted_score:.2f})")
+                print(
+                    f"    {dim.name}: {dim.score:.2f} (weight: {dim.weight}, "
+                    f"weighted: {dim.weighted_score:.2f})"
+                )
             if vscore.errors:
                 for e in vscore.errors[:3]:
                     print(f"    Error: {e}")
 
         print(f"\n  Average Score: {result.average_score:.2f}")
     else:
-        print(f"\n  No variants evaluated (no backend provided)")
+        print("\n  No variants evaluated (no backend provided)")
 
-    print(f"\n{'='*60}")
+    print(f"\n{'=' * 60}")
 
 
 def export_result(result: ScenarioResult, output_path: str | Path):
@@ -1059,11 +1269,19 @@ def export_result(result: ScenarioResult, output_path: str | Path):
         "scenario_name": result.scenario_name,
         "average_score": result.average_score,
         "reference_score": {
-            "total": result.reference_score.total_score if result.reference_score else None,
+            "total": result.reference_score.total_score
+            if result.reference_score
+            else None,
             "parsed": result.reference_score.parsed if result.reference_score else None,
-            "validated": result.reference_score.validated if result.reference_score else None,
-            "compiled": result.reference_score.compiled if result.reference_score else None,
-        } if result.reference_score else None,
+            "validated": result.reference_score.validated
+            if result.reference_score
+            else None,
+            "compiled": result.reference_score.compiled
+            if result.reference_score
+            else None,
+        }
+        if result.reference_score
+        else None,
         "variant_scores": [
             {
                 "variant_id": vs.prompt_variant_id,
@@ -1092,6 +1310,7 @@ def export_result(result: ScenarioResult, output_path: str | Path):
 
 
 # ── CLI ────────────────────────────────────────────────────────────
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -1159,7 +1378,8 @@ def main():
         help="Export results to JSON file",
     )
     parser.add_argument(
-        "-v", "--verbose",
+        "-v",
+        "--verbose",
         action="store_true",
         help="Show detailed output",
     )
@@ -1172,11 +1392,15 @@ def main():
         project_root = _SCRIPT_DIR.parent
         packs_root = project_root / "references" / "scenario_packs"
         if not packs_root.is_dir():
-            print(f"Error: scenario packs directory not found: {packs_root}", file=sys.stderr)
+            print(
+                f"Error: scenario packs directory not found: {packs_root}",
+                file=sys.stderr,
+            )
             sys.exit(1)
 
         pack_dirs = sorted(
-            d for d in packs_root.iterdir()
+            d
+            for d in packs_root.iterdir()
             if d.is_dir() and (d / "rubric.json").exists()
         )
 
@@ -1184,7 +1408,7 @@ def main():
             print("No scenario packs found.", file=sys.stderr)
             sys.exit(1)
 
-        print(f"\nShortcutForge: All-Scenarios Evaluation\n")
+        print("\nShortcutForge: All-Scenarios Evaluation\n")
         print(f"  Found {len(pack_dirs)} scenario pack(s) under {packs_root}\n")
 
         rows: list[tuple[str, str, float, bool, bool, bool, int]] = []
@@ -1193,31 +1417,36 @@ def main():
             try:
                 pack = load_scenario_pack(pack_dir)
                 ref_score = score_dsl_text(
-                    pack["reference_dsl"], pack["rubric"],
+                    pack["reference_dsl"],
+                    pack["rubric"],
                     prompt_variant_id="reference",
                 )
                 scenario_name = pack["rubric"].get("scenario_name", pack_dir.name)
-                rows.append((
-                    pack_dir.name,
-                    scenario_name,
-                    ref_score.total_score,
-                    ref_score.parsed,
-                    ref_score.validated,
-                    ref_score.compiled,
-                    ref_score.action_count,
-                ))
+                rows.append(
+                    (
+                        pack_dir.name,
+                        scenario_name,
+                        ref_score.total_score,
+                        ref_score.parsed,
+                        ref_score.validated,
+                        ref_score.compiled,
+                        ref_score.action_count,
+                    )
+                )
             except Exception as e:
                 rows.append((pack_dir.name, f"ERROR: {e}", 0.0, False, False, False, 0))
 
         # Print summary table
         hdr = f"  {'Pack':<30s} {'Score':>6s}  {'P':>1s} {'V':>1s} {'C':>1s}  {'Acts':>4s}  Name"
         print(hdr)
-        print(f"  {'-'*len(hdr.strip())}")
+        print(f"  {'-' * len(hdr.strip())}")
         for pack_id, name, score, p, v, c, acts in rows:
             p_s = "Y" if p else "-"
             v_s = "Y" if v else "-"
             c_s = "Y" if c else "-"
-            print(f"  {pack_id:<30s} {score:>6.2f}  {p_s:>1s} {v_s:>1s} {c_s:>1s}  {acts:>4d}  {name}")
+            print(
+                f"  {pack_id:<30s} {score:>6.2f}  {p_s:>1s} {v_s:>1s} {c_s:>1s}  {acts:>4d}  {name}"
+            )
 
         avg = sum(r[2] for r in rows) / len(rows) if rows else 0.0
         print(f"\n  Average reference score: {avg:.2f}")
@@ -1229,7 +1458,7 @@ def main():
         print("Error: --scenario is required (or use --all-scenarios)", file=sys.stderr)
         sys.exit(1)
 
-    print(f"\nShortcutForge: Scenario Evaluation\n")
+    print("\nShortcutForge: Scenario Evaluation\n")
     print(f"  Scenario: {args.scenario}")
 
     # Score an existing DSL file
@@ -1260,7 +1489,7 @@ def main():
         return
 
     # Full evaluation with generation
-    from orchestrator import LocalBackend, ClaudeBackend
+    from orchestrator import ClaudeBackend, LocalBackend
 
     backend = None
     if args.engine == "local":

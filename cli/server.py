@@ -20,12 +20,16 @@ import asyncio
 import json
 import os
 import sys
-import traceback
 from dataclasses import asdict
 from pathlib import Path
 
-from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse, FileResponse, JSONResponse, StreamingResponse
+from fastapi import FastAPI
+from fastapi.responses import (
+    FileResponse,
+    HTMLResponse,
+    JSONResponse,
+    StreamingResponse,
+)
 from pydantic import BaseModel
 
 # Ensure scripts/ is importable
@@ -70,7 +74,7 @@ class UploadRequest(BaseModel):
 
 class EditRequest(BaseModel):
     shortcut_base64: str  # Base64-encoded .shortcut file
-    modification: str     # LLM modification instruction
+    modification: str  # LLM modification instruction
     sign: bool = True
     auto_import: bool = False
     engine: str = "claude"
@@ -108,7 +112,7 @@ async def generate(req: GenerateRequest):
             queue.put_nowait(stage_result)
 
         def run_generation():
-            from orchestrator import Orchestrator, LocalBackend, GenerationResult
+            from orchestrator import GenerationResult, LocalBackend, Orchestrator
 
             try:
                 backend = None
@@ -176,18 +180,18 @@ async def compile_dsl(req: CompileRequest):
     """Compile DSL text directly (no LLM)."""
 
     def run_compile():
-        from orchestrator import Orchestrator, GenerationResult
+        from orchestrator import GenerationResult, Orchestrator
 
         try:
-            orch = Orchestrator()
+            Orchestrator()
         except ValueError:
             # No API key — use direct pipeline for compilation
             pass
 
         # Direct pipeline
+        from dsl_bridge import compile_ir
         from dsl_parser import parse_dsl
         from dsl_validator import validate_ir
-        from dsl_bridge import compile_ir
 
         result = GenerationResult()
         result.dsl_text = req.dsl_text
@@ -287,8 +291,8 @@ async def edit_shortcut(req: EditRequest):
     import tempfile
 
     def run_edit():
+        from orchestrator import GenerationResult, LocalBackend, Orchestrator
         from plist_to_dsl import shortcut_file_to_dsl_safe
-        from orchestrator import Orchestrator, LocalBackend, GenerationResult
 
         # Decode and decompile
         try:

@@ -109,9 +109,9 @@ COMPILER_METHODS = {
     "is.workflow.actions.openapp": 'actions.make("openapp", WFAppIdentifier="com.apple.mobilesafari")',
     "is.workflow.actions.speaktext": 'actions.make("speaktext", WFSpeakTextRate=0.5)',
     "is.workflow.actions.choosefrommenu": 'CONTROL_FLOW: s.menu_block("Prompt", ["A", "B"])',
-    "is.workflow.actions.conditional": 'CONTROL_FLOW: s.if_block(handle) / s.if_else_block(handle)',
-    "is.workflow.actions.repeat.count": 'CONTROL_FLOW: s.repeat_block(count)',
-    "is.workflow.actions.repeat.each": 'CONTROL_FLOW: s.repeat_each_block(handle)',
+    "is.workflow.actions.conditional": "CONTROL_FLOW: s.if_block(handle) / s.if_else_block(handle)",
+    "is.workflow.actions.repeat.count": "CONTROL_FLOW: s.repeat_block(count)",
+    "is.workflow.actions.repeat.each": "CONTROL_FLOW: s.repeat_each_block(handle)",
 }
 
 
@@ -234,7 +234,9 @@ def build_catalog(raw_actions: list[dict]) -> dict:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Build action_catalog.json from Cassinelli data")
+    parser = argparse.ArgumentParser(
+        description="Build action_catalog.json from Cassinelli data"
+    )
     parser.add_argument(
         "--input",
         type=Path,
@@ -268,7 +270,9 @@ def main() -> None:
     print(f"Catalog written to {args.output}")
     print(f"Total actions: {catalog['_meta']['total_actions']}")
     print(f"With compiler methods: {catalog['_meta']['actions_with_compiler_method']}")
-    print(f"Requiring generic actions.make(): {catalog['_meta']['actions_requiring_make']}")
+    print(
+        f"Requiring generic actions.make(): {catalog['_meta']['actions_requiring_make']}"
+    )
     print("\nNamespaces:")
     for ns, data in sorted(catalog["namespaces"].items()):
         print(f"  {ns}: {data['count']} actions")

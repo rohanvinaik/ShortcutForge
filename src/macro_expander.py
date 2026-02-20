@@ -38,9 +38,11 @@ _REGISTRY_PATH = _REFS_DIR / "macro_patterns.json"
 
 # ── Data Classes ───────────────────────────────────────────────────────
 
+
 @dataclass
 class MacroDefinition:
     """A macro definition from the registry."""
+
     name: str
     description: str
     params: dict[str, dict]
@@ -55,6 +57,7 @@ class MacroDefinition:
 @dataclass
 class MacroExpansion:
     """Record of a macro expansion (for change tracking)."""
+
     line: int
     macro_name: str
     original: str
@@ -123,12 +126,12 @@ _MACRO_LINE_RE = re.compile(
 # Regex to match param=value, param="value", param=$var, param=[...], param={...}
 _PARAM_RE = re.compile(
     r"""(\w+)\s*=\s*(?:"""
-    r""""([^"]*?)"|"""     # "quoted string"
-    r"""'([^']*?)'|"""     # 'single quoted'
-    r"""(\$\w+)|"""        # $variable
-    r"""(\[.*?\])|"""      # [list]
-    r"""(\{.*?\})|"""      # {dict}
-    r"""(\S+)"""           # bare word
+    r""""([^"]*?)"|"""  # "quoted string"
+    r"""'([^']*?)'|"""  # 'single quoted'
+    r"""(\$\w+)|"""  # $variable
+    r"""(\[.*?\])|"""  # [list]
+    r"""(\{.*?\})|"""  # {dict}
+    r"""(\S+)"""  # bare word
     r""")""",
     re.DOTALL,
 )
@@ -150,7 +153,10 @@ def _parse_macro_params(param_str: str) -> dict[str, str]:
 
 # ── Template Rendering ────────────────────────────────────────────────
 
-def _render_template(template: str, params: dict[str, str], defn: MacroDefinition) -> str:
+
+def _render_template(
+    template: str, params: dict[str, str], defn: MacroDefinition
+) -> str:
     """Render a macro template with parameter substitution.
 
     Handles:
@@ -188,7 +194,9 @@ def _render_template(template: str, params: dict[str, str], defn: MacroDefinitio
 
         # Parse the list value
         try:
-            items = json.loads(list_value) if isinstance(list_value, str) else list_value
+            items = (
+                json.loads(list_value) if isinstance(list_value, str) else list_value
+            )
         except (json.JSONDecodeError, TypeError):
             items = [list_value]
 
@@ -228,14 +236,13 @@ def validate_macro_params(
     known_params = set(defn.params.keys())
     for param_name in params:
         if param_name not in known_params:
-            warnings.append(
-                f"Macro '{macro_name}': unknown parameter '{param_name}'"
-            )
+            warnings.append(f"Macro '{macro_name}': unknown parameter '{param_name}'")
 
     return warnings
 
 
 # ── Main Expander ─────────────────────────────────────────────────────
+
 
 class MacroExpander:
     """Expands MACRO directives in DSL text.
@@ -258,87 +265,86 @@ class MacroExpander:
         Returns:
             (expanded_text, list_of_expansions)
         """
-        self._warnings = []  # Reset warnings for each expand call
+        self._warnings = []
         expansions: list[MacroExpansion] = []
         lines = text.split("\n")
         output_lines: list[str] = []
         i = 0
 
         while i < len(lines):
-            line = lines[i]
-            m = _MACRO_LINE_RE.match(line)
+            m = _MACRO_LINE_RE.match(lines[i])
+            if not m or m.group(1).lower() not in self._registry:
+                output_lines.append(lines[i])
+                i += 1
+                continue
 
-            if m:
-                macro_name = m.group(1).lower()
-                param_str = m.group(2)
+            macro_name = m.group(1).lower()
+            defn = self._registry[macro_name]
+            params = _parse_macro_params(m.group(2))
+            self._warnings.extend(validate_macro_params(macro_name, params, defn))
+            expanded = _render_template(defn.expansion_template, params, defn)
 
-                if macro_name in self._registry:
-                    defn = self._registry[macro_name]
-                    params = _parse_macro_params(param_str)
-
-                    # Validate params (non-blocking — warnings stored but expansion proceeds)
-                    param_warnings = validate_macro_params(macro_name, params, defn)
-                    self._warnings.extend(param_warnings)
-
-                    expanded = _render_template(defn.expansion_template, params, defn)
-
-                    # Handle block macros with end markers
-                    if defn.block_macro and defn.end_marker:
-                        # Find the matching end marker
-                        j = i + 1
-                        body_lines = []
-                        end_found = False
-                        while j < len(lines):
-                            if lines[j].strip().upper() == defn.end_marker.upper():
-                                end_found = True
-                                break
-                            body_lines.append(lines[j])
-                            j += 1
-
-                        if end_found:
-                            # Insert: expansion_template + body + end_expansion
-                            expansion_text = expanded + "\n" + "\n".join(body_lines) + "\n" + defn.end_expansion
-                            expansions.append(MacroExpansion(
-                                line=i + 1,
-                                macro_name=macro_name,
-                                original="\n".join(lines[i:j + 1]),
-                                expanded=expansion_text,
-                                param_values=params,
-                            ))
-                            for exp_line in expansion_text.split("\n"):
-                                output_lines.append(exp_line)
-                            i = j + 1
-                            continue
-                        # If end marker not found, expand just the start line
-                        # and leave body as-is (will likely produce a parse error)
-
-                    # Non-block macro: simple expansion
-                    expansions.append(MacroExpansion(
-                        line=i + 1,
-                        macro_name=macro_name,
-                        original=line.strip(),
-                        expanded=expanded,
-                        param_values=params,
-                    ))
-                    for exp_line in expanded.split("\n"):
-                        output_lines.append(exp_line)
-                    i += 1
-                    continue
-                else:
-                    # Unknown macro — leave as-is (will fail at parse, which is OK)
-                    output_lines.append(line)
-                    i += 1
+            if defn.block_macro and defn.end_marker:
+                new_i = self._expand_block_macro(
+                    lines, i, macro_name, defn, params, expanded, expansions, output_lines
+                )
+                if new_i is not None:
+                    i = new_i
                     continue
 
-            output_lines.append(line)
+            expansions.append(
+                MacroExpansion(
+                    line=i + 1,
+                    macro_name=macro_name,
+                    original=lines[i].strip(),
+                    expanded=expanded,
+                    param_values=params,
+                )
+            )
+            output_lines.extend(expanded.split("\n"))
             i += 1
 
         return "\n".join(output_lines), expansions
 
+    def _expand_block_macro(
+        self,
+        lines: list[str],
+        start: int,
+        macro_name: str,
+        defn: MacroDefinition,
+        params: dict[str, str],
+        expanded: str,
+        expansions: list[MacroExpansion],
+        output_lines: list[str],
+    ) -> int | None:
+        """Try to expand a block macro. Returns new line index, or None if end marker not found."""
+        j = start + 1
+        body_lines = []
+        while j < len(lines):
+            if lines[j].strip().upper() == defn.end_marker.upper():
+                expansion_text = expanded + "\n" + "\n".join(body_lines) + "\n" + defn.end_expansion
+                expansions.append(
+                    MacroExpansion(
+                        line=start + 1,
+                        macro_name=macro_name,
+                        original="\n".join(lines[start : j + 1]),
+                        expanded=expansion_text,
+                        param_values=params,
+                    )
+                )
+                output_lines.extend(expansion_text.split("\n"))
+                return j + 1
+            body_lines.append(lines[j])
+            j += 1
+        return None
+
 
 # ── Convenience Functions ─────────────────────────────────────────────
 
-def expand_macros(text: str, registry_path: Path | None = None) -> tuple[str, list[MacroExpansion]]:
+
+def expand_macros(
+    text: str, registry_path: Path | None = None
+) -> tuple[str, list[MacroExpansion]]:
     """Convenience function to expand macros in DSL text.
 
     Returns:

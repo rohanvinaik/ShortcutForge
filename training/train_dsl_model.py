@@ -28,13 +28,11 @@ import sys
 from pathlib import Path
 
 import chz
-
 from tinker_cookbook import cli_utils, model_info
 from tinker_cookbook.renderers import TrainOnWhat
 from tinker_cookbook.supervised import train
 from tinker_cookbook.supervised.data import FromConversationFileBuilder
 from tinker_cookbook.supervised.types import ChatDatasetBuilderCommonConfig
-
 
 # ── Defaults ──────────────────────────────────────────────────────────
 
@@ -79,17 +77,19 @@ def build_config(
         test_size=0,  # We use our own eval split (leakage-safe)
     )
 
-    blueprint = chz.Blueprint(train.Config).apply({
-        "log_path": log_path,
-        "model_name": model_name,
-        "dataset_builder": dataset_builder,
-        "learning_rate": learning_rate,
-        "lr_schedule": "cosine",
-        "num_epochs": num_epochs,
-        "lora_rank": lora_rank,
-        "save_every": save_every,
-        "eval_every": eval_every,
-    })
+    blueprint = chz.Blueprint(train.Config).apply(
+        {
+            "log_path": log_path,
+            "model_name": model_name,
+            "dataset_builder": dataset_builder,
+            "learning_rate": learning_rate,
+            "lr_schedule": "cosine",
+            "num_epochs": num_epochs,
+            "lora_rank": lora_rank,
+            "save_every": save_every,
+            "eval_every": eval_every,
+        }
+    )
 
     return blueprint.make()
 
@@ -180,7 +180,11 @@ def main():
 
     # Resolve file path relative to project root
     project_root = Path(__file__).resolve().parent.parent
-    file_path = args.file_path if os.path.isabs(args.file_path) else str(project_root / args.file_path)
+    file_path = (
+        args.file_path
+        if os.path.isabs(args.file_path)
+        else str(project_root / args.file_path)
+    )
 
     if not os.path.exists(file_path):
         print(f"Error: Training file not found: {file_path}", file=sys.stderr)
@@ -190,7 +194,7 @@ def main():
     with open(file_path) as f:
         n_examples = sum(1 for _ in f)
 
-    print(f"\nShortcutForge: Fine-tuning DSL model\n")
+    print("\nShortcutForge: Fine-tuning DSL model\n")
     print(f"  Model:      {args.model_name}")
     print(f"  Data:       {file_path} ({n_examples} examples)")
     print(f"  Epochs:     {args.num_epochs}")
@@ -200,7 +204,7 @@ def main():
     print(f"  Max length: {args.max_length}")
     print(f"  Log path:   {args.log_path}")
     if args.mini:
-        print(f"  Mode:       MINI (1 epoch, frequent saves)")
+        print("  Mode:       MINI (1 epoch, frequent saves)")
     print()
 
     config = build_config(

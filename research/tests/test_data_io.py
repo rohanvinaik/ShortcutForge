@@ -9,7 +9,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
-from research.src.contracts import Tier2Block, Tier3Slot, TypedIRExample
+from research.src.contracts import TypedIRExample
 from research.src.data import load_typed_ir_jsonl, save_typed_ir_jsonl
 
 

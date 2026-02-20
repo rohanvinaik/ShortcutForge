@@ -23,18 +23,16 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 
 from dsl_ir import (
-    ShortcutIR,
     ActionStatement,
-    SetVariable,
+    ForeachBlock,
     IfBlock,
+    InterpolatedString,
     MenuBlock,
     RepeatBlock,
-    ForeachBlock,
-    Comment,
-    VarRef,
-    HandleRef,
-    InterpolatedString,
+    SetVariable,
+    ShortcutIR,
     Statement,
+    VarRef,
 )
 
 __version__ = "1.0"
@@ -83,9 +81,11 @@ CREATIVE_MODES: dict[str, dict[str, float]] = {
 
 # ── Data Classes ─────────────────────────────────────────────────
 
+
 @dataclass
 class DimensionScore:
     """Score for a single creativity dimension."""
+
     name: str
     raw_score: float  # 0.0 to 1.0
     weight: float
@@ -98,6 +98,7 @@ class DimensionScore:
 @dataclass
 class CreativityScore:
     """Full creativity score with per-dimension breakdown."""
+
     total: float  # Weighted sum (0.0 to 1.0)
     mode: str
     dimensions: list[DimensionScore] = field(default_factory=list)
@@ -110,21 +111,35 @@ class CreativityScore:
 
 # ── UI Actions ───────────────────────────────────────────────────
 
-_UI_ACTIONS = frozenset({
-    "choosefrommenu", "ask", "alert", "showresult", "notification",
-    "speaktext", "vibrate",
-    # Also short names that map to UI
-    "menu", "prompt",
-})
+_UI_ACTIONS = frozenset(
+    {
+        "choosefrommenu",
+        "ask",
+        "alert",
+        "showresult",
+        "notification",
+        "speaktext",
+        "vibrate",
+        # Also short names that map to UI
+        "menu",
+        "prompt",
+    }
+)
 
-_DATA_PRODUCING_ACTIONS = frozenset({
-    "downloadurl", "getcontentsofurl",
-    "documentpicker.open", "selectphoto",
-    "getclipboard", "ask",
-})
+_DATA_PRODUCING_ACTIONS = frozenset(
+    {
+        "downloadurl",
+        "getcontentsofurl",
+        "documentpicker.open",
+        "selectphoto",
+        "getclipboard",
+        "ask",
+    }
+)
 
 
 # ── Scorer ───────────────────────────────────────────────────────
+
 
 class CreativityScorer:
     """Scores a ShortcutIR across 5 creativity dimensions."""
@@ -146,7 +161,6 @@ class CreativityScorer:
 
         # Collect all actions and statements
         all_actions = self._collect_actions(ir.statements)
-        all_statements = self._collect_all_statements(ir.statements)
 
         # Score each dimension
         d1 = self._score_action_diversity(all_actions)
@@ -169,12 +183,14 @@ class CreativityScorer:
             w = weights[dim_name]
             ws = raw * w
             total += ws
-            dimensions.append(DimensionScore(
-                name=dim_name,
-                raw_score=raw,
-                weight=w,
-                weighted_score=ws,
-            ))
+            dimensions.append(
+                DimensionScore(
+                    name=dim_name,
+                    raw_score=raw,
+                    weight=w,
+                    weighted_score=ws,
+                )
+            )
 
         return CreativityScore(
             total=min(total, 1.0),
@@ -253,8 +269,12 @@ class CreativityScorer:
         data_action_count = 0
         handled_count = 0
 
-        self._count_error_handling(stmts, data_action_count=0, handled_count=0,
-                                   result={"data": 0, "handled": 0})
+        self._count_error_handling(
+            stmts,
+            data_action_count=0,
+            handled_count=0,
+            result={"data": 0, "handled": 0},
+        )
 
         result: dict[str, int] = {"data": 0, "handled": 0}
         self._count_error_handling_flat(stmts, result)
@@ -323,7 +343,9 @@ class CreativityScorer:
             return 0.0
 
         # Count vars referenced more than once
-        reused = sum(1 for v, c in var_ref_counts.items() if c > 1 and v in defined_vars)
+        reused = sum(
+            1 for v, c in var_ref_counts.items() if c > 1 and v in defined_vars
+        )
 
         if len(defined_vars) == 0:
             return 0.0
@@ -350,7 +372,9 @@ class CreativityScorer:
                     self._count_var_refs_in_value(pv, ref_counts)
             elif isinstance(stmt, IfBlock):
                 if isinstance(stmt.target, VarRef):
-                    ref_counts[stmt.target.name] = ref_counts.get(stmt.target.name, 0) + 1
+                    ref_counts[stmt.target.name] = (
+                        ref_counts.get(stmt.target.name, 0) + 1
+                    )
                 self._collect_var_usage(stmt.then_body, defined, ref_counts)
                 if stmt.else_body:
                     self._collect_var_usage(stmt.else_body, defined, ref_counts)
@@ -407,7 +431,9 @@ class CreativityScorer:
             if isinstance(stmt, IfBlock):
                 max_d = max(max_d, self._max_nesting_depth(stmt.then_body, current + 1))
                 if stmt.else_body:
-                    max_d = max(max_d, self._max_nesting_depth(stmt.else_body, current + 1))
+                    max_d = max(
+                        max_d, self._max_nesting_depth(stmt.else_body, current + 1)
+                    )
             elif isinstance(stmt, MenuBlock):
                 for case in stmt.cases:
                     max_d = max(max_d, self._max_nesting_depth(case.body, current + 1))
@@ -482,6 +508,7 @@ class CreativityScorer:
 
 
 # ── Convenience ──────────────────────────────────────────────────
+
 
 def score_shortcut(ir: ShortcutIR, mode: str = "pragmatic") -> CreativityScore:
     """Convenience function to score a ShortcutIR."""

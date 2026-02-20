@@ -33,17 +33,16 @@ _SRC_DIR = _SCRIPT_DIR.parent / "src"
 if str(_SRC_DIR) not in sys.path:
     sys.path.insert(0, str(_SRC_DIR))
 
-from plist_to_dsl import shortcut_file_to_dsl_safe
 from dsl_parser import parse_dsl
 from dsl_validator import validate_ir
-
+from plist_to_dsl import shortcut_file_to_dsl_safe
 
 # ── Constants ─────────────────────────────────────────────────────────
 
 SYSTEM_MESSAGE = (
     "You are ShortcutForge, an expert Apple Shortcuts DSL generator. "
     "Given a natural language description, output ONLY the DSL code. "
-    "Start with SHORTCUT \"Name\" and end with ENDSHORTCUT. "
+    'Start with SHORTCUT "Name" and end with ENDSHORTCUT. '
     "Include all necessary ACTION, SET, "
     "IF/ENDIF, MENU/ENDMENU, REPEAT/ENDREPEAT, and FOREACH/ENDFOREACH blocks. "
     "Do not include any explanation or commentary."
@@ -55,6 +54,7 @@ MIN_DESCRIPTION_LENGTH = 10
 
 
 # ── Normalization ─────────────────────────────────────────────────────
+
 
 def _normalize_name(name: str) -> str:
     """Normalize a shortcut name for matching: lowercase, strip non-alphanumeric."""
@@ -78,6 +78,7 @@ def _count_tokens(text: str) -> int:
     if _tokenizer is None:
         try:
             import tiktoken
+
             _tokenizer = tiktoken.get_encoding("cl100k_base")
         except ImportError:
             # Fallback: rough estimate (4 chars per token)
@@ -86,6 +87,7 @@ def _count_tokens(text: str) -> int:
 
 
 # ── Deterministic Split ───────────────────────────────────────────────
+
 
 def _deterministic_split(
     shortcut_ids: list[str],
@@ -98,6 +100,7 @@ def _deterministic_split(
     Stratifies by DSL length bucket isn't needed here — we just pick
     eval_size IDs with the lowest hash values for a stable random subset.
     """
+
     def _hash_id(sid: str) -> str:
         return hashlib.sha256(f"{seed}:{sid}".encode()).hexdigest()
 
@@ -109,6 +112,7 @@ def _deterministic_split(
 
 
 # ── Main Pipeline ─────────────────────────────────────────────────────
+
 
 def build_training_data(
     library_path: str,
@@ -179,12 +183,14 @@ def build_training_data(
             file_path = file_map.get(norm_alt)
 
         if file_path is not None:
-            matched_pairs.append({
-                "slug": slug,
-                "name": name,
-                "description": description,
-                "file_path": str(file_path),
-            })
+            matched_pairs.append(
+                {
+                    "slug": slug,
+                    "name": name,
+                    "description": description,
+                    "file_path": str(file_path),
+                }
+            )
 
     stats["matched"] = len(matched_pairs)
     match_rate = len(matched_pairs) / len(library) * 100 if library else 0
@@ -196,7 +202,7 @@ def build_training_data(
 
     for i, pair in enumerate(matched_pairs):
         if verbose and (i + 1) % 100 == 0:
-            print(f"         {i+1}/{len(matched_pairs)}...", flush=True)
+            print(f"         {i + 1}/{len(matched_pairs)}...", flush=True)
 
         # Convert .shortcut → DSL
         dsl_text, error = shortcut_file_to_dsl_safe(pair["file_path"])
@@ -235,7 +241,9 @@ def build_training_data(
                 stats["validate_failed"] += 1
                 if verbose:
                     for err in validation.errors[:2]:
-                        print(f"         SKIP (validate): {pair['slug']}: {err.message[:80]}")
+                        print(
+                            f"         SKIP (validate): {pair['slug']}: {err.message[:80]}"
+                        )
                 continue
             stats["validate_success"] += 1
             if validation.warnings:
@@ -262,16 +270,20 @@ def build_training_data(
         if token_count > max_tokens:
             stats["token_filtered"] += 1
             if verbose:
-                print(f"         SKIP (tokens): {pair['slug']}: {token_count} tokens > {max_tokens}")
+                print(
+                    f"         SKIP (tokens): {pair['slug']}: {token_count} tokens > {max_tokens}"
+                )
             continue
 
-        valid_pairs.append({
-            "slug": pair["slug"],
-            "name": pair["name"],
-            "description": desc,
-            "dsl_text": dsl_text,
-            "token_count": token_count,
-        })
+        valid_pairs.append(
+            {
+                "slug": pair["slug"],
+                "name": pair["name"],
+                "description": desc,
+                "dsl_text": dsl_text,
+                "token_count": token_count,
+            }
+        )
 
     print(f"         done ({len(valid_pairs)} valid pairs)")
 
@@ -313,7 +325,7 @@ def build_training_data(
         for pair in eval_pairs:
             f.write(json.dumps(_pair_to_jsonl(pair)) + "\n")
 
-    print(f"done")
+    print("done")
 
     # ── 7. Write split manifest ──
     print("  [7/7] Writing split manifest...", end=" ", flush=True)
@@ -326,10 +338,10 @@ def build_training_data(
     }
     with open(manifest_path, "w") as f:
         json.dump(manifest, f, indent=2)
-    print(f"done")
+    print("done")
 
     # ── Summary ──
-    print(f"\n  Output files:")
+    print("\n  Output files:")
     print(f"    {train_path} ({len(train_pairs)} examples)")
     print(f"    {eval_path} ({len(eval_pairs)} examples)")
     print(f"    {manifest_path}")
@@ -339,10 +351,12 @@ def build_training_data(
 
 def print_stats(stats: dict):
     """Print a statistics summary."""
-    print(f"\n  --- Statistics ---")
+    print("\n  --- Statistics ---")
     print(f"  Library entries:       {stats['library_entries']}")
     print(f"  Downloaded files:      {stats['downloaded_files']}")
-    print(f"  Matched:               {stats['matched']} ({stats['matched']/max(stats['library_entries'],1)*100:.1f}%)")
+    print(
+        f"  Matched:               {stats['matched']} ({stats['matched'] / max(stats['library_entries'], 1) * 100:.1f}%)"
+    )
     print(f"  Conversion success:    {stats['conversion_success']}")
     print(f"  Conversion failed:     {stats['conversion_failed']}")
     print(f"  Parse success:         {stats['parse_success']}")
@@ -352,7 +366,7 @@ def print_stats(stats: dict):
     print(f"  Validate with warns:   {stats['validate_warnings']}")
     print(f"  Description filtered:  {stats['description_filtered']}")
     print(f"  Token filtered:        {stats['token_filtered']}")
-    print(f"  ──────────────────────")
+    print("  ──────────────────────")
     print(f"  Train examples:        {stats['train_count']}")
     print(f"  Eval examples:         {stats['eval_count']}")
     print(f"  Total valid:           {stats['train_count'] + stats['eval_count']}")
@@ -399,7 +413,8 @@ def main():
         help="Skip semantic validation (parse-only)",
     )
     parser.add_argument(
-        "-v", "--verbose",
+        "-v",
+        "--verbose",
         action="store_true",
         help="Show per-file skip reasons",
     )
@@ -408,11 +423,23 @@ def main():
 
     # Resolve paths relative to project root
     project_root = Path(__file__).resolve().parent.parent
-    library = args.library if os.path.isabs(args.library) else str(project_root / args.library)
-    downloaded = args.downloaded_dir if os.path.isabs(args.downloaded_dir) else str(project_root / args.downloaded_dir)
-    output = args.output_dir if os.path.isabs(args.output_dir) else str(project_root / args.output_dir)
+    library = (
+        args.library
+        if os.path.isabs(args.library)
+        else str(project_root / args.library)
+    )
+    downloaded = (
+        args.downloaded_dir
+        if os.path.isabs(args.downloaded_dir)
+        else str(project_root / args.downloaded_dir)
+    )
+    output = (
+        args.output_dir
+        if os.path.isabs(args.output_dir)
+        else str(project_root / args.output_dir)
+    )
 
-    print(f"\nShortcutForge: Building training data...\n")
+    print("\nShortcutForge: Building training data...\n")
 
     stats = build_training_data(
         library_path=library,

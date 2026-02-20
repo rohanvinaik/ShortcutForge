@@ -30,7 +30,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-
 # ── Budget tiers for progressive escalation ───────────────────────
 
 BUDGET_TIERS = [512, 1024, 2048, 4096]
@@ -38,28 +37,76 @@ BUDGET_TIERS = [512, 1024, 2048, 4096]
 
 # ── Complex/simple signal keywords ────────────────────────────────
 
-_COMPLEX_SIGNALS = frozenset({
-    "menu", "if", "repeat", "loop", "dictionary", "api", "json",
-    "multiple", "list", "batch", "each", "every", "for each",
-    "conditional", "check", "compare", "filter", "iterate",
-    "convert", "scan", "qr", "document", "collage", "pomodoro",
-    "cycle", "routine", "manager", "logger", "quiz",
-    # Health/HealthKit signals (Phase 1: domain-aware budgeting)
-    "health", "healthkit", "nutrient", "supplement", "vitamin",
-    "mineral", "caffeine", "workout", "fitness", "apple health",
-})
+_COMPLEX_SIGNALS = frozenset(
+    {
+        "menu",
+        "if",
+        "repeat",
+        "loop",
+        "dictionary",
+        "api",
+        "json",
+        "multiple",
+        "list",
+        "batch",
+        "each",
+        "every",
+        "for each",
+        "conditional",
+        "check",
+        "compare",
+        "filter",
+        "iterate",
+        "convert",
+        "scan",
+        "qr",
+        "document",
+        "collage",
+        "pomodoro",
+        "cycle",
+        "routine",
+        "manager",
+        "logger",
+        "quiz",
+        # Health/HealthKit signals (Phase 1: domain-aware budgeting)
+        "health",
+        "healthkit",
+        "nutrient",
+        "supplement",
+        "vitamin",
+        "mineral",
+        "caffeine",
+        "workout",
+        "fitness",
+        "apple health",
+    }
+)
 
-_SIMPLE_SIGNALS = frozenset({
-    "open", "set", "toggle", "turn", "play", "show", "get",
-    "launch", "start", "stop", "enable", "disable",
-})
+_SIMPLE_SIGNALS = frozenset(
+    {
+        "open",
+        "set",
+        "toggle",
+        "turn",
+        "play",
+        "show",
+        "get",
+        "launch",
+        "start",
+        "stop",
+        "enable",
+        "disable",
+    }
+)
 
 
 # ── Token Budget Dataclass ────────────────────────────────────────
 
+
 @dataclass
 class TokenBudget:
     """Estimated token budget for a prompt."""
+
     max_tokens: int
     complexity: str  # "simple", "medium", "complex", "very_complex"
     word_count: int
@@ -69,6 +116,7 @@ class TokenBudget:
 
 
 # ── Budget Estimation ─────────────────────────────────────────────
+
 
 def estimate_budget(prompt: str) -> TokenBudget:
     """Estimate appropriate max_tokens for a prompt based on complexity.
@@ -119,6 +167,7 @@ def estimate_budget(prompt: str) -> TokenBudget:
 
 # ── Progressive Budget Escalation ─────────────────────────────────
 
+
 def next_budget(current: int) -> int | None:
     """Get the next budget tier above the current one.
 
@@ -137,6 +186,7 @@ def next_budget(current: int) -> int | None:
 
 
 # ── Overflow Detection ────────────────────────────────────────────
+
 
 def detect_overflow(
     raw_output: str,
@@ -168,6 +218,7 @@ def detect_overflow(
 
 # ── Calibration (development tool) ───────────────────────────────
 
+
 def calibrate(train_file: str) -> None:
     """Print bucket statistics from training data for heuristic validation.
 
@@ -195,12 +246,12 @@ def calibrate(train_file: str) -> None:
     total = len(dsl_tokens)
 
     print(f"\nToken Budget Calibration ({total} training examples)")
-    print(f"{'='*60}")
-    print(f"Overall DSL token stats:")
-    print(f"  Median: {dsl_tokens[total//2]:.0f}")
-    print(f"  P90:    {dsl_tokens[int(total*0.9)]:.0f}")
-    print(f"  P95:    {dsl_tokens[int(total*0.95)]:.0f}")
-    print(f"  P99:    {dsl_tokens[int(total*0.99)]:.0f}")
+    print(f"{'=' * 60}")
+    print("Overall DSL token stats:")
+    print(f"  Median: {dsl_tokens[total // 2]:.0f}")
+    print(f"  P90:    {dsl_tokens[int(total * 0.9)]:.0f}")
+    print(f"  P95:    {dsl_tokens[int(total * 0.95)]:.0f}")
+    print(f"  P99:    {dsl_tokens[int(total * 0.99)]:.0f}")
     print(f"  Max:    {dsl_tokens[-1]:.0f}")
 
     for bucket_name, tokens_list in sorted(budgets.items()):
@@ -209,14 +260,19 @@ def calibrate(train_file: str) -> None:
             continue
         tokens_list.sort()
         n = len(tokens_list)
-        print(f"\n{bucket_name} ({n} examples, {n/total*100:.1f}%):")
-        print(f"  Median: {tokens_list[n//2]:.0f}")
-        print(f"  P90:    {tokens_list[int(n*0.9)]:.0f}")
+        print(f"\n{bucket_name} ({n} examples, {n / total * 100:.1f}%):")
+        print(f"  Median: {tokens_list[n // 2]:.0f}")
+        print(f"  P90:    {tokens_list[int(n * 0.9)]:.0f}")
         if n > 20:
-            print(f"  P95:    {tokens_list[int(n*0.95)]:.0f}")
+            print(f"  P95:    {tokens_list[int(n * 0.95)]:.0f}")
         print(f"  Max:    {tokens_list[-1]:.0f}")
 
         # Check bucket fit (what % of examples fit within budget)
-        budget_limit = {"simple": 512, "medium": 1024, "complex": 2048, "very_complex": 4096}[bucket_name]
+        budget_limit = {
+            "simple": 512,
+            "medium": 1024,
+            "complex": 2048,
+            "very_complex": 4096,
+        }[bucket_name]
         fits = sum(1 for t in tokens_list if t <= budget_limit)
-        print(f"  Fits in budget ({budget_limit}): {fits}/{n} ({fits/n*100:.1f}%)")
+        print(f"  Fits in budget ({budget_limit}): {fits}/{n} ({fits / n * 100:.1f}%)")

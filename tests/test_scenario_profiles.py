@@ -22,15 +22,12 @@ _SRC_DIR = _SCRIPT_DIR.parent / "src"
 if str(_SRC_DIR) not in sys.path:
     sys.path.insert(0, str(_SRC_DIR))
 
-import scenario_profiles as sp
 from scenario_profiles import (
-    ScenarioProfileManager,
     ScenarioProfile,
-    select_scenario,
-    get_scenario_manager,
+    ScenarioProfileManager,
     __version__,
+    select_scenario,
 )
-
 
 ALL_SCENARIO_IDS = [
     "health_tracking",
@@ -44,7 +41,13 @@ ALL_SCENARIO_IDS = [
     "daily_briefing",
 ]
 
-REQUIRED_FIELDS = ["scenario_id", "domain_profile", "creative_mode", "keywords", "description"]
+REQUIRED_FIELDS = [
+    "scenario_id",
+    "domain_profile",
+    "creative_mode",
+    "keywords",
+    "description",
+]
 
 
 class TestVersion(unittest.TestCase):
@@ -62,7 +65,11 @@ class TestAllScenariosRegistered(unittest.TestCase):
 
     def test_total_scenario_count(self):
         scenarios = self.mgr.list_scenarios()
-        self.assertEqual(len(scenarios), 9, f"Expected 9 scenarios, got {len(scenarios)}: {scenarios}")
+        self.assertEqual(
+            len(scenarios),
+            9,
+            f"Expected 9 scenarios, got {len(scenarios)}: {scenarios}",
+        )
 
     def test_all_scenario_ids_present(self):
         scenarios = self.mgr.list_scenarios()
@@ -85,13 +92,21 @@ class TestRequiredFields(unittest.TestCase):
                 for field_name in REQUIRED_FIELDS:
                     with self.subTest(field=field_name):
                         value = getattr(scenario, field_name, None)
-                        self.assertIsNotNone(value, f"Field '{field_name}' is None for scenario '{sid}'")
+                        self.assertIsNotNone(
+                            value, f"Field '{field_name}' is None for scenario '{sid}'"
+                        )
                         if field_name == "keywords":
                             self.assertIsInstance(value, list)
-                            self.assertGreater(len(value), 0, f"keywords list is empty for '{sid}'")
+                            self.assertGreater(
+                                len(value), 0, f"keywords list is empty for '{sid}'"
+                            )
                         else:
                             self.assertIsInstance(value, str)
-                            self.assertGreater(len(value), 0, f"Field '{field_name}' is empty for '{sid}'")
+                            self.assertGreater(
+                                len(value),
+                                0,
+                                f"Field '{field_name}' is empty for '{sid}'",
+                            )
 
 
 class TestOriginalScenarios(unittest.TestCase):
@@ -149,7 +164,9 @@ class TestNewScenarioConfigs(unittest.TestCase):
         self.assertEqual(s.domain_profile, "scheduling")
         self.assertEqual(s.creative_mode, "pragmatic")
         self.assertEqual(s.budget_override, "complex")
-        self.assertEqual(s.description, "Calendar event management and triage workflows")
+        self.assertEqual(
+            s.description, "Calendar event management and triage workflows"
+        )
 
     def test_clipboard_tools(self):
         s = self.mgr.get_scenario("clipboard_tools")
@@ -157,7 +174,9 @@ class TestNewScenarioConfigs(unittest.TestCase):
         self.assertEqual(s.domain_profile, "general")
         self.assertEqual(s.creative_mode, "pragmatic")
         self.assertEqual(s.budget_override, "medium")
-        self.assertEqual(s.description, "Clipboard management and text cleaning utilities")
+        self.assertEqual(
+            s.description, "Clipboard management and text cleaning utilities"
+        )
 
     def test_media_workflow(self):
         s = self.mgr.get_scenario("media_workflow")
@@ -165,7 +184,9 @@ class TestNewScenarioConfigs(unittest.TestCase):
         self.assertEqual(s.domain_profile, "media_processing")
         self.assertEqual(s.creative_mode, "pragmatic")
         self.assertEqual(s.budget_override, "complex")
-        self.assertEqual(s.description, "Media processing and metadata extraction workflows")
+        self.assertEqual(
+            s.description, "Media processing and metadata extraction workflows"
+        )
 
     def test_daily_briefing(self):
         s = self.mgr.get_scenario("daily_briefing")
@@ -173,7 +194,9 @@ class TestNewScenarioConfigs(unittest.TestCase):
         self.assertEqual(s.domain_profile, "general")
         self.assertEqual(s.creative_mode, "expressive")
         self.assertEqual(s.budget_override, "very_complex")
-        self.assertEqual(s.description, "Multi-source daily briefing and morning routine workflows")
+        self.assertEqual(
+            s.description, "Multi-source daily briefing and morning routine workflows"
+        )
 
 
 class TestKeywordMatching(unittest.TestCase):
@@ -187,7 +210,9 @@ class TestKeywordMatching(unittest.TestCase):
         self.assertEqual(scenario.scenario_id, "file_processing")
 
     def test_calendar_management_match(self):
-        scenario = self.mgr.select_scenario("show me today's calendar events grouped by category")
+        scenario = self.mgr.select_scenario(
+            "show me today's calendar events grouped by category"
+        )
         self.assertEqual(scenario.scenario_id, "calendar_management")
 
     def test_clipboard_tools_match(self):
@@ -195,11 +220,15 @@ class TestKeywordMatching(unittest.TestCase):
         self.assertEqual(scenario.scenario_id, "clipboard_tools")
 
     def test_media_workflow_match(self):
-        scenario = self.mgr.select_scenario("batch resize my photos and extract metadata")
+        scenario = self.mgr.select_scenario(
+            "batch resize my photos and extract metadata"
+        )
         self.assertEqual(scenario.scenario_id, "media_workflow")
 
     def test_daily_briefing_match(self):
-        scenario = self.mgr.select_scenario("create a morning briefing with weather and calendar")
+        scenario = self.mgr.select_scenario(
+            "create a morning briefing with weather and calendar"
+        )
         self.assertEqual(scenario.scenario_id, "daily_briefing")
 
     # Original scenario matching still works

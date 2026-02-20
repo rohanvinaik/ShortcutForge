@@ -1,6 +1,5 @@
 """Tests for model_profiles.py — profile loader and promotion gates."""
 
-import json
 import os
 import sys
 import tempfile
@@ -11,6 +10,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 import yaml
+
 from model_profiles import (
     ModelProfile,
     ProfileConfig,
@@ -242,15 +242,27 @@ class TestResolvedAdapterPath(unittest.TestCase):
     """Test adapter path resolution."""
 
     def test_none_adapter(self):
-        p = ModelProfile(name="test", model_path="m", adapter_path=None, chat_template="llama3")
+        p = ModelProfile(
+            name="test", model_path="m", adapter_path=None, chat_template="llama3"
+        )
         self.assertIsNone(p.resolved_adapter_path())
 
     def test_absolute_adapter(self):
-        p = ModelProfile(name="test", model_path="m", adapter_path="/abs/path", chat_template="llama3")
+        p = ModelProfile(
+            name="test",
+            model_path="m",
+            adapter_path="/abs/path",
+            chat_template="llama3",
+        )
         self.assertEqual(p.resolved_adapter_path(), "/abs/path")
 
     def test_relative_adapter_nonexistent(self):
-        p = ModelProfile(name="test", model_path="m", adapter_path="models/nonexistent", chat_template="llama3")
+        p = ModelProfile(
+            name="test",
+            model_path="m",
+            adapter_path="models/nonexistent",
+            chat_template="llama3",
+        )
         # Falls back to the raw path when resolved doesn't exist
         result = p.resolved_adapter_path()
         self.assertIsNotNone(result)
@@ -260,7 +272,9 @@ class TestRealConfig(unittest.TestCase):
     """Test loading the actual project config (if it exists)."""
 
     def test_load_real_config(self):
-        real_path = Path(__file__).resolve().parent.parent / "configs" / "model_profiles.yaml"
+        real_path = (
+            Path(__file__).resolve().parent.parent / "configs" / "model_profiles.yaml"
+        )
         if not real_path.exists():
             self.skipTest("Real config not found")
 

@@ -161,6 +161,7 @@ def generate_eval_set(
     # Get system prompt
     if system_prompt is None:
         from generate_prompt import build_system_prompt
+
         system_prompt = build_system_prompt()
 
     # Sample with distribution: ~30% simple, ~30% medium, ~25% complex, ~10% edge, ~5% third-party
@@ -198,14 +199,16 @@ def generate_eval_set(
 
     examples = []
     for i, (prompt, category) in enumerate(selected):
-        examples.append({
-            "messages": [
-                {"role": "system", "content": system_prompt},
-                {"role": "user", "content": prompt},
-            ],
-            "shortcut_id": f"generated_{i}",
-            "category": category,
-        })
+        examples.append(
+            {
+                "messages": [
+                    {"role": "system", "content": system_prompt},
+                    {"role": "user", "content": prompt},
+                ],
+                "shortcut_id": f"generated_{i}",
+                "category": category,
+            }
+        )
 
     return examples
 
@@ -215,15 +218,21 @@ def main():
         description="Generate diverse test prompts for ShortcutForge evaluation",
     )
     parser.add_argument(
-        "--count", type=int, default=50,
+        "--count",
+        type=int,
+        default=50,
         help="Number of prompts to generate (default: 50)",
     )
     parser.add_argument(
-        "--seed", type=int, default=42,
+        "--seed",
+        type=int,
+        default=42,
         help="Random seed for reproducibility (default: 42)",
     )
     parser.add_argument(
-        "--output", type=str, default="training_data/new_eval_prompts.jsonl",
+        "--output",
+        type=str,
+        default="training_data/new_eval_prompts.jsonl",
         help="Output JSONL file path",
     )
 
@@ -249,9 +258,9 @@ def main():
         cats[cat] = cats.get(cat, 0) + 1
 
     print(f"Written {len(examples)} prompts to {output_path}")
-    print(f"Distribution:")
+    print("Distribution:")
     for cat, n in sorted(cats.items()):
-        print(f"  {cat}: {n} ({n/len(examples)*100:.0f}%)")
+        print(f"  {cat}: {n} ({n / len(examples) * 100:.0f}%)")
 
 
 if __name__ == "__main__":

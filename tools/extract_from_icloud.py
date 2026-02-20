@@ -23,11 +23,10 @@ import plistlib
 import re
 import sys
 import time
-import urllib.request
 import urllib.error
+import urllib.request
 from collections import defaultdict
-from typing import Any, Optional
-
+from typing import Any
 
 # =============================================================================
 # CONFIGURATION
@@ -35,12 +34,15 @@ from typing import Any, Optional
 
 DOWNLOAD_DIR = os.path.join(os.path.dirname(__file__), "..", "downloaded")
 EXTRACTED_DIR = os.path.join(os.path.dirname(__file__), "..", "references", "extracted")
-LIBRARY_FILE = os.path.join(os.path.dirname(__file__), "..", "references", "cassinelli_shortcuts_library.json")
+LIBRARY_FILE = os.path.join(
+    os.path.dirname(__file__), "..", "references", "cassinelli_shortcuts_library.json"
+)
 
 
 # =============================================================================
 # iCLOUD API
 # =============================================================================
+
 
 def icloud_link_to_api_url(icloud_url: str) -> str:
     """
@@ -51,7 +53,7 @@ def icloud_link_to_api_url(icloud_url: str) -> str:
     Output: https://www.icloud.com/shortcuts/api/records/86cd1eeabddc44188607238acd4cc7ef
     """
     # Extract the UUID from various URL formats
-    match = re.search(r'/shortcuts/([a-f0-9-]+)', icloud_url)
+    match = re.search(r"/shortcuts/([a-f0-9-]+)", icloud_url)
     if not match:
         raise ValueError(f"Could not extract shortcut ID from URL: {icloud_url}")
     shortcut_id = match.group(1)
@@ -65,7 +67,9 @@ def get_download_url(icloud_url: str) -> tuple[str, str]:
     Returns (download_url, name).
     """
     api_url = icloud_link_to_api_url(icloud_url)
-    req = urllib.request.Request(api_url, headers={"User-Agent": "ShortcutsCompiler/1.0"})
+    req = urllib.request.Request(
+        api_url, headers={"User-Agent": "ShortcutsCompiler/1.0"}
+    )
 
     with urllib.request.urlopen(req, timeout=30) as resp:
         data = json.loads(resp.read().decode())
@@ -82,7 +86,9 @@ def get_download_url(icloud_url: str) -> tuple[str, str]:
         signed = fields.get("signedShortcut", {}).get("value", {})
         download_url = signed.get("downloadURL", "")
         if download_url:
-            print(f"    WARNING: Only signed version available (AEA format, needs macOS to parse)")
+            print(
+                "    WARNING: Only signed version available (AEA format, needs macOS to parse)"
+            )
 
     if not download_url:
         raise ValueError(f"No downloadURL found in API response for {icloud_url}")
@@ -90,7 +96,9 @@ def get_download_url(icloud_url: str) -> tuple[str, str]:
     return download_url, name
 
 
-def download_shortcut(icloud_url: str, output_dir: str = DOWNLOAD_DIR) -> tuple[str, str]:
+def download_shortcut(
+    icloud_url: str, output_dir: str = DOWNLOAD_DIR
+) -> tuple[str, str]:
     """
     Download a .shortcut file from an iCloud link.
     Returns (filepath, name).
@@ -100,10 +108,12 @@ def download_shortcut(icloud_url: str, output_dir: str = DOWNLOAD_DIR) -> tuple[
     download_url, name = get_download_url(icloud_url)
 
     # Sanitize filename
-    safe_name = re.sub(r'[^\w\s-]', '', name).strip().replace(' ', '_')
+    safe_name = re.sub(r"[^\w\s-]", "", name).strip().replace(" ", "_")
     filepath = os.path.join(output_dir, f"{safe_name}.shortcut")
 
-    req = urllib.request.Request(download_url, headers={"User-Agent": "ShortcutsCompiler/1.0"})
+    req = urllib.request.Request(
+        download_url, headers={"User-Agent": "ShortcutsCompiler/1.0"}
+    )
     with urllib.request.urlopen(req, timeout=60) as resp:
         data = resp.read()
 
@@ -116,6 +126,7 @@ def download_shortcut(icloud_url: str, output_dir: str = DOWNLOAD_DIR) -> tuple[
 # =============================================================================
 # PLIST EXTRACTION
 # =============================================================================
+
 
 def load_shortcut(filepath: str) -> dict:
     """Load a .shortcut plist file."""
@@ -133,7 +144,9 @@ def anonymize_uuids(obj: Any) -> Any:
     Replace UUIDs with placeholder strings so we can see the structure
     without the noise of specific UUIDs.
     """
-    uuid_pattern = re.compile(r'^[A-F0-9]{8}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{12}$', re.IGNORECASE)
+    uuid_pattern = re.compile(
+        r"^[A-F0-9]{8}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{12}$", re.IGNORECASE
+    )
 
     if isinstance(obj, str):
         if uuid_pattern.match(obj):
@@ -153,7 +166,9 @@ def extract_unique_actions(actions: list[dict]) -> dict:
     Group actions by identifier and collect unique parameter structures.
     Returns {identifier: {"count": N, "parameter_keys": [...], "examples": [...]}}
     """
-    by_type = defaultdict(lambda: {"count": 0, "parameter_keys_seen": set(), "examples": []})
+    by_type = defaultdict(
+        lambda: {"count": 0, "parameter_keys_seen": set(), "examples": []}
+    )
 
     for action in actions:
         ident = action.get("WFWorkflowActionIdentifier", "unknown")
@@ -209,12 +224,14 @@ def extract_from_file(filepath: str) -> dict:
         ident = action.get("WFWorkflowActionIdentifier", "")
         params = action.get("WFWorkflowActionParameters", {})
         if "WFControlFlowMode" in params:
-            control_flow.append({
-                "index": i,
-                "identifier": ident,
-                "mode": params["WFControlFlowMode"],
-                "has_grouping_id": "GroupingIdentifier" in params,
-            })
+            control_flow.append(
+                {
+                    "index": i,
+                    "identifier": ident,
+                    "mode": params["WFControlFlowMode"],
+                    "has_grouping_id": "GroupingIdentifier" in params,
+                }
+            )
 
     return {
         "total_actions": len(actions),
@@ -228,6 +245,7 @@ def extract_from_file(filepath: str) -> dict:
 # =============================================================================
 # BATCH PROCESSING
 # =============================================================================
+
 
 def merge_extractions(extractions: list[dict]) -> dict:
     """
@@ -313,6 +331,7 @@ def generate_report(merged: dict, shortcuts_processed: list[str]) -> str:
 # MAIN
 # =============================================================================
 
+
 def main():
     os.makedirs(DOWNLOAD_DIR, exist_ok=True)
     os.makedirs(EXTRACTED_DIR, exist_ok=True)
@@ -330,9 +349,12 @@ def main():
 
         # Filter to those with iCloud links and action counts, sort by complexity
         with_links = [
-            s for s in library
-            if s.get("icloud_link") and s.get("action_count")
-            and str(s["action_count"]).isdigit() and int(s["action_count"]) > 0
+            s
+            for s in library
+            if s.get("icloud_link")
+            and s.get("action_count")
+            and str(s["action_count"]).isdigit()
+            and int(s["action_count"]) > 0
         ]
         with_links.sort(key=lambda s: int(s["action_count"]), reverse=True)
 
@@ -348,7 +370,9 @@ def main():
         print("  python extract_from_icloud.py --from-library <N>")
         print("")
         print("Examples:")
-        print("  python extract_from_icloud.py https://www.icloud.com/shortcuts/86cd1eea...")
+        print(
+            "  python extract_from_icloud.py https://www.icloud.com/shortcuts/86cd1eea..."
+        )
         print("  python extract_from_icloud.py --from-library 15")
         sys.exit(1)
 
@@ -358,24 +382,26 @@ def main():
 
     for i, url in enumerate(icloud_urls):
         label = shortcuts_names[i] if i < len(shortcuts_names) else url[:60]
-        print(f"\n[{i+1}/{len(icloud_urls)}] {label}")
+        print(f"\n[{i + 1}/{len(icloud_urls)}] {label}")
 
         try:
             # Download
-            print(f"  Downloading...")
+            print("  Downloading...")
             filepath, name = download_shortcut(url)
             print(f"  Saved: {filepath}")
             processed_names.append(name)
 
             # Extract
-            print(f"  Extracting actions...")
+            print("  Extracting actions...")
             extraction = extract_from_file(filepath)
             extraction["source_name"] = name
             extraction["source_url"] = url
             all_extractions.append(extraction)
 
-            print(f"  Found {extraction['total_actions']} actions, "
-                  f"{extraction['unique_action_types']} unique types")
+            print(
+                f"  Found {extraction['total_actions']} actions, "
+                f"{extraction['unique_action_types']} unique types"
+            )
 
             time.sleep(0.5)  # Be polite to Apple's servers
 
