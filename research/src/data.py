@@ -9,9 +9,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from research.src.contracts import NegativeBankEntry, OODPrompt, TypedIRExample
 from torch.utils.data import Dataset
-
-from research.src.contracts import NegativeBankEntry, TypedIRExample
 
 
 def load_typed_ir_jsonl(path: Path) -> list[TypedIRExample]:
@@ -58,6 +57,21 @@ def save_typed_ir_jsonl(examples: list[TypedIRExample], path: Path) -> int:
     return len(examples)
 
 
+def load_ood_prompts_jsonl(path: Path) -> list[OODPrompt]:
+    """Load OODPrompt records from a JSONL file."""
+    prompts: list[OODPrompt] = []
+    with open(path) as f:
+        for line_num, line in enumerate(f, 1):
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                prompts.append(OODPrompt.from_dict(json.loads(line)))
+            except (json.JSONDecodeError, KeyError) as e:
+                raise ValueError(f"Malformed OOD prompt record at line {line_num}: {e}") from e
+    return prompts
+
+
 class TypedIRDataset(Dataset):
     """PyTorch Dataset wrapping TypedIRExample records."""
 
@@ -89,3 +103,17 @@ class NegativeBankDataset(Dataset):
 
     def __getitem__(self, idx: int) -> NegativeBankEntry:
         return self.entries[idx]
+
+
+class OODPromptDataset(Dataset):
+    """PyTorch Dataset wrapping OODPrompt records."""
+
+    def __init__(self, path: Path) -> None:
+        self.path = path
+        self.prompts = load_ood_prompts_jsonl(path)
+
+    def __len__(self) -> int:
+        return len(self.prompts)
+
+    def __getitem__(self, idx: int) -> OODPrompt:
+        return self.prompts[idx]

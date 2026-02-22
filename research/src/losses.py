@@ -29,11 +29,12 @@ class CompositeLoss(nn.Module):
         initial_log_sigma: Initial value for log-variance parameters.
     """
 
-    def __init__(self, initial_log_sigma: float = 0.0) -> None:
+    def __init__(self, initial_log_sigma: float = 0.0, margin: float = 0.5) -> None:
         super().__init__()
         self.log_sigma_ce = nn.Parameter(torch.tensor(initial_log_sigma))
         self.log_sigma_margin = nn.Parameter(torch.tensor(initial_log_sigma))
         self.log_sigma_repair = nn.Parameter(torch.tensor(initial_log_sigma))
+        self.margin = float(margin)
 
     def forward(
         self,
@@ -42,6 +43,8 @@ class CompositeLoss(nn.Module):
         positive_features: torch.Tensor | None = None,
         negative_features: torch.Tensor | None = None,
         repair_weights: torch.Tensor | None = None,
+        negative_targets: torch.Tensor | None = None,
+        margin: float | None = None,
     ) -> dict[str, torch.Tensor]:
         """Compute composite loss with adaptive weighting.
 
@@ -60,12 +63,17 @@ class CompositeLoss(nn.Module):
         L_ce = F.cross_entropy(logits, targets)
 
         # L_margin: contrastive margin loss (if positive/negative features provided)
-        if positive_features is not None and negative_features is not None:
-            margin = 0.5
-            distance = 1.0 - F.cosine_similarity(
-                positive_features, negative_features, dim=-1
-            )
-            L_margin = F.relu(margin - distance).mean()
+        margin_value = self.margin if margin is None else float(margin)
+        if margin_value <= 0:
+            L_margin = torch.tensor(0.0, device=logits.device)
+        elif negative_targets is not None:
+            log_probs = F.log_softmax(logits, dim=-1)
+            pos_logp = log_probs.gather(1, targets.unsqueeze(1)).squeeze(1)
+            neg_logp = log_probs.gather(1, negative_targets.unsqueeze(1)).squeeze(1)
+            L_margin = F.relu(margin_value - pos_logp + neg_logp).mean()
+        elif positive_features is not None and negative_features is not None:
+            distance = 1.0 - F.cosine_similarity(positive_features, negative_features, dim=-1)
+            L_margin = F.relu(margin_value - distance).mean()
         else:
             L_margin = torch.tensor(0.0, device=logits.device)
 
@@ -81,6 +89,7 @@ class CompositeLoss(nn.Module):
         precision_ce = torch.exp(-self.log_sigma_ce)
         precision_margin = torch.exp(-self.log_sigma_margin)
         precision_repair = torch.exp(-self.log_sigma_repair)
+        precision_sum = precision_ce + precision_margin + precision_repair + 1e-8
 
         L_total = (
             precision_ce * L_ce
@@ -99,6 +108,10 @@ class CompositeLoss(nn.Module):
             "sigma_ce": torch.exp(self.log_sigma_ce),
             "sigma_margin": torch.exp(self.log_sigma_margin),
             "sigma_repair": torch.exp(self.log_sigma_repair),
+            # Normalized adaptive weights for PAB trajectory logging.
+            "w_ce": precision_ce / precision_sum,
+            "w_margin": precision_margin / precision_sum,
+            "w_repair": precision_repair / precision_sum,
         }
 
 

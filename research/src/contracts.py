@@ -246,9 +246,7 @@ class NegativeBankEntry:
             prompt=d["prompt"],
             shortcut_id=d["shortcut_id"],
             positive=TypedIRExample.from_dict(d["positive"]),
-            negative=TypedIRExample.from_dict(d["negative"])
-            if d.get("negative")
-            else None,
+            negative=TypedIRExample.from_dict(d["negative"]) if d.get("negative") else None,
             error_tags=d.get("error_tags", []),
             source=d.get("source", "unknown"),
             lint_changes=d.get("lint_changes", []),

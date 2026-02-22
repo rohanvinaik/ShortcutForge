@@ -19,7 +19,7 @@ research/
 │   ├── build_decoder_vocab.py   # ✅ Tier1/Tier2 vocab extraction (99%/97% coverage)
 │   ├── build_negative_bank.py   # ✅ Hard negative bank (19,840 entries)
 │   ├── build_ood_prompts.py     # ✅ Balanced OOD prompt set (500+500)
-│   └── run_ablation_matrix.py   # ⏳ Phase 4 (not yet implemented)
+│   └── run_ablation_matrix.py   # ✅ Phase 4 ablation runner
 ├── src/
 │   ├── contracts.py          # ✅ Typed data contracts (single source of truth)
 │   ├── encoder.py            # ✅ Frozen sentence-transformer wrapper (MiniLM-L6-v2)
@@ -72,20 +72,19 @@ uv run pytest research/tests/ -v
 
 ## Gates
 
-| Gate | Criteria | Status |
-|------|----------|--------|
-| S1: Scaffold import | All `research.src.*` modules import cleanly | ✅ |
-| S2: CLI | Every `research/scripts/*.py --help` exits 0 | ✅ |
-| S3: Tests | All tests pass (0 skipped) | ✅ |
-| S4: Env | `env_doctor.py --strict` passes | ✅ |
-| P0: Data conversion | ≥95% conversion rate | ✅ 100% (6,779/6,779) |
-| P0: Tier1 coverage | ≥98% on eval set | ✅ 99.01% |
-| P0: Tier2 coverage | ≥95% on eval set | ✅ 97.53% |
-| P0: Negative bank | ≥3,000 entries | ✅ 19,840 |
-| P0: OOD prompts | 500 in-domain + 500 OOD | ✅ 1,000 |
-| P2: Trainer dry-run | 1 step completes without error | ✅ |
+| Gate | Criteria | Current expectation |
+|------|----------|---------------------|
+| S1: Scaffold import | `research.src.*` modules import cleanly | Should pass in a correctly configured env |
+| S2: CLI | `--help` works for `research/scripts/*.py` and `research/src/{trainer,evaluate}.py` | Should pass |
+| S3: Tests | `python -m pytest research/tests -q` | Should pass (some tests may skip based on optional deps) |
+| S4: Env | `env_doctor.py --strict` | Fails fast with actionable diagnostics when env is out-of-spec |
+| P0: Data conversion | ≥95% conversion rate | Target |
+| P0: Tier1 coverage | ≥98% on eval set | Target |
+| P0: Tier2 coverage | ≥95% on eval set | Target |
+| P0: Negative bank | ≥3,000 entries | Target |
+| P0: OOD prompts | 500 in-domain + 500 OOD | Target |
+| P2: Trainer dry-run | 1 step completes without error | Target |
 
 ## Not Yet Implemented
 
 - **Phase 3: ValueFiller** (`src/value_filler.py`) — Tier 3 text generation for free-form parameter values. Currently stubbed.
-- **Phase 4: Ablation Matrix** (`scripts/run_ablation_matrix.py`) — Systematic ablation experiments. Requires working trainer and evaluation loop.

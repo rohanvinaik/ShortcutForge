@@ -1,0 +1,56 @@
+{
+  "models_attempted": [
+    "qwen2.5-0.5b",
+    "llama-1b",
+    "phi-2",
+    "mamba-2.8b",
+    "jamba-tiny",
+    "recurrentgemma-2b",
+    "bitnet-2b",
+    "mistral-7b"
+  ],
+  "models_selected": [
+    "qwen2.5-0.5b",
+    "llama-1b",
+    "phi-2",
+    "mamba-2.8b",
+    "jamba-tiny",
+    "recurrentgemma-2b",
+    "bitnet-2b",
+    "mistral-7b"
+  ],
+  "results": [
+    {
+      "model_id": "qwen2.5-0.5b",
+      "status": "dry_run"
+    },
+    {
+      "model_id": "llama-1b",
+      "status": "dry_run"
+    },
+    {
+      "model_id": "phi-2",
+      "status": "dry_run"
+    },
+    {
+      "model_id": "mamba-2.8b",
+      "status": "dry_run"
+    },
+    {
+      "model_id": "jamba-tiny",
+      "status": "dry_run"
+    },
+    {
+      "model_id": "recurrentgemma-2b",
+      "status": "dry_run"
+    },
+    {
+      "model_id": "bitnet-2b",
+      "status": "dry_run"
+    },
+    {
+      "model_id": "mistral-7b",
+      "status": "dry_run"
+    }
+  ]
+}

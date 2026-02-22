@@ -1,9 +1,12 @@
 # Balanced Sashimi: Experiment Results Ledger
 
 **Project:** ShortcutForge — Hybrid Continuous-Ternary Architecture
+**Version:** 2.0
 **Started:** February 2026
 **Hardware:** Apple M1 Max 64GB (local); cloud bursts as noted
 **Eval set:** 100 frozen examples (`training_data/shortcutdsl_eval.jsonl`)
+
+Dual-stream results ledger: architecture validation + process evaluation validation.
 
 ---
 
@@ -69,8 +72,8 @@
 
 | Metric | Value | Notes |
 |---|---|---|
-| Precision (OOD detection) | | Target: ≥99% |
-| Recall (OOD detection) | | Target: ≥95% |
+| Precision (OOD detection) | | Target: >=99% |
+| Recall (OOD detection) | | Target: >=95% |
 | F1 | | |
 | False accept rate | | In-domain classified as OOD |
 | False reject rate | | OOD classified as in-domain |
@@ -234,6 +237,17 @@ Copy this block for each configuration tested.
 | share_sheet | | | | |
 | morning_routine | | | | |
 
+**Behavioral Fingerprint:**
+
+| Metric | Value | Notes |
+|---|---|---|
+| Action selection entropy (mean) | | Lower = more discrete |
+| Output variance eigenvalue ratio | | Higher = clearer restriction sites |
+| Cross-seed fingerprint correlation | | Higher = more stable behavior |
+| Fingerprint checkpoint: step 200 | | Captured [ ] Yes / [ ] No |
+| Fingerprint checkpoint: step 500 | | Captured [ ] Yes / [ ] No |
+| Fingerprint checkpoint: step 1000 | | Captured [ ] Yes / [ ] No |
+
 **Observations:**
 
 **Decision:** [ ] Promising / [ ] Neutral / [ ] Abandon variant
@@ -248,17 +262,18 @@ Copy this block for each configuration tested.
 
 **Configuration held constant:** [best configuration from Cycle 2]
 
-| Bottleneck dim (d) | Compile strict % | Compile permissive % | Effective rank | Separability | PAB Stability (S̄) | PAB Tier1 Conv. Step | PAB Crystal. Rate | Notes |
-|---|---|---|---|---|---|---|---|---|
-| 32 | | | | | | | | |
-| 64 | | | | | | | | |
-| 128 | | | | | | | | |
-| 256 | | | | | | | | |
-| 384 (full) | | | | | | | | |
+| Bottleneck dim (d) | Compile strict % | Compile permissive % | Effective rank | Separability | PAB Stability (S̄) | PAB Tier1 Conv. Step | PAB Crystal. Rate | Fingerprint Stability | Notes |
+|---|---|---|---|---|---|---|---|---|---|
+| 32 | | | | | | | | | |
+| 64 | | | | | | | | | |
+| 128 | | | | | | | | | |
+| 256 | | | | | | | | | |
+| 384 (full) | | | | | | | | | |
 
 **Critical dimension** (smallest d where compile strict ≥ 90%): ______
 **Fastest crystallization** (smallest d with crystallization_rate > 0.002): ______
 **Most stable training** (d with lowest PAB stability_mean): ______
+**Most stable fingerprint** (d with highest cross-seed fingerprint correlation): ______
 
 **Observations:**
 
@@ -270,17 +285,19 @@ Copy this block for each configuration tested.
 
 *Purpose: Isolate the contribution of each negative learning component.*
 
-| Configuration | Compile strict % | Separability | Failure entropy | PAB Stability (S̄) | PAB Predictability | Unstable Domains | Notes |
-|---|---|---|---|---|---|---|---|
-| CE only (no negatives) | | | | | | | |
-| CE + L_margin | | | | | | | |
-| CE + L_repair | | | | | | | |
-| CE + L_margin + L_repair (full) | | | | | | | |
-| CE + L_margin + L_repair + adaptive λ | | | | | | | |
+| Configuration | Compile strict % | Separability | Failure entropy | PAB Stability (S̄) | PAB Predictability | Unstable Domains | Fingerprint Stability | Notes |
+|---|---|---|---|---|---|---|---|---|
+| CE only (no negatives) | | | | | | | | |
+| CE + L_margin | | | | | | | | |
+| CE + L_repair | | | | | | | | |
+| CE + L_margin + L_repair (full) | | | | | | | | |
+| CE + L_margin + L_repair + adaptive λ | | | | | | | | |
 
 **Key finding (endpoint):** Which negative learning component contributes most to compile rate?
 
 **Key finding (trajectory):** Does negative learning change the *stability* of training, even when endpoint metrics are similar? Do runs with negatives have fewer "unstable" domains?
+
+**Key finding (behavioral):** Does negative learning produce more discrete/stable behavioral fingerprints?
 
 **Observations:**
 
@@ -290,18 +307,208 @@ Copy this block for each configuration tested.
 
 *Purpose: Compare distillation path vs. direct training vs. from-scratch.*
 
-| Track | Description | Compile strict % | Compile permissive % | Separability | OOD F1 | Params (M) | Latency p95 (ms) | PAB Stability (S̄) | PAB Regime |
-|---|---|---|---|---|---|---|---|---|---|
-| A | Teacher-distilled | | | | | | | | |
-| B | Direct tiny-specialist | | | | | | | | |
-| C | From-scratch ablation | | | | | | | | |
-| BL-1 | Existing 8B baseline | 85.0% | 89.0% | N/A | N/A | ~8000 | TBD | N/A | N/A |
+| Track | Description | Compile strict % | Compile permissive % | Separability | OOD F1 | Params (M) | Latency p95 (ms) | PAB Stability (S̄) | PAB Regime | Fingerprint Stability | Fingerprint Discreteness |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| A | Teacher-distilled | | | | | | | | | | |
+| B | Direct tiny-specialist | | | | | | | | | | |
+| C | From-scratch ablation | | | | | | | | | | |
+| BL-1 | Existing 8B baseline | 85.0% | 89.0% | N/A | N/A | ~8000 | TBD | N/A | N/A | N/A | N/A |
 
 **Trajectory comparison**: Do the three tracks have qualitatively different learning trajectories? Does Track A (distilled) learn more smoothly than Track B (direct)? Does Track C (from-scratch) show a longer "chaotic" phase before stabilization?
 
 **Observations:**
 
 **Key finding:**
+
+---
+
+## Experiment Cycle 6: PAB Framework Empirical Validation
+
+*Purpose: Empirically test PAB's theoretical claims against traditional benchmark evaluation. Each experiment tests a specific claim by comparing PAB predictions against traditional evaluation on stress tests.*
+
+### EXP-6.1: Similar Endpoints, Different Trajectories (PAB Claim 1)
+
+**Date:** ____
+**Configuration pair:**
+- Config A: ______ (compile strict: ___%)
+- Config B: ______ (compile strict: ___%)
+- Endpoint difference: ≤2%
+
+**PAB trajectory comparison:**
+
+| Metric | Config A | Config B |
+|---|---|---|
+| PAB stability_mean | | |
+| PAB predictability | | |
+| PAB regime | | |
+
+**Stress test results:**
+
+| Stress Test | Config A | Config B | Better performer |
+|---|---|---|---|
+| Distribution shift (unseen domains) | | | |
+| Adversarial near-miss prompts | | | |
+| Data corruption (noisy final 10%) | | | |
+
+**PAB prediction (better trajectory → more robust):** [ ] Confirmed / [ ] Refuted / [ ] Inconclusive
+**Traditional benchmark prediction:** [ ] Both equivalent (correct) / [ ] Differentiated (wrong — shouldn't have)
+
+**Observations:**
+
+---
+
+### EXP-6.2: Trajectory Stability vs Generalization (PAB Claim 2)
+
+**Date:** ____
+
+**Ranking comparison:**
+
+| Configuration | PAB Stability Rank | Generalization Rank | Delta |
+|---|---|---|---|
+| | | | |
+
+**Correlation:** Spearman rho = ______ (target: > 0.7)
+**p-value:** ______
+
+**Early stopping comparison:**
+
+| Method | Mean held-out performance | Overfitting detected at step | Notes |
+|---|---|---|---|
+| Traditional (patience-based) | | | |
+| PAB convergence detection | | | |
+
+**PAB prediction (stability → generalization):** [ ] Confirmed / [ ] Refuted / [ ] Inconclusive
+
+**Observations:**
+
+---
+
+### EXP-6.3: Class-wise Progression vs Domain Augmentation (PAB Claim 3)
+
+**Date:** ____
+
+**PAB-identified fragile domains:** ______
+
+**Augmentation comparison:**
+
+| Method | Data added | Previously-unstable domains stabilized | Compile rate change | Notes |
+|---|---|---|---|---|
+| PAB-targeted augmentation | | | | |
+| Random augmentation (same size) | | | | |
+
+**PAB prediction (targeted > random):** [ ] Confirmed / [ ] Refuted / [ ] Inconclusive
+
+**Observations:**
+
+---
+
+### EXP-6.4: Feature Importance Consistency (PAB Claim 4)
+
+**Date:** ____
+
+**Feature importance consistency (L) by configuration type:**
+
+| Config Type | L value | Adversarial vulnerability (% fooled) | Representation drift (200 more steps) | Notes |
+|---|---|---|---|---|
+| Ternary | | | | |
+| Continuous | | | | |
+| Partial ternary | | | | |
+
+**Correlation (L vs adversarial vulnerability):** Spearman rho = ______ (prediction: negative, < -0.5)
+**Ternary L > Continuous L:** [ ] Yes / [ ] No (prediction: Yes)
+
+**Observations:**
+
+---
+
+### EXP-6.5: Predictability vs Reproducibility (PAB Claim 5)
+
+**Date:** ____
+
+| Configuration | PAB Predictability Var(ΔL) | Cross-seed variance (3 seeds) | Extrapolation error (step 500→1000) | Notes |
+|---|---|---|---|---|
+| | | | | |
+
+**Correlation (predictability vs seed variance):** Spearman rho = ______ (prediction: positive, > 0.7)
+**Correlation (predictability vs extrapolation error):** Spearman rho = ______ (prediction: positive, > 0.5)
+
+**PAB prediction (low predictability → reproducible):** [ ] Confirmed / [ ] Refuted / [ ] Inconclusive
+
+**Observations:**
+
+---
+
+### EXP-6.6: Approximate vs Exact Correctness (PAB Claim 6)
+
+**Date:** ____
+
+| Configuration | PAB Stability | Strict compile rate | Permissive compile rate | Strict variance (3 seeds) | Permissive variance (3 seeds) | Notes |
+|---|---|---|---|---|---|---|
+| PAB-stable configs (mean) | | | | | | |
+| PAB-unstable configs (mean) | | | | | | |
+
+**PAB prediction (stable → lower permissive variance):** [ ] Confirmed / [ ] Refuted / [ ] Inconclusive
+
+**Observations:**
+
+---
+
+### PAB Framework Validation Summary
+
+| Claim # | Claim | Verdict | Key Evidence | Statistical Significance |
+|---|---|---|---|---|
+| 1 | Similar endpoints, different trajectories → different robustness | | | |
+| 2 | Trajectory stability predicts generalization | | | |
+| 3 | Class-wise progression enables targeted augmentation | | | |
+| 4 | Feature importance consistency detects fragile representations | | | |
+| 5 | Predictability measures training structure | | | |
+| 6 | Endpoint evaluation conflates approximate/exact correctness | | | |
+
+**Overall PAB framework assessment:** ______ of 6 claims supported. Framework [ ] validated / [ ] partially validated / [ ] not validated for constrained program synthesis.
+
+---
+
+## Experiment Cycle 7: Behavioral Verification
+
+*Purpose: Test whether training quality (PAB) predicts deployment reliability (behavioral fingerprinting).*
+
+### EXP-7.1: Fingerprint Stability Across Training Checkpoints
+
+**Date:** ____
+**Model:** Best configuration from Phase 4
+
+**Fingerprint evolution:**
+
+| Checkpoint step | Action entropy | Variance eigenvalue ratio | Δ from previous | Notes |
+|---|---|---|---|---|
+| 200 | | | — | |
+| 400 | | | | |
+| 600 | | | | |
+| 800 | | | | |
+| 1000 | | | | |
+
+**PAB-behavioral correlation:**
+
+| PAB Metric | Behavioral Metric | Spearman rho | Notes |
+|---|---|---|---|
+| Stability S(t) | Fingerprint Δ | | Prediction: negative (stable training → stable fingerprint) |
+| Crystallization rate | Variance ratio | | Prediction: positive (crystallized → discrete) |
+| Tier1 accuracy | Action entropy | | Prediction: negative (accurate → focused) |
+
+### EXP-7.2: Ternary vs Continuous Fingerprint Comparison
+
+**Date:** ____
+
+| Metric | Ternary model | Continuous model | Partial ternary model |
+|---|---|---|---|
+| Action selection entropy | | | |
+| Variance eigenvalue ratio | | | |
+| Cross-seed correlation | | | |
+| Restriction site count | | | |
+
+**Prediction (ternary → more discrete):** [ ] Confirmed / [ ] Refuted / [ ] Inconclusive
+
+**Observations:**
 
 ---
 
@@ -353,6 +560,13 @@ For the top-5 most common actions in the eval set, document the ternary weight p
 | H9 | Negative learning reduces domain-level instability (fewer "unstable" domains) | ☐ Supported / ☐ Refuted / ☐ Inconclusive | PAB domain progression comparison | |
 | H10 | PAB-informed distillation curation improves training stability and/or endpoint metrics | ☐ Supported / ☐ Refuted / ☐ Inconclusive | PAB profile comparison pre/post curation | |
 | H11 | STE training exhibits characteristic phase transitions visible in PAB stability curves | ☐ Supported / ☐ Refuted / ☐ Inconclusive | PAB stability time series | |
+| H12 | Ternary quantization bounds PAB feature importance variance (ternary forces commitment → low L) | ☐ Supported / ☐ Refuted / ☐ Inconclusive | PAB L metric comparison: ternary vs continuous | |
+| H13 | PAB trajectory stability predicts behavioral fingerprint stability across training checkpoints | ☐ Supported / ☐ Refuted / ☐ Inconclusive | PAB-behavioral Spearman correlation | |
+| H14 | Architectural decomposition produces more discrete behavioral signatures than monolithic architectures | ☐ Supported / ☐ Refuted / ☐ Inconclusive | Fingerprint comparison: decomposed vs monolithic | |
+| H15 | PAB stability ranking correlates with generalization ranking (rho > 0.7) | ☐ Supported / ☐ Refuted / ☐ Inconclusive | EXP-6.2 ranking correlation | |
+| H16 | PAB-targeted domain augmentation outperforms random augmentation for stabilizing weak domains | ☐ Supported / ☐ Refuted / ☐ Inconclusive | EXP-6.3 augmentation comparison | |
+| H17 | PAB predictability predicts cross-seed reproducibility (low Var(ΔL) → low variance across seeds) | ☐ Supported / ☐ Refuted / ☐ Inconclusive | EXP-6.5 predictability-reproducibility correlation | |
+| H18 | Configurations passing both endpoint AND trajectory gates are more robust to distribution shift than endpoint-only | ☐ Supported / ☐ Refuted / ☐ Inconclusive | EXP-6.1 stress test comparison | |
 
 ### Decision Log
 
@@ -363,6 +577,7 @@ For the top-5 most common actions in the eval set, document the ternary weight p
 | 2026-02-16 | Adaptive loss: UW-SO framework | Handles different convergence rates | Fixed λ, manual curriculum |
 | 2026-02-20 | PAB integration: adapt PABKit metrics for trajectory evaluation | STE training dynamics need monitoring beyond NaN checks; trajectory comparison enriches ablation analysis; distillation quality benefits from per-example difficulty profiling | Full PABKit dependency (rejected: too early-stage, vision-focused); no trajectory tracking (rejected: lose valuable training dynamics data) |
 | 2026-02-20 | Trajectory promotion gates alongside endpoint gates | Prevents promoting chaotic/fragile models that happen to hit endpoint targets | Endpoint-only gates (rejected: misses training reliability signal) |
+| 2026-02-20 | Reframed as dual-validation project (v2.0) | PAB/PAC theory provides foundational motivation, not add-on monitoring; behavioral verification connects training to deployment | PAB as monitoring-only (rejected: undervalues theoretical contribution); architecture-only evaluation (rejected: misses process quality signal) |
 | | | | |
 
 ---
@@ -405,6 +620,15 @@ For the top-5 most common actions in the eval set, document the ternary weight p
   "pab_crystallization": 0.68
 }
 ```
+
+## Appendix C: Compute Log
+
+| Date | Experiment | Platform | GPU | Duration | Cost | Notes |
+|---|---|---|---|---|---|---|
+| | | Local M1 Max | — | | $0 | |
+| | | Cloud | | | | |
+
+**Running total cloud spend:** $____
 
 ## Appendix D: PAB Profile Schema
 
@@ -453,15 +677,47 @@ For the top-5 most common actions in the eval set, document the ternary weight p
 }
 ```
 
-## Appendix C: Compute Log
+## Appendix E: PAB Validation Protocol Results
 
-| Date | Experiment | Platform | GPU | Duration | Cost | Notes |
-|---|---|---|---|---|---|---|
-| | | Local M1 Max | — | | $0 | |
-| | | Cloud | | | | |
+*Detailed statistical tables for PAB framework empirical validation (Experiment Cycle 6).*
 
-**Running total cloud spend:** $____
+### E.1 Configuration Pair Selection for Claim 1
+
+| Pair | Config A | Config B | Compile strict A | Compile strict B | Δ | PAB stability A | PAB stability B |
+|---|---|---|---|---|---|---|---|
+| 1 | | | | | | | |
+| 2 | | | | | | | |
+| 3 | | | | | | | |
+
+### E.2 Stability-Generalization Correlation Data
+
+| Configuration | PAB S̄ | PAB Predictability | Held-out gap | Cross-domain transfer | Curriculum shift recovery |
+|---|---|---|---|---|---|
+| | | | | | |
+
+**Bootstrap 95% CI for Spearman rho (S̄ vs held-out gap):** [_____, _____]
+**p-value:** ______
+
+### E.3 Domain Augmentation Results
+
+| Domain | Pre-augmentation PAB class | Post-PAB-targeted class | Post-random class | PAB-targeted examples added | Random examples added |
+|---|---|---|---|---|---|
+| | | | | | |
+
+### E.4 Feature Importance Consistency Detail
+
+| Configuration | Weight type | L metric | Adversarial % fooled | Repr. drift (cosine) | Notes |
+|---|---|---|---|---|---|
+| | | | | | |
+
+**Bootstrap 95% CI for correlation (L vs adversarial %):** [_____, _____]
+
+### E.5 Predictability-Reproducibility Detail
+
+| Configuration | Var(ΔL) | Seed 1 compile % | Seed 2 compile % | Seed 3 compile % | σ across seeds | Predicted step-1000 from step-500 | Actual step-1000 | Error |
+|---|---|---|---|---|---|---|---|---|
+| | | | | | | | | |
 
 ---
 
-*Ledger version: 1.1. Template created 2026-02-16. Updated 2026-02-20: Added PAB trajectory profile schema, trajectory-aware comparison tables, hypotheses H8–H11. Skeleton awaiting experimental data.*
+*Ledger version: 2.0. Template created 2026-02-16. Updated 2026-02-20: Fundamental reframing with dual-stream validation, PAB empirical validation experiments (Cycle 6), behavioral verification experiments (Cycle 7), hypotheses H12–H18, PAB Validation Protocol appendix. Skeleton awaiting experimental data.*

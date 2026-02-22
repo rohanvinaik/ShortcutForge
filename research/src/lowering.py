@@ -31,19 +31,41 @@ sys.path.insert(0, str(_PROJECT_ROOT / "src"))
 
 
 # Structural tokens that terminate an ACTION's PARAM sequence in tier1_tokens
-_ACTION_TERMINATORS = frozenset({
-    "ENDACTION", "ACTION", "SHORTCUT", "ENDSHORTCUT",
-    "IF", "ELSE", "ENDIF",
-    "REPEAT", "ENDREPEAT",
-    "MENU", "ENDMENU",
-    "FOREACH", "ENDFOREACH",
-    "SET",
-})
+_ACTION_TERMINATORS = frozenset(
+    {
+        "ENDACTION",
+        "ACTION",
+        "SHORTCUT",
+        "ENDSHORTCUT",
+        "IF",
+        "ELSE",
+        "ENDIF",
+        "REPEAT",
+        "ENDREPEAT",
+        "MENU",
+        "ENDMENU",
+        "FOREACH",
+        "ENDFOREACH",
+        "SET",
+    }
+)
 
 
 # ---------------------------------------------------------------------------
 # Slot/param lookup helpers
 # ---------------------------------------------------------------------------
+
+
+def _find_block_for_slot(
+    source_param: str,
+    blocks: list[Tier2Block],
+) -> Tier2Block | None:
+    """Find the tier2 block that owns *source_param*, or fall back to the first block."""
+    for block in blocks:
+        if source_param in block.tokens:
+            return block
+    # Fallback: first block (if any)
+    return blocks[0] if blocks else None
 
 
 def _build_slot_map(
@@ -52,21 +74,9 @@ def _build_slot_map(
     """Build (action_index, param_name) -> slot value mapping."""
     slot_by_action_param: dict[tuple[int, str], str] = {}
     for slot in example.tier3_slots:
-        # Find which action this slot belongs to by matching source_param
-        # against tier2_blocks
-        for block in example.tier2_blocks:
-            if slot.source_param in block.tokens:
-                slot_by_action_param[(block.action_index, slot.source_param)] = (
-                    slot.value
-                )
-                break
-        else:
-            # Fallback: assign to first block that references this param
-            for block in example.tier2_blocks:
-                slot_by_action_param[(block.action_index, slot.source_param)] = (
-                    slot.value
-                )
-                break
+        block = _find_block_for_slot(slot.source_param, example.tier2_blocks)
+        if block is not None:
+            slot_by_action_param[(block.action_index, slot.source_param)] = slot.value
     return slot_by_action_param
 
 
@@ -150,6 +160,88 @@ _SIMPLE_TOKEN_MAP: dict[str, str] = {
 
 
 # ---------------------------------------------------------------------------
+# Per-token dispatch handlers for lower_typed_ir_to_dsl
+# ---------------------------------------------------------------------------
+
+# Return type for _handle_* helpers: (lines_to_append, new_action_index, new_i).
+_HandleResult = tuple[list[str], int, int]
+
+
+def _handle_shortcut(
+    _tokens: list[str],
+    i: int,
+    action_index: int,
+    _block_map: dict,
+    _slot_map: dict,
+    shortcut_name: str,
+) -> _HandleResult:
+    return [f'SHORTCUT "{shortcut_name}"'], action_index, i + 1
+
+
+def _handle_action(
+    tokens: list[str],
+    i: int,
+    action_index: int,
+    block_map: dict,
+    slot_map: dict,
+    _name: str,
+) -> _HandleResult:
+    line, new_i = _lower_action(
+        tokens,
+        i,
+        block_map.get(action_index),
+        action_index,
+        slot_map,
+    )
+    return [line], action_index + 1, new_i
+
+
+def _handle_endaction(
+    _tokens: list[str],
+    i: int,
+    action_index: int,
+    _block_map: dict,
+    _slot_map: dict,
+    _name: str,
+) -> _HandleResult:
+    # ENDACTION is a tier1 structural marker absent from the DSL grammar
+    return [], action_index, i + 1
+
+
+def _handle_menu(
+    _tokens: list[str],
+    i: int,
+    action_index: int,
+    _block_map: dict,
+    _slot_map: dict,
+    _name: str,
+) -> _HandleResult:
+    # Grammar requires at least one CASE after MENU
+    return ['MENU "Menu"', 'CASE "Option 1"'], action_index, i + 1
+
+
+def _handle_param(
+    _tokens: list[str],
+    i: int,
+    action_index: int,
+    _block_map: dict,
+    _slot_map: dict,
+    _name: str,
+) -> _HandleResult:
+    # PARAM tokens outside ACTION context — skip the pair
+    return [], action_index, i + 2
+
+
+_TOKEN_HANDLERS = {
+    "SHORTCUT": _handle_shortcut,
+    "ACTION": _handle_action,
+    "ENDACTION": _handle_endaction,
+    "MENU": _handle_menu,
+    "PARAM": _handle_param,
+}
+
+
+# ---------------------------------------------------------------------------
 # Main lowering function
 # ---------------------------------------------------------------------------
 
@@ -160,15 +252,9 @@ def lower_typed_ir_to_dsl(example: TypedIRExample) -> str:
     Uses tier1_tokens for structure, tier2_blocks for parameters,
     and tier3_slots for free-text values. Produces DSL that passes
     lint -> parse -> validate -> compile.
-
-    Args:
-        example: Complete three-tier decomposition.
-
-    Returns:
-        DSL string ending with ENDSHORTCUT.
     """
     block_map = {block.action_index: block for block in example.tier2_blocks}
-    slot_by_action_param = _build_slot_map(example)
+    slot_map = _build_slot_map(example)
 
     lines: list[str] = []
     action_index = 0
@@ -177,45 +263,29 @@ def lower_typed_ir_to_dsl(example: TypedIRExample) -> str:
 
     while i < len(tokens):
         token = tokens[i]
+        handler = _TOKEN_HANDLERS.get(token)
 
-        if token == "SHORTCUT":
-            lines.append(f'SHORTCUT "{example.shortcut_name}"')
-            i += 1
-
-        elif token == "ACTION":
-            line, i = _lower_action(
-                tokens, i, block_map.get(action_index),
-                action_index, slot_by_action_param,
+        if handler is not None:
+            new_lines, action_index, i = handler(
+                tokens,
+                i,
+                action_index,
+                block_map,
+                slot_map,
+                example.shortcut_name,
             )
-            lines.append(line)
-            action_index += 1
+            lines.extend(new_lines)
+            continue
 
-        elif token == "ENDACTION":
-            # ENDACTION is a tier1 structural marker but does NOT exist
-            # in the ShortcutDSL grammar — silently skip it
-            i += 1
-
-        elif token == "MENU":
-            # Grammar: MENU menu_prompt _NL menu_case+ ENDMENU _NL
-            # Must have at least one CASE — we emit a default case
-            lines.append('MENU "Menu"')
-            lines.append('CASE "Option 1"')
-            i += 1
-
-        elif token == "PARAM":
-            # PARAM tokens outside of ACTION context — skip the pair
-            i += 2
-
-        elif token in _SIMPLE_TOKEN_MAP:
+        if token in _SIMPLE_TOKEN_MAP:
             lines.append(_SIMPLE_TOKEN_MAP[token])
             i += 1
+            continue
 
-        else:
-            # Unknown token — skip
-            i += 1
+        # Unknown token — skip
+        i += 1
 
-    # Grammar requires every statement to end with _NL (newline),
-    # including the final ENDSHORTCUT. Add trailing newline.
+    # Grammar requires trailing newline after ENDSHORTCUT.
     return "\n".join(lines) + "\n"
 
 

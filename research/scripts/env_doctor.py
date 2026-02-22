@@ -152,9 +152,7 @@ def check_python_version_file(report: HealthReport) -> None:
         return
 
     pinned = pv_file.read_text().strip()
-    runtime = (
-        f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
-    )
+    runtime = f"{sys.version_info.major}.{sys.version_info.minor}.{sys.version_info.micro}"
 
     if runtime.startswith(pinned.rstrip(".")) or pinned == runtime:
         report.add(
@@ -285,9 +283,7 @@ def check_imports(report: HealthReport) -> None:
             mod = importlib.import_module(module_name)
             version = getattr(mod, "__version__", "unknown")
 
-            if version != "unknown" and _version_tuple(version) < _version_tuple(
-                min_version
-            ):
+            if version != "unknown" and _version_tuple(version) < _version_tuple(min_version):
                 report.add(
                     Check(
                         name=f"import_{module_name}",
@@ -322,6 +318,15 @@ def check_imports(report: HealthReport) -> None:
                     status="error",
                     message=f"ABI error importing {module_name}: {e}",
                     suggestion="Rebuild binary packages: uv pip install --force-reinstall scikit-learn numba",
+                )
+            )
+        except Exception as e:
+            report.add(
+                Check(
+                    name=f"import_{module_name}",
+                    status="error",
+                    message=f"Unexpected import failure for {module_name}: {type(e).__name__}: {e}",
+                    suggestion="Reinstall research deps: uv pip install -e '.[research]'",
                 )
             )
 
@@ -502,9 +507,7 @@ def print_report(report: HealthReport) -> None:
     print(f"\n{'=' * 60}")
     print(" Balanced Sashimi Environment Doctor")
     print(f" Health: {summary['health'].upper()}")
-    print(
-        f" ({summary['ok']} ok, {summary['warnings']} warnings, {summary['errors']} errors)"
-    )
+    print(f" ({summary['ok']} ok, {summary['warnings']} warnings, {summary['errors']} errors)")
     print(f"{'=' * 60}\n")
 
     for check in report.checks:
@@ -520,12 +523,8 @@ def main():
     parser = argparse.ArgumentParser(
         description="Environment health checker for Balanced Sashimi research pipeline",
     )
-    parser.add_argument(
-        "--strict", action="store_true", help="Exit non-zero on any error"
-    )
-    parser.add_argument(
-        "--json", action="store_true", help="Output JSON instead of human-readable"
-    )
+    parser.add_argument("--strict", action="store_true", help="Exit non-zero on any error")
+    parser.add_argument("--json", action="store_true", help="Output JSON instead of human-readable")
     parser.add_argument(
         "--check-lock",
         action="store_true",

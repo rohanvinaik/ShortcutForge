@@ -187,9 +187,7 @@ def _expand_category(category: str, templates: list[str]) -> list[OODPrompt]:
                 prompt_text = f"{prefix}{template}{suffix}".strip()
                 # Lowercase the first character after prefix if prefix is non-empty
                 if prefix and prompt_text:
-                    prompt_text = (
-                        prefix + template[0].lower() + template[1:] + suffix
-                    )
+                    prompt_text = prefix + template[0].lower() + template[1:] + suffix
                     prompt_text = prompt_text.strip()
 
                 prompts.append(
@@ -203,9 +201,7 @@ def _expand_category(category: str, templates: list[str]) -> list[OODPrompt]:
     return prompts
 
 
-def _load_in_domain_prompts(
-    train_in: Path, in_domain_n: int
-) -> list[OODPrompt]:
+def _load_in_domain_prompts(train_in: Path, in_domain_n: int) -> list[OODPrompt]:
     """Load in-domain prompts from training data and sample."""
     print("\n=== Loading in-domain prompts ===")
 
@@ -234,25 +230,44 @@ def _load_in_domain_prompts(
     return in_domain_prompts
 
 
+def _parse_jsonl_record(line: str) -> dict | None:
+    """Safe JSON decode with error handling.
+
+    Returns parsed dict, or None on failure (invalid JSON, empty/whitespace lines).
+    """
+    stripped = line.strip()
+    if not stripped:
+        return None
+    try:
+        return json.loads(stripped)
+    except (json.JSONDecodeError, ValueError):
+        return None
+
+
+def _extract_user_message(record: dict) -> str | None:
+    """Extract the first user-role content from a messages record.
+
+    Returns the stripped user message text, or None if no user message found.
+    """
+    messages = record.get("messages", [])
+    for msg in messages:
+        if msg.get("role") == "user":
+            prompt_text = msg.get("content", "").strip()
+            return prompt_text if prompt_text else None
+    return None
+
+
 def _extract_user_prompts(train_in: Path) -> list[str]:
     """Extract user-role prompt strings from a training JSONL file."""
     raw_prompts: list[str] = []
     with open(train_in) as f:
         for line in f:
-            line = line.strip()
-            if not line:
+            record = _parse_jsonl_record(line)
+            if record is None:
                 continue
-            try:
-                record = json.loads(line)
-                messages = record.get("messages", [])
-                for msg in messages:
-                    if msg.get("role") == "user":
-                        prompt_text = msg.get("content", "").strip()
-                        if prompt_text:
-                            raw_prompts.append(prompt_text)
-                        break
-            except (json.JSONDecodeError, KeyError, IndexError):
-                continue
+            prompt = _extract_user_message(record)
+            if prompt:
+                raw_prompts.append(prompt)
     return raw_prompts
 
 
@@ -277,9 +292,7 @@ def _load_seed_file(seed_file: Path | None) -> list[OODPrompt]:
     return seed_entries
 
 
-def _combine_and_save(
-    combined: list[OODPrompt], out: Path, dry_run: bool
-) -> None:
+def _combine_and_save(combined: list[OODPrompt], out: Path, dry_run: bool) -> None:
     """Shuffle, print summary, and optionally write the combined prompt set."""
     random.shuffle(combined)
 
@@ -336,9 +349,7 @@ def main():
         default=500,
         help="Number of in-domain samples to include",
     )
-    parser.add_argument(
-        "--ood-n", type=int, default=500, help="Number of OOD samples to generate"
-    )
+    parser.add_argument("--ood-n", type=int, default=500, help="Number of OOD samples to generate")
     parser.add_argument(
         "--seed-file",
         type=Path,
@@ -346,9 +357,7 @@ def main():
         help="Optional seed file with manual OOD examples",
     )
     parser.add_argument("--seed", type=int, default=42, help="Random seed")
-    parser.add_argument(
-        "--dry-run", action="store_true", help="Count without writing output"
-    )
+    parser.add_argument("--dry-run", action="store_true", help="Count without writing output")
     parser.add_argument("-v", "--verbose", action="store_true", help="Verbose output")
     args = parser.parse_args()
 

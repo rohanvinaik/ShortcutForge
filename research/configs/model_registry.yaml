@@ -1,0 +1,60 @@
+# Model registry overrides for cross-architecture study.
+# Edit local_path and enabled fields to customize which models to use.
+
+models:
+  # --- Models already on disk ---
+  rwkv7:
+    enabled: true
+    local_path: null  # set to local path if pre-downloaded
+  cerebrum-7b:
+    enabled: true
+    local_path: null
+  mpt-7b:
+    enabled: true
+    local_path: null
+  qwen3-8b:
+    enabled: true
+    local_path: null
+  nomos-1:
+    enabled: true
+    local_path: null
+  phi-2:
+    enabled: true
+    local_path: null
+  qwen2.5-0.5b:
+    enabled: true
+    local_path: null
+  mistral-7b:
+    enabled: true
+    local_path: null
+  llama-1b:
+    enabled: true
+    local_path: null
+  qwen3-8b-base:
+    enabled: true
+    local_path: null
+
+  # --- Models to download ---
+  mamba-2.8b:
+    enabled: true
+    local_path: null
+  recurrentgemma-2b:
+    enabled: true
+    local_path: null
+  xlstm-7b:
+    enabled: true
+    local_path: null
+  bitnet-2b:
+    enabled: true
+    local_path: null
+  stripedhyena-7b:
+    enabled: true
+    local_path: null
+  jamba-tiny:
+    enabled: true
+    local_path: null
+
+# Download settings
+download:
+  cache_dir: ~/.cache/huggingface/hub
+  verify_integrity: true

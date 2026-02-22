@@ -32,9 +32,7 @@ class TestSmokeE2E(unittest.TestCase):
             examples = load_typed_ir_jsonl(FIXTURE)
             for ex in examples:
                 success, msg = roundtrip_validate(ex)
-                self.assertTrue(
-                    success, f"Roundtrip failed for {ex.shortcut_id}: {msg}"
-                )
+                self.assertTrue(success, f"Roundtrip failed for {ex.shortcut_id}: {msg}")
         except ImportError:
             self.skipTest("lowering not available")
 
@@ -55,7 +53,6 @@ class TestSmokeE2E(unittest.TestCase):
         """TernaryDecoder forward pass with tiny dimensions."""
         try:
             import torch
-
             from research.src.ternary_decoder import TernaryDecoder
 
             decoder = TernaryDecoder(
@@ -76,7 +73,6 @@ class TestSmokeE2E(unittest.TestCase):
         """CompositeLoss runs without NaN on random data."""
         try:
             import torch
-
             from research.src.losses import CompositeLoss
 
             loss_fn = CompositeLoss(initial_log_sigma=0.0)

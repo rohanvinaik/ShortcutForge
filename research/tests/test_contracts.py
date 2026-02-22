@@ -103,9 +103,7 @@ class TestTypedIRExample(unittest.TestCase):
             shortcut_name="Timer",
             tier1_tokens=["SHORTCUT", "ACTION", "ENDACTION", "ENDSHORTCUT"],
             tier2_blocks=[
-                Tier2Block(
-                    0, "is.workflow.actions.delay", ["PARAM", "WFDelayTime", "300"]
-                )
+                Tier2Block(0, "is.workflow.actions.delay", ["PARAM", "WFDelayTime", "300"])
             ],
             tier3_slots=[Tier3Slot("s1", "string", "Timer")],
             metadata={"domain": "timer", "action_count": 1},

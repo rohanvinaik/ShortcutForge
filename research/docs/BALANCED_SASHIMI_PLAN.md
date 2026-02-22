@@ -1,15 +1,24 @@
 # Balanced Sashimi: Operational Research Plan
 
-**Version:** 1.1 (PAB integration)
+**Version:** 2.0 (PAC/PAB-grounded dual-validation)
 **Date:** February 16, 2026 (updated February 20, 2026)
-**Corresponding theory document:** `BALANCED_SASHIMI_RESEARCH.md`
+**Corresponding theory document:** `BALANCED_SASHIMI_RESEARCH.md` (v1.1+)
 **Results ledger:** `EXPERIMENT_RESULTS.md`
+**Status:** PAC/PAB-grounded dual-validation operational plan.
 
 ---
 
 ## Overview
 
 This document specifies the exact sequence of work, tooling, compute decisions, and stop/go criteria for implementing and evaluating the Balanced Sashimi architecture. Each phase is self-contained and produces a working, evaluable artifact.
+
+This plan produces two categories of results:
+
+- **Stream 1 (Architecture)**: Does the hybrid continuous-ternary architecture outperform monolithic transformers on constrained program synthesis? This stream validates the core architectural hypothesis — that decomposing intent understanding (continuous) from program emission (ternary) improves compilation rates, interpretability, and efficiency.
+
+- **Stream 2 (Process Evaluation)**: Does PAB's trajectory-based evaluation framework reveal information that endpoint evaluation cannot? Is the framework empirically validated? This stream treats the research itself as a testbed for Process-Aware Benchmarking, grounded in PAC learning theory. PAB infrastructure is foundational, not auxiliary — it is built before model training because trajectory data collection must be wired in from the first training run.
+
+Every phase explicitly states what it validates in both streams. The experimental pipeline is designed so that a single set of experiments simultaneously tests both claims.
 
 **Time horizon:** 4–8 weeks for Phase 1–4. Phase 5+ is contingent on results.
 
@@ -42,123 +51,11 @@ This document specifies the exact sequence of work, tooling, compute decisions, 
 
 **Stop/go**: If >5% of training examples fail to convert (due to parsing edge cases), fix the conversion before proceeding. The typed IR must be a lossless representation of the existing DSL.
 
-### 0.2 Build Tier 1 + Tier 2 Vocabularies
-
-**What**: Enumerate the concrete token vocabularies for the structural decoder.
-
-**How**:
-```python
-# research/scripts/build_decoder_vocab.py
-# Tier 1: Scan all parsed training data for:
-#   - Structural keywords (SHORTCUT, IF, ACTION, SET, etc.)
-#   - Canonical action short names (deduplicated from catalog)
-#   - Variable patterns ($VAR_1...$VAR_N, abstract)
-#   - Handle references (@prev, @input, @item, @index, @date)
-#   - Special tokens (BOS, EOS, PAD, SEP_TIER)
-#
-# Tier 2: For each action identity in Tier 1:
-#   - Extract known parameter keys from param_schemas.json
-#   - Extract known enum values from catalog + training data
-#   - Build per-action conditional vocabulary
-```
-
-**Output**: `references/tier1_vocab.json`, `references/tier2_vocab/` (one file per action)
-
-**Validation**: Coverage check — what % of eval set actions and parameters are covered?
-
-**Compute**: Local, CPU-only, <30 minutes.
-
-### 0.3 Build Hard Negative Bank (Seed Version)
-
-**What**: Construct initial hard negative triples from existing distillation logs.
-
-**How**:
-```python
-# research/scripts/build_negative_bank.py
-# Source 1: Existing distillation_log.jsonl
-#   - For each entry where raw ≠ canonicalized:
-#     - positive = canonicalized (post-linter) → convert to typed IR
-#     - negative = raw (pre-linter) → convert to typed IR (may partially fail)
-#     - error_tags = linter repair kinds applied
-#
-# Source 2: Synthetic perturbations of training data
-#   - Action substitution (swap action for similar-name incorrect action)
-#   - Structural corruption (remove ENDIF, duplicate CASE)
-#   - Parameter mutation (change enum value to incorrect one)
-#
-# Output: training_data/hard_negative_bank.jsonl
-# Schema: {"prompt": ..., "positive_ir": [...], "negative_ir": [...],
-#           "error_tags": [...], "source": "linter|synthetic|adversarial"}
-```
-
-**Target**: ≥3,000 triples for initial training.
-
-**Compute**: Local, CPU-only, <2 hours.
-
-### 0.4 Build OOD Prompt Set
-
-**What**: Balanced in-domain / out-of-domain prompt dataset for domain gate training.
-
-**How**:
-- **In-domain** (500+ examples): Sample prompts from training data.
-- **Out-of-domain** (500+ examples): Construct manually + generate via Claude API:
-  - General knowledge questions ("What is the capital of France?")
-  - Math/science requests ("Solve this integral")
-  - Non-Shortcuts coding ("Write a Python sorting algorithm")
-  - Philosophical/open-ended ("What is consciousness?")
-  - Adversarial near-domain ("Build an Android widget for...", "Write a SwiftUI view...")
-
-**Output**: `references/ood_prompt_set.jsonl`
-**Schema**: `{"prompt": "...", "label": "in_domain" | "ood", "category": "..."}`
-
-**Compute**: Local + Claude API calls for OOD generation (~$2–5).
-
-### 0.5 Set Up PyTorch Training Infrastructure
-
-**What**: Create the project scaffolding for custom PyTorch training.
-
-**Directory structure** (under `research/`, per post-reorg layout):
-```
-research/
-├── models/           # Saved model checkpoints
-├── configs/          # YAML experiment configs
-├── src/
-│   ├── encoder.py        # Sentence transformer wrapper
-│   ├── domain_gate.py    # Binary classification head
-│   ├── intent_extractor.py  # Semantic frame extraction
-│   ├── bridge.py         # Information bottleneck
-│   ├── ternary_decoder.py   # Ternary structural decoder + STE
-│   ├── value_filler.py   # Tier 3 text generation
-│   ├── lowering.py       # Deterministic IR → DSL conversion
-│   ├── losses.py         # Composite loss with adaptive weighting
-│   ├── data.py           # DataLoader for typed IR + negatives
-│   ├── trainer.py        # Custom training loop
-│   └── evaluate.py       # Evaluation bridge to ShortcutForge pipeline
-├── scripts/
-│   ├── build_typed_ir_data.py
-│   ├── build_decoder_vocab.py
-│   ├── build_negative_bank.py
-│   └── build_ood_prompts.py
-├── tests/
-│   ├── test_ternary.py   # Unit tests for STE quantization
-│   ├── test_losses.py    # Unit tests for each loss component
-│   ├── test_lowering.py  # Round-trip lowering tests
-│   └── test_data.py      # Data loading tests
-└── requirements.txt
-```
-
-**Dependencies**:
-```
-torch>=2.0
-sentence-transformers
-pyyaml
-```
-
-**Compute**: Local, no GPU needed for setup.
-
-### 0.6 Implement PAB Profile Infrastructure
+### 0.2 Implement PAB Profile Infrastructure
 
 **What**: Build the Process-Aware Benchmarking (PAB) module that records learning trajectory metrics during training. PAB was designed by Parama Pal (Pal, 2025) and provides a formal framework for evaluating *how* models learn, not just their final metrics. We adapt its core metrics to the Balanced Sashimi training context and extend them with architecture-specific measures.
+
+PAB infrastructure is built before model training because trajectory data collection must be wired in from the first training run. Retrofitting trajectory analysis produces incomplete data.
 
 **How**:
 ```python
@@ -216,9 +113,11 @@ pyyaml
 
 **Compute**: Local, CPU-only, <1 hour.
 
-### 0.7 Implement PAB-Informed Distillation Curator
+### 0.3 Implement PAB-Informed Distillation Curator
 
 **What**: Extend the existing distillation curator (`training/distillation_curator.py`) with trajectory-aware quality filtering.
+
+This is built early because PAB-informed data curation is one of the key claims to validate — the infrastructure must exist before the experiments that test it.
 
 **How**:
 ```python
@@ -251,7 +150,152 @@ pyyaml
 
 **Compute**: One probe training pass (~250 iterations), <1 hour on MPS. Amortized by saving difficulty profiles for reuse.
 
-**Stop/go for Phase 0**: All data artifacts pass validation. Round-trip tests pass. PyTorch scaffolding has passing unit tests for data loading, ternary quantization, and PAB profiling. Estimated: **4–6 days of work.**
+### 0.4 Build Tier 1 + Tier 2 Vocabularies
+
+**What**: Enumerate the concrete token vocabularies for the structural decoder.
+
+**How**:
+```python
+# research/scripts/build_decoder_vocab.py
+# Tier 1: Scan all parsed training data for:
+#   - Structural keywords (SHORTCUT, IF, ACTION, SET, etc.)
+#   - Canonical action short names (deduplicated from catalog)
+#   - Variable patterns ($VAR_1...$VAR_N, abstract)
+#   - Handle references (@prev, @input, @item, @index, @date)
+#   - Special tokens (BOS, EOS, PAD, SEP_TIER)
+#
+# Tier 2: For each action identity in Tier 1:
+#   - Extract known parameter keys from param_schemas.json
+#   - Extract known enum values from catalog + training data
+#   - Build per-action conditional vocabulary
+```
+
+**Output**: `references/tier1_vocab.json`, `references/tier2_vocab/` (one file per action)
+
+**Validation**: Coverage check — what % of eval set actions and parameters are covered?
+
+**Compute**: Local, CPU-only, <30 minutes.
+
+### 0.5 Build Hard Negative Bank (Seed Version)
+
+**What**: Construct initial hard negative triples from existing distillation logs.
+
+**How**:
+```python
+# research/scripts/build_negative_bank.py
+# Source 1: Existing distillation_log.jsonl
+#   - For each entry where raw ≠ canonicalized:
+#     - positive = canonicalized (post-linter) → convert to typed IR
+#     - negative = raw (pre-linter) → convert to typed IR (may partially fail)
+#     - error_tags = linter repair kinds applied
+#
+# Source 2: Synthetic perturbations of training data
+#   - Action substitution (swap action for similar-name incorrect action)
+#   - Structural corruption (remove ENDIF, duplicate CASE)
+#   - Parameter mutation (change enum value to incorrect one)
+#
+# Output: training_data/hard_negative_bank.jsonl
+# Schema: {"prompt": ..., "positive_ir": [...], "negative_ir": [...],
+#           "error_tags": [...], "source": "linter|synthetic|adversarial"}
+```
+
+**Target**: ≥3,000 triples for initial training.
+
+**Compute**: Local, CPU-only, <2 hours.
+
+### 0.6 Build OOD Prompt Set
+
+**What**: Balanced in-domain / out-of-domain prompt dataset for domain gate training.
+
+**How**:
+- **In-domain** (500+ examples): Sample prompts from training data.
+- **Out-of-domain** (500+ examples): Construct manually + generate via Claude API:
+  - General knowledge questions ("What is the capital of France?")
+  - Math/science requests ("Solve this integral")
+  - Non-Shortcuts coding ("Write a Python sorting algorithm")
+  - Philosophical/open-ended ("What is consciousness?")
+  - Adversarial near-domain ("Build an Android widget for...", "Write a SwiftUI view...")
+
+**Output**: `references/ood_prompt_set.jsonl`
+**Schema**: `{"prompt": "...", "label": "in_domain" | "ood", "category": "..."}`
+
+**Compute**: Local + Claude API calls for OOD generation (~$2–5).
+
+### 0.7 Set Up PyTorch Training Infrastructure
+
+**What**: Create the project scaffolding for custom PyTorch training.
+
+**Directory structure** (under `research/`, per post-reorg layout):
+```
+research/
+├── models/           # Saved model checkpoints
+├── configs/          # YAML experiment configs
+├── src/
+│   ├── encoder.py        # Sentence transformer wrapper
+│   ├── domain_gate.py    # Binary classification head
+│   ├── intent_extractor.py  # Semantic frame extraction
+│   ├── bridge.py         # Information bottleneck
+│   ├── ternary_decoder.py   # Ternary structural decoder + STE
+│   ├── value_filler.py   # Tier 3 text generation
+│   ├── lowering.py       # Deterministic IR → DSL conversion
+│   ├── losses.py         # Composite loss with adaptive weighting
+│   ├── data.py           # DataLoader for typed IR + negatives
+│   ├── trainer.py        # Custom training loop
+│   ├── evaluate.py       # Evaluation bridge to ShortcutForge pipeline
+│   ├── behavioral_fingerprint.py  # Behavioral signature capture for decoder outputs
+│   └── pab_profile.py    # PABProfile dataclass + PABTracker
+├── scripts/
+│   ├── build_typed_ir_data.py
+│   ├── build_decoder_vocab.py
+│   ├── build_negative_bank.py
+│   └── build_ood_prompts.py
+├── tests/
+│   ├── test_ternary.py   # Unit tests for STE quantization
+│   ├── test_losses.py    # Unit tests for each loss component
+│   ├── test_lowering.py  # Round-trip lowering tests
+│   └── test_data.py      # Data loading tests
+└── requirements.txt
+```
+
+**Dependencies**:
+```
+torch>=2.0
+sentence-transformers
+pyyaml
+```
+
+**Compute**: Local, no GPU needed for setup.
+
+### 0.8 Behavioral Fingerprinting Baseline Infrastructure
+
+**What**: Build a module that captures decoder behavioral signatures (output distribution statistics on a fixed set of diagnostic probes). This enables comparison of behavioral signatures across training stages and configurations. Not a full fingerprinting system — just enough to compute:
+
+- **Action selection entropy** on diagnostic probes: Given a fixed set of prompt embeddings, measure the entropy of the decoder's output distribution over Tier 1 tokens. Lower entropy indicates more decisive action selection.
+- **Output variance matrix eigenvalues**: Collect decoder logits across the diagnostic probe set, compute the covariance matrix, and extract top eigenvalues. The eigenvalue spectrum characterizes how many independent "modes" the decoder uses.
+- **Cross-seed fingerprint correlation**: Run the same diagnostic probes with different random seeds and compute correlation between output distributions. High correlation indicates deterministic behavior; low correlation indicates seed-sensitive regions.
+
+**Implementation**:
+```python
+# research/src/behavioral_fingerprint.py
+# Captures decoder behavioral signatures on diagnostic probes.
+#
+#   fingerprinter = BehavioralFingerprint(
+#       diagnostic_probes=load_probes('references/diagnostic_probes.jsonl'),
+#       n_seeds=3
+#   )
+#   signature = fingerprinter.capture(model, device='mps')
+#   # signature.action_entropy: float (mean entropy across probes)
+#   # signature.eigenvalue_spectrum: List[float] (top-10 eigenvalues)
+#   # signature.cross_seed_correlation: float (mean pairwise correlation)
+#   # signature.probe_responses: Dict[str, List[float]] (per-probe logits)
+#   signature.save('research/models/<run_name>/fingerprint_step_N.json')
+```
+
+**Validation**: Unit tests that fingerprinter produces consistent signatures on deterministic test inputs (same model + same seed = identical fingerprint).
+
+**Compute**: Local, CPU-only, <2 hours.
+
+**Stop/go for Phase 0**: All data artifacts pass validation. Round-trip tests pass. PyTorch scaffolding has passing unit tests for data loading, ternary quantization, and PAB profiling. PAB tracker unit tests pass and produce well-formed profiles from synthetic training data. Behavioral fingerprint module produces consistent signatures on deterministic test inputs. Estimated: **4–6 days of work.**
 
 ---
 
@@ -307,6 +351,10 @@ pyyaml
 **Compute**: Local CPU, <5 minutes.
 
 **Stop/go for Phase 1**: Encoder separation ratio ≥1.5 (or fine-tuned to ≥1.5). Domain gate ≥99% precision. Vocabulary coverage ≥99%/95%. Estimated: **2–3 days.**
+
+**Dual-Stream Validation (Phase 1)**:
+- **Architecture stream**: Do the individual components (encoder, gate, vocabularies) meet quality thresholds?
+- **Process stream**: N/A for Phase 1 (no training trajectories yet — components are evaluated on static metrics). However, encoder embedding quality provides the baseline for PAB's representation evolution metric in later phases.
 
 ---
 
@@ -375,6 +423,11 @@ pyyaml
 
 **Stop/go for Phase 2**: Tier 1+2 decoder achieves ≥70% sequence accuracy with ternary weights. Compile rate (with oracle Tier 3 values) ≥80%. PAB stability_mean ≤ 0.25 (training is not chaotic). Estimated: **5–7 days.**
 
+**Dual-Stream Validation (Phase 2)**:
+- **Architecture stream**: Can the ternary decoder learn structural tokens? Does ternary improve over continuous on this sub-task?
+- **Process stream**: First real PAB trajectory data. The Phase 2 profiles become the reference for "how does a ternary decoder learn structural prediction?" Specific PAB questions: Does ternary training exhibit phase transitions in stability curves? Does crystallization correlate with accuracy improvement? These early trajectory signatures establish expectations for the full system in Phase 3.
+- **Behavioral data**: Capture decoder behavioral fingerprints at checkpoints 200, 500, and 1000 for later comparison with full-system fingerprints.
+
 ---
 
 ## Phase 3: Full Pipeline Integration (Week 3–4)
@@ -422,6 +475,11 @@ pyyaml
   - Does domain progression reveal any domain that regressed when moving from oracle to learned components?
 
 **Stop/go for Phase 3**: End-to-end system runs without crashes. First compile rate ≥ 70% (allowing for initial training suboptimality). PAB stability_mean ≤ 0.30. If compile < 50% or stability_mean > 0.5, there's a fundamental architecture or training stability bug. Estimated: **5–7 days.**
+
+**Dual-Stream Validation (Phase 3)**:
+- **Architecture stream**: Does the integrated system compile at a rate approaching the baseline?
+- **Process stream**: Does end-to-end integration preserve or disrupt the trajectory signatures observed in Phase 2? Key PAB comparison: overlay Phase 2 decoder-only profiles with Phase 3 full-system profiles. If integration introduces instability, the PAB delta identifies which component is responsible.
+- **Behavioral data**: Capture end-to-end behavioral fingerprints. Compare with Phase 2 decoder-only fingerprints — integration should produce MORE discrete fingerprints (more components constraining the output), not less.
 
 ---
 
@@ -498,9 +556,17 @@ This saves compute by killing chaotic runs earlier, while protecting slow-but-st
 
 **Stop/go for Phase 4**: At least one configuration meets or exceeds baseline compile strict rate (85%). If no configuration reaches 75%, revisit fundamental architecture assumptions. Estimated: **10–14 days.**
 
+**Dual-Stream Validation (Phase 4)**:
+- **Architecture stream**: Which configuration(s) achieve the highest compile rates? What are the key architectural contributors?
+- **Process stream**: The ablation matrix is simultaneously an experiment on PAB's discriminative power. Key questions:
+  - Do configurations with similar endpoint metrics have distinguishable PAB trajectories? (Tests Claim 1)
+  - Do PAB trajectory rankings predict generalization rankings? (Tests Claim 2)
+  - Does the trajectory comparison reveal insights that endpoint comparison cannot? (General PAB validation)
+- **Behavioral data**: Fingerprint the top-3 and bottom-3 configurations. Compute fingerprint discreteness and compare against PAB stability rankings.
+
 ---
 
-## Phase 5: Refinement and Interpretability (Weeks 6–8)
+## Phase 5: Refinement, Validation, and Interpretability (Weeks 6–8)
 
 *Contingent on Phase 4 showing at least one promising configuration.*
 
@@ -539,7 +605,41 @@ Fine-tune the best configuration from Phase 5.1 (post-distillation-refinement):
 - Ternarization schedule tuning
 - **For each hyperparameter sweep, compare PAB stability_mean and predictability_final** alongside endpoint metrics. A hyperparameter setting that improves compile rate by 1% but doubles training instability is suspect.
 
-### 5.3 Interpretability Analysis
+### 5.3 PAB Framework Empirical Validation
+
+*After ablation results are in, run the six PAB claim-specific experiments described in RESEARCH.md Section 6.6.*
+
+**Protocol**: For each of the six claims, follow the structure: Setup → Traditional evaluation → PAB evaluation → Stress test → Comparison → Statistical significance (bootstrap CIs, p-values).
+
+**Claim 1 — Trajectory Discriminability**: Identify configuration pairs with similar endpoints but different trajectories. Stress test both on OOD prompts. If the configuration with the more stable trajectory generalizes better, PAB revealed information that endpoint metrics missed.
+
+**Claim 2 — Generalization Prediction**: Correlate PAB stability ranking across all ablation configurations with their generalization ranking (performance on OOD prompt set relative to in-domain). If PAB stability rank predicts generalization rank (Spearman ρ > 0.5), trajectory analysis adds predictive value.
+
+**Claim 3 — Targeted Augmentation**: Test PAB-targeted vs random domain augmentation. Take the best configuration, identify the weakest domain via PAB domain_progression, generate targeted distillation data for that domain, and compare improvement against random augmentation of the same volume. If targeted augmentation improves the weak domain more efficiently, PAB's diagnostic value is validated.
+
+**Claim 4 — Feature Importance Consistency**: Correlate feature importance consistency (stability of encoder attention patterns across training) with adversarial robustness (performance on adversarial near-domain prompts). If models with more consistent feature importance are more robust, PAB captures a meaningful signal.
+
+**Claim 5 — Predictability-Reproducibility Correlation**: Test whether PAB predictability (low variance of loss deltas) correlates with cross-seed reproducibility (low variance of final metrics across random seeds). Run the best configuration with 5 different seeds, compute PAB predictability for each, and correlate with endpoint variance.
+
+**Claim 6 — Trajectory Stability and Deployment Variance**: Test whether PAB trajectory stability (low mean stability metric S̄) correlates with low permissive compile rate variance across different prompt distributions. Evaluate top configurations on 3 distinct prompt distributions (original eval, OOD, adversarial). If low S̄ predicts low cross-distribution variance, trajectory stability is a proxy for deployment robustness.
+
+**Compute**: Reuses Phase 4 data. Additional stress tests: 8–16 hours local MPS. Claude API for augmentation data: ~$5–10.
+
+**Stop/go**: If PAB metrics show zero correlation with any outcome metric across all six experiments, PAB validation has failed for this domain. Document finding and proceed with endpoint-only evaluation. If ≥3 of 6 claims are supported, PAB framework is empirically validated for constrained program synthesis.
+
+### 5.4 Behavioral Verification Analysis
+
+*After Phase 5.3, use behavioral fingerprinting to cross-validate PAB trajectory claims.*
+
+**Protocol**:
+1. Fingerprint the best model at different training checkpoints (every 200 steps).
+2. Correlate PAB trajectory stability with fingerprint stability.
+3. Compare fingerprint discreteness: ternary vs continuous configurations.
+4. Test the prediction: stable training (low PAB S̄) → stable deployment behavior (consistent fingerprints).
+
+**Compute**: Local, 2–4 hours (fingerprinting is inference-only).
+
+### 5.5 Interpretability Analysis
 
 For the best ternary configuration:
 1. Extract ternary weight patterns for top-20 actions.
@@ -551,7 +651,7 @@ For the best ternary configuration:
    - Which actions the model never stabilized on (may need architectural attention).
    - Whether the learning order correlates with action frequency, structural complexity, or parameter count.
 
-### 5.4 Promotion Assessment
+### 5.6 Promotion Assessment
 
 Does any configuration meet the promotion gates?
 
@@ -571,11 +671,16 @@ pab_predictability_final: ≤0.05
 pab_tier1_converged_by: ≤step 500
 pab_no_domain_regression: true
 pab_crystallization_rate: ≥0.001
+
+# Behavioral gates
+behavioral_fingerprint_stability: ≥0.85
+restriction_site_clarity: ≥3.0
+pab_behavioral_correlation: ≥0.5
 ```
 
 If yes: snapshot as new baseline, integrate into orchestrator as production option. **Archive the PAB profile alongside the model checkpoint** — it becomes the reference trajectory for future regression detection.
 
-If no: document findings, identify specific bottlenecks (endpoint gates vs. trajectory gates — which failed?), decide whether to iterate or declare research conclusions. **A model that passes endpoint gates but fails trajectory gates may still be usable but should be flagged as potentially fragile.**
+If no: document findings, identify specific bottlenecks (endpoint gates vs. trajectory gates vs. behavioral gates — which failed?), decide whether to iterate or declare research conclusions. **A model that passes endpoint gates but fails trajectory gates may still be usable but should be flagged as potentially fragile.**
 
 ---
 
@@ -601,15 +706,15 @@ Note: ternary quantization helps *inference* memory (weights pack to ~50MB at 2 
 
 | Phase | Platform | Compute Hours | Wall-Clock (est.) | Cost |
 |---|---|---|---|---|
-| Phase 0: Data prep + PAB infra | Local CPU + MPS | 10–14h | 10–14h | $0 |
+| Phase 0: Data prep + PAB infra + behavioral fingerprinting | Local CPU + MPS | 10–14h | 10–14h | $0 |
 | Phase 1: Component validation | Local CPU | 2–4h | 2–4h | $0 |
 | Phase 2: Decoder prototype | Local MPS | 8–16h | 8–16h | $0 |
 | Phase 3: Full integration | Local MPS | 8–16h | 8–16h | $0 |
 | Phase 4: Ablation matrix (8 runs) | Local MPS, 2–3 concurrent | 32–64h | **12–24h** | $0 |
-| Phase 5: Distillation refinement + tuning | Local MPS + Claude API | 24–48h | 24–48h | $5–10 |
-| **Total** | | **84–162h compute** | **64–122h wall-clock** | **$5–10** |
+| Phase 5: Distillation refinement + tuning + PAB validation + behavioral verification | Local MPS + Claude API | 32–56h | 32–56h | $5–15 |
+| **Total** | | **92–170h compute** | **72–130h wall-clock** | **$5–15** |
 
-Note: Phase 5 cost increase reflects targeted distillation data generation via Claude API for weak domains identified by PAB trajectory analysis. Phase 4 wall-clock may decrease due to PAB-informed early-exit killing failing runs sooner.
+Note: Phase 0 cost reflects reordered sub-phases with PAB infrastructure and behavioral fingerprinting moved up in priority. Phase 5 cost increase reflects targeted distillation data generation via Claude API for weak domains identified by PAB trajectory analysis, plus PAB framework validation experiments (8–16h) and behavioral verification analysis (2–4h). Phase 4 wall-clock may decrease due to PAB-informed early-exit killing failing runs sooner.
 
 The real savings come from **early pruning**: if Phase 2 stop/go kills a configuration direction, we skip entire ablation branches. And runs that fail fast (< 70% Tier 1 accuracy by step 200) can be terminated early, freeing slots for the next experiment.
 
@@ -645,6 +750,9 @@ If any single ablation run exceeds 12 hours locally, or if the ablation phase wo
 | 4 | No configuration reaches 75% compile strict | Fundamental architecture concern. Write up findings, compare with standard distillation. **Include PAB trajectory analysis in writeup — trajectory signatures may explain why** |
 | 5 | Best config stalls below 90% compile strict | Attempt PAB-informed distillation refinement (Phase 5.1). If trajectories show "unlearnable" examples or domain instability, data quality may be the bottleneck, not architecture |
 | 5 | Config passes endpoint gates but fails trajectory gates | Model is potentially fragile. Flag as experimental, do not promote to production without further stabilization |
+| 5 | PAB metrics show zero correlation with outcomes across all 6 claim experiments | Document as negative finding. PAB framework not validated for this domain. Proceed with endpoint-only evaluation. This is itself a publishable result. |
+| 5 | Behavioral fingerprints too noisy for meaningful comparison | Ternary discreteness should help. If still noisy, the behavioral verification hypothesis is not supported for these model sizes. Document and proceed without behavioral gates. |
+| Any | Dual-validation scope creep consuming >30% of compute | Deprioritize PAB validation experiments. Architecture validation is primary. |
 
 ---
 
@@ -653,10 +761,12 @@ If any single ablation run exceeds 12 hours locally, or if the ablation phase wo
 ### Data Preparation Scripts (in `research/scripts/`)
 ```
 research/scripts/build_typed_ir_data.py     # Phase 0.1: DSL → typed IR conversion
-research/scripts/build_decoder_vocab.py     # Phase 0.2: Tier 1+2 vocabulary construction
-research/scripts/build_negative_bank.py     # Phase 0.3: Hard negative triple generation
-research/scripts/build_ood_prompts.py       # Phase 0.4: OOD prompt set generation
-research/scripts/trajectory_curator.py      # Phase 0.7 / 5.1: PAB-informed distillation curation
+research/scripts/build_decoder_vocab.py     # Phase 0.4: Tier 1+2 vocabulary construction
+research/scripts/build_negative_bank.py     # Phase 0.5: Hard negative triple generation
+research/scripts/build_ood_prompts.py       # Phase 0.6: OOD prompt set generation
+research/scripts/trajectory_curator.py      # Phase 0.3 / 5.1: PAB-informed distillation curation
+research/scripts/pab_validation.py          # Phase 5.3: PAB claim-specific experiments
+research/scripts/behavioral_analysis.py     # Phase 5.4: Fingerprint stability analysis
 ```
 
 ### Model Code (in `research/src/`)
@@ -672,8 +782,9 @@ research/src/losses.py
 research/src/data.py
 research/src/trainer.py
 research/src/evaluate.py
-research/src/pab_profile.py         # PABProfile dataclass + PABTracker
-research/src/pab_comparison.py      # Multi-run trajectory comparison + plotting
+research/src/pab_profile.py                # PABProfile dataclass + PABTracker
+research/src/pab_comparison.py             # Multi-run trajectory comparison + plotting
+research/src/behavioral_fingerprint.py     # Behavioral signature capture
 ```
 
 ### Data Artifacts
@@ -691,6 +802,7 @@ references/tier2_vocab/*.json
 ```
 research/models/<run_name>/pab_profile.json      # Per-run trajectory data
 research/models/<run_name>/difficulty_report.json # Per-run example difficulty classification (if probe was run)
+research/models/<run_name>/fingerprint_step_N.json  # Per-checkpoint behavioral fingerprints
 ```
 
 ### Documentation
@@ -709,18 +821,20 @@ When we're ready to begin implementation:
 - [ ] Verify `research/` directory structure (src/, scripts/, tests/, configs/, models/)
 - [ ] Install PyTorch + sentence-transformers
 - [ ] Run `research/scripts/build_typed_ir_data.py` — convert training data
+- [ ] Implement and test `research/src/pab_profile.py` — PAB tracker and profile
+- [ ] Implement and test `research/src/pab_comparison.py` — multi-run comparison
+- [ ] Implement and test `research/src/behavioral_fingerprint.py` — behavioral signatures
 - [ ] Run `research/scripts/build_decoder_vocab.py` — build vocabularies
 - [ ] Run round-trip validation on typed IR data
 - [ ] Run `research/scripts/build_negative_bank.py` — seed negative bank
 - [ ] Run `research/scripts/build_ood_prompts.py` — build OOD set
-- [ ] Implement and test `research/src/pab_profile.py` — PAB tracker and profile
-- [ ] Implement and test `research/src/pab_comparison.py` — multi-run comparison
+- [ ] Set up PyTorch training scaffolding
 - [ ] Implement and test `research/src/ternary_decoder.py` STE quantization
 - [ ] Implement and test `research/src/losses.py` composite loss
 - [ ] Wire PAB tracker into training loop, verify profile output on toy data
 - [ ] Run toy problem validation (EXP-2.1)
-- [ ] **First real training run** (with PAB profile)
+- [ ] **First real training run** (with PAB profile + behavioral fingerprint)
 
 ---
 
-*Plan version: 1.1. Created 2026-02-16. Updated 2026-02-20: Added PAB integration (Phases 0.6–0.7, trajectory-informed early-exit, distillation refinement, trajectory promotion gates). Subject to revision based on Phase 0 findings.*
+*Plan version: 2.0. Created 2026-02-16. Updated 2026-02-20: Fundamental reframing with PAB/PAC as foundational infrastructure, dual-stream validation criteria per phase, behavioral verification integration, PAB empirical validation experiments in Phase 5.*

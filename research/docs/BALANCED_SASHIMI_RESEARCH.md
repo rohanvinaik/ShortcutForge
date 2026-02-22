@@ -2,29 +2,45 @@
 
 **Principal Investigator:** Rohan Vinaik
 **Research Partner:** Claude (Opus 4.6), Anthropic
-**Date:** February 16, 2026
-**Status:** Pre-experimental design specification (v1.1 — PAB integration)
+**Date:** February 20, 2026
+**Status:** Pre-experimental design specification (v2.0 — PAC/PAB-grounded dual-validation framework)
 **Project:** ShortcutForge — Natural Language → Apple Shortcuts Compiler
 
 ---
 
 ## Abstract
 
-We propose a novel neural architecture for domain-constrained program synthesis that exploits the asymmetry between a semi-open natural-language input space and a formally specified output space (ShortcutDSL, a typed intermediate representation for Apple Shortcuts). The architecture decomposes the generation task into functionally specialized stages — continuous input encoding, a learned information bottleneck, and a balanced ternary ({-1, 0, +1}) structural decoder — reflecting the hypothesis that *understanding intent* and *emitting correct programs* are fundamentally different computational problems requiring different computational primitives.
+We propose a dual-validation research project centered on a novel neural architecture for domain-constrained program synthesis. The project advances two co-equal claims:
 
-The system incorporates a multi-objective training regime featuring hard-negative contrastive learning derived from a deterministic linter's categorized repair taxonomy, adaptive loss weighting via learned homoscedastic uncertainty, and an explicit out-of-domain rejection gate. The existing ShortcutForge compiler stack (615-action semantic validator, 7-pass static analyzer, plist compiler with signing) serves as the deterministic verification layer, ensuring that neural output quality is measured by objective compilation metrics rather than proxy losses.
+**Architectural claim.** A hybrid continuous-ternary architecture — with continuous encoding, a learned information bottleneck, and a balanced ternary ({-1, 0, +1}) structural decoder — outperforms monolithic transformers on constrained program synthesis at equal or smaller parameter count, by exploiting the asymmetry between a semi-open natural-language input space and a formally specified output space (ShortcutDSL, a typed intermediate representation for Apple Shortcuts).
 
-This work is positioned as fundamental research into how neural networks can display reliable intelligent behavior in formally constrained domains. ShortcutForge provides a uniquely complete experimental apparatus: a verified compiler stack that delivers unambiguous success/failure signals, a categorized error taxonomy from 215 hallucination aliases and 8 repair categories, and a frozen evaluation harness of 100 examples with established baselines. The broader research program connects to questions about minimal cognitive architectures, interpretable program synthesis, and the information-theoretic limits of constrained-domain intelligence — questions relevant to challenges such as ARC-AGI.
+**Epistemological claim.** The architecture is designed to produce measurable learning trajectories, enabling Process-Aware Benchmarking (PAB) to evaluate *how* it learns, not just *what* it achieves. Trajectory evaluation reveals reliability properties — stability, structured progression, predictable convergence — invisible to endpoint metrics. Crucially, the architecture's transparency validates the evaluation framework itself: if PAB's trajectory metrics are informative anywhere, they should be maximally informative for an architecture that physically exposes its learning process through discrete weight crystallization, tier-wise progression, and modular decomposition.
+
+The system incorporates a multi-objective training regime featuring hard-negative contrastive learning derived from a deterministic linter's categorized repair taxonomy, adaptive loss weighting via learned homoscedastic uncertainty, and an explicit out-of-domain rejection gate. The existing ShortcutForge compiler stack (615-action semantic validator, 7-pass static analyzer, plist compiler with signing) serves as the deterministic verification layer, providing unambiguous compilation signals that anchor both the endpoint evaluation stream and the trajectory evaluation stream.
+
+The experimental pipeline is designed so that a single set of experiments simultaneously validates the architecture (does it work?) and the evaluation framework (does PAB predict what endpoint metrics cannot?). This dual-validation structure means negative results on either axis are informative: an architecture that trains stably but compiles poorly reveals PAB's limitations; an architecture that compiles well through chaotic training reveals endpoint evaluation's blind spots.
 
 ---
 
 ## 1. Introduction
 
-### 1.1 Motivation
+### 1.1 The Process Problem in Machine Learning
 
-Large language models used for code generation typically operate as monolithic sequence-to-sequence transducers: natural language in, program text out. This approach inherits the LLM's general capabilities (broad language understanding, world knowledge, reasoning) but also its failure modes (hallucination, syntactic imprecision, inconsistent adherence to formal constraints). For *general* programming tasks, this tradeoff is often acceptable — the output space is vast and the constraints are loose.
+PAC (Probably Approximately Correct) learning theory (Valiant, 1984) establishes the foundational guarantees for machine learning: given sufficient samples from a distribution, a learner can achieve ε-approximate, δ-probable correctness on unseen examples. Traditional ML benchmarks operationalize PAC by testing the endpoint — given a trained model, does it achieve target accuracy on a held-out set? This implicitly assumes an **Exact Learning** paradigm: the held-out set is IID with respect to training, and performance on it is a binary pass/fail signal.
 
-ShortcutForge presents a different regime entirely. The output space is:
+This assumption is adequate when training is stable and the deployment distribution matches the test distribution. It breaks down when we need to know *how reliable* a model is — not just its accuracy today, but its expected behavior under distribution shift, adversarial perturbation, or continued training. Two models with identical held-out accuracy can have vastly different reliability profiles depending on how they reached that accuracy.
+
+Process-Aware Benchmarking (PAB), introduced by Pal (2025) and formalized in PABKit, provides the correction. PAB's core insight is that **trajectory evaluation** — evaluating *how* a model reaches its endpoint — reveals reliability properties invisible to endpoint metrics. A model that converges smoothly and predictably, learning structure before details, domain by domain in a stable progression, is fundamentally more trustworthy than one that oscillated wildly and happened to land at the same final number.
+
+But PAB faces an architectural challenge: most neural architectures are opaque. PAB can measure their loss curves, but cannot decompose learning into interpretable sub-processes. The loss trajectory of a monolithic transformer conflates representation learning, structural understanding, and parametric memorization into a single scalar signal. PAB can detect instability, but cannot localize it.
+
+This motivates an architecture designed for **evaluability** — one whose internal structure exposes the learning trajectory in decomposed, interpretable terms. If PAB's theoretical claims are correct (that trajectory evaluation predicts reliability), then an architecture designed to be maximally transparent to trajectory analysis should produce maximally informative PAB metrics. If even this architecture fails to produce informative trajectories, that constrains PAB's applicability claims.
+
+The Balanced Sashimi architecture is designed with this dual purpose: to solve the program synthesis task *and* to be the ideal test case for process-aware evaluation.
+
+### 1.2 The ShortcutForge Testbed
+
+ShortcutForge compiles natural language into signed, installable Apple Shortcuts. The output space is:
 
 - **Formally specified**: ShortcutDSL has an LALR(1) grammar (`references/shortcutdsl.lark`) with unambiguous parse semantics.
 - **Finitely vocabularied**: 615 valid actions, each with known parameter schemas and type constraints.
@@ -37,9 +53,14 @@ The input space, conversely, is:
 - **Domain-constrained**: Restricted to "things Apple Shortcuts can do" — a large but bounded semantic domain.
 - **Intent-dense**: A single sentence typically encodes 1–3 functional requirements.
 
-This asymmetry — semi-open input, tightly constrained output — suggests that a monolithic transformer is architecturally mismatched to the task. It spends most of its capacity on capabilities (open-ended text generation, world knowledge) that are irrelevant or actively harmful (hallucination of plausible-but-invalid action names).
+This asymmetry — semi-open input, tightly constrained output — makes ShortcutForge uniquely suited for joint architecture-evaluation validation:
 
-### 1.2 The ShortcutForge Baseline
+1. **Deterministic verification provides unambiguous trajectory signals.** Compilation is binary — there are no proxy metrics, no subjective scores. When PAB tracks compile rate over training, the signal is exact.
+2. **Categorized errors enable PAB's class-wise analysis.** The linter's 8 repair categories (`action`, `alias_warning`, `condition`, `handle`, `interpolation`, `macro_expansion`, `structure`, `trailing_newline`) and 215 hallucination aliases map to learnable failure classes. PAB can track when each failure class is learned (resolved) during training.
+3. **The constrained output space makes behavioral fingerprinting tractable.** With 615 actions and finite structural patterns, the space of possible model behaviors is bounded — behavioral signatures are discrete and measurable.
+4. **Eight semantic domains provide natural curriculum structure.** The domain profiles (`api_pagination_fetcher`, `calendar_triage`, `clipboard_utility`, `file_router`, `health_logger`, `media_metadata_pipeline`, `morning_routine`, `share_sheet_text_cleaner`) provide natural categories for PAB's class-wise progression analysis.
+
+### 1.3 The Baseline
 
 The current ShortcutForge system uses Llama 3.1 8B (4-bit quantized) with LoRA fine-tuning, generating ShortcutDSL text that passes through a 6-phase deterministic linter before parsing and compilation. On a frozen evaluation set of 100 examples:
 
@@ -59,24 +80,34 @@ Failure analysis reveals that the 15% strict-compile failure rate decomposes int
 
 The linter currently repairs an additional ~20% of outputs that would have failed without canonicalization, across 8 repair categories: `action` (name resolution), `alias_warning`, `condition` (keyword normalization), `handle` (property stripping), `interpolation` (string repair), `macro_expansion`, `structure` (block closure), and `trailing_newline`. The 215 curated hallucination aliases map known LLM-generated action names to their canonical forms.
 
-### 1.3 Research Questions
+These metrics are an endpoint snapshot. The 85% compile rate tells us the model succeeds on 85 of 100 test cases — but it cannot tell us *how* the model learned to compile those 85, or *why* it fails on the other 15. It does not reveal whether the model learned structure first and details second (a healthy curriculum suggesting robust generalization) or memorized examples in arbitrary order (fragile, likely to degrade under distribution shift). It does not tell us which of the 8 domains are reliably learned versus sporadically correct — a domain that happens to compile 100% today may be the first to fail when prompts shift slightly.
 
-This work addresses three interconnected questions:
+PAB trajectory analysis addresses exactly these gaps. By tracking the learning trajectory across training — when each domain stabilizes, when structural tokens are mastered relative to parameters, whether convergence is smooth or chaotic — we can distinguish robust learning from lucky endpoints.
 
-1. **Architectural**: Can a functionally decomposed, hybrid continuous-ternary architecture outperform a monolithic transformer on constrained program synthesis, at equal or smaller parameter count?
+### 1.4 Research Questions
 
-2. **Representational**: What is the minimal sufficient representation of user intent for this task? How narrow can the information bottleneck be while maintaining compilation reliability?
+This work addresses five interconnected questions:
 
-3. **Training-theoretic**: Does hard-negative contrastive learning, using the linter's categorized repair taxonomy as structured error signal, produce measurably sharper decision boundaries than standard cross-entropy training?
+1. **Architectural (Q1)**: Can a functionally decomposed, hybrid continuous-ternary architecture outperform a monolithic transformer on constrained program synthesis, at equal or smaller parameter count?
 
-### 1.4 Scope and Stance
+2. **Representational (Q2)**: What is the minimal sufficient representation of user intent for this task? How narrow can the information bottleneck be while maintaining compilation reliability?
 
-This is a research project, not a product engineering effort. The existing ShortcutForge pipeline remains the production system. This work explores whether a fundamentally different architecture can yield insights about domain-constrained intelligence — insights applicable to problems beyond shortcut generation (including ARC-AGI-class reasoning in constrained domains).
+3. **Training-theoretic (Q3)**: Does hard-negative contrastive learning, using the linter's categorized repair taxonomy as structured error signal, produce measurably sharper decision boundaries than standard cross-entropy training?
 
-Concretely:
-- **Primary objective**: Deep understanding of architectural choices for constrained-domain neural program synthesis.
-- **Secondary objective**: A working system that compiles at ≥95% strict on the frozen eval set with interpretable internal representations.
+4. **Process (Q4)**: Does the architecture's learning trajectory satisfy PAB's quality criteria (stability, predictability, structured progression)? Can PAB trajectory metrics predict final performance before training completes?
+
+5. **Behavioral (Q5)**: Does training quality (as measured by PAB) predict deployment reliability (as measured by behavioral fingerprinting)?
+
+### 1.5 Scope and Stance
+
+This is a **dual-validation** research project:
+
+- **Primary objective**: Deep understanding of architectural choices for constrained-domain neural program synthesis — a working system that compiles at ≥95% strict on the frozen eval set with interpretable internal representations.
+- **Co-equal objective**: Empirical validation of PAB's theoretical claims — does trajectory evaluation actually predict things endpoint evaluation cannot? The architecture is designed to be maximally transparent to PAB, making this the strongest possible test of PAB's framework.
+- **Tertiary objective**: Empirical validation of PAB's theoretical claims in the specific sense — if trajectory evaluation is informative for *this* architecture (designed to expose trajectories), how informative is it for opaque architectures (by comparison)?
 - **Non-goal**: Replacing the production system unless this architecture demonstrably surpasses it.
+
+The existing ShortcutForge pipeline remains the production system. This work explores whether a fundamentally different architecture can yield insights about domain-constrained intelligence — insights applicable to problems beyond shortcut generation (including ARC-AGI-class reasoning in constrained domains).
 
 ---
 
@@ -118,7 +149,52 @@ The key theoretical property: **interpretability by construction.** A ternary we
 
 Recent work on ternary neural networks, particularly Microsoft's BitNet b1.58 (Ma et al., 2024), demonstrates that ternary-weight transformers can match full-precision models at equivalent scale while providing substantial efficiency gains. BitNet b1.58 uses an "absmean" quantization function during training, with weights scaled and rounded to {-1, 0, +1}. Our work extends this paradigm from general language modeling to domain-specific structured prediction, where we hypothesize ternary weights are not merely *sufficient* but *architecturally preferred* due to the categorical nature of the output decisions.
 
-### 2.4 The Argument for Architectural Decomposition
+#### 2.3.1 Ternary-PAB Synergy
+
+Ternary weights force discrete commitment: each weight must be +1, 0, or -1. This bounds PAB's feature importance variance metric L. In continuous networks, a weight at 0.001 is ambiguously "slightly relevant" or "artifact of training dynamics" — its importance can drift during fine-tuning without the network "noticing." In ternary networks, the weight is exactly 0 (provably irrelevant) or exactly ±1 (committed). This means:
+
+- **Feature importance is inherently stable across checkpoints once crystallized.** A ternary weight that has settled to +1 at checkpoint t and remains +1 at checkpoint t+k has *provably* stable feature importance. There is no continuous drift within the committed state.
+- **PAB's consistency metric L has a natural lower bound determined by crystallization rate.** As more weights crystallize (commit to their final ternary value), the fraction of stable features increases monotonically. PAB can track crystallization directly as a process metric.
+- **The architecture physically instantiates the distinction PAB measures.** PAB distinguishes stable features (consistent importance across training) from unstable features (drifting importance). Ternary weights make this distinction literal: a crystallized weight is stable by definition; an uncrystallized weight is unstable by definition.
+
+This is not a coincidence — ternary weights and process-aware evaluation are naturally synergistic because both privilege discrete commitment over continuous hedging. The architecture makes PAB's abstract metrics concrete, and PAB provides the evaluation framework that makes the architecture's learning process legible.
+
+### 2.4 PAC Learning and Process-Aware Evaluation
+
+PAC (Probably Approximately Correct) learning theory (Valiant, 1984) establishes sample complexity bounds for achieving ε-approximate, δ-probable correctness. Traditional ML benchmarks operationalize PAC by testing: given enough training data, does the model achieve target accuracy on a held-out set? This treats learning as a black box — only the endpoint matters.
+
+Process-Aware Benchmarking (PAB), introduced by Pal (2025) and formalized in PABKit, extends this framework by defining a quality function over learning *trajectories*, not just endpoints. The key insight: two models with identical final accuracy can have vastly different trajectory properties (stability, predictability, domain progression order), and these properties predict generalization reliability and deployment robustness in ways endpoint metrics cannot.
+
+PAB defines several core trajectory metrics:
+
+- **Learning stability S(T)**: Smoothness of loss trajectory. Quantifies whether training converges in a structured or chaotic manner. Computed as the mean of per-step stability scores S(t) = |L(t-1) - L(t)| / (L(t-1) + ε).
+- **Generalization efficiency G(t)**: Rate at which validation performance approaches training performance. Measures sample efficiency — how quickly the model generalizes from training signal to held-out data.
+- **Rule evolution diversity R_div**: How many distinct learning "phases" the model traverses. Low diversity suggests memorization (monotonic loss decrease); high diversity suggests structured exploration (distinct phases for different competencies).
+- **Learning predictability P_learn**: Variance of loss deltas. Low variance indicates regular, extrapolable learning (the next step's loss is predictable from the trajectory so far); high variance indicates erratic, unreliable learning.
+- **Class-wise progression**: Which output classes are learned early, late, or unstably. Reveals curriculum structure — the order in which the model acquires competencies.
+
+In our context, PAB is not merely monitoring — it is *specification*. We define what good learning looks like for this architecture as a set of testable predictions:
+
+1. **Stability should decrease monotonically as ternary weights crystallize.** As more weights commit to their final values, the loss surface becomes smoother. If stability increases during crystallization, the STE gradient mismatch is causing pathological dynamics.
+2. **Tier 1 (structural tokens) should learn before Tier 2 (parameters), which should learn before Tier 3 (values).** This is the expected curriculum for a structured decoder: learn the skeleton first, then the types, then the specifics. Violation of this order suggests the architecture is not exploiting its structural decomposition.
+3. **Domain progression should show curriculum structure.** Simple domains (e.g., `clipboard_utility`) should stabilize early; complex domains (e.g., `api_pagination_fetcher`) should stabilize late. No domain should be unstable at convergence — instability at convergence indicates the training data is contradictory or the architecture lacks capacity for that domain.
+4. **Feature importance (proxied by ternary weight sign stability) should increase monotonically after warmup.** Once the continuous warmup phase ends and ternarization begins, the fraction of crystallized weights should increase steadily. Plateaus indicate the model is stuck between discrete states.
+
+These are testable predictions that connect architectural design to PAB's evaluation framework. If the predictions hold, the architecture validates PAB (the theory correctly predicts observable trajectory properties). If PAB detects trajectory pathologies the predictions don't anticipate, PAB validates itself (it reveals information beyond what the architectural theory predicts).
+
+### 2.5 Behavioral Verification
+
+The Variance-Mediated approach from behavioral verification research (PoT/REV/HBT) provides a framework for connecting training quality to deployment reliability. The core mechanism: a model's behavioral fingerprint — the pattern of activations and outputs it produces on diagnostic probes — should be stable if the underlying representations are stable.
+
+The prediction connecting PAB to behavioral verification:
+
+- **PAB trajectory stability → behavioral fingerprint stability.** A model that trains stably (low S̄, low P) should produce consistent behavioral signatures across runs with different seeds, because stable training implies the model converges to similar representations regardless of initialization.
+- **Ternary weights produce inherently discrete behavioral signatures.** Each weight is exactly -1, 0, or +1, so output distributions are step functions over feature relevance rather than smooth curves. Discrete signatures have lower intrinsic noise.
+- **Discrete signatures → cleaner restriction sites → more reliable fingerprinting.** When behavioral fingerprinting decomposes model behavior into dimensions, discrete weights produce activation patterns that cluster tightly around a small number of distinct states. This makes restriction sites (dimensions that distinguish model behaviors) more pronounced and easier to identify.
+
+This connects training-time evaluation (PAB) to deployment-time evaluation (behavioral fingerprinting): a model that trains stably should behave predictably. The ternary architecture provides a strong test case for this connection because its discrete weight space should amplify the relationship between training stability and behavioral predictability.
+
+### 2.6 The Argument for Architectural Decomposition
 
 Monolithic transformer architectures learn to blur the boundaries between understanding, planning, and generation. This is powerful for general tasks but counterproductive when:
 
@@ -136,7 +212,12 @@ We propose decomposing the generation task into modules with distinct computatio
 | Structural Decoder | Sharp categorical selection over finite vocabulary | Ternary {-1,0,+1} | CE + margin + repair-weighted |
 | Value Filler | Open-ended text generation (short strings) | Float16 or low-bit quantized | Standard CE |
 
-This decomposition is a testable architectural hypothesis, not merely an engineering convenience.
+This decomposition is a testable architectural hypothesis, not merely an engineering convenience. Critically, the decomposition is motivated not just by engineering (each module performs different computation) but by *evaluability*:
+
+- **Each module produces a distinct trajectory measurable by PAB.** The encoder's representation evolution, the bridge's information compression dynamics, and the decoder's tier-wise progression and crystallization rate are separate, interpretable time series. PAB can analyze each independently and in combination.
+- **Each module produces a distinct behavioral signature measurable by fingerprinting.** The encoder's semantic space, the bridge's bottleneck activations, and the decoder's ternary output patterns provide three independent fingerprinting dimensions.
+- **Failures are localizable.** If PAB shows the decoder trajectory is stable but the bridge representation is oscillating, the bridge is the bottleneck. If the encoder representations stabilize early but tier-1 accuracy plateaus, the decoder is undertrained. This localization is impossible in a monolithic architecture where all components share a single loss trajectory.
+- **This is the architectural instantiation of PAB's core claim**: process evaluation reveals information that endpoint evaluation cannot, *when the architecture exposes its process*. A monolithic transformer with 85% compile rate gives PAB one scalar trajectory. This architecture gives PAB five decomposed trajectories, tier-wise progression curves, crystallization dynamics, and domain-wise accuracy series. If PAB cannot extract useful information from *this* architecture, its claims are weak. If it can, the architecture demonstrates what evaluable design looks like.
 
 ---
 
@@ -196,7 +277,6 @@ This decomposition is a testable architectural hypothesis, not merely an enginee
 │  │  VALUE FILLER (Tier 3, continuous / light quant)    │     │
 │  │  Fills free-text parameter values:                  │     │
 │  │    user strings, URLs, numbers, var references      │     │
-│  │  Small autoregressive model or template fill        │     │
 │  └─────────────────────────┬──────────────────────────┘     │
 │                            │                                 │
 │  ┌─────────────────────────▼──────────────────────────┐     │
@@ -226,6 +306,8 @@ We choose an encoder-only model rather than extracting encoder layers from a gen
 
 The encoder may be further fine-tuned via domain-specific contrastive learning (SimCSE-style) using in-domain prompt pairs.
 
+**PAB affordance**: Encoder representations enable tracking of representation evolution R(t) and domain clustering quality over training. As the encoder adapts to in-domain prompts, PAB can measure whether semantically similar prompts cluster more tightly and whether domain boundaries in the embedding space become sharper.
+
 ### 3.3 Domain Gate
 
 **Architecture**: Initially a separate classification head on the encoder output. May be implemented as:
@@ -240,6 +322,8 @@ All three will be evaluated; the simplest approach that achieves ≥99% precisio
 **Training**: Binary cross-entropy (L_ood), trained on a dedicated in-domain vs. out-of-domain prompt set (`references/ood_prompt_set.jsonl`, to be constructed).
 
 **Training-objective separation**: L_ood is trained as a separate head with its own optimization schedule. It does not compete for gradient bandwidth with the generation objectives. This reflects the architectural principle that *judgment about whether to act* is a different computation than *deciding how to act*.
+
+**PAB affordance**: Domain gate confidence distribution provides a binary signal for PAB's class-wise progression on in-domain vs. OOD classification. PAB can track when the gate achieves reliable separation and whether that separation is stable or oscillates during training.
 
 ### 3.4 Intent / Slot Extractor
 
@@ -261,6 +345,8 @@ class SemanticFrame:
 2. Error localization: if the shortcut is wrong, we can determine whether the *understanding* or the *generation* was at fault.
 3. Natural integration with the existing domain profile system (the `domain` field maps directly to ShortcutForge's 8 domain profiles).
 
+**PAB affordance**: Semantic frame extraction quality enables PAB to decompose learning into intent recognition vs. structural generation — localizing failures to understanding or production. If the extractor learns correct domains early but the decoder still fails, PAB can attribute failures to the generation stage rather than the comprehension stage.
+
 ### 3.5 Information Bridge
 
 **Architecture**: A learned bottleneck layer that transforms the continuous semantic frame into a form consumable by the ternary decoder. Options to explore:
@@ -270,6 +356,8 @@ class SemanticFrame:
 3. **Cross-attention with symbolic retrieval**: The semantic frame cross-attends to entries from the snippet registry (`references/snippet_registry.json`, ~200 micro-patterns) and macro registry (`references/macro_patterns.json`, 31 templates), allowing symbolic knowledge to augment the neural representation.
 
 The bridge is the **critical measurement point** for the information-theoretic hypothesis. By varying the bottleneck dimensionality d and measuring compile rate degradation, we directly estimate the intrinsic dimensionality of the intent → structure mapping.
+
+**PAB affordance**: The bridge is the critical measurement point for both information-theoretic analysis (bottleneck dimensionality) and process evaluation. Representation evolution R(t) tracks how the compressed representation stabilizes over training — fast stabilization with maintained compile rate indicates the bottleneck has found a sufficient compression; oscillation indicates the bottleneck dimensionality may be too narrow for the task.
 
 ### 3.6 Structural Decoder (Ternary)
 
@@ -298,6 +386,8 @@ The bridge is the **critical measurement point** for the information-theoretic h
 
 **Decoding strategy**: Autoregressive within each tier. Tier 1 tokens are emitted first (the structural skeleton), then Tier 2 tokens are emitted conditioned on the skeleton, then Tier 3 values are filled in. This mirrors compiler construction: first the AST structure, then the typed annotations, then the literal values.
 
+**PAB affordance**: Tier-wise accuracy trajectories enable PAB's class-wise progression analysis — tracking when Tier 1 (structure), Tier 2 (parameters), and Tier 3 (values) each reach proficiency provides a decomposed learning curve unavailable in monolithic decoders. Ternary crystallization provides a unique process metric unavailable in continuous architectures: the fraction of weights committed to their final ternary value is a direct, unambiguous measure of learning progress. **Behavioral verification affordance**: Ternary weights produce discrete behavioral signatures suitable for fingerprinting — each weight is exactly -1, 0, or +1, producing step-function activation patterns that cluster into identifiable behavioral states.
+
 ### 3.7 Deterministic Lowering
 
 A purely symbolic (non-neural, non-learned) module that converts the structured output of the decoder into canonical ShortcutDSL text. This is a template-based expansion:
@@ -312,6 +402,8 @@ Tier 3: [VALUE_1 = user_string]
 ```
 
 The lowered DSL text feeds directly into the existing ShortcutForge pipeline (`dsl_parser.py` → `dsl_validator.py` → `simulation_harness.py` → `shortcuts_compiler.py`).
+
+**PAB affordance**: Deterministic lowering means compilation success/failure is a pure function of the neural output — no stochastic post-processing obscures the trajectory signal. When PAB tracks compile rate over training, every change in that metric is attributable to a change in the neural model's behavior, not to randomness in the lowering step.
 
 ### 3.8 Existing Pipeline Integration
 
@@ -391,13 +483,13 @@ We adopt the **Soft Optimal Uncertainty Weighting (UW-SO)** framework, which ext
 - **Overfitting to easy tasks**: Temperature scheduling ensures harder tasks (L_margin, L_repair) retain adequate gradient signal as training progresses.
 - **Implicit curriculum**: The adaptive weights naturally discover that L_ce converges first (learn what's right), L_margin converges next (sharpen boundaries), and L_repair converges last (handle edge cases) — a data-driven curriculum that emerges from training dynamics rather than being hand-specified.
 
-### 4.4 Process-Aware Training: Trajectory Analysis for Distillation Quality
+### 4.4 Process-Aware Training
 
-Traditional model evaluation judges training runs by final metrics alone (compile rate, accuracy). We integrate **Process-Aware Benchmarking (PAB)** — a framework for analyzing *how* models learn, not just *what* they learn — into both the training loop and the distillation pipeline. PAB was designed by Parama Pal (Pal, 2025) and formalizes learning trajectory analysis within a PAC learning theory extension.
+PAB is not an external monitoring tool applied after training — it is a training-loop citizen whose metrics serve as formal quality criteria for the training run. This section describes how PAB integrates with the training loop at three levels: real-time trajectory assessment, early exit decisions, and distillation data curation.
 
-#### 4.4.1 Trajectory Metrics During Training
+#### 4.4.1 PAB as Training-Loop Citizen
 
-Every training run records a **PAB profile**: a time series of trajectory-specific metrics computed at regular checkpoints (every 50 iterations). These metrics operate on values the training loop already computes (loss, accuracy, representations) — the overhead is negligible.
+Every training run records a **PAB profile**: a time series of trajectory-specific metrics computed at every checkpoint (every 50 iterations). These metrics operate on values the training loop already computes (loss, accuracy, representations) — the overhead is negligible.
 
 **Learning stability** quantifies smoothness of training dynamics:
 ```
@@ -426,7 +518,21 @@ If Tier 1 (structural tokens) learns early and stably while Tier 3 (free values)
 
 **Ternary crystallization** tracks the percentage of decoder weights that have settled into their final ternary value ({-1, 0, +1}) and stopped changing across checkpoints. Rising crystallization indicates the weight space is converging; stalled crystallization suggests the model is stuck between discrete states.
 
-#### 4.4.2 PAB-Informed Distillation
+These metrics are not diagnostics — they are *formal quality criteria*. A training run that achieves target compile rate but shows chaotic stability, erratic predictability, or stalled crystallization is flagged as unreliable regardless of its endpoint metrics. This is PAB's central claim operationalized: process quality is a first-class evaluation dimension, not a secondary concern.
+
+#### 4.4.2 PAB-Informed Early Exit
+
+The early exit protocol implements PAB's core claim — that process quality predicts outcome quality — as a concrete training decision. When PAB metrics indicate the training trajectory has become pathological, exit early rather than wasting compute on a doomed run.
+
+Early exit triggers:
+- **Stability explosion**: If S̄(t) over a 100-step window exceeds 0.5, the training dynamics have become chaotic. The STE gradient mismatch is likely causing oscillation between ternary states.
+- **Predictability collapse**: If Var(ΔL_t) over a 100-step window exceeds 3× its value at the end of warmup, the training has become erratic.
+- **Crystallization stall**: If the crystallization rate drops below 0.0001 per step for 200 consecutive steps, the ternary weights are stuck between states — further training is unlikely to resolve this without intervention (e.g., learning rate adjustment or re-initialization).
+- **Domain regression**: If any domain's accuracy drops by more than 10% from its peak for more than 100 consecutive steps, the model is catastrophically forgetting that domain.
+
+This is not an operational hack — it is PAB's claim operationalized. If process quality predicts outcome quality, then bad process (chaotic dynamics, stalled crystallization) means the outcome is unreliable regardless of whether it accidentally hits a target number. Early exit conserves compute for configurations with healthy trajectories.
+
+#### 4.4.3 PAB-Informed Distillation Curation
 
 The distillation pipeline (Section 5) currently uses binary quality gates: a distillation example either compiles or it doesn't. PAB trajectory analysis enables a richer, second-pass quality filter:
 
@@ -442,7 +548,17 @@ The distillation pipeline (Section 5) currently uses binary quality gates: a dis
 
 4. **Iterative refinement**: After training on curated data, compare the PAB trajectory of the new run against the probe run. If specific domains or action types remain unstable, generate targeted distillation data for those failure modes and repeat.
 
-This creates a closed feedback loop: training trajectory → data curation → training trajectory → data curation, converging on a distillation dataset that produces maximally stable, structured learning.
+#### 4.4.4 The Feedback Loop
+
+The feedback loop is the point where PAB's theoretical framework becomes operationally concrete. The loop is: training trajectory → data curation → training trajectory → data curation. PAB trajectory metrics from a training run inform which examples to prioritize, which to discard, and where to generate new targeted data. The next training run on curated data produces a new trajectory, which informs the next round of curation.
+
+This creates a testable prediction: **trajectory-curated data should produce better models than randomly-curated data of the same size.** If PAB's claim that process quality predicts outcome quality is correct, then data selected to optimize process quality (stable trajectories, structured progression) should produce models with better endpoint metrics than data selected by endpoint criteria alone (compile rate of individual examples).
+
+Concretely, the test is:
+- **Control**: Select N distillation examples by binary quality gate (compiles/doesn't compile), uniformly at random from passing examples.
+- **Treatment**: Select N distillation examples by PAB-informed curation (difficulty profiling, domain balancing, destabilizer removal).
+- **Measure**: Train identical architectures on both datasets. Compare endpoint metrics (compile rate) AND trajectory metrics (stability, predictability, domain progression).
+- **Prediction**: Treatment produces higher compile rate AND better trajectory. If treatment produces better trajectory but equal compile rate, PAB is measuring real properties but they don't matter for this task at this scale. If treatment produces higher compile rate with worse trajectory, PAB's curation heuristics need revision.
 
 ### 4.5 Ternary Training Protocol
 
@@ -508,7 +624,21 @@ This conversion is deterministic and lossless — the existing validated DSL con
 
 ## 6. Evaluation Framework
 
-### 6.1 Primary Metrics (Per-Run)
+### 6.1 Two-Stream Evaluation
+
+The evaluation framework operates two streams that are individually necessary and jointly sufficient.
+
+**Stream 1 (Endpoint):** Does the architecture produce better programs? Measured by compilation metrics — parse rate, validation rate, compile rate, latency, model size. These are the metrics that matter for deployment: a model that compiles at 95% is better than one that compiles at 85%, regardless of how it learned to do so.
+
+**Stream 2 (Process):** Does the architecture learn the right way? Measured by PAB trajectory metrics — stability, predictability, tier-wise progression, crystallization rate, domain-wise accuracy evolution. These are the metrics that predict reliability: a model that trains stably and progressively is more likely to generalize, less likely to fail under distribution shift, and more amenable to continued improvement.
+
+Neither stream alone is sufficient:
+- A model that achieves high compile rates through chaotic training is fragile. It passes Stream 1 but fails Stream 2. Its 95% compile rate may drop to 80% under distribution shift because its internal representations are unstable.
+- A model that trains beautifully but compiles poorly is elegant but useless. It passes Stream 2 but fails Stream 1. Stable convergence to a bad solution is still a bad solution.
+
+The evaluation framework measures both streams and their interaction. The key question is whether Stream 2 metrics *predict* Stream 1 outcomes — does training stability predict compile rate? Does structured tier-wise progression predict generalization? If the streams correlate, PAB adds predictive power. If they don't, endpoint metrics remain the only relevant evaluation.
+
+### 6.2 Endpoint Metrics
 
 | Metric | Description | Baseline | Target |
 |---|---|---|---|
@@ -519,7 +649,7 @@ This conversion is deterministic and lossless — the existing validated DSL con
 | Compile permissive | % outputs compiling in permissive mode | 89% | ≥97% |
 | Runtime unverified | % compiling but with unresolvable semantic risk | 4% | ≤2% |
 
-### 6.2 Architecture-Specific Metrics
+### 6.3 Architecture-Specific Metrics
 
 | Metric | Description | Purpose |
 |---|---|---|
@@ -533,24 +663,9 @@ This conversion is deterministic and lossless — the existing validated DSL con
 | Inference latency (p50/p95) | End-to-end generation time on M1 Max | Target: <2s p95 |
 | Model size | Total parameters, memory footprint | Target: <500M total |
 
-### 6.3 Ablation Matrix
+### 6.4 Process Metrics (PAB)
 
-Each experiment cycle evaluates variants along these dimensions:
-
-| Dimension | Levels | Purpose |
-|---|---|---|
-| Decoder weight regime | Continuous / Partial ternary / Full ternary | Isolate ternary contribution |
-| Negative learning | Off / On (L_margin only) / On (L_margin + L_repair) | Isolate negative learning contribution |
-| Output target | Raw DSL text / Typed IR (three-tier) | Isolate structural vocabulary contribution |
-| Bottleneck size | 32 / 64 / 128 / 256 / 384 | Map intrinsic dimensionality |
-| Encoder | Frozen / Fine-tuned (domain contrastive) | Isolate encoder adaptation contribution |
-| OOD gate | Off / On | Measure gate impact on in-domain accuracy |
-
-Full factorial is 3 × 3 × 2 × 5 × 2 × 2 = 360 combinations. We use a **fractional factorial design** (resolution IV) to cover the design space in ~40–60 runs, with full factorial sweeps only for the dimensions showing strongest interactions.
-
-### 6.4 Process-Aware Benchmarking (PAB) Metrics
-
-In addition to endpoint metrics, every training run produces a **PAB profile** — a structured time series capturing the learning trajectory. These metrics are not merely diagnostic; they are formal evaluation criteria that complement endpoint metrics by measuring *how* a model reached its final performance.
+Every training run produces a **PAB profile** — a structured time series capturing the learning trajectory. These metrics are formal evaluation criteria that complement endpoint metrics by measuring *how* a model reached its final performance.
 
 #### PAB Profile Schema
 
@@ -611,7 +726,122 @@ When comparing configurations (ablation matrix, track comparison), PAB profiles 
 4. **Do ternary weights crystallize differently under different training regimes?** Compare ternary_crystallization curves across weight regime ablations.
 5. **Which domains are fragile?** Domains classified as "unstable" across multiple configurations indicate inherent difficulty, not configuration-specific issues.
 
-### 6.5 Regression and Promotion Gates
+#### PAB Validation Protocol
+
+Beyond comparing configurations, we use the PAB metrics to test whether PAB's framework is itself predictive. Four specific validation experiments:
+
+1. **Do stable trajectories produce models that generalize better to unseen prompts?** Take all configurations that achieve ≥90% compile rate on the frozen eval set. Rank by PAB stability_mean. Evaluate on a *new* held-out prompt set (never seen during training or tuning). Prediction: lower stability_mean → higher held-out compile rate.
+
+2. **Do trajectory metrics correlate with behavioral fingerprint stability?** For each configuration, compute behavioral fingerprint (Section 6.5) across 3 seeds. Compute fingerprint variance across seeds. Rank configurations by PAB stability_mean and by fingerprint variance. Prediction: Spearman rho > 0.5 between the rankings.
+
+3. **Can PAB convergence_epoch predict final performance within 10% at the halfway point?** At step 500 (of 1000), compute PAB's convergence prediction based on trajectory extrapolation. Compare to actual step-1000 performance. Prediction: prediction error < 10% for configurations with low predictability variance.
+
+4. **Does PAB-informed data curation improve outcomes vs. random curation of the same size?** Run the feedback loop experiment from Section 4.4.4. Prediction: PAB-curated data produces higher compile rate.
+
+### 6.5 Behavioral Metrics
+
+Behavioral metrics connect training-time evaluation (PAB) to deployment-time evaluation (behavioral fingerprinting). They test the prediction that training quality predicts deployment reliability.
+
+**Behavioral fingerprint discreteness.** For each decoder output, compute the distribution over the action vocabulary (615 actions). In ternary models, these distributions should be more peaked (lower entropy) than in continuous models because ternary weights enforce discrete relevance judgments. Measure: mean entropy of action selection distributions across the eval set. Lower entropy = sharper, more decisive action selection.
+
+**Restriction site clarity.** Compute the variance tensor on decoder outputs across a set of diagnostic probes (the 100 frozen eval prompts plus 50 adversarial near-miss prompts). Clear restriction sites (low variance in some dimensions, high in others) indicate the model has learned stable feature-action mappings — some features are consistently used for specific decisions, while others vary appropriately with input. Measure: ratio of max to min eigenvalues of the output variance matrix. Higher ratio = clearer restriction sites = more structured behavioral signature.
+
+**PAB-behavioral correlation.** The key prediction connecting the two evaluation streams. Rank all configurations by PAB stability_mean (training-time process quality). Independently rank by behavioral fingerprint stability (cross-seed fingerprint correlation — compute fingerprint for 3 seeds, measure pairwise correlation, average). Compute Spearman rank correlation between the two rankings. Prediction: rho > 0.7. If confirmed, training stability predicts deployment predictability. If rho < 0.3, the connection between training process and deployment behavior is weaker than PAB's framework suggests.
+
+### 6.6 PAB Framework Empirical Validation
+
+This section specifies six experiments that test PAB's theoretical claims against traditional benchmarks. Each experiment is designed so that the result is informative regardless of direction: confirmation validates PAB; refutation constrains PAB's applicability. Together, they constitute a systematic empirical assessment of process-aware evaluation.
+
+**PAB Claim 1: "Models with similar endpoint metrics can have vastly different learning trajectories."**
+
+- **Setup**: From the Phase 4 ablation matrix (Section 6.7), identify pairs of configurations that achieve similar compile rates (within 2% on the frozen eval set) but differ in PAB trajectory properties (stability_mean differs by >2×, or predictability_final differs by >2×).
+- **Traditional evaluation**: Both configurations look equally good — compile rates are indistinguishable.
+- **PAB evaluation**: The configurations have measurably different trajectories. PAB predicts the more stable configuration is more reliable.
+- **Stress test**: Evaluate both configurations under three perturbation conditions:
+  - *Distribution shift*: Unseen domains and phrasings (prompts not in training distribution).
+  - *Adversarial near-miss prompts*: Prompts that use hallucinated action names or structurally ambiguous phrasing.
+  - *Data corruption*: Retrain with noisy training data in the final 10% of iterations (label noise, action substitution).
+- **Comparison**: Measure degradation (compile rate drop) under each perturbation. Prediction: the PAB-stable configuration degrades less.
+- **Statistical significance**: Bootstrap 95% CIs on degradation difference. Report p-values from paired permutation tests.
+
+**PAB Claim 2: "Trajectory stability predicts generalization reliability."**
+
+- **Setup**: Rank all configurations from the ablation matrix by PAB stability_mean (ascending — lower is more stable).
+- **Traditional evaluation**: Rank by held-out compile rate on frozen eval set.
+- **PAB evaluation**: Rank by stability_mean. Prediction: these rankings correlate.
+- **Stress test**: Construct three independent generalization tests:
+  - *Held-out generalization gap*: Compile rate on a NEW held-out set (separate from frozen eval), minus compile rate on training examples.
+  - *Cross-domain transfer*: Train on 6 domains, evaluate on 2 held-out domains.
+  - *Performance under curriculum shift*: Change the training data ordering mid-training and measure recovery.
+- **Comparison**: Compute Spearman rho between PAB stability ranking and each generalization ranking. Prediction: rho > 0.7 for at least two of three generalization tests.
+- **Additional comparison**: Traditional early stopping (patience-based, stop when val loss increases for K consecutive checks) vs. PAB convergence detection (stop when stability and predictability meet threshold criteria). Prediction: PAB convergence detection produces models that generalize at least as well, with fewer wasted training steps.
+
+**PAB Claim 3: "Class-wise progression reveals curriculum structure that endpoint metrics miss."**
+
+- **Setup**: Use PAB domain progression to identify fragile domains — domains classified as "unstable" or "late" across multiple configurations.
+- **Traditional evaluation**: Per-domain compile rates on frozen eval set. Identifies weak domains but not *why* they're weak.
+- **PAB evaluation**: Domain progression trajectories reveal whether weak domains are consistently late-learned (hard but learnable), oscillating (training signal is contradictory), or regressing (catastrophic forgetting).
+- **Stress test**: For each fragile domain identified by PAB, inject 50 targeted augmentation examples. Separately, inject 50 random augmentation examples (from any domain). Retrain and compare.
+- **Comparison**: PAB-targeted augmentation (injecting examples for PAB-identified fragile domains) vs. random augmentation (same number of examples, randomly selected). Prediction: PAB-targeted augmentation stabilizes weak domains more efficiently — higher compile rate improvement per augmentation example.
+- **Specifics**: The 8 ShortcutForge domains provide the class structure. PAB's domain_classification field provides the fragility signal.
+
+**PAB Claim 4: "Feature importance consistency detects fragile representations."**
+
+- **Setup**: Compute PAB feature importance consistency L — operationalized as ternary weight sign stability across checkpoints. For each weight, track whether its ternary value (+1, 0, -1) changes between consecutive checkpoints. L = fraction of weights that don't change, averaged over the last 20% of training.
+- **Traditional evaluation**: No direct analog — traditional evaluation doesn't measure weight stability.
+- **PAB evaluation**: High L (>0.9) predicts robust representations. Low L (<0.7) predicts fragile representations.
+- **Stress test**: Compare high-L configurations against low-L configurations on:
+  - *Adversarial vulnerability*: Fraction of eval examples that flip from compile-success to compile-failure when one word in the prompt is substituted with a synonym.
+  - *Representation drift under continued training*: Train for 200 additional steps on the same data. Measure how much the bottleneck representation z̄ changes (cosine distance).
+- **Comparison**: Prediction: high L → low adversarial vulnerability AND low representation drift. Additionally, ternary models should have higher L than continuous models (Section 2.3.1 predicts this — ternary weights enforce discrete commitment).
+- **Statistical significance**: Report L values for all configurations, correlation with vulnerability and drift, and bootstrap CIs.
+
+**PAB Claim 5: "Learning curve predictability measures how 'structured' training is."**
+
+- **Setup**: Compute PAB predictability P = Var(ΔL_t) for all configurations.
+- **Traditional evaluation**: Loss curve visualization (qualitative) or final loss value (uninformative about trajectory structure).
+- **PAB evaluation**: Low P indicates structured, regular training. High P indicates erratic training.
+- **Stress test**:
+  - *Reproducibility*: Train each configuration with 3 different random seeds. Measure variance of final compile rate across seeds.
+  - *Extrapolation accuracy*: At step 500 (halfway), use the trajectory so far to predict step-1000 compile rate via linear extrapolation of the compile rate trajectory. Measure prediction error.
+- **Comparison**: Correlate P with (a) seed variance and (b) extrapolation error. Prediction: low P → low seed variance AND low extrapolation error. A configuration with structured, predictable training should be reproducible (same result regardless of seed) and forecastable (trajectory shape at step 500 predicts step 1000).
+- **Statistical significance**: Spearman rho for P vs. seed variance and P vs. extrapolation error. Bootstrap CIs.
+
+**PAB Claim 6: "Endpoint evaluation conflates approximate with exact correctness."**
+
+- **Setup**: Separate configurations into PAB-stable (stability_mean < median) and PAB-unstable (stability_mean > median) groups.
+- **Traditional evaluation**: Compare compile_strict rates between groups. Both groups may have similar mean compile rates.
+- **PAB evaluation**: PAB predicts that stable configurations have more *consistent* compile rates — lower variance across seeds, across domains, and across eval subsets.
+- **Stress test**: For each configuration, compute:
+  - *Cross-seed compile rate variance*: Variance of compile_strict across 3 seeds.
+  - *Cross-domain compile rate variance*: Variance of per-domain compile rates.
+  - *Strict-permissive gap*: compile_permissive - compile_strict (large gap = many "almost right" outputs).
+- **Comparison**: Prediction: PAB-stable configurations have lower cross-seed variance, lower cross-domain variance, and smaller strict-permissive gap. The strict-permissive gap is especially informative: a large gap means many outputs are "approximately correct" (pass permissive but fail strict), which endpoint evaluation treats as partial success. PAB's process metrics should predict which configurations produce genuinely correct outputs vs. outputs that happen to pass permissive thresholds.
+
+**Head-to-Head Protocol**: For each of the six claims, the experimental writeup follows a standard structure:
+1. **Setup**: Configuration selection, metric computation.
+2. **Traditional evaluation**: What standard benchmarks show.
+3. **PAB evaluation**: What PAB trajectory metrics show.
+4. **Stress test**: Perturbation or generalization challenge.
+5. **Comparison**: Side-by-side results with quantitative measures.
+6. **Statistical significance**: Bootstrap 95% confidence intervals and p-values from appropriate nonparametric tests (permutation tests for paired comparisons, Spearman for rank correlations).
+
+### 6.7 Ablation Matrix
+
+Each experiment cycle evaluates variants along these dimensions:
+
+| Dimension | Levels | Purpose |
+|---|---|---|
+| Decoder weight regime | Continuous / Partial ternary / Full ternary | Isolate ternary contribution |
+| Negative learning | Off / On (L_margin only) / On (L_margin + L_repair) | Isolate negative learning contribution |
+| Output target | Raw DSL text / Typed IR (three-tier) | Isolate structural vocabulary contribution |
+| Bottleneck size | 32 / 64 / 128 / 256 / 384 | Map intrinsic dimensionality |
+| Encoder | Frozen / Fine-tuned (domain contrastive) | Isolate encoder adaptation contribution |
+| OOD gate | Off / On | Measure gate impact on in-domain accuracy |
+
+Full factorial is 3 × 3 × 2 × 5 × 2 × 2 = 360 combinations. We use a **fractional factorial design** (resolution IV) to cover the design space in ~40–60 runs, with full factorial sweeps only for the dimensions showing strongest interactions.
+
+### 6.8 Regression and Promotion Gates
 
 Extended from the existing ShortcutForge regression gate (`training/check_regression.py`):
 
@@ -626,17 +856,24 @@ balanced_sashimi_gates:
   inference_latency_p95_ms: {max: 2000}
   model_total_params_M: {max: 500}
 
-  # Trajectory gates (PAB — new)
+  # Trajectory gates (PAB)
   pab_stability_mean: {max: 0.15}         # Training was stable, not chaotic
   pab_predictability_final: {max: 0.05}   # Loss trajectory was structured
   pab_tier1_converged_by: {max: 500}      # Structure learned in first half of training
   pab_no_domain_regression: {value: true} # No domain accuracy regressed in final 20%
   pab_crystallization_rate: {min: 0.001}  # Ternary weights are converging, not stuck
+
+  # Behavioral gates
+  behavioral_fingerprint_stability: {min: 0.85}  # Cross-seed fingerprint correlation
+  restriction_site_clarity: {min: 3.0}  # Eigenvalue ratio of output variance
+  pab_behavioral_correlation: {min: 0.5}  # PAB-behavioral Spearman rho
 ```
 
 The trajectory gates prevent promoting a model that hits endpoint targets through chaotic, unreliable training. A model that achieves 95% compile rate via a stable, predictable trajectory is more trustworthy (and more likely to generalize) than one that oscillated wildly and happened to end at the same number.
 
-### 6.6 Mandatory Test Scenarios
+The behavioral gates ensure that training quality translates to deployment predictability. A model whose behavioral fingerprint is unstable across seeds (below 0.85 correlation) may produce inconsistent results in deployment regardless of its endpoint metrics.
+
+### 6.9 Mandatory Test Scenarios
 
 1. **Short prompts** (2–8 words): "Toggle DND," "Set a timer for 5 minutes," "Log 200mg caffeine."
 2. **Long/ambiguous prompts**: "Every morning check the weather and if it's raining send me a notification, otherwise open my running playlist."
@@ -657,6 +894,8 @@ The trajectory gates prevent promoting a model that hits endpoint targets throug
 
 **Expected outcome**: Strong initial compile rates due to clean training signal. The primary question is whether ternary weights preserve or degrade quality relative to continuous weights on the same architecture.
 
+**PAB trajectory comparison**: Track A should produce the smoothest, most stable PAB trajectories of all three tracks. The teacher provides clean, consistent training signal — if PAB shows chaotic dynamics even with clean data, the STE training protocol needs adjustment. Expect: low stability_mean, early tier-1 convergence, fast crystallization. The teacher's implicit curriculum (the order in which examples appear) should transfer to the student's trajectory — PAB domain progression should mirror the teacher's domain competency profile.
+
 ### 7.2 Track B: Direct Tiny-Specialist Training
 
 **Method**: Train the Balanced Sashimi architecture directly on the existing 6,679-example training set (converted to typed IR format), without teacher distillation.
@@ -665,6 +904,8 @@ The trajectory gates prevent promoting a model that hits endpoint targets throug
 
 **Expected outcome**: Lower initial compile rates than Track A, but potentially better final performance if the negative learning and structural constraints provide stronger inductive bias than the teacher's implicit knowledge.
 
+**PAB trajectory comparison**: Track B should show slower convergence but potentially more structured domain progression than Track A. Without teacher guidance, the architecture must discover its own curriculum — PAB's domain progression will reveal whether the structural decoder's inductive bias (ternary weights, tier decomposition) naturally discovers a curriculum (simple domains first, complex domains later) or learns all domains concurrently. Expect: higher stability_mean than Track A (noisier training signal), but potentially more structured tier-wise progression (Tier 1 before Tier 2 before Tier 3, since the architecture explicitly separates them).
+
 ### 7.3 Track C: From-Scratch Ablation
 
 **Method**: Train a minimal Balanced Sashimi model with random initialization on both encoder and decoder. No pretrained encoder, no teacher distillation.
@@ -672,6 +913,8 @@ The trajectory gates prevent promoting a model that hits endpoint targets throug
 **Purpose**: Ablation to isolate the contribution of pretrained representations. If Track C approaches Track A performance, the pretrained encoder is unnecessary for this task — evidence that the task's intrinsic complexity is very low.
 
 **Expected outcome**: Significantly worse than Tracks A/B, serving as a lower bound. However, if OOD detection and hard-negative separability metrics are competitive, that suggests the *structural* contributions (ternary, negative learning, typed IR) are carrying most of the weight.
+
+**PAB trajectory comparison**: Track C should show the longest chaotic phase before stabilization, serving as the PAB baseline for "unguided learning." Without pretrained representations, the encoder must learn semantic similarity from scratch — PAB's representation evolution R(t) will show prolonged high values before stabilizing. Expect: high stability_mean, late tier-1 convergence, slow crystallization, and potentially chaotic domain progression (no natural curriculum emerges without pretrained features). Track C's PAB profile provides the reference point for "what learning looks like without architectural advantages" — improvements in Tracks A/B relative to Track C are attributable to the pretrained encoder and/or teacher distillation.
 
 ---
 
@@ -780,6 +1023,9 @@ class BalancedSashimiTrainer:
 | Three-tier decoding introduces integration complexity | Medium | Build and validate one tier at a time. Each tier is a standalone model that can be evaluated independently. |
 | Scope creep | High | Fixed ablation matrix. Cycle-level stop/go decisions. No ad hoc experiments outside the matrix. |
 | Information bridge bottleneck too narrow | Medium | Sweep dimensionality {32, 64, 128, 256, 384}. If no setting works, remove bottleneck constraint (bridge becomes full-rank). |
+| PAB metrics don't correlate with deployment quality | Medium | This is itself a research finding worth documenting — it constrains PAB's applicability claims. If PAB-behavioral correlation (Section 6.5) is below threshold (rho < 0.3), proceed with endpoint-only evaluation and report the negative result. |
+| Behavioral fingerprinting is too noisy for ternary models | Low | Ternary discreteness should help, not hurt (Section 2.5). If noisy despite discrete weights, the variance-mediated approach may need adaptation for step-function activation patterns. Report noise levels as empirical data for the behavioral verification research program. |
+| Dual-validation scope creep | Medium | PAB validation is co-equal to architecture validation but must not dominate compute. If PAB experiments (Section 6.6) consume >30% of total compute budget, deprioritize Claims 4–6 and focus on Claims 1–3. The architectural result always takes priority over the evaluation-framework result. |
 
 ---
 
@@ -810,12 +1056,44 @@ A successful Balanced Sashimi system would be *structurally interpretable* in wa
 
 This interpretability is not an afterthought — it's a design goal that flows directly from the architectural decomposition.
 
+### 10.3 Relation to Process-Aware Evaluation Research
+
+This project serves as a test case for PAB's theoretical framework. The Balanced Sashimi architecture is designed to be maximally transparent to trajectory analysis — its modular decomposition, tier-wise output structure, and ternary weight crystallization provide PAB with richer, more interpretable trajectory data than any monolithic architecture could offer.
+
+If PAB's trajectory metrics are informative for this architecture — if they predict generalization, correlate with behavioral stability, and enable more efficient data curation — that validates PAB's core claim that process evaluation adds value beyond endpoint evaluation. The strength of the validation is proportional to the architecture's transparency: because the architecture *exposes* its learning process, PAB has the best possible data to work with. Success here establishes an upper bound on PAB's utility.
+
+Conversely, if PAB's metrics are uninformative even for this architecture — if trajectory stability doesn't predict generalization, if crystallization rate doesn't correlate with reliability, if PAB-curated data doesn't improve outcomes — that constrains PAB's applicability claims. If the framework fails on its best test case, its claims for opaque architectures are weaker.
+
+Either way, the result is valuable for the process-aware evaluation research program. Positive results motivate extending PAB to less transparent architectures (with appropriate adaptations for reduced trajectory visibility). Negative results motivate revising PAB's metric definitions or reconsidering its theoretical foundations. The dual-validation structure ensures that the PAB research program gains knowledge regardless of the architectural outcome.
+
+### 10.4 Relation to Behavioral Verification Research
+
+The ternary decoder's discrete weight space provides a natural test case for behavioral fingerprinting approaches from the Variance-Mediated research program (PoT/REV/HBT). The core question: does representational discreteness aid verification?
+
+In continuous-weight architectures, behavioral fingerprints are derived from smooth activation distributions — fingerprinting requires statistical analysis to distinguish meaningful behavioral patterns from continuous noise. In ternary architectures, the weights are exactly {-1, 0, +1}, producing activation patterns that are step functions rather than smooth curves. This should produce "crisper" behavioral signatures — fingerprints with higher signal-to-noise ratio and more clearly defined restriction sites.
+
+If the experiments confirm this (restriction site clarity is higher for ternary configurations than continuous configurations in the ablation), it supports the hypothesis that representational discreteness aids verification. This connects to broader questions about model governance: if discrete-weight architectures are inherently easier to fingerprint and verify, that's a reason to prefer them in safety-critical deployments, independent of performance considerations.
+
+The connection between PAB and behavioral verification is the thread running through the project: training quality (PAB) → representation quality (interpretability) → deployment reliability (behavioral fingerprinting). Each link in this chain is testable within the experimental design.
+
 ---
 
 ## 11. References
 
-### Foundational
+### PAC Learning
+- Valiant, L. (1984). A Theory of the Learnable. *Communications of the ACM*, 27(11), 1134–1142.
+
+### Process-Aware Benchmarking
+- Pal, P. (2025). PABKit: Process-Aware Benchmarking Toolkit. GitHub: parama/pabkit. MIT License.
+  *Introduces trajectory-aware evaluation metrics (learning stability, generalization efficiency, rule evolution, class-wise progression) grounded in PAC learning theory extensions. We adapt PABKit's class-wise progression to tier-wise and domain-wise progression, and extend the stability metrics to address STE-specific training dynamics.*
+
+### Behavioral Verification
+- Variance-Mediated Behavioral Verification (PoT/REV/HBT research program). *Connects training-time process evaluation to deployment-time behavioral fingerprinting via representational stability analysis.*
+
+### Information Theory
 - Tishby, N., Pereira, F., & Bialek, W. (2000). The Information Bottleneck Method.
+
+### Multi-Task Learning
 - Kendall, A., Gal, Y., & Cipolla, R. (2018). Multi-Task Learning Using Uncertainty to Weigh Losses for Scene Geometry and Semantics. CVPR 2018.
 
 ### Ternary Networks
@@ -835,13 +1113,9 @@ This interpretability is not an afterthought — it's a design goal that flows d
 - Analytical Uncertainty-Based Loss Weighting in Multi-Task Learning. arXiv:2408.07985 (2024).
 - Investigating Uncertainty Weighting for Multi-Task Learning. IJCV 2025.
 
-### Process-Aware Benchmarking
-- Pal, P. (2025). PABKit: Process-Aware Benchmarking Toolkit. GitHub: parama/pabkit. MIT License.
-  *Introduces trajectory-aware evaluation metrics (learning stability, generalization efficiency, rule evolution, class-wise progression) grounded in PAC learning theory extensions. We adapt PABKit's class-wise progression to tier-wise and domain-wise progression, and extend the stability metrics to address STE-specific training dynamics.*
-
 ### Sentence Encoders
 - Wang, W., et al. (2020). MiniLM: Deep Self-Attention Distillation for Task-Agnostic Compression of Pre-Trained Transformers.
 
 ---
 
-*Document version: 1.1. Updated 2026-02-20: Added Process-Aware Benchmarking (PAB) integration (Sections 4.4, 6.4–6.5). Pre-experimental specification. To be updated as experimental results accumulate.*
+*Document version: 2.0. Updated 2026-02-20: Fundamental reframing with PAC/PAB as foundational motivation, behavioral verification integration, PAB empirical validation experiments, dual-stream evaluation framework.*

@@ -1,0 +1,112 @@
+# Phase 4 ablation matrix — 8 configurations
+# Each run inherits from base.yaml and overrides specific fields.
+#
+# Usage:
+#   python research/scripts/run_ablation_matrix.py --matrix-config research/configs/ablation.yaml
+
+base_config: configs/base.yaml
+
+execution:
+  max_parallel: 2       # M1 Max safe default
+  device: mps
+  seed: 42
+  max_iterations: 1000
+
+configurations:
+  # 4.1.1: Continuous baseline — no ternary, no negatives
+  "4.1.1":
+    description: "Continuous baseline"
+    overrides:
+      model:
+        decoder:
+          ternary_enabled: false
+      training:
+        loss:
+          margin: 0.0
+
+  # 4.1.2: Continuous + negatives
+  "4.1.2":
+    description: "Continuous + negatives"
+    overrides:
+      model:
+        decoder:
+          ternary_enabled: false
+      training:
+        loss:
+          margin: 0.5
+
+  # 4.1.3: Ternary, no negatives
+  "4.1.3":
+    description: "Ternary, no negatives"
+    overrides:
+      model:
+        decoder:
+          ternary_enabled: true
+      training:
+        loss:
+          margin: 0.0
+
+  # 4.1.4: Full Balanced Sashimi
+  "4.1.4":
+    description: "Full Balanced Sashimi (ternary + negatives)"
+    overrides:
+      model:
+        decoder:
+          ternary_enabled: true
+      training:
+        loss:
+          margin: 0.5
+
+  # 4.1.5: Ternary + negatives, DSL text output
+  "4.1.5":
+    description: "Ternary with DSL text output"
+    overrides:
+      model:
+        decoder:
+          ternary_enabled: true
+          output_mode: dsl_text
+      training:
+        loss:
+          margin: 0.5
+
+  # 4.1.6: Decoder-only ternary (partial)
+  "4.1.6":
+    description: "Decoder-only ternary (bridge continuous)"
+    overrides:
+      model:
+        bridge:
+          ternary_enabled: false
+        decoder:
+          ternary_enabled: true
+          partial_ternary: true
+      training:
+        loss:
+          margin: 0.5
+
+  # 4.1.7: Full Balanced Sashimi, bottleneck 64-dim
+  "4.1.7":
+    description: "Bottleneck 64-dim"
+    overrides:
+      model:
+        bridge:
+          bridge_dim: 64
+        decoder:
+          ternary_enabled: true
+          input_dim: 64
+      training:
+        loss:
+          margin: 0.5
+
+  # 4.1.8: Full Balanced Sashimi, bottleneck 256-dim
+  "4.1.8":
+    description: "Bottleneck 256-dim"
+    overrides:
+      model:
+        bridge:
+          bridge_dim: 256
+        decoder:
+          ternary_enabled: true
+          input_dim: 256
+      training:
+        loss:
+          margin: 0.5

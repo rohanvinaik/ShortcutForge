@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
-"""
-Build Tier 1 and Tier 2 decoder vocabularies from typed IR data.
+"""Build Tier 1/2 decoder vocabularies from typed IR data.
 
-Tier 1: Structural tokens (keywords, actions, control flow).
-Tier 2: Per-action parameter vocabularies (one JSON per action).
-
-Coverage is measured against the frozen eval set.
+Coverage measured against the frozen eval set.
 
 Usage:
     uv run python research/scripts/build_decoder_vocab.py -v
@@ -146,7 +142,13 @@ def _measure_tier2_coverage(eval_examples, per_action_vocabs, global_fallback):
     )
 
 
-def main():
+# ---------------------------------------------------------------------------
+# Extracted helpers for main()
+# ---------------------------------------------------------------------------
+
+
+def _parse_args() -> argparse.Namespace:
+    """Parse command-line arguments."""
     parser = argparse.ArgumentParser(
         description="Build Tier 1/2 decoder vocabularies from typed IR data",
     )
@@ -196,40 +198,49 @@ def main():
         "--dry-run", action="store_true", help="Compute vocab without writing files"
     )
     parser.add_argument("-v", "--verbose", action="store_true", help="Verbose output")
-    args = parser.parse_args()
+    return parser.parse_args()
 
-    # -----------------------------------------------------------------------
-    # 1. Load training and eval data
-    # -----------------------------------------------------------------------
-    if not args.typed_ir_train.exists():
+
+def _validate_inputs(train_path: Path, eval_path: Path) -> tuple[list, list]:
+    """Load and validate both data files, exit if not found.
+
+    Returns (train_examples, eval_examples).
+    """
+    if not train_path.exists():
         print(
-            f"ERROR: Training file not found: {args.typed_ir_train}\n"
+            f"ERROR: Training file not found: {train_path}\n"
             f"Run build_typed_ir_data.py first to generate typed IR training data:\n"
             f"  uv run python research/scripts/build_typed_ir_data.py",
             file=sys.stderr,
         )
         sys.exit(1)
 
-    print(f"Loading training data from {args.typed_ir_train} ...")
-    train_examples = load_typed_ir_jsonl(args.typed_ir_train)
+    print(f"Loading training data from {train_path} ...")
+    train_examples = load_typed_ir_jsonl(train_path)
     print(f"  Loaded {len(train_examples)} training examples.")
 
-    if not args.typed_ir_eval.exists():
+    if not eval_path.exists():
         print(
-            f"ERROR: Eval file not found: {args.typed_ir_eval}\n"
+            f"ERROR: Eval file not found: {eval_path}\n"
             f"Run build_typed_ir_data.py first to generate typed IR eval data:\n"
             f"  uv run python research/scripts/build_typed_ir_data.py",
             file=sys.stderr,
         )
         sys.exit(1)
 
-    print(f"Loading eval data from {args.typed_ir_eval} ...")
-    eval_examples = load_typed_ir_jsonl(args.typed_ir_eval)
+    print(f"Loading eval data from {eval_path} ...")
+    eval_examples = load_typed_ir_jsonl(eval_path)
     print(f"  Loaded {len(eval_examples)} eval examples.")
 
-    # -----------------------------------------------------------------------
-    # 2. Build Tier 1 vocab from training data
-    # -----------------------------------------------------------------------
+    return train_examples, eval_examples
+
+
+def _build_all_vocabs(train_examples) -> tuple[dict, dict, dict, Counter]:
+    """Build tier1 vocab, per-action tier2 vocabs, and global fallback.
+
+    Returns (tier1_vocab, per_action_vocabs, global_fallback, action_counts).
+    Prints summary info.
+    """
     print("\nBuilding Tier 1 vocabulary ...")
     tier1_vocab = _build_tier1_vocab(train_examples)
     print(
@@ -238,9 +249,6 @@ def main():
         f"{len(SPECIAL_TOKENS)} special)"
     )
 
-    # -----------------------------------------------------------------------
-    # 3. Build Tier 2 per-action vocabs from training data
-    # -----------------------------------------------------------------------
     print("\nBuilding Tier 2 per-action vocabularies ...")
     per_action_vocabs, global_fallback, action_counts = _build_tier2_vocabs(
         train_examples,
@@ -251,31 +259,32 @@ def main():
     fallback_count = total_actions_seen - dedicated_count
 
     print(f"  Unique actions in training data: {total_actions_seen}")
-    print(
-        f"  Actions with dedicated vocab (>= {MIN_ACTION_EXAMPLES} examples): "
-        f"{dedicated_count}"
-    )
-    print(
-        f"  Actions using global fallback (< {MIN_ACTION_EXAMPLES} examples): "
-        f"{fallback_count}"
-    )
+    print(f"  Actions with dedicated vocab (>= {MIN_ACTION_EXAMPLES} examples): {dedicated_count}")
+    print(f"  Actions using global fallback (< {MIN_ACTION_EXAMPLES} examples): {fallback_count}")
     print(
         f"  Global fallback vocab size: {len(global_fallback)} "
         f"({len(global_fallback) - len(SPECIAL_TOKENS)} real + "
         f"{len(SPECIAL_TOKENS)} special)"
     )
 
-    if args.verbose:
-        print("\n  Per-action vocab sizes:")
-        for action_name, vocab in sorted(per_action_vocabs.items()):
-            n_examples = action_counts[action_name]
-            print(
-                f"    {action_name}: {len(vocab)} tokens ({n_examples} training blocks)"
-            )
+    return tier1_vocab, per_action_vocabs, global_fallback, action_counts
 
-    # -----------------------------------------------------------------------
-    # 4. Measure coverage on eval set
-    # -----------------------------------------------------------------------
+
+def _print_per_action_details(per_action_vocabs, action_counts) -> None:
+    """Print per-action vocab sizes (verbose mode)."""
+    print("\n  Per-action vocab sizes:")
+    for action_name, vocab in sorted(per_action_vocabs.items()):
+        n_examples = action_counts[action_name]
+        print(f"    {action_name}: {len(vocab)} tokens ({n_examples} training blocks)")
+
+
+def _measure_all_coverage(
+    eval_examples, tier1_vocab, per_action_vocabs, global_fallback
+) -> tuple[CoverageReport, CoverageReport]:
+    """Measure tier1 and tier2 coverage on eval set, print results.
+
+    Returns (tier1_coverage, tier2_coverage).
+    """
     print("\nMeasuring coverage on eval set ...")
     tier1_coverage = _measure_tier1_coverage(eval_examples, tier1_vocab)
     tier2_coverage = _measure_tier2_coverage(
@@ -306,63 +315,82 @@ def main():
             f"{'...' if len(tier2_coverage.uncovered) > 20 else ''}"
         )
 
-    # -----------------------------------------------------------------------
-    # 5. Write outputs (unless --dry-run)
-    # -----------------------------------------------------------------------
-    if args.dry_run:
-        print("\n--dry-run: skipping file writes.")
-    else:
-        # Tier 1 vocab
-        args.tier1_out.parent.mkdir(parents=True, exist_ok=True)
-        with open(args.tier1_out, "w") as f:
-            json.dump(tier1_vocab, f, indent=2, ensure_ascii=False)
-        print(f"\nWrote tier1 vocab -> {args.tier1_out}")
+    return tier1_coverage, tier2_coverage
 
-        # Tier 2 per-action vocabs
-        args.tier2_dir.mkdir(parents=True, exist_ok=True)
-        for action_name, vocab in sorted(per_action_vocabs.items()):
-            out_path = args.tier2_dir / f"{action_name}.json"
-            with open(out_path, "w") as f:
-                json.dump(vocab, f, indent=2, ensure_ascii=False)
-        print(
-            f"Wrote {len(per_action_vocabs)} per-action tier2 vocabs -> {args.tier2_dir}/"
-        )
 
-        # Global fallback
-        fallback_path = args.tier2_dir / "_global_fallback.json"
-        with open(fallback_path, "w") as f:
-            json.dump(global_fallback, f, indent=2, ensure_ascii=False)
-        print(f"Wrote global fallback vocab -> {fallback_path}")
+def _write_vocab_artifacts(
+    args, tier1_vocab, per_action_vocabs, global_fallback, tier1_coverage, tier2_coverage
+) -> None:
+    """Handle all file I/O for vocabulary artifacts and coverage report."""
+    # Tier 1 vocab
+    args.tier1_out.parent.mkdir(parents=True, exist_ok=True)
+    with open(args.tier1_out, "w") as f:
+        json.dump(tier1_vocab, f, indent=2, ensure_ascii=False)
+    print(f"\nWrote tier1 vocab -> {args.tier1_out}")
 
-        # Coverage report
-        coverage_data = {
-            "tier1": tier1_coverage.to_dict(),
-            "tier2": tier2_coverage.to_dict(),
-        }
-        args.coverage_out.parent.mkdir(parents=True, exist_ok=True)
-        with open(args.coverage_out, "w") as f:
-            json.dump(coverage_data, f, indent=2, ensure_ascii=False)
-        print(f"Wrote coverage report -> {args.coverage_out}")
+    # Tier 2 per-action vocabs
+    args.tier2_dir.mkdir(parents=True, exist_ok=True)
+    for action_name, vocab in sorted(per_action_vocabs.items()):
+        out_path = args.tier2_dir / f"{action_name}.json"
+        with open(out_path, "w") as f:
+            json.dump(vocab, f, indent=2, ensure_ascii=False)
+    print(f"Wrote {len(per_action_vocabs)} per-action tier2 vocabs -> {args.tier2_dir}/")
 
-    # -----------------------------------------------------------------------
-    # 6. Gate: enforce minimum coverage thresholds
-    # -----------------------------------------------------------------------
+    # Global fallback
+    fallback_path = args.tier2_dir / "_global_fallback.json"
+    with open(fallback_path, "w") as f:
+        json.dump(global_fallback, f, indent=2, ensure_ascii=False)
+    print(f"Wrote global fallback vocab -> {fallback_path}")
+
+    # Coverage report
+    coverage_data = {
+        "tier1": tier1_coverage.to_dict(),
+        "tier2": tier2_coverage.to_dict(),
+    }
+    args.coverage_out.parent.mkdir(parents=True, exist_ok=True)
+    with open(args.coverage_out, "w") as f:
+        json.dump(coverage_data, f, indent=2, ensure_ascii=False)
+    print(f"Wrote coverage report -> {args.coverage_out}")
+
+
+def _enforce_gates(tier1_coverage: CoverageReport, tier2_coverage: CoverageReport) -> None:
+    """Check coverage thresholds, sys.exit(1) if failed."""
     gate_pass = True
     if tier1_coverage.coverage_pct < 98.0:
-        print(
-            f"\nFAIL: Tier 1 coverage {tier1_coverage.coverage_pct:.2f}% < 98% threshold"
-        )
+        print(f"\nFAIL: Tier 1 coverage {tier1_coverage.coverage_pct:.2f}% < 98% threshold")
         gate_pass = False
     if tier2_coverage.coverage_pct < 95.0:
-        print(
-            f"\nFAIL: Tier 2 coverage {tier2_coverage.coverage_pct:.2f}% < 95% threshold"
-        )
+        print(f"\nFAIL: Tier 2 coverage {tier2_coverage.coverage_pct:.2f}% < 95% threshold")
         gate_pass = False
 
     if gate_pass:
         print("\nPASS: All coverage gates met.")
     else:
         sys.exit(1)
+
+
+def main():
+    args = _parse_args()
+    train_examples, eval_examples = _validate_inputs(args.typed_ir_train, args.typed_ir_eval)
+    tier1_vocab, per_action_vocabs, global_fallback, action_counts = _build_all_vocabs(
+        train_examples
+    )
+
+    if args.verbose:
+        _print_per_action_details(per_action_vocabs, action_counts)
+
+    tier1_cov, tier2_cov = _measure_all_coverage(
+        eval_examples, tier1_vocab, per_action_vocabs, global_fallback
+    )
+
+    if not args.dry_run:
+        _write_vocab_artifacts(
+            args, tier1_vocab, per_action_vocabs, global_fallback, tier1_cov, tier2_cov
+        )
+    else:
+        print("\n--dry-run: skipping file writes.")
+
+    _enforce_gates(tier1_cov, tier2_cov)
 
 
 if __name__ == "__main__":

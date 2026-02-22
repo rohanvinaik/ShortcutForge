@@ -84,3 +84,15 @@ ablation:
   decoder_layers_options: [1, 2, 3]
   loss_variant_options: [composite, ce_only, margin_only]
   ternary_threshold_options: [0.01, 0.05, 0.1]
+
+# --- PAB (Process-Aware Benchmarking) ---
+pab:
+  enabled: true
+  checkpoint_interval: 50
+  early_exit_enabled: true
+  save_profiles: true
+
+# --- Evaluation ---
+evaluation:
+  fingerprint_enabled: true
+  fingerprint_save: true

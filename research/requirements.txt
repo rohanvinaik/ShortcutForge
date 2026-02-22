@@ -9,6 +9,7 @@
 torch==2.10.0
 torchvision==0.25.0
 numpy==2.3.5
+pabkit @ file:///Users/rohanvinaik/pabkit
 sentence-transformers==5.2.2
 scikit-learn==1.8.0
 scipy==1.17.0

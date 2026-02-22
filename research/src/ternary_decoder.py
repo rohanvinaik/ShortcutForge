@@ -100,6 +100,8 @@ class TernaryDecoder(nn.Module):
         tier1_vocab_size: int = 0,
         tier2_vocab_size: int = 0,
         num_layers: int = 2,
+        ternary_enabled: bool = True,
+        partial_ternary: bool = False,
     ) -> None:
         super().__init__()
         self.input_dim = input_dim
@@ -107,24 +109,30 @@ class TernaryDecoder(nn.Module):
         self.tier1_vocab_size = tier1_vocab_size
         self.tier2_vocab_size = tier2_vocab_size
         self.num_layers = num_layers
+        self.ternary_enabled = ternary_enabled
+        self.partial_ternary = partial_ternary
+
+        hidden_linear_cls = TernaryLinear if ternary_enabled else nn.Linear
+        # Partial ternary: keep hidden stack ternary, heads continuous.
+        head_linear_cls = nn.Linear if (not ternary_enabled or partial_ternary) else TernaryLinear
 
         # Build the shared hidden layer stack
         layers: list[nn.Module] = []
         in_dim = input_dim
         for _ in range(num_layers):
-            layers.append(TernaryLinear(in_dim, hidden_dim))
+            layers.append(hidden_linear_cls(in_dim, hidden_dim))
             layers.append(nn.ReLU())
             in_dim = hidden_dim
         self.layers = nn.Sequential(*layers)
 
         # Prediction heads (only created if vocab_size > 0)
-        self.tier1_head: TernaryLinear | None = None
-        self.tier2_head: TernaryLinear | None = None
+        self.tier1_head: nn.Module | None = None
+        self.tier2_head: nn.Module | None = None
 
         if tier1_vocab_size > 0:
-            self.tier1_head = TernaryLinear(hidden_dim, tier1_vocab_size)
+            self.tier1_head = head_linear_cls(hidden_dim, tier1_vocab_size)
         if tier2_vocab_size > 0:
-            self.tier2_head = TernaryLinear(hidden_dim, tier2_vocab_size)
+            self.tier2_head = head_linear_cls(hidden_dim, tier2_vocab_size)
 
     def forward(self, bridge_output: torch.Tensor) -> dict[str, torch.Tensor]:
         """Decode bridge representation to tier token logits.

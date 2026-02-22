@@ -1,0 +1,41 @@
+# Phase B: PAB Fine-Tuning Study
+# Selected models and LoRA training configuration.
+
+# Models selected for LoRA fine-tuning (inference-only models excluded)
+selected_models:
+  - qwen2.5-0.5b       # Dense, 0.5B (fast baseline)
+  - llama-1b            # Dense GQA, 1B
+  - phi-2               # Dense, 2.7B
+  - mamba-2.8b          # SSM, 2.8B
+  - jamba-tiny           # Hybrid SSM+MoE, 319M
+  - recurrentgemma-2b   # Griffin, 2B
+  - bitnet-2b           # Native ternary, 2B
+  - mistral-7b          # SWA, 7B (if memory allows)
+
+# Models excluded from training (inference-only)
+excluded_models:
+  - nomos-1             # Too large for LoRA training (14B sparse)
+  - rwkv7               # May lack PEFT support
+  - xlstm-7b            # May lack PEFT support
+
+# LoRA hyperparameters
+lora:
+  rank: 16
+  alpha: 32
+  dropout: 0.05
+  lr: 2.0e-4
+  batch_size: 4
+  max_steps: 1000
+  checkpoint_interval: 50
+  eval_interval: 100
+
+# Training data
+data:
+  train_file: training_data/shortcutdsl_train_expanded.jsonl
+  eval_file: training_data/shortcutdsl_eval.jsonl
+
+# Execution
+execution:
+  device: mps
+  seed: 42
+  output_dir: research/results/phase_b

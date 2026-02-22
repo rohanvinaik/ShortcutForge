@@ -1,0 +1,114 @@
+# Phase C: Within-Architecture Encoder Comparison
+# Uses top Phase B models as encoders in the Balanced Sashimi pipeline.
+# Creates a model x ablation matrix for interaction analysis.
+
+base_config: configs/base.yaml
+
+# Top models from Phase B (to be updated after Phase B results)
+# Placeholder selections representing diverse architecture families
+selected_encoders:
+  - model_id: qwen2.5-0.5b
+    description: "Dense GQA baseline encoder (0.5B)"
+  - model_id: mamba-2.8b
+    description: "SSM encoder (2.8B)"
+  - model_id: phi-2
+    description: "Dense encoder (2.7B)"
+
+# Ablation configurations to run with each encoder
+# These override the base config, similar to ablation.yaml format
+ablation_configs:
+  "C.1":
+    description: "Continuous baseline"
+    overrides:
+      model:
+        decoder:
+          ternary_enabled: false
+      training:
+        loss:
+          margin: 0.0
+
+  "C.2":
+    description: "Continuous + negatives"
+    overrides:
+      model:
+        decoder:
+          ternary_enabled: false
+      training:
+        loss:
+          margin: 0.5
+
+  "C.3":
+    description: "Ternary, no negatives"
+    overrides:
+      model:
+        decoder:
+          ternary_enabled: true
+      training:
+        loss:
+          margin: 0.0
+
+  "C.4":
+    description: "Full Balanced Sashimi"
+    overrides:
+      model:
+        decoder:
+          ternary_enabled: true
+      training:
+        loss:
+          margin: 0.5
+
+  "C.5":
+    description: "Ternary + DSL text output"
+    overrides:
+      model:
+        decoder:
+          ternary_enabled: true
+          output_mode: dsl_text
+      training:
+        loss:
+          margin: 0.5
+
+  "C.6":
+    description: "Decoder-only ternary"
+    overrides:
+      model:
+        bridge:
+          ternary_enabled: false
+        decoder:
+          ternary_enabled: true
+          partial_ternary: true
+      training:
+        loss:
+          margin: 0.5
+
+  "C.7":
+    description: "Bottleneck 64-dim"
+    overrides:
+      model:
+        bridge:
+          bridge_dim: 64
+        decoder:
+          ternary_enabled: true
+          input_dim: 64
+      training:
+        loss:
+          margin: 0.5
+
+  "C.8":
+    description: "Bottleneck 256-dim"
+    overrides:
+      model:
+        bridge:
+          bridge_dim: 256
+        decoder:
+          ternary_enabled: true
+          input_dim: 256
+      training:
+        loss:
+          margin: 0.5
+
+execution:
+  device: mps
+  seed: 42
+  max_iterations: 1000
+  output_dir: research/results/phase_c
